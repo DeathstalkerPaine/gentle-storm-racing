@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gentle Storm Racing - Global Leaderboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#ff2a2a',
+              dark: '#0e1117',
+              card: '#161b22',
+              border: '#30363d'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen font-sans">
+
+  <!-- Header Navigation -->
+  <header class="border-b border-brand-border bg-brand-card py-4 px-8 flex justify-between items-center shadow-lg">
+    <div class="flex items-center space-x-3">
+      <div class="w-3 h-8 bg-brand-red rounded-sm"></div>
+      <h1 class="text-2xl font-black tracking-wider uppercase text-white">Gentle Storm <span class="text-brand-red">Racing</span></h1>
+    </div>
+    <nav class="flex space-x-6 text-sm font-semibold text-gray-400">
+      <a href="index.html" class="hover:text-white transition">Dashboard</a>
+      <a href="leaderboards.html" class="text-white border-b-2 border-brand-red pb-1">Leaderboards</a>
+      <a href="#" class="hover:text-white transition">Tracks</a>
+      <a href="#" class="hover:text-white transition">Racers</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto py-10 px-4">
+    
+    <!-- Title & Filter Section -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+      <div>
+        <h2 class="text-3xl font-bold tracking-tight">GLOBAL LEADERBOARD</h2>
+        <p class="text-gray-400 text-sm mt-1">Official verified timings direct from Second Life telemetry.</p>
+      </div>
+      
+      <!-- Class Filter Buttons -->
+      <div class="inline-flex rounded-md shadow-sm bg-brand-card p-1 border border-brand-border">
+        <button onclick="fetchLeaderboard('pro')" id="btn-pro" class="px-4 py-2 text-sm font-bold rounded bg-brand-red text-white transition">PRO</button>
+        <button onclick="fetchLeaderboard('amateur')" id="btn-amateur" class="px-4 py-2 text-sm font-bold rounded text-gray-400 hover:text-white transition">AMATEUR</button>
+        <button onclick="fetchLeaderboard('proplus')" id="btn-proplus" class="px-4 py-2 text-sm font-bold rounded text-gray-400 hover:text-white transition">PRO PLUS</button>
+      </div>
+    </div>
+
+    <!-- Leaderboard Table Container -->
+    <div class="bg-brand-card rounded-lg border border-brand-border overflow-hidden shadow-xl">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="border-b border-brand-border bg-black/30 text-gray-400 text-xs uppercase tracking-wider">
+            <th class="py-4 px-6">Rank</th>
+            <th class="py-4 px-6">Racer</th>
+            <th class="py-4 px-6">Mode</th>
+            <th class="py-4 px-6">Laps</th>
+            <th class="py-4 px-6 text-right">Total Time</th>
+            <th class="py-4 px-6 text-right">Points / XP</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-rows" class="divide-y divide-brand-border text-sm">
+          <tr>
+            <td colspan="6" class="py-8 text-center text-gray-500 animate-pulse">Loading telemetry data...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    const WORKER_BASE_URL = "https://green-art-9cfb.gentlestormentertainment.workers.dev/";
+
+    function formatTime(ms) {
+      if (!ms || ms <= 0) return "--:--";
+      const totalSeconds = ms / 1000;
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = (totalSeconds % 60).toFixed(3);
+      if (minutes > 0) return `${minutes}m ${seconds.padStart(6, '0')}s`;
+      return `${seconds}s`;
+    }
+
+    async function fetchLeaderboard(selectedClass = 'pro') {
+      ['pro', 'amateur', 'proplus'].forEach(cls => {
+        const btn = document.getElementById(`btn-${cls}`);
+        if (cls === selectedClass) {
+          btn.className = "px-4 py-2 text-sm font-bold rounded bg-brand-red text-white transition";
+        } else {
+          btn.className = "px-4 py-2 text-sm font-bold rounded text-gray-400 hover:text-white transition";
+        }
+      });
+
+      const tbody = document.getElementById('leaderboard-rows');
+      tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-gray-500 animate-pulse">Loading ${selectedClass.toUpperCase()} telemetry data...</td></tr>`;
+
+      try {
+        const res = await fetch(`${WORKER_BASE_URL}/leaderboard?class=${selectedClass}&limit=20`);
+        const data = await res.json();
+
+        if (!data.ok || !data.leaderboard || data.leaderboard.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-gray-500">No race entries recorded for class "${selectedClass.toUpperCase()}".</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = data.leaderboard.map((row, index) => {
+          const rank = index + 1;
+          let rankBadge = `<span class="font-bold text-gray-400">#${rank}</span>`;
+          if (rank === 1) rankBadge = `<span class="bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 px-2 py-1 rounded font-bold">#1 GOLD</span>`;
+          if (rank === 2) rankBadge = `<span class="bg-gray-300/10 text-gray-300 border border-gray-300/30 px-2 py-1 rounded font-bold">#2 SILVER</span>`;
+          if (rank === 3) rankBadge = `<span class="bg-amber-600/10 text-amber-600 border border-amber-600/30 px-2 py-1 rounded font-bold">#3 BRONZE</span>`;
+
+          return `
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-4 px-6">${rankBadge}</td>
+              <td class="py-4 px-6 font-semibold text-white">${row.display_name || 'Unknown Racer'}</td>
+              <td class="py-4 px-6 uppercase text-xs text-gray-400"><span class="bg-brand-border px-2 py-1 rounded">${row.mode}</span></td>
+              <td class="py-4 px-6 text-gray-300">${row.laps} Laps</td>
+              <td class="py-4 px-6 text-right font-mono font-bold text-brand-red">${formatTime(row.total_time_ms)}</td>
+              <td class="py-4 px-6 text-right font-mono text-xs text-gray-400">${row.points_awarded} PTS / ${row.xp_awarded} XP</td>
+            </tr>
+          `;
+        }).join('');
+
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-red-500">Error connecting to telemetry server. Check console.</td></tr>`;
+        console.error(err);
+      }
+    }
+
+    fetchLeaderboard('pro');
+  </script>
+</body>
+</html>
