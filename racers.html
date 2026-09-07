@@ -50,11 +50,11 @@
       </div>
     </div>
 
-    <!-- Racer Cards Grid -->
+    <!-- Racer Cards Directory Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       
-      <!-- Deathstalker Paine Racer Card -->
-      <div class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-2xl relative group">
+      <!-- Deathstalker Paine Clickable Racer Card -->
+      <a href="racer.html" class="block bg-brand-card border border-brand-border hover:border-brand-red rounded-xl overflow-hidden shadow-2xl relative group transition duration-200 transform hover:-translate-y-1">
         <!-- Card Header Background (Banner) -->
         <div class="h-24 bg-gradient-to-r from-red-900 to-brand-dark relative">
           <!-- Racer Number Watermark -->
@@ -66,31 +66,30 @@
           <div class="flex justify-between items-end -mt-12 mb-4">
             <!-- Profile Photo Placeholder -->
             <div class="w-24 h-24 rounded-lg border-4 border-brand-card bg-gray-800 flex items-center justify-center overflow-hidden shadow-lg">
-              <span class="text-xs text-gray-500 uppercase text-center">Photo<br>Pending</span>
-              <!-- When you have an image, replace the span above with: <img src="paine.jpg" class="w-full h-full object-cover"> -->
+              <span class="text-xs text-gray-500 uppercase text-center font-bold">Photo<br>Pending</span>
             </div>
-            <!-- prominent number -->
+            <!-- Prominent Number -->
             <div class="bg-brand-red text-white text-xl font-black italic px-4 py-1 rounded shadow">#13</div>
           </div>
           
-          <h3 class="text-2xl font-bold text-white mb-1">Deathstalker Paine</h3>
+          <h3 class="text-2xl font-bold text-white mb-1 group-hover:text-brand-red transition">Deathstalker Paine</h3>
           <p class="text-sm font-semibold text-gray-400 mb-4">
-            Team: <a href="teams.html" class="text-brand-red hover:text-white transition">Storm Riders</a>
+            Team: <span class="text-brand-red font-bold">Storm Riders</span>
           </p>
 
           <!-- Bio Section -->
           <div class="bg-black/30 p-3 rounded border border-brand-border mb-4">
-            <p class="text-sm text-gray-300 italic">"Bio pending admin approval. Awaiting driver statement."</p>
+            <p class="text-sm text-gray-300 italic">"Founder and lead driver for the Storm Riders."</p>
           </div>
 
           <!-- Quick Stats -->
           <div class="grid grid-cols-2 gap-2 text-sm border-t border-brand-border pt-4">
             <div class="text-gray-400">Class <span class="block text-white font-bold uppercase">Pro</span></div>
-            <div class="text-gray-400 text-right">Points <span class="block text-white font-bold">--</span></div>
+            <div class="text-gray-400 text-right">Points <span class="block text-white font-bold">50</span></div>
           </div>
         </div>
-      </div>
-      <!-- End Racer Card -->
+      </a>
+      <!-- End Clickable Racer Card -->
 
     </div>
   </main>
