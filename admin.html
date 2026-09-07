@@ -129,7 +129,7 @@
       }
     }
 
-    async function approveRacer(racerId) {
+  async function approveRacer(racerId) {
       const number = parseInt(document.getElementById(`num-${racerId}`).value) || 0;
       const photoUuid = document.getElementById(`photo-${racerId}`).value.trim();
       const bannerUuid = document.getElementById(`banner-${racerId}`).value.trim();
@@ -155,7 +155,8 @@
           alert('Profile successfully saved and approved!');
           loadPendingRacers();
         } else {
-          alert('Failed to update profile.');
+          const errorDetails = await res.text();
+          alert(`Failed to update profile (${res.status}): ${errorDetails}`);
         }
       } catch (err) {
         alert(`Error: ${err.message}`);
