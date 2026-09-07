@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gentle Storm Racing - Teams</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#ff2a2a',
+              dark: '#0e1117',
+              card: '#161b22',
+              border: '#30363d'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen font-sans">
+
+  <!-- Header Navigation -->
+  <header class="border-b border-brand-border bg-brand-card py-4 px-8 flex justify-between items-center shadow-lg">
+    <div class="flex items-center space-x-3">
+      <div class="w-3 h-8 bg-brand-red rounded-sm"></div>
+      <h1 class="text-2xl font-black tracking-wider uppercase text-white">Gentle Storm <span class="text-brand-red">Racing</span></h1>
+    </div>
+    <nav class="flex space-x-6 text-sm font-semibold text-gray-400">
+      <a href="index.html" class="hover:text-white transition">Main Menu</a>
+      <a href="leaderboards.html" class="hover:text-white transition">Leaderboards</a>
+      <a href="#" class="hover:text-white transition">Tracks</a>
+      <a href="racers.html" class="hover:text-white transition">Racers</a>
+      <a href="teams.html" class="text-white border-b-2 border-brand-red pb-1">Teams</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto py-10 px-4">
+    
+    <div class="flex justify-between items-end mb-8 border-b border-brand-border pb-4">
+      <div>
+        <h2 class="text-3xl font-bold uppercase tracking-tight text-white">Active Teams</h2>
+        <p class="text-gray-400 mt-1">Official racing syndicates and league rosters.</p>
+      </div>
+    </div>
+
+    <!-- Teams Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
+      <!-- Storm Riders Team Profile -->
+      <div class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
+        <!-- Team Logo Placeholder -->
+        <div class="md:w-1/3 bg-gray-900 flex items-center justify-center p-8 border-b md:border-b-0 md:border-r border-brand-border">
+          <div class="text-center text-gray-500 text-sm uppercase">
+            Logo<br>Pending<br>Approval
+            <!-- Replace with: <img src="stormriders-logo.png" class="max-w-full"> -->
+          </div>
+        </div>
+        
+        <!-- Team Info & Roster -->
+        <div class="p-6 md:w-2/3">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-3xl font-black tracking-wider text-white">Storm Riders</h3>
+            <span class="bg-brand-red text-xs font-bold px-2 py-1 rounded uppercase">Pro League</span>
+          </div>
+          
+          <div class="mb-4">
+            <p class="text-gray-400 text-sm">Founded by Deathstalker Paine. Seeking dominance on the track.</p>
+          </div>
+
+          <!-- Roster Table -->
+          <h4 class="text-sm font-bold uppercase text-gray-500 mb-2 border-b border-brand-border pb-1">Current Roster</h4>
+          <ul class="space-y-2">
+            <li class="flex justify-between items-center bg-black/20 p-2 rounded border border-brand-border">
+              <div class="flex items-center space-x-3">
+                <span class="text-brand-red font-black italic">#13</span>
+                <span class="font-semibold text-white">Deathstalker Paine</span>
+              </div>
+              <span class="text-xs text-yellow-500 uppercase font-bold tracking-wide">Team Leader</span>
+            </li>
+            <!-- Add more team members here later -->
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</body>
+</html>
