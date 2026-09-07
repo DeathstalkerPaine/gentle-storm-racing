@@ -51,34 +51,33 @@
     <!-- Full-Page Hero Trading Card -->
     <div class="bg-brand-card border-2 border-brand-border rounded-2xl overflow-hidden shadow-2xl relative">
       
-      <!-- Top Card Header Banner -->
-      <div class="h-40 bg-gradient-to-r from-red-950 via-brand-card to-black relative border-b border-brand-border flex items-center justify-between px-8">
-        <div>
-          <span class="bg-brand-red text-white text-xs font-black uppercase tracking-widest px-3 py-1 rounded">Pro League Driver</span>
+      <!-- 1. DRIVER BACKGROUND COVER PHOTO BANNER -->
+      <div class="h-56 w-full bg-cover bg-center relative border-b border-brand-border bg-gradient-to-r from-red-950 via-gray-900 to-black" style="background-image: url('paine-banner.jpg');">
+        <div class="absolute inset-0 bg-black/30"></div>
+        <div class="absolute top-4 left-6 z-10">
+          <span class="bg-brand-red text-white text-xs font-black uppercase tracking-widest px-3 py-1 rounded shadow">Pro League Driver</span>
         </div>
-        <!-- Giant Background Watermark Number -->
-        <span class="text-9xl font-black text-white/10 italic select-none pointer-events-none">#13</span>
+        <span class="absolute -bottom-4 right-4 text-9xl font-black text-white/10 italic select-none pointer-events-none">#13</span>
       </div>
 
       <!-- Card Body Content -->
       <div class="p-8 relative">
         
-        <!-- Header Row: Photo & Core Info -->
+        <!-- Header Row: Driver Photo & Info -->
         <div class="flex flex-col md:flex-row items-start md:items-end justify-between -mt-24 mb-8 gap-6">
           
-          <!-- Large Profile Photo Box -->
-          <div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-gray-900 shadow-2xl overflow-hidden flex items-center justify-center relative group">
+          <!-- 2. DRIVER PROFILE PHOTO BOX -->
+          <div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-gray-900 shadow-2xl overflow-hidden flex items-center justify-center relative group z-10">
+            <!-- Replace span below with: <img src="paine-photo.jpg" class="w-full h-full object-cover"> -->
             <span class="text-xs text-gray-500 uppercase text-center font-bold">Photo Pending<br>Approval</span>
-            <!-- When photo is approved, replace above span with: -->
-            <!-- <img src="paine-photo.jpg" alt="Deathstalker Paine" class="w-full h-full object-cover"> -->
           </div>
 
           <!-- Driver Name & Team Link -->
           <div class="flex-1">
             <h2 class="text-4xl font-black text-white tracking-tight">Deathstalker Paine</h2>
             <p class="text-gray-400 font-semibold mt-1">
-              Affiliation: <a href="teams.html" class="text-brand-red hover:underline font-bold">Storm Riders</a> 
-              <span class="text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 px-2 py-0.5 rounded ml-2">Team Leader</span>
+              Affiliation: <a href="team.html" class="text-brand-red hover:underline font-bold">Storm Riders</a> 
+              <span class="text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 px-2 py-0.5 rounded ml-2 font-bold">Team Leader</span>
             </p>
           </div>
 
@@ -99,30 +98,25 @@
         <!-- Telemetry Stats Grid -->
         <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Lifetime Telemetry Statistics</h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          
           <div class="bg-black/30 border border-brand-border p-4 rounded-xl text-center">
             <span class="text-xs text-gray-500 uppercase font-bold block mb-1">League Class</span>
             <span class="text-xl font-black text-white uppercase">Pro</span>
           </div>
-
           <div class="bg-black/30 border border-brand-border p-4 rounded-xl text-center">
             <span class="text-xs text-gray-500 uppercase font-bold block mb-1">Total Points</span>
             <span class="text-2xl font-black text-brand-red">50</span>
           </div>
-
           <div class="bg-black/30 border border-brand-border p-4 rounded-xl text-center">
             <span class="text-xs text-gray-500 uppercase font-bold block mb-1">Total XP</span>
             <span class="text-2xl font-black text-white">240</span>
           </div>
-
           <div class="bg-black/30 border border-brand-border p-4 rounded-xl text-center">
             <span class="text-xs text-gray-500 uppercase font-bold block mb-1">Race Wins</span>
             <span class="text-2xl font-black text-yellow-500">3</span>
           </div>
-
         </div>
 
-        <!-- Recent Race History Table -->
+        <!-- Recent Race Logs -->
         <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Recent Race Logs</h3>
         <div class="border border-brand-border rounded-xl overflow-hidden bg-black/20">
           <table class="w-full text-left text-sm">
@@ -140,12 +134,6 @@
                 <td class="py-3 px-4 uppercase text-xs font-bold text-gray-400">Normal</td>
                 <td class="py-3 px-4 font-bold text-yellow-500">1st Place</td>
                 <td class="py-3 px-4 text-right font-mono font-bold text-brand-red">26.593s</td>
-              </tr>
-              <tr class="hover:bg-white/5 transition">
-                <td class="py-3 px-4 font-mono text-gray-300">LEAGUE-20260216-01</td>
-                <td class="py-3 px-4 uppercase text-xs font-bold text-gray-400">League</td>
-                <td class="py-3 px-4 font-bold text-yellow-500">1st Place</td>
-                <td class="py-3 px-4 text-right font-mono font-bold text-brand-red">2m 03.456s</td>
               </tr>
             </tbody>
           </table>
