@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gentle Storm Racing - Racers</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#ff2a2a',
+              dark: '#0e1117',
+              card: '#161b22',
+              border: '#30363d'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen font-sans">
+
+  <!-- Header Navigation -->
+  <header class="border-b border-brand-border bg-brand-card py-4 px-8 flex justify-between items-center shadow-lg">
+    <div class="flex items-center space-x-3">
+      <div class="w-3 h-8 bg-brand-red rounded-sm"></div>
+      <h1 class="text-2xl font-black tracking-wider uppercase text-white">Gentle Storm <span class="text-brand-red">Racing</span></h1>
+    </div>
+    <nav class="flex space-x-6 text-sm font-semibold text-gray-400">
+      <a href="index.html" class="hover:text-white transition">Dashboard</a>
+      <a href="leaderboards.html" class="hover:text-white transition">Leaderboards</a>
+      <a href="#" class="hover:text-white transition">Tracks</a>
+      <a href="racers.html" class="text-white border-b-2 border-brand-red pb-1">Racers</a>
+      <a href="teams.html" class="hover:text-white transition">Teams</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto py-10 px-4">
+    
+    <div class="flex justify-between items-end mb-8 border-b border-brand-border pb-4">
+      <div>
+        <h2 class="text-3xl font-bold uppercase tracking-tight text-white">Pro League Racers</h2>
+        <p class="text-gray-400 mt-1">Official registered profiles and telemetry stats.</p>
+      </div>
+    </div>
+
+    <!-- Racer Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- Deathstalker Paine Racer Card -->
+      <div class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-2xl relative group">
+        <!-- Card Header Background (Banner) -->
+        <div class="h-24 bg-gradient-to-r from-red-900 to-brand-dark relative">
+          <!-- Racer Number Watermark -->
+          <span class="absolute -bottom-4 right-2 text-7xl font-black text-white/10 italic">13</span>
+        </div>
+        
+        <!-- Profile Picture & Core Info -->
+        <div class="px-6 relative pb-6">
+          <div class="flex justify-between items-end -mt-12 mb-4">
+            <!-- Profile Photo Placeholder -->
+            <div class="w-24 h-24 rounded-lg border-4 border-brand-card bg-gray-800 flex items-center justify-center overflow-hidden shadow-lg">
+              <span class="text-xs text-gray-500 uppercase text-center">Photo<br>Pending</span>
+              <!-- When you have an image, replace the span above with: <img src="paine.jpg" class="w-full h-full object-cover"> -->
+            </div>
+            <!-- prominent number -->
+            <div class="bg-brand-red text-white text-xl font-black italic px-4 py-1 rounded shadow">#13</div>
+          </div>
+          
+          <h3 class="text-2xl font-bold text-white mb-1">Deathstalker Paine</h3>
+          <p class="text-sm font-semibold text-gray-400 mb-4">
+            Team: <a href="teams.html" class="text-brand-red hover:text-white transition">Storm Riders</a>
+          </p>
+
+          <!-- Bio Section -->
+          <div class="bg-black/30 p-3 rounded border border-brand-border mb-4">
+            <p class="text-sm text-gray-300 italic">"Bio pending admin approval. Awaiting driver statement."</p>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="grid grid-cols-2 gap-2 text-sm border-t border-brand-border pt-4">
+            <div class="text-gray-400">Class <span class="block text-white font-bold uppercase">Pro</span></div>
+            <div class="text-gray-400 text-right">Points <span class="block text-white font-bold">--</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- End Racer Card -->
+
+    </div>
+  </main>
+</body>
+</html>
