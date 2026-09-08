@@ -25,67 +25,75 @@
 </head>
 <body class="bg-brand-dark text-gray-100 min-h-screen font-sans">
 
-  <!-- Header Navigation -->
-  <header class="border-b border-brand-border bg-brand-card py-4 px-8 flex justify-between items-center shadow-lg">
-    <a href="index.html" class="flex items-center">
-      <img src="logo.png" alt="Gentle Storm Racing" class="h-10 md:h-12 object-contain hover:opacity-90 transition">
-    </a>
-    <nav class="flex space-x-6 text-sm font-semibold text-gray-400">
-      <a href="index.html" class="text-white border-b-2 border-brand-red pb-1">Dashboard</a>
-      <a href="leaderboards.html" class="hover:text-white transition">Leaderboards</a>
-      <a href="#" class="hover:text-white transition">Tracks</a>
-      <a href="racers.html" class="hover:text-white transition">Racers</a>
-      <a href="teams.html" class="hover:text-white transition">Teams</a>
-    </nav>
+  <!-- Header Navigation with Large Logo and Stacked Nav -->
+  <header class="border-b border-brand-border bg-brand-card py-6 px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 shadow-lg">
+    
+    <!-- Left Section: Large Logo + Table of Contents underneath -->
+    <div class="flex flex-col items-start gap-4">
+      <a href="index.html" class="block">
+        <!-- Logo set to twice the previous size -->
+        <img src="logo.png" alt="Gentle Storm Racing" class="h-20 md:h-24 object-contain hover:opacity-90 transition">
+      </a>
+      
+      <!-- Table of Contents / Navigation Links directly under the logo -->
+      <nav class="flex flex-wrap items-center space-x-6 text-sm font-semibold text-gray-400 pt-1">
+        <a href="index.html" class="text-white border-b-2 border-brand-red pb-1">Dashboard</a>
+        <a href="leaderboards.html" class="hover:text-white transition">Leaderboards</a>
+        <a href="#" class="hover:text-white transition">Tracks</a>
+        <a href="racers.html" class="hover:text-white transition">Racers</a>
+        <a href="teams.html" class="hover:text-white transition">Teams</a>
+      </nav>
+    </div>
+
+    <!-- Quick Status Badge -->
+    <div class="hidden lg:flex items-center space-x-2 bg-black/40 border border-brand-border px-4 py-2 rounded-lg text-xs font-mono">
+      <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+      <span class="text-gray-300">TELEMETRY LINK ACTIVE</span>
+    </div>
   </header>
 
   <!-- Main Content -->
   <main class="max-w-7xl mx-auto py-10 px-4">
     
     <!-- Hero Section -->
-    <div class="mb-10 bg-gradient-to-r from-brand-card to-brand-dark border border-brand-border p-8 rounded-lg shadow-xl relative overflow-hidden">
+    <div class="mb-10 bg-gradient-to-r from-brand-card via-brand-dark to-black border border-brand-border p-8 rounded-xl shadow-xl relative overflow-hidden">
       <div class="relative z-10">
-        <h2 class="text-4xl font-bold tracking-tight mb-2">WELCOME TO <span class="text-white">GSR</span> TELEMETRY</h2>
+        <h2 class="text-4xl font-black tracking-tight mb-2 uppercase text-white">WELCOME TO <span class="text-brand-red">GSR</span> TELEMETRY</h2>
         <p class="text-gray-400 max-w-2xl mb-6">The official database and statistics portal for Gentle Storm Racing. View live race telemetry, track records, and global standings updated directly from Second Life.</p>
         <a href="leaderboards.html" class="inline-block bg-brand-red text-white font-bold px-6 py-3 rounded shadow hover:bg-red-600 transition">View Full Leaderboards</a>
       </div>
-      <!-- Background Graphic Element -->
-      <div class="absolute -right-20 -top-20 opacity-5 pointer-events-none">
-        <svg width="400" height="400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-      </div>
     </div>
 
-    <!-- PROMINENT SPOTLIGHT SECTION (Track & Racer of the Week) -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+    <!-- PROMINENT SPOTLIGHT SECTION (Track, Racer, & Team of the Week) -->
+    <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-4">League Spotlights</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
       
-      <!-- Track of the Week Spotlight -->
+      <!-- 1. Track of the Week -->
       <div class="bg-brand-card border-2 border-brand-red rounded-xl overflow-hidden shadow-2xl relative flex flex-col justify-between">
-        <div class="relative h-52 bg-gray-900 border-b border-brand-border overflow-hidden">
-          <!-- Replace track-of-the-week.jpg with your track photo or SL UUID image link -->
+        <div class="relative h-48 bg-gray-900 border-b border-brand-border overflow-hidden">
           <img src="track-of-the-week.jpg" alt="Track of the Week" class="w-full h-full object-cover" onerror="this.style.display='none'">
           <div class="absolute top-3 left-3 bg-brand-red text-white text-xs font-black uppercase tracking-widest px-3 py-1 rounded shadow-lg">
             Track of the Week
           </div>
         </div>
         
-        <div class="p-6 flex-1 flex flex-col justify-between">
+        <div class="p-5 flex-1 flex flex-col justify-between">
           <div>
-            <h3 class="text-2xl font-black text-white uppercase tracking-wide mb-2">Copperhead Raceway</h3>
-            <p class="text-sm text-gray-300 italic mb-4">
-              "A tight, high-speed technical circuit with sharp hairpin turns and elevation changes. Master your braking points on turn 3 to set competitive lap times."
+            <h4 class="text-xl font-black text-white uppercase tracking-wide mb-2">Copperhead Raceway</h4>
+            <p class="text-xs text-gray-300 italic mb-4">
+              "A tight, high-speed technical circuit with sharp hairpin turns and elevation changes. Master turn 3 for competitive times."
             </p>
           </div>
-          <div class="border-t border-brand-border pt-4 flex justify-between items-center text-xs text-gray-400">
+          <div class="border-t border-brand-border pt-3 flex justify-between items-center text-xs text-gray-400">
             <span>Location: <strong class="text-white">GSR Main Sim</strong></span>
             <span>Record: <strong class="text-brand-red font-mono font-bold">24.102s</strong></span>
           </div>
         </div>
       </div>
 
-      <!-- Racer of the Week Spotlight -->
+      <!-- 2. Racer of the Week -->
       <div class="bg-brand-card border-2 border-yellow-500/80 rounded-xl overflow-hidden shadow-2xl relative flex flex-col justify-between">
-        <div class="relative h-52 bg-gradient-to-r from-yellow-950 via-gray-900 to-black border-b border-brand-border overflow-hidden flex items-center justify-center">
-          <!-- Replace racer-of-the-week.jpg with your racer photo or SL UUID image link -->
+        <div class="relative h-48 bg-gradient-to-r from-yellow-950 via-gray-900 to-black border-b border-brand-border overflow-hidden flex items-center justify-center">
           <img src="racer-of-the-week.jpg" alt="Racer of the Week" class="w-full h-full object-cover" onerror="this.style.display='none'">
           <div class="absolute top-3 left-3 bg-yellow-500 text-black text-xs font-black uppercase tracking-widest px-3 py-1 rounded shadow-lg">
             Racer of the Week
@@ -93,32 +101,60 @@
           <span class="absolute -bottom-4 right-4 text-8xl font-black text-white/10 italic pointer-events-none">#13</span>
         </div>
         
-        <div class="p-6 flex-1 flex flex-col justify-between">
+        <div class="p-5 flex-1 flex flex-col justify-between">
           <div>
             <div class="flex justify-between items-center mb-1">
-              <h3 class="text-2xl font-black text-white tracking-wide">Deathstalker Paine</h3>
-              <span class="bg-brand-red text-white text-xs font-black italic px-3 py-0.5 rounded">#13</span>
+              <h4 class="text-xl font-black text-white tracking-wide">Deathstalker Paine</h4>
+              <span class="bg-brand-red text-white text-xs font-black italic px-2.5 py-0.5 rounded">#13</span>
             </div>
-            <p class="text-xs font-bold text-gray-400 mb-3">Team: <span class="text-brand-red">Storm Riders</span></p>
-            <p class="text-sm text-gray-300 italic mb-4">
+            <p class="text-xs font-bold text-gray-400 mb-2">Team: <span class="text-brand-red">Storm Riders</span></p>
+            <p class="text-xs text-gray-300 italic mb-4">
               "Dominating the Pro division this week with flawless line execution and taking top qualifier status across multiple track layouts."
             </p>
           </div>
-          <div class="border-t border-brand-border pt-4 flex justify-between items-center text-xs">
+          <div class="border-t border-brand-border pt-3 flex justify-between items-center text-xs">
             <span class="text-gray-400">Class: <strong class="text-white uppercase">Pro League</strong></span>
-            <a href="racer.html" class="text-yellow-400 font-bold hover:underline">View Driver Profile &rarr;</a>
+            <a href="racer.html" class="text-yellow-400 font-bold hover:underline">View Profile &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Team of the Week -->
+      <div class="bg-brand-card border-2 border-blue-500/80 rounded-xl overflow-hidden shadow-2xl relative flex flex-col justify-between">
+        <div class="relative h-48 bg-gradient-to-r from-blue-950 via-gray-900 to-black border-b border-brand-border overflow-hidden flex items-center justify-center">
+          <img src="team-of-the-week.jpg" alt="Team of the Week" class="w-full h-full object-cover" onerror="this.style.display='none'">
+          <div class="absolute top-3 left-3 bg-blue-500 text-white text-xs font-black uppercase tracking-widest px-3 py-1 rounded shadow-lg">
+            Team of the Week
+          </div>
+        </div>
+        
+        <div class="p-5 flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <h4 class="text-xl font-black text-white tracking-wide uppercase">Storm Riders</h4>
+              <span class="bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded uppercase">Pro League</span>
+            </div>
+            <p class="text-xs font-bold text-gray-400 mb-2">Leader: <span class="text-white">Deathstalker Paine</span></p>
+            <p class="text-xs text-gray-300 italic mb-4">
+              "Setting unmatched team telemetry pacing and securing multiple top 3 qualifying times this week."
+            </p>
+          </div>
+          <div class="border-t border-brand-border pt-3 flex justify-between items-center text-xs">
+            <span class="text-gray-400">Roster: <strong class="text-white">1 Active Driver</strong></span>
+            <a href="team.html" class="text-blue-400 font-bold hover:underline">View Team &rarr;</a>
           </div>
         </div>
       </div>
 
     </div>
 
-    <!-- TELEMETRY & SYSTEM METRICS SECTION (Positioned Below) -->
+    <!-- TELEMETRY & SYSTEM METRICS SECTION -->
+    <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-4">Live Telemetry & Metrics</h3>
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       
       <!-- System Metrics Widget -->
-      <div class="bg-brand-card border border-brand-border rounded-lg p-6 shadow-lg">
-        <h3 class="text-lg font-bold uppercase text-gray-300 border-b border-brand-border pb-2 mb-4">System Status</h3>
+      <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-lg">
+        <h4 class="text-lg font-bold uppercase text-gray-300 border-b border-brand-border pb-2 mb-4">System Status</h4>
         <div class="space-y-4">
           <div class="flex justify-between items-center">
             <span class="text-gray-400">Telemetry Link</span>
@@ -136,9 +172,9 @@
       </div>
 
       <!-- Top Pro Drivers Table -->
-      <div class="col-span-1 lg:col-span-2 bg-brand-card border border-brand-border rounded-lg p-6 shadow-lg">
+      <div class="col-span-1 lg:col-span-2 bg-brand-card border border-brand-border rounded-xl p-6 shadow-lg">
         <div class="flex justify-between items-center border-b border-brand-border pb-2 mb-4">
-          <h3 class="text-lg font-bold uppercase text-gray-300">Top Pro Qualifiers</h3>
+          <h4 class="text-lg font-bold uppercase text-gray-300">Top Pro Qualifiers</h4>
           <a href="leaderboards.html" class="text-sm text-brand-red hover:text-white transition">View All &rarr;</a>
         </div>
         
