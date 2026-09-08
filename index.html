@@ -1,151 +1,209 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gentle Storm Racing</title>
-  <style>
-    /* Dark background styling */
-    body {
-      background-color: #121212;
-      color: #ffffff;
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gentle Storm Racing - Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#ff2a2a',
+              dark: '#0e1117',
+              card: '#161b22',
+              border: '#30363d'
+            }
+          }
+        }
+      }
     }
-
-    /* Two-column layout: Left sidebar + Right content area */
-    .page-wrapper {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    /* LEFT SIDEBAR */
-    .sidebar {
-      width: 360px;
-      padding: 30px 24px;
-      background-color: #1a1a1a;
-      border-right: 2px solid #2a2a2a;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    /* Logo size control */
-    .header-logo {
-      width: 100%;
-      max-width: 340px;
-      height: auto;
-      display: block;
-    }
-
-    /* Menu navigation links */
-    .table-of-contents ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .table-of-contents a {
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.1rem;
-      letter-spacing: 0.5px;
-      transition: color 0.2s ease-in-out;
-    }
-
-    .table-of-contents a:hover {
-      color: #c5a059; /* Gold hover accent */
-    }
-
-    /* RIGHT MAIN CONTENT PANEL */
-    .main-content {
-      flex: 1;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
-    }
-
-    /* Content cards for each section */
-    .content-section {
-      background-color: #1e1e1e;
-      border-left: 4px solid #c5a059; /* Gold strip on the left */
-      padding: 24px;
-      border-radius: 6px;
-    }
-
-    .content-section h2 {
-      margin-top: 0;
-      color: #c5a059;
-      font-size: 1.5rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .content-section p {
-      color: #cccccc;
-      line-height: 1.6;
-      margin-bottom: 0;
-    }
-  </style>
+  </script>
 </head>
-<body>
+<body class="bg-brand-dark text-gray-100 min-h-screen font-sans">
 
-  <div class="page-wrapper">
-    <!-- LEFT SIDEBAR: Logo & Navigation -->
-    <aside class="sidebar">
-      <a href="index.html">
-        <!-- MAKE SURE 'logo.png' MATCHES YOUR EXACT FILENAME -->
-        <img src="logo.png" alt="Gentle Storm Racing" class="header-logo">
-      </a>
+  <!-- Header Navigation -->
+  <header class="border-b border-brand-border bg-brand-card py-4 px-8 flex justify-between items-center shadow-lg">
+    <a href="index.html" class="flex items-center">
+      <img src="logo.png" alt="Gentle Storm Racing" class="h-10 md:h-12 object-contain hover:opacity-90 transition">
+    </a>
+    <nav class="flex space-x-6 text-sm font-semibold text-gray-400">
+      <a href="index.html" class="text-white border-b-2 border-brand-red pb-1">Dashboard</a>
+      <a href="leaderboards.html" class="hover:text-white transition">Leaderboards</a>
+      <a href="#" class="hover:text-white transition">Tracks</a>
+      <a href="racers.html" class="hover:text-white transition">Racers</a>
+      <a href="teams.html" class="hover:text-white transition">Teams</a>
+    </nav>
+  </header>
 
-      <nav class="table-of-contents">
-        <ul>
-          <li><a href="#main-menu">Main Menu</a></li>
-          <li><a href="#leaderboards">Leaderboards</a></li>
-          <li><a href="#tracks">Tracks</a></li>
-          <li><a href="#racers">Racers</a></li>
-          <li><a href="#teams">Teams</a></li>
-        </ul>
-      </nav>
-    </aside>
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto py-10 px-4">
+    
+    <!-- Hero Section -->
+    <div class="mb-10 bg-gradient-to-r from-brand-card to-brand-dark border border-brand-border p-8 rounded-lg shadow-xl relative overflow-hidden">
+      <div class="relative z-10">
+        <h2 class="text-4xl font-bold tracking-tight mb-2">WELCOME TO <span class="text-white">GSR</span> TELEMETRY</h2>
+        <p class="text-gray-400 max-w-2xl mb-6">The official database and statistics portal for Gentle Storm Racing. View live race telemetry, track records, and global standings updated directly from Second Life.</p>
+        <a href="leaderboards.html" class="inline-block bg-brand-red text-white font-bold px-6 py-3 rounded shadow hover:bg-red-600 transition">View Full Leaderboards</a>
+      </div>
+      <!-- Background Graphic Element -->
+      <div class="absolute -right-20 -top-20 opacity-5 pointer-events-none">
+        <svg width="400" height="400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+    </div>
 
-    <!-- RIGHT MAIN CONTENT: Section areas -->
-    <main class="main-content">
+    <!-- PROMINENT SPOTLIGHT SECTION (Track & Racer of the Week) -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
       
-      <section id="main-menu" class="content-section">
-        <h2>Main Menu</h2>
-        <p>Welcome to Gentle Storm Racing. Select options from the menu or scroll down to view track stats, racer profiles, and overall standings.</p>
-      </section>
+      <!-- Track of the Week Spotlight -->
+      <div class="bg-brand-card border-2 border-brand-red rounded-xl overflow-hidden shadow-2xl relative flex flex-col justify-between">
+        <div class="relative h-52 bg-gray-900 border-b border-brand-border overflow-hidden">
+          <!-- Replace track-of-the-week.jpg with your track photo or SL UUID image link -->
+          <img src="track-of-the-week.jpg" alt="Track of the Week" class="w-full h-full object-cover" onerror="this.style.display='none'">
+          <div class="absolute top-3 left-3 bg-brand-red text-white text-xs font-black uppercase tracking-widest px-3 py-1 rounded shadow-lg">
+            Track of the Week
+          </div>
+        </div>
+        
+        <div class="p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 class="text-2xl font-black text-white uppercase tracking-wide mb-2">Copperhead Raceway</h3>
+            <p class="text-sm text-gray-300 italic mb-4">
+              "A tight, high-speed technical circuit with sharp hairpin turns and elevation changes. Master your braking points on turn 3 to set competitive lap times."
+            </p>
+          </div>
+          <div class="border-t border-brand-border pt-4 flex justify-between items-center text-xs text-gray-400">
+            <span>Location: <strong class="text-white">GSR Main Sim</strong></span>
+            <span>Record: <strong class="text-brand-red font-mono font-bold">24.102s</strong></span>
+          </div>
+        </div>
+      </div>
 
-      <section id="leaderboards" class="content-section">
-        <h2>Leaderboards</h2>
-        <p>Current lap times and competitive leaderboards will display here.</p>
-      </section>
+      <!-- Racer of the Week Spotlight -->
+      <div class="bg-brand-card border-2 border-yellow-500/80 rounded-xl overflow-hidden shadow-2xl relative flex flex-col justify-between">
+        <div class="relative h-52 bg-gradient-to-r from-yellow-950 via-gray-900 to-black border-b border-brand-border overflow-hidden flex items-center justify-center">
+          <!-- Replace racer-of-the-week.jpg with your racer photo or SL UUID image link -->
+          <img src="racer-of-the-week.jpg" alt="Racer of the Week" class="w-full h-full object-cover" onerror="this.style.display='none'">
+          <div class="absolute top-3 left-3 bg-yellow-500 text-black text-xs font-black uppercase tracking-widest px-3 py-1 rounded shadow-lg">
+            Racer of the Week
+          </div>
+          <span class="absolute -bottom-4 right-4 text-8xl font-black text-white/10 italic pointer-events-none">#13</span>
+        </div>
+        
+        <div class="p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <h3 class="text-2xl font-black text-white tracking-wide">Deathstalker Paine</h3>
+              <span class="bg-brand-red text-white text-xs font-black italic px-3 py-0.5 rounded">#13</span>
+            </div>
+            <p class="text-xs font-bold text-gray-400 mb-3">Team: <span class="text-brand-red">Storm Riders</span></p>
+            <p class="text-sm text-gray-300 italic mb-4">
+              "Dominating the Pro division this week with flawless line execution and taking top qualifier status across multiple track layouts."
+            </p>
+          </div>
+          <div class="border-t border-brand-border pt-4 flex justify-between items-center text-xs">
+            <span class="text-gray-400">Class: <strong class="text-white uppercase">Pro League</strong></span>
+            <a href="racer.html" class="text-yellow-400 font-bold hover:underline">View Driver Profile &rarr;</a>
+          </div>
+        </div>
+      </div>
 
-      <section id="tracks" class="content-section">
-        <h2>Tracks</h2>
-        <p>Details on race circuits, track maps, and surface conditions.</p>
-      </section>
+    </div>
 
-      <section id="racers" class="content-section">
-        <h2>Racers</h2>
-        <p>Driver bios, statistics, and career stats.</p>
-      </section>
+    <!-- TELEMETRY & SYSTEM METRICS SECTION (Positioned Below) -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- System Metrics Widget -->
+      <div class="bg-brand-card border border-brand-border rounded-lg p-6 shadow-lg">
+        <h3 class="text-lg font-bold uppercase text-gray-300 border-b border-brand-border pb-2 mb-4">System Status</h3>
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="text-gray-400">Telemetry Link</span>
+            <span class="text-green-500 font-bold flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>ONLINE</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-400">Active Tracks</span>
+            <span class="text-white font-bold">5</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-400">Racing Classes</span>
+            <span class="text-white font-bold">Pro, Amateur, Pro+</span>
+          </div>
+        </div>
+      </div>
 
-      <section id="teams" class="content-section">
-        <h2>Teams</h2>
-        <p>Team rosters, standings, and garage updates.</p>
-      </section>
+      <!-- Top Pro Drivers Table -->
+      <div class="col-span-1 lg:col-span-2 bg-brand-card border border-brand-border rounded-lg p-6 shadow-lg">
+        <div class="flex justify-between items-center border-b border-brand-border pb-2 mb-4">
+          <h3 class="text-lg font-bold uppercase text-gray-300">Top Pro Qualifiers</h3>
+          <a href="leaderboards.html" class="text-sm text-brand-red hover:text-white transition">View All &rarr;</a>
+        </div>
+        
+        <table class="w-full text-left">
+          <thead>
+            <tr class="text-gray-500 text-xs uppercase tracking-wider">
+              <th class="pb-3">Rank</th>
+              <th class="pb-3">Driver</th>
+              <th class="pb-3 text-right">Best Total Time</th>
+            </tr>
+          </thead>
+          <tbody id="dashboard-top-drivers" class="text-sm divide-y divide-brand-border">
+            <tr>
+              <td colspan="3" class="py-4 text-center text-gray-500 animate-pulse">Fetching telemetry...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-    </main>
-  </div>
+    </div>
+  </main>
 
+  <script>
+    const WORKER_BASE_URL = "https://green-art-9cfb.gentlestormentertainment.workers.dev";
+
+    function formatTime(ms) {
+      if (!ms || ms <= 0) return "--:--";
+      const totalSeconds = ms / 1000;
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = (totalSeconds % 60).toFixed(3);
+      if (minutes > 0) return `${minutes}m ${seconds.padStart(6, '0')}s`;
+      return `${seconds}s`;
+    }
+
+    async function fetchTopDrivers() {
+      const tbody = document.getElementById('dashboard-top-drivers');
+      try {
+        const res = await fetch(`${WORKER_BASE_URL}/leaderboard?class=pro&limit=3`);
+        const data = await res.json();
+
+        if (!data.ok || !data.leaderboard || data.leaderboard.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="3" class="py-4 text-center text-gray-500">No race entries recorded.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = data.leaderboard.map((row, index) => {
+          let rankBadge = `<span class="font-bold text-gray-400">#${index + 1}</span>`;
+          if (index === 0) rankBadge = `<span class="text-yellow-500 font-bold">#1</span>`;
+          if (index === 1) rankBadge = `<span class="text-gray-300 font-bold">#2</span>`;
+          if (index === 2) rankBadge = `<span class="text-amber-600 font-bold">#3</span>`;
+
+          return `
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-3">${rankBadge}</td>
+              <td class="py-3 font-semibold text-white">${row.display_name}</td>
+              <td class="py-3 text-right font-mono font-bold text-brand-red">${formatTime(row.total_time_ms)}</td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="3" class="py-4 text-center text-red-500">Telemetry offline.</td></tr>`;
+      }
+    }
+
+    fetchTopDrivers();
+  </script>
 </body>
 </html>
