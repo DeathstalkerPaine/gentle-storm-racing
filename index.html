@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gentle Storm Racing</title>
   <style>
-    /* Dark background so white and gold text stay readable */
+    /* Dark background styling */
     body {
       background-color: #121212;
       color: #ffffff;
@@ -14,30 +14,40 @@
       padding: 0;
     }
 
-    /* Top-left container holding logo and stacked navigation */
-    .header-container {
+    /* Two-column layout: Left sidebar + Right content area */
+    .page-wrapper {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 24px;
-      gap: 20px; /* Space between logo and menu links */
+      min-height: 100vh;
     }
 
-    /* Scaled-up logo styling */
+    /* LEFT SIDEBAR */
+    .sidebar {
+      width: 360px;
+      padding: 30px 24px;
+      background-color: #1a1a1a;
+      border-right: 2px solid #2a2a2a;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Logo size control */
     .header-logo {
-      width: 340px; /* Adjust this number to make the logo larger or smaller */
+      width: 100%;
+      max-width: 340px;
       height: auto;
       display: block;
     }
 
-    /* Table of contents vertical layout */
+    /* Menu navigation links */
     .table-of-contents ul {
       list-style: none;
       padding: 0;
       margin: 0;
       display: flex;
       flex-direction: column;
-      gap: 12px; /* Spacing between each menu item */
+      gap: 14px;
     }
 
     .table-of-contents a {
@@ -49,32 +59,93 @@
       transition: color 0.2s ease-in-out;
     }
 
-    /* Gold accent color when hovering over links */
     .table-of-contents a:hover {
+      color: #c5a059; /* Gold hover accent */
+    }
+
+    /* RIGHT MAIN CONTENT PANEL */
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Content cards for each section */
+    .content-section {
+      background-color: #1e1e1e;
+      border-left: 4px solid #c5a059; /* Gold strip on the left */
+      padding: 24px;
+      border-radius: 6px;
+    }
+
+    .content-section h2 {
+      margin-top: 0;
       color: #c5a059;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .content-section p {
+      color: #cccccc;
+      line-height: 1.6;
+      margin-bottom: 0;
     }
   </style>
 </head>
 <body>
 
-  <header class="header-container">
-    <!-- Top-left logo -->
-    <a href="index.html">
-      <!-- MAKE SURE 'logo.png' MATCHES YOUR EXACT IMAGE FILENAME -->
-      <img src="logo.png" alt="Gentle Storm Racing" class="header-logo">
-    </a>
+  <div class="page-wrapper">
+    <!-- LEFT SIDEBAR: Logo & Navigation -->
+    <aside class="sidebar">
+      <a href="index.html">
+        <!-- MAKE SURE 'logo.png' MATCHES YOUR EXACT FILENAME -->
+        <img src="logo.png" alt="Gentle Storm Racing" class="header-logo">
+      </a>
 
-    <!-- Table of Contents stacked directly under logo -->
-    <nav class="table-of-contents">
-      <ul>
-        <li><a href="#main-menu">Main Menu</a></li>
-        <li><a href="#leaderboards">Leaderboards</a></li>
-        <li><a href="#tracks">Tracks</a></li>
-        <li><a href="#racers">Racers</a></li>
-        <li><a href="#teams">Teams</a></li>
-      </ul>
-    </nav>
-  </header>
+      <nav class="table-of-contents">
+        <ul>
+          <li><a href="#main-menu">Main Menu</a></li>
+          <li><a href="#leaderboards">Leaderboards</a></li>
+          <li><a href="#tracks">Tracks</a></li>
+          <li><a href="#racers">Racers</a></li>
+          <li><a href="#teams">Teams</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- RIGHT MAIN CONTENT: Section areas -->
+    <main class="main-content">
+      
+      <section id="main-menu" class="content-section">
+        <h2>Main Menu</h2>
+        <p>Welcome to Gentle Storm Racing. Select options from the menu or scroll down to view track stats, racer profiles, and overall standings.</p>
+      </section>
+
+      <section id="leaderboards" class="content-section">
+        <h2>Leaderboards</h2>
+        <p>Current lap times and competitive leaderboards will display here.</p>
+      </section>
+
+      <section id="tracks" class="content-section">
+        <h2>Tracks</h2>
+        <p>Details on race circuits, track maps, and surface conditions.</p>
+      </section>
+
+      <section id="racers" class="content-section">
+        <h2>Racers</h2>
+        <p>Driver bios, statistics, and career stats.</p>
+      </section>
+
+      <section id="teams" class="content-section">
+        <h2>Teams</h2>
+        <p>Team rosters, standings, and garage updates.</p>
+      </section>
+
+    </main>
+  </div>
 
 </body>
 </html>
