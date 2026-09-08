@@ -25,31 +25,22 @@
 </head>
 <body class="bg-brand-dark text-gray-100 min-h-screen font-sans">
 
-  <!-- Header Navigation with Large Logo and Stacked Nav -->
-  <header class="border-b border-brand-border bg-brand-card py-6 px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 shadow-lg">
+  <!-- Header Navigation: Logo Left, Nav Top Right -->
+  <header class="border-b border-brand-border bg-brand-card py-4 px-8 flex justify-between items-center shadow-lg">
     
-    <!-- Left Section: Large Logo + Table of Contents underneath -->
-    <div class="flex flex-col items-start gap-4">
-     <a href="index.html" class="block">
-        <!-- Logo size adjusted to medium height -->
-        <img src="logo.png" alt="Gentle Storm Racing" class="h-24 md:h-32 object-contain hover:opacity-90 transition">
-      </a>
-      
-      <!-- Table of Contents / Navigation Links directly under the logo -->
-      <nav class="flex flex-wrap items-center space-x-6 text-sm font-semibold text-gray-400 pt-1">
-        <a href="index.html" class="text-white border-b-2 border-brand-red pb-1">Main Menu</a>
-        <a href="leaderboards.html" class="hover:text-white transition">Leaderboards</a>
-        <a href="#" class="hover:text-white transition">Tracks</a>
-        <a href="racers.html" class="hover:text-white transition">Racers</a>
-        <a href="teams.html" class="hover:text-white transition">Teams</a>
-      </nav>
-    </div>
+    <!-- Logo on Left (Slightly larger, dedicated spot) -->
+    <a href="index.html" class="block">
+      <img src="logo.png" alt="Gentle Storm Racing" class="h-28 md:h-36 object-contain hover:opacity-90 transition">
+    </a>
 
-    <!-- Quick Status Badge -->
-    <div class="hidden lg:flex items-center space-x-2 bg-black/40 border border-brand-border px-4 py-2 rounded-lg text-xs font-mono">
-      <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-      <span class="text-gray-300">TELEMETRY LINK ACTIVE</span>
-    </div>
+    <!-- Navigation Table of Contents on Top Right -->
+    <nav class="flex space-x-6 text-sm font-semibold text-gray-400">
+      <a href="index.html" class="text-white border-b-2 border-brand-red pb-1">Main Menu</a>
+      <a href="leaderboards.html" class="hover:text-white transition">Leaderboards</a>
+      <a href="#" class="hover:text-white transition">Tracks</a>
+      <a href="racers.html" class="hover:text-white transition">Racers</a>
+      <a href="teams.html" class="hover:text-white transition">Teams</a>
+    </nav>
   </header>
 
   <!-- Main Content -->
@@ -58,14 +49,17 @@
     <!-- Hero Section -->
     <div class="mb-10 bg-gradient-to-r from-brand-card via-brand-dark to-black border border-brand-border p-8 rounded-xl shadow-xl relative overflow-hidden">
       <div class="relative z-10">
-        <h2 class="text-4xl font-black tracking-tight mb-2 uppercase text-white">WELCOME TO <span class="text-brand-red">Gentle Storm Racing</span> </h2>
+        <h2 class="text-4xl font-black tracking-tight mb-2 uppercase text-white">WELCOME TO <span class="text-brand-red">GSR</span> TELEMETRY</h2>
         <p class="text-gray-400 max-w-2xl mb-6">The official database and statistics portal for Gentle Storm Racing. View live race telemetry, track records, and global standings updated directly from Second Life.</p>
         <a href="leaderboards.html" class="inline-block bg-brand-red text-white font-bold px-6 py-3 rounded shadow hover:bg-red-600 transition">View Full Leaderboards</a>
       </div>
     </div>
 
     <!-- PROMINENT SPOTLIGHT SECTION (Track, Racer, & Team of the Week) -->
-    <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-4">League Spotlights</h3>
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400">League Spotlights</h3>
+    </div>
+    
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
       
       <!-- 1. Track of the Week -->
@@ -152,30 +146,32 @@
     <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-4">Live Telemetry & Metrics</h3>
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       
-      <!-- System Metrics Widget -->
-      <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-lg">
+      <!-- System Status Widget (Placed in primary wide spot) -->
+      <div class="col-span-1 lg:col-span-2 bg-brand-card border border-brand-border rounded-xl p-6 shadow-lg">
         <h4 class="text-lg font-bold uppercase text-gray-300 border-b border-brand-border pb-2 mb-4">System Status</h4>
-        <div class="space-y-4">
-          <div class="flex justify-between items-center">
-            <span class="text-gray-400">Telemetry Link</span>
-            <span class="text-green-500 font-bold flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>ONLINE</span>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bg-black/30 border border-brand-border p-4 rounded-lg flex flex-col justify-between">
+            <span class="text-xs text-gray-400 uppercase font-bold">Telemetry Link</span>
+            <span class="text-green-500 font-bold flex items-center mt-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-green-500 mr-2 animate-pulse"></span>ONLINE
+            </span>
           </div>
-          <div class="flex justify-between items-center">
-            <span class="text-gray-400">Active Tracks</span>
-            <span class="text-white font-bold">5</span>
+          <div class="bg-black/30 border border-brand-border p-4 rounded-lg flex flex-col justify-between">
+            <span class="text-xs text-gray-400 uppercase font-bold">Active Tracks</span>
+            <span class="text-2xl font-black text-white mt-1">5</span>
           </div>
-          <div class="flex justify-between items-center">
-            <span class="text-gray-400">Racing Classes</span>
-            <span class="text-white font-bold">Pro, Amateur, Pro+</span>
+          <div class="bg-black/30 border border-brand-border p-4 rounded-lg flex flex-col justify-between">
+            <span class="text-xs text-gray-400 uppercase font-bold">Racing Classes</span>
+            <span class="text-sm font-bold text-white mt-1">Pro, Amateur, Pro+</span>
           </div>
         </div>
       </div>
 
-      <!-- Top Pro Drivers Table -->
-      <div class="col-span-1 lg:col-span-2 bg-brand-card border border-brand-border rounded-xl p-6 shadow-lg">
+      <!-- Top Pro Qualifiers Table -->
+      <div class="col-span-1 bg-brand-card border border-brand-border rounded-xl p-6 shadow-lg">
         <div class="flex justify-between items-center border-b border-brand-border pb-2 mb-4">
           <h4 class="text-lg font-bold uppercase text-gray-300">Top Pro Qualifiers</h4>
-          <a href="leaderboards.html" class="text-sm text-brand-red hover:text-white transition">View All &rarr;</a>
+          <a href="leaderboards.html" class="text-xs text-brand-red hover:text-white transition">View All &rarr;</a>
         </div>
         
         <table class="w-full text-left">
@@ -183,7 +179,7 @@
             <tr class="text-gray-500 text-xs uppercase tracking-wider">
               <th class="pb-3">Rank</th>
               <th class="pb-3">Driver</th>
-              <th class="pb-3 text-right">Best Total Time</th>
+              <th class="pb-3 text-right">Time</th>
             </tr>
           </thead>
           <tbody id="dashboard-top-drivers" class="text-sm divide-y divide-brand-border">
