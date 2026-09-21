@@ -1,169 +1,127 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gentle Storm Racing - Admin Portal</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              red: '#ff2a2a',
-              dark: '#0e1117',
-              card: '#161b22',
-              border: '#30363d'
-            }
-          }
-        }
-      }
-    }
-  </script>
-</head>
-<body class="bg-brand-dark text-gray-100 min-h-screen font-sans">
+// Gentle Storm Racing (GSR) - Core API Worker Proxy v2.0
+// Serves: CMS Draft/Live Pipeline, Store Manager, Moderation Queue & SL Telemetry
 
-  <!-- Header -->
-  <header class="border-b border-brand-border bg-brand-card py-4 px-8 flex justify-between items-center shadow-lg">
-    <div class="flex items-center space-x-3">
-      <div class="w-3 h-8 bg-brand-red rounded-sm"></div>
-      <h1 class="text-2xl font-black tracking-wider uppercase text-white">GSR <span class="text-brand-red">Admin Portal</span></h1>
-    </div>
-    <span class="text-xs bg-red-950 text-red-400 border border-red-800 px-3 py-1 rounded font-mono font-bold">RESTRICTED ACCESS</span>
-  </header>
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, x-race-secret, x-sl-key",
+};
 
-  <main class="max-w-6xl mx-auto py-10 px-4">
-    
-    <div class="flex justify-between items-center mb-8 border-b border-brand-border pb-4">
-      <div>
-        <h2 class="text-2xl font-bold uppercase text-white">Profile & Team Approvals</h2>
-        <p class="text-gray-400 text-sm mt-1">Review pending driver statements, assign car numbers, and approve photo UUIDs.</p>
-      </div>
-      <button onclick="loadPendingRacers()" class="bg-brand-card hover:bg-gray-800 border border-brand-border px-4 py-2 rounded text-sm font-semibold transition">
-        Refresh Queue
-      </button>
-    </div>
-
-    <!-- Approvals List Container -->
-    <div id="admin-queue" class="space-y-6">
-      <div class="p-8 text-center bg-brand-card border border-brand-border rounded-xl animate-pulse text-gray-500">
-        Loading pending driver submissions...
-      </div>
-    </div>
-
-  </main>
-
-  <script>
-    const WORKER_URL = "https://green-art-9cfb.gentlestormentertainment.workers.dev";
-
-    async function loadPendingRacers() {
-      const container = document.getElementById('admin-queue');
-      try {
-        // Fetch racers from Supabase proxy endpoint
-        const res = await fetch(`${WORKER_URL}/rest/v1/racers?order=id.desc`);
-        const racers = await res.json();
-
-        if (!racers || racers.length === 0) {
-          container.innerHTML = `<div class="p-8 text-center bg-brand-card border border-brand-border rounded-xl text-gray-400">No driver profiles found in database.</div>`;
-          return;
-        }
-
-        container.innerHTML = racers.map(racer => {
-          const photoUrl = racer.photo_uuid ? `https://secondlife.com/app/image/${racer.photo_uuid}/1` : '';
-          const bannerUrl = racer.banner_uuid ? `https://secondlife.com/app/image/${racer.banner_uuid}/1` : '';
-          
-          return `
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col lg:flex-row gap-6 justify-between items-start">
-              
-              <!-- Left: Driver Details -->
-              <div class="flex-1 space-y-3">
-                <div class="flex items-center space-x-3">
-                  <span class="text-2xl font-black text-white">${racer.display_name}</span>
-                  <span class="text-xs font-mono text-gray-500">${racer.sl_key}</span>
-                  <span class="text-xs px-2 py-0.5 rounded uppercase font-bold ${racer.profile_status === 'approved' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'}">
-                    ${racer.profile_status || 'unlocked'}
-                  </span>
-                </div>
-
-                <!-- Form Controls -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-                  <div>
-                    <label class="block text-xs text-gray-400 mb-1">Racer Number</label>
-                    <input type="number" id="num-${racer.id}" value="${racer.racer_number || 0}" class="w-full bg-black/50 border border-brand-border px-3 py-1.5 rounded text-sm text-white font-mono">
-                  </div>
-                  <div>
-                    <label class="block text-xs text-gray-400 mb-1">Photo UUID (Second Life)</label>
-                    <input type="text" id="photo-${racer.id}" value="${racer.photo_uuid || ''}" placeholder="00000000-0000-0000-0000-000000000000" class="w-full bg-black/50 border border-brand-border px-3 py-1.5 rounded text-sm text-white font-mono">
-                  </div>
-                  <div>
-                    <label class="block text-xs text-gray-400 mb-1">Banner UUID (Second Life)</label>
-                    <input type="text" id="banner-${racer.id}" value="${racer.banner_uuid || ''}" placeholder="00000000-0000-0000-0000-000000000000" class="w-full bg-black/50 border border-brand-border px-3 py-1.5 rounded text-sm text-white font-mono">
-                  </div>
-                </div>
-
-                <div>
-                  <label class="block text-xs text-gray-400 mb-1">Driver Bio / Statement</label>
-                  <textarea id="bio-${racer.id}" rows="2" class="w-full bg-black/50 border border-brand-border p-2 rounded text-sm text-gray-200">${racer.bio || ''}</textarea>
-                </div>
-              </div>
-
-              <!-- Right: Photo Preview & Action Button -->
-              <div class="flex flex-col items-center lg:items-end justify-between w-full lg:w-48 gap-4 border-t lg:border-t-0 lg:border-l border-brand-border pt-4 lg:pt-0 lg:pl-6">
-                <div class="w-24 h-24 bg-gray-900 border border-brand-border rounded-lg overflow-hidden flex items-center justify-center text-xs text-gray-600">
-                  ${photoUrl ? `<img src="${photoUrl}" class="w-full h-full object-cover">` : 'No Image'}
-                </div>
-
-                <button onclick="approveRacer(${racer.id})" class="w-full bg-brand-red hover:bg-red-600 text-white font-bold py-2 px-4 rounded text-sm transition shadow">
-                  Save & Approve
-                </button>
-              </div>
-
-            </div>
-          `;
-        }).join('');
-
-      } catch (err) {
-        container.innerHTML = `<div class="p-8 text-center bg-brand-card border border-brand-border rounded-xl text-red-500">Error loading queue: ${err.message}</div>`;
-      }
+export default {
+  async fetch(request, env, ctx) {
+    // Handle CORS Preflight Options
+    if (request.method === "OPTIONS") {
+      return new Response(null, { headers: CORS_HEADERS });
     }
 
-  async function approveRacer(racerId) {
-      const number = parseInt(document.getElementById(`num-${racerId}`).value) || 0;
-      const photoUuid = document.getElementById(`photo-${racerId}`).value.trim();
-      const bannerUuid = document.getElementById(`banner-${racerId}`).value.trim();
-      const bio = document.getElementById(`bio-${racerId}`).value.trim();
+    const url = new URL(request.url);
+    const path = url.pathname;
 
-      try {
-        const res = await fetch(`${WORKER_URL}/rest/v1/racers?id=eq.${racerId}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            'prefer': 'return=representation'
-          },
-          body: JSON.stringify({
-            racer_number: number,
-            photo_uuid: photoUuid,
-            banner_uuid: bannerUuid,
-            bio: bio,
-            profile_status: 'approved'
-          })
+    try {
+      // ----------------------------------------------------------------------
+      // PUBLIC ENDPOINTS
+      // ----------------------------------------------------------------------
+
+      // 1. GET /store/items - Fetch published store items
+      if (path === "/store/items" && request.method === "GET") {
+        const queryUrl = `${env.SUPABASE_URL}/rest/v1/store_items?status=eq.published&select=*&order=created_at.desc`;
+        return await supabaseFetch(queryUrl, "GET", null, env);
+      }
+
+      // 2. GET /cms/live?page=main_menu - Fetch live CMS content for public pages
+      if (path === "/cms/live" && request.method === "GET") {
+        const pageName = url.searchParams.get("page") || "main_menu";
+        const queryUrl = `${env.SUPABASE_URL}/rest/v1/page_content?page_name=eq.${pageName}&select=section_order,layout_type,live_data&order=section_order.asc`;
+        return await supabaseFetch(queryUrl, "GET", null, env);
+      }
+
+      // ----------------------------------------------------------------------
+      // ADMIN ENDPOINTS (Requires x-race-secret Header Authorization)
+      // ----------------------------------------------------------------------
+
+      const adminSecret = request.headers.get("x-race-secret");
+      if (path.startsWith("/admin") && adminSecret !== env.ADMIN_RACE_SECRET) {
+        return new Response(JSON.stringify({ error: "Unauthorized access" }), {
+          status: 401,
+          headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
         });
-
-        if (res.ok) {
-          alert('Profile successfully saved and approved!');
-          loadPendingRacers();
-        } else {
-          const errorDetails = await res.text();
-          alert(`Failed to update profile (${res.status}): ${errorDetails}`);
-        }
-      } catch (err) {
-        alert(`Error: ${err.message}`);
       }
-    }
 
-    loadPendingRacers();
-  </script>
-</body>
-</html>
+      // 3. POST /admin/store/save - Publish/Update store item
+      if (path === "/admin/store/save" && request.method === "POST") {
+        const payload = await request.json();
+        const queryUrl = `${env.SUPABASE_URL}/rest/v1/store_items`;
+        return await supabaseFetch(queryUrl, "POST", payload, env, { "Prefer": "resolution=merge-duplicates" });
+      }
+
+      // 4. GET /admin/cms/draft?page=main_menu - Load draft CMS content for iPad editor
+      if (path === "/admin/cms/draft" && request.method === "GET") {
+        const pageName = url.searchParams.get("page") || "main_menu";
+        const queryUrl = `${env.SUPABASE_URL}/rest/v1/page_content?page_name=eq.${pageName}&select=*&order=section_order.asc`;
+        return await supabaseFetch(queryUrl, "GET", null, env);
+      }
+
+      // 5. POST /admin/cms/save-draft - Save draft changes from iPad editor
+      if (path === "/admin/cms/save-draft" && request.method === "POST") {
+        const payload = await request.json(); // Array of section objects
+        const queryUrl = `${env.SUPABASE_URL}/rest/v1/page_content`;
+        return await supabaseFetch(queryUrl, "POST", payload, env, { "Prefer": "resolution=merge-duplicates" });
+      }
+
+      // 6. POST /admin/cms/publish - Push draft_data to live_data for a specific page
+      if (path === "/admin/cms/publish" && request.method === "POST") {
+        const { page_name } = await request.json();
+        if (!page_name) throw new Error("Missing page_name parameter");
+
+        // Execute SQL RPC function via Supabase to copy draft_data -> live_data
+        const rpcUrl = `${env.SUPABASE_URL}/rest/v1/rpc/publish_page_draft`;
+        return await supabaseFetch(rpcUrl, "POST", { target_page: page_name }, env);
+      }
+
+      // 7. GET /admin/approvals - Fetch pending driver/team submissions
+      if (path === "/admin/approvals" && request.method === "GET") {
+        const queryUrl = `${env.SUPABASE_URL}/rest/v1/approval_queue?status=eq.pending&select=*&order=created_at.asc`;
+        return await supabaseFetch(queryUrl, "GET", null, env);
+      }
+
+      // 8. POST /admin/approvals/review - Approve or Reject pending submission
+      if (path === "/admin/approvals/review" && request.method === "POST") {
+        const { approval_id, action, reviewer_key } = await request.json();
+        const rpcUrl = `${env.SUPABASE_URL}/rest/v1/rpc/process_approval`;
+        return await supabaseFetch(rpcUrl, "POST", { approval_id, action, reviewer_key }, env);
+      }
+
+      return new Response(JSON.stringify({ error: "Endpoint not found" }), {
+        status: 404,
+        headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+      });
+
+    } catch (err) {
+      return new Response(JSON.stringify({ error: err.message }), {
+        status: 500,
+        headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+      });
+    }
+  }
+};
+
+// Helper function to query Supabase REST API using Service Role Key
+async function supabaseFetch(url, method, body, env, extraHeaders = {}) {
+  const headers = {
+    "apikey": env.SUPABASE_SERVICE_ROLE_KEY,
+    "Authorization": `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,
+    "Content-Type": "application/json",
+    ...extraHeaders
+  };
+
+  const options = { method, headers };
+  if (body) options.body = JSON.stringify(body);
+
+  const res = await fetch(url, options);
+  const data = await res.text();
+
+  return new Response(data, {
+    status: res.status,
+    headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+  });
+}
