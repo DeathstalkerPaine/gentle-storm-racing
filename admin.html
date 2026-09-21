@@ -1,127 +1,167 @@
-// Gentle Storm Racing (GSR) - Core API Worker Proxy v2.0
-// Serves: CMS Draft/Live Pipeline, Store Manager, Moderation Queue & SL Telemetry
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSR Admin Portal | Method A</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#121212',
+                            card: '#1e1e1e',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .drag-handle { cursor: grab; }
+        .drag-handle:active { cursor: grabbing; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, x-race-secret, x-sl-key",
-};
+    <!-- TOP ADMIN NAV -->
+    <header class="bg-brand-card border-b border-brand-gold sticky top-0 z-50">
+        <div class="max-w-screen-2xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <span class="text-xl font-black tracking-widest uppercase text-white">GSR<span class="text-brand-red">ADMIN</span></span>
+                
+                <!-- Page Selector -->
+                <div class="hidden md:flex items-center space-x-2 border-l border-brand-border pl-4">
+                    <span class="text-xs uppercase font-bold text-gray-400">Page:</span>
+                    <select id="page-selector" class="bg-brand-bg border border-brand-border rounded px-3 py-1 text-sm font-bold text-brand-gold focus:outline-none focus:border-brand-gold">
+                        <option value="main_menu">GSR Main Menu</option>
+                        <option value="pro_plus_hub">Pro Plus Hub</option>
+                        <option value="pro_league">GSR Pro League</option>
+                        <option value="racetracks">Racetracks</option>
+                        <option value="faq">FAQ & TOS</option>
+                    </select>
+                </div>
+            </div>
 
-export default {
-  async fetch(request, env, ctx) {
-    // Handle CORS Preflight Options
-    if (request.method === "OPTIONS") {
-      return new Response(null, { headers: CORS_HEADERS });
-    }
+            <!-- Tab Modes -->
+            <div class="flex items-center space-x-2 bg-brand-bg p-1 rounded border border-brand-border">
+                <button onclick="switchTab('content-tab')" id="btn-content-tab" class="admin-tab active bg-brand-card text-brand-gold px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider transition">✏️ Edit Content</button>
+                <button onclick="switchTab('approval-tab')" id="btn-approval-tab" class="admin-tab hover:bg-brand-card text-gray-400 px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider transition">📥 Approvals <span class="bg-brand-red text-white px-1.5 py-0.5 rounded ml-1">3</span></button>
+                <button onclick="switchTab('store-tab')" id="btn-store-tab" class="admin-tab hover:bg-brand-card text-gray-400 px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider transition">🛒 Store Mgr</button>
+            </div>
 
-    const url = new URL(request.url);
-    const path = url.pathname;
+            <!-- Publish Button -->
+            <div>
+                <button onclick="publishLive()" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase tracking-widest text-xs px-6 py-2 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition">
+                    Publish Live
+                </button>
+            </div>
+        </div>
+    </header>
 
-    try {
-      // ----------------------------------------------------------------------
-      // PUBLIC ENDPOINTS
-      // ----------------------------------------------------------------------
+    <main class="flex-grow max-w-screen-xl w-full mx-auto px-4 py-8">
 
-      // 1. GET /store/items - Fetch published store items
-      if (path === "/store/items" && request.method === "GET") {
-        const queryUrl = `${env.SUPABASE_URL}/rest/v1/store_items?status=eq.published&select=*&order=created_at.desc`;
-        return await supabaseFetch(queryUrl, "GET", null, env);
-      }
+        <!-- TAB 1: CONTENT EDITOR -->
+        <div id="content-tab" class="tab-content space-y-6">
+            <div id="editor-sections" class="space-y-6">
+                <div class="bg-brand-card border border-brand-border rounded-lg flex shadow-lg relative group">
+                    <div class="w-12 bg-black/40 flex items-center justify-center border-r border-brand-border rounded-l-lg drag-handle text-gray-500 hover:text-brand-gold transition">
+                        ⋮⋮
+                    </div>
+                    <div class="p-6 flex-grow flex items-center justify-between">
+                        <div class="space-y-2 w-full">
+                            <label class="text-xs uppercase font-bold text-gray-400">Section: Header Graphic</label>
+                            <div class="flex items-center space-x-4">
+                                <div class="h-20 w-64 bg-brand-bg border border-dashed border-gray-600 rounded flex flex-col items-center justify-center text-gray-500 hover:text-brand-gold hover:border-brand-gold transition cursor-pointer">
+                                    <span class="text-xl">📷</span>
+                                    <span class="text-[10px] uppercase mt-1">Upload Photo</span>
+                                </div>
+                                <div class="flex-grow">
+                                    <input type="text" value="GSR Pro League" class="w-full bg-brand-bg border border-brand-border rounded p-3 text-lg font-black text-white focus:outline-none focus:border-brand-gold" placeholder="CSS Header Fallback Text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-      // 2. GET /cms/live?page=main_menu - Fetch live CMS content for public pages
-      if (path === "/cms/live" && request.method === "GET") {
-        const pageName = url.searchParams.get("page") || "main_menu";
-        const queryUrl = `${env.SUPABASE_URL}/rest/v1/page_content?page_name=eq.${pageName}&select=section_order,layout_type,live_data&order=section_order.asc`;
-        return await supabaseFetch(queryUrl, "GET", null, env);
-      }
+            <div class="bg-brand-bg border-2 border-dashed border-brand-border rounded-lg p-6 text-center space-y-4">
+                <h3 class="text-sm font-black uppercase text-gray-400 tracking-wider">+ Add New Content Row</h3>
+                <div class="flex justify-center space-x-4">
+                    <button onclick="addSection('hero')" class="bg-brand-card hover:bg-[#2a2a2a] border border-gray-600 px-4 py-2 rounded text-xs font-bold uppercase text-white transition">Full Width Banner</button>
+                    <button onclick="addSection('2col')" class="bg-brand-card hover:bg-[#2a2a2a] border border-gray-600 px-4 py-2 rounded text-xs font-bold uppercase text-white transition">2-Column Cards</button>
+                    <button onclick="addSection('3col')" class="bg-brand-card hover:bg-[#2a2a2a] border border-gray-600 px-4 py-2 rounded text-xs font-bold uppercase text-white transition">3-Column Cards</button>
+                </div>
+            </div>
+        </div>
 
-      // ----------------------------------------------------------------------
-      // ADMIN ENDPOINTS (Requires x-race-secret Header Authorization)
-      // ----------------------------------------------------------------------
+        <!-- TAB 2: APPROVALS QUEUE -->
+        <div id="approval-tab" class="tab-content hidden space-y-6">
+            <div class="flex justify-between items-end border-b border-brand-border pb-4">
+                <div>
+                    <h2 class="text-2xl font-black uppercase tracking-wider text-white">Pending Approvals</h2>
+                    <p class="text-xs text-gray-400">Review driver and team updates before they go live.</p>
+                </div>
+            </div>
 
-      const adminSecret = request.headers.get("x-race-secret");
-      if (path.startsWith("/admin") && adminSecret !== env.ADMIN_RACE_SECRET) {
-        return new Response(JSON.stringify({ error: "Unauthorized access" }), {
-          status: 401,
-          headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
-        });
-      }
+            <div class="bg-brand-card border border-brand-border rounded-lg p-6 shadow-lg">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="flex items-center space-x-3">
+                        <span class="bg-brand-gold text-black text-[10px] font-black uppercase px-2 py-1 rounded">Driver Bio</span>
+                        <h3 class="font-bold text-white uppercase tracking-wider">Deathstalker Paine</h3>
+                    </div>
+                    <span class="text-xs text-gray-500">Submitted: 2 hrs ago</span>
+                </div>
+                <div class="flex justify-end space-x-3 mt-4">
+                    <button class="bg-brand-bg border border-gray-600 hover:border-brand-red hover:text-brand-red text-gray-400 text-xs font-bold uppercase px-4 py-2 rounded transition">Reject</button>
+                    <button class="bg-brand-gold hover:bg-yellow-500 text-black text-xs font-black uppercase tracking-wider px-6 py-2 rounded transition">Approve & Publish</button>
+                </div>
+            </div>
+        </div>
 
-      // 3. POST /admin/store/save - Publish/Update store item
-      if (path === "/admin/store/save" && request.method === "POST") {
-        const payload = await request.json();
-        const queryUrl = `${env.SUPABASE_URL}/rest/v1/store_items`;
-        return await supabaseFetch(queryUrl, "POST", payload, env, { "Prefer": "resolution=merge-duplicates" });
-      }
+        <!-- TAB 3: STORE MANAGER -->
+        <div id="store-tab" class="tab-content hidden space-y-6">
+            <div class="flex justify-between items-end border-b border-brand-border pb-4">
+                <div>
+                    <h2 class="text-2xl font-black uppercase tracking-wider text-white">GSRacing Store Manager</h2>
+                    <p class="text-xs text-gray-400">Publish vehicles, parts, and merchandise to the Second Life Catalog.</p>
+                </div>
+            </div>
+        </div>
 
-      // 4. GET /admin/cms/draft?page=main_menu - Load draft CMS content for iPad editor
-      if (path === "/admin/cms/draft" && request.method === "GET") {
-        const pageName = url.searchParams.get("page") || "main_menu";
-        const queryUrl = `${env.SUPABASE_URL}/rest/v1/page_content?page_name=eq.${pageName}&select=*&order=section_order.asc`;
-        return await supabaseFetch(queryUrl, "GET", null, env);
-      }
+    </main>
 
-      // 5. POST /admin/cms/save-draft - Save draft changes from iPad editor
-      if (path === "/admin/cms/save-draft" && request.method === "POST") {
-        const payload = await request.json(); // Array of section objects
-        const queryUrl = `${env.SUPABASE_URL}/rest/v1/page_content`;
-        return await supabaseFetch(queryUrl, "POST", payload, env, { "Prefer": "resolution=merge-duplicates" });
-      }
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
 
-      // 6. POST /admin/cms/publish - Push draft_data to live_data for a specific page
-      if (path === "/admin/cms/publish" && request.method === "POST") {
-        const { page_name } = await request.json();
-        if (!page_name) throw new Error("Missing page_name parameter");
+            document.querySelectorAll('.admin-tab').forEach(btn => {
+                btn.classList.remove('bg-brand-card', 'text-brand-gold');
+                btn.classList.add('text-gray-400');
+            });
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            activeBtn.classList.remove('text-gray-400');
+            activeBtn.classList.add('bg-brand-card', 'text-brand-gold');
+        }
 
-        // Execute SQL RPC function via Supabase to copy draft_data -> live_data
-        const rpcUrl = `${env.SUPABASE_URL}/rest/v1/rpc/publish_page_draft`;
-        return await supabaseFetch(rpcUrl, "POST", { target_page: page_name }, env);
-      }
+        function addSection(type) {
+            alert(`Added new ${type} layout row.`);
+        }
 
-      // 7. GET /admin/approvals - Fetch pending driver/team submissions
-      if (path === "/admin/approvals" && request.method === "GET") {
-        const queryUrl = `${env.SUPABASE_URL}/rest/v1/approval_queue?status=eq.pending&select=*&order=created_at.asc`;
-        return await supabaseFetch(queryUrl, "GET", null, env);
-      }
-
-      // 8. POST /admin/approvals/review - Approve or Reject pending submission
-      if (path === "/admin/approvals/review" && request.method === "POST") {
-        const { approval_id, action, reviewer_key } = await request.json();
-        const rpcUrl = `${env.SUPABASE_URL}/rest/v1/rpc/process_approval`;
-        return await supabaseFetch(rpcUrl, "POST", { approval_id, action, reviewer_key }, env);
-      }
-
-      return new Response(JSON.stringify({ error: "Endpoint not found" }), {
-        status: 404,
-        headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
-      });
-
-    } catch (err) {
-      return new Response(JSON.stringify({ error: err.message }), {
-        status: 500,
-        headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
-      });
-    }
-  }
-};
-
-// Helper function to query Supabase REST API using Service Role Key
-async function supabaseFetch(url, method, body, env, extraHeaders = {}) {
-  const headers = {
-    "apikey": env.SUPABASE_SERVICE_ROLE_KEY,
-    "Authorization": `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,
-    "Content-Type": "application/json",
-    ...extraHeaders
-  };
-
-  const options = { method, headers };
-  if (body) options.body = JSON.stringify(body);
-
-  const res = await fetch(url, options);
-  const data = await res.text();
-
-  return new Response(data, {
-    status: res.status,
-    headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
-  });
-}
+        function publishLive() {
+            alert('Draft pushed to live website!');
+        }
+    </script>
+</body>
+</html>
