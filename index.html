@@ -1,239 +1,238 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gentle Storm Racing - Main Menu</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              red: '#ff2a2a',
-              dark: '#0e1117',
-              card: '#161b22',
-              border: '#30363d'
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gentle Storm Racing | Main Menu Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#121212',
+                            card: '#1e1e1e',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a'
+                        }
+                    }
+                }
             }
-          }
         }
-      }
-    }
-  </script>
+    </script>
+    <style>
+        .gold-glow { box-shadow: 0 0 15px rgba(197, 160, 89, 0.2); }
+        .red-glow { box-shadow: 0 0 15px rgba(255, 42, 42, 0.2); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
 </head>
-<body class="bg-brand-dark text-gray-100 min-h-screen font-sans">
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-  <!-- Header Navigation: Fully Responsive for Mobile & Desktop -->
-  <header class="border-b border-brand-border bg-brand-card py-4 px-6 flex flex-col md:flex-row justify-between items-center gap-4 shadow-lg">
-    
-    <!-- Logo (Enlarged) -->
-    <a href="index.html" class="block">
-      <img src="logo.png" alt="Gentle Storm Racing" class="h-32 md:h-40 object-contain hover:opacity-90 transition">
-    </a>
+    <!-- 3-ZONE HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+            <!-- Zone 1: Top-Left Logo -->
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <span class="text-2xl font-black tracking-widest uppercase text-white">GSR<span class="text-brand-red">HUB</span></span>
+                </a>
+            </div>
 
-    <!-- Navigation Bar (Prevents awkward text line breaks on vertical mobile screens) -->
-    <nav class="flex flex-wrap justify-center md:justify-end items-center gap-4 sm:gap-6 text-xs sm:text-sm font-semibold text-gray-400 whitespace-nowrap">
-      <a href="index.html" class="text-white border-b-2 border-brand-red pb-1">Main Menu</a>
-      <a href="leaderboards.html" class="hover:text-white transition">Leaderboards</a>
-      <a href="#" class="hover:text-white transition">Tracks</a>
-      <a href="racers.html" class="hover:text-white transition">Racers</a>
-      <a href="teams.html" class="hover:text-white transition">Teams</a>
+            <!-- Zone 2: Center Title Logo / Graphic -->
+            <div class="hidden md:flex items-center justify-center">
+                <span class="text-lg font-black uppercase tracking-widest text-brand-gold border-b-2 border-brand-gold pb-0.5">
+                    GENTLE STORM RACING
+                </span>
+            </div>
+
+            <!-- Zone 3: Top-Right Sign In / User Panel -->
+            <div class="flex items-center space-x-3">
+                <a href="admin.html" class="bg-brand-bg hover:bg-brand-border border border-brand-gold text-brand-gold text-xs font-bold uppercase px-4 py-2 rounded transition">
+                    Admin Portal
+                </a>
+                <button onclick="alert('Sign In System connected to Supabase Auth.')" class="bg-brand-red hover:bg-red-700 text-white text-xs font-black uppercase px-4 py-2 rounded shadow transition">
+                    Sign In
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECONDARY SUB-NAVIGATION BAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-between gap-4 text-xs font-bold uppercase tracking-wider">
+            <div class="flex items-center space-x-6 overflow-x-auto">
+                <a href="index.html" class="text-brand-gold border-b-2 border-brand-gold pb-1">Main Menu</a>
+                <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Portal</a>
+                <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
+                <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers & Teams</a>
+                <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards</a>
+                <a href="store.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Store</a>
+            </div>
+        </div>
     </nav>
-  </header>
 
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto py-10 px-4">
-    
-    <!-- Hero Section -->
-    <div class="mb-10 bg-gradient-to-r from-brand-card via-brand-dark to-black border border-brand-border p-8 rounded-xl shadow-xl relative overflow-hidden">
-      <div class="relative z-10">
-        <h2 class="text-3xl sm:text-4xl font-black tracking-tight mb-2 uppercase text-white">WELCOME TO <span class="text-brand-red">Gentle Storm </span> Racing </h2>
-        <p class="text-gray-400 max-w-2xl mb-6 text-sm sm:text-base">The official database and statistics portal for Gentle Storm Racing. View live race telemetry, track records, and global standings updated directly from Second Life.</p>
-        <a href="leaderboards.html" class="inline-block bg-brand-red text-white font-bold px-6 py-3 rounded shadow hover:bg-red-600 transition text-sm sm:text-base">View Full Leaderboards</a>
-      </div>
-    </div>
+    <!-- MAIN CONTENT BODY -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
 
-    <!-- PROMINENT SPOTLIGHT SECTION (Track, Racer, & Team of the Week) -->
-    <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400">League Spotlights</h3>
-    </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-      
-      <!-- 1. Track of the Week -->
-      <div class="bg-brand-card border-2 border-brand-red rounded-xl overflow-hidden shadow-2xl relative flex flex-col justify-between">
-        <div class="relative h-48 bg-gray-900 border-b border-brand-border overflow-hidden">
-          <img src="track-of-the-week.jpg" alt="Track of the Week" class="w-full h-full object-cover" onerror="this.style.display='none'">
-          <div class="absolute top-3 left-3 bg-brand-red text-white text-xs font-black uppercase tracking-widest px-3 py-1 rounded shadow-lg">
-            Track of the Week
-          </div>
-        </div>
-        
-        <div class="p-5 flex-1 flex flex-col justify-between">
-          <div>
-            <h4 class="text-xl font-black text-white uppercase tracking-wide mb-2">Copperhead Raceway</h4>
-            <p class="text-xs text-gray-300 italic mb-4">
-              "A tight, high-speed technical circuit with sharp hairpin turns and elevation changes. Master turn 3 for competitive times."
-            </p>
-          </div>
-          <div class="border-t border-brand-border pt-3 flex justify-between items-center text-xs text-gray-400">
-            <span>Location: <strong class="text-white">GSR Main Sim</strong></span>
-            <span>Record: <strong class="text-brand-red font-mono font-bold">24.102s</strong></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 2. Racer of the Week -->
-      <div class="bg-brand-card border-2 border-yellow-500/80 rounded-xl overflow-hidden shadow-2xl relative flex flex-col justify-between">
-        <div class="relative h-48 bg-gradient-to-r from-yellow-950 via-gray-900 to-black border-b border-brand-border overflow-hidden flex items-center justify-center">
-          <img src="racer-of-the-week.jpg" alt="Racer of the Week" class="w-full h-full object-cover" onerror="this.style.display='none'">
-          <div class="absolute top-3 left-3 bg-yellow-500 text-black text-xs font-black uppercase tracking-widest px-3 py-1 rounded shadow-lg">
-            Racer of the Week
-          </div>
-          <span class="absolute -bottom-4 right-4 text-8xl font-black text-white/10 italic pointer-events-none">#13</span>
-        </div>
-        
-        <div class="p-5 flex-1 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-center mb-1">
-              <h4 class="text-xl font-black text-white tracking-wide">Deathstalker Paine</h4>
-              <span class="bg-brand-red text-white text-xs font-black italic px-2.5 py-0.5 rounded">#13</span>
+        <!-- WEEKLY SPOTLIGHTS (3-CARD HERO BANNER) -->
+        <section>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-black uppercase tracking-wider text-white flex items-center gap-2">
+                    <span class="text-brand-gold">★</span> Weekly Spotlights
+                </h2>
+                <span class="text-xs uppercase tracking-widest text-gray-400">Official GSR Ecosystem</span>
             </div>
-            <p class="text-xs font-bold text-gray-400 mb-2">Team: <span class="text-brand-red">Storm Riders</span></p>
-            <p class="text-xs text-gray-300 italic mb-4">
-              "Dominating the Pro division this week with flawless line execution and taking top qualifier status across multiple track layouts."
-            </p>
-          </div>
-          <div class="border-t border-brand-border pt-3 flex justify-between items-center text-xs">
-            <span class="text-gray-400">Class: <strong class="text-white uppercase">Pro League</strong></span>
-            <a href="racer.html" class="text-yellow-400 font-bold hover:underline">View Profile &rarr;</a>
-          </div>
-        </div>
-      </div>
 
-      <!-- 3. Team of the Week -->
-      <div class="bg-brand-card border-2 border-blue-500/80 rounded-xl overflow-hidden shadow-2xl relative flex flex-col justify-between">
-        <div class="relative h-48 bg-gradient-to-r from-blue-950 via-gray-900 to-black border-b border-brand-border overflow-hidden flex items-center justify-center">
-          <img src="team-of-the-week.jpg" alt="Team of the Week" class="w-full h-full object-cover" onerror="this.style.display='none'">
-          <div class="absolute top-3 left-3 bg-blue-500 text-white text-xs font-black uppercase tracking-widest px-3 py-1 rounded shadow-lg">
-            Team of the Week
-          </div>
-        </div>
-        
-        <div class="p-5 flex-1 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-center mb-1">
-              <h4 class="text-xl font-black text-white tracking-wide uppercase">Storm Riders</h4>
-              <span class="bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded uppercase">Pro League</span>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1: Racer of the Week -->
+                <div class="bg-brand-card border border-brand-border rounded-xl p-6 gold-glow transition flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Racer Spotlight</span>
+                        <h3 class="text-lg font-black uppercase text-white mt-3">Deathstalker Paine</h3>
+                        <p class="text-xs text-gray-400 mt-1">Division: Pro League | Points: 1,420 XP</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-brand-border flex justify-between items-center text-xs">
+                        <span class="text-brand-gold font-bold">12 Circuit Wins</span>
+                        <a href="racers.html" class="text-gray-300 hover:text-white uppercase font-bold text-[11px]">View Profile →</a>
+                    </div>
+                </div>
+
+                <!-- Card 2: Team of the Week -->
+                <div class="bg-brand-card border border-brand-border rounded-xl p-6 red-glow transition flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Team Spotlight</span>
+                        <h3 class="text-lg font-black uppercase text-white mt-3">Storm Riders</h3>
+                        <p class="text-xs text-gray-400 mt-1">Lead Driver: Deathstalker Paine</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-brand-border flex justify-between items-center text-xs">
+                        <span class="text-brand-red font-bold">Rank #1 Championship</span>
+                        <a href="racers.html" class="text-gray-300 hover:text-white uppercase font-bold text-[11px]">Team Stats →</a>
+                    </div>
+                </div>
+
+                <!-- Card 3: Track of the Week -->
+                <div class="bg-brand-card border border-brand-border rounded-xl p-6 gold-glow transition flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] font-black uppercase tracking-widest bg-gray-800 border border-brand-gold text-brand-gold px-2 py-0.5 rounded">Featured Circuit</span>
+                        <h3 class="text-lg font-black uppercase text-white mt-3">Las Vegas Street Strip</h3>
+                        <p class="text-xs text-gray-400 mt-1">Difficulty: Technical | Record: 1:14.282</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-brand-border flex justify-between items-center text-xs">
+                        <span class="text-gray-300 font-bold">10 Grid Slots</span>
+                        <a href="racetracks.html" class="text-gray-300 hover:text-white uppercase font-bold text-[11px]">Track Details →</a>
+                    </div>
+                </div>
             </div>
-            <p class="text-xs font-bold text-gray-400 mb-2">Leader: <span class="text-white">Deathstalker Paine</span></p>
-            <p class="text-xs text-gray-300 italic mb-4">
-              "Setting unmatched team telemetry pacing and securing multiple top 3 qualifying times this week."
-            </p>
-          </div>
-          <div class="border-t border-brand-border pt-3 flex justify-between items-center text-xs">
-            <span class="text-gray-400">Roster: <strong class="text-white">1 Active Driver</strong></span>
-            <a href="team.html" class="text-blue-400 font-bold hover:underline">View Team &rarr;</a>
-          </div>
+        </section>
+
+        <!-- DYNAMIC CMS CONTAINER (POPULATED FROM ADMIN PANEL) -->
+        <section id="cms-dynamic-sections" class="space-y-6">
+            <!-- Default fallback if CMS draft hasn't been published yet -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-8 text-center space-y-3">
+                <h3 class="text-lg font-black uppercase text-brand-gold">Welcome to Gentle Storm Racing</h3>
+                <p class="text-sm text-gray-300 max-w-2xl mx-auto">
+                    The ultimate Second Life racing community. Complete story campaign quests, climb skill trees, join Pro & Amateur leagues, and track telemetry stats in real time.
+                </p>
+            </div>
+        </section>
+
+        <!-- AUTOMATED LEADERBOARD SNAPSHOT -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-brand-border pb-4">
+                <div>
+                    <h3 class="text-lg font-black uppercase tracking-wider text-white">Top All-Time Drivers</h3>
+                    <p class="text-xs text-gray-400">Automated live standings from Second Life telemetry.</p>
+                </div>
+                <a href="leaderboards.html" class="text-xs font-bold uppercase text-brand-gold hover:text-white border border-brand-gold px-3 py-1.5 rounded transition">
+                    Full Leaderboards
+                </a>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-[10px] uppercase font-black tracking-widest text-gray-400 border-b border-brand-border">
+                            <th class="py-3 px-4">Rank</th>
+                            <th class="py-3 px-4">Driver</th>
+                            <th class="py-3 px-4">Division</th>
+                            <th class="py-3 px-4">Clean Rating</th>
+                            <th class="py-3 px-4 text-right">Lifetime XP</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body" class="text-sm divide-y divide-brand-border font-medium">
+                        <tr>
+                            <td class="py-3 px-4 text-brand-gold font-black">#1</td>
+                            <td class="py-3 px-4 font-bold text-white">Deathstalker Paine</td>
+                            <td class="py-3 px-4 text-xs uppercase font-bold text-brand-red">Pro League</td>
+                            <td class="py-3 px-4"><span class="bg-green-900 text-green-300 text-[10px] font-black px-2 py-0.5 rounded">S</span></td>
+                            <td class="py-3 px-4 text-right font-black text-brand-gold">1,420 XP</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 text-gray-400 font-black">#2</td>
+                            <td class="py-3 px-4 font-bold text-gray-200">Racer Two</td>
+                            <td class="py-3 px-4 text-xs uppercase font-bold text-gray-400">Amateur</td>
+                            <td class="py-3 px-4"><span class="bg-blue-900 text-blue-300 text-[10px] font-black px-2 py-0.5 rounded">A</span></td>
+                            <td class="py-3 px-4 text-right font-black text-gray-300">980 XP</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="#" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="#" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="#" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="#" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="#" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
         </div>
-      </div>
+    </footer>
 
-    </div>
+    <!-- CMS FETCHING SCRIPT -->
+    <script>
+        const API_WORKER = "https://green-art-9cfb.gentlestormentertainment.workers.dev";
 
-    <!-- TELEMETRY & SYSTEM METRICS SECTION -->
-    <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-4">Live Telemetry & Metrics</h3>
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      
-      <!-- Top Pro Qualifiers Table (Wide 2-Column Box) -->
-      <div class="col-span-1 lg:col-span-2 bg-brand-card border border-brand-border rounded-xl p-6 shadow-lg">
-        <div class="flex justify-between items-center border-b border-brand-border pb-2 mb-4">
-          <h4 class="text-lg font-bold uppercase text-gray-300">Top Pro Qualifiers</h4>
-          <a href="leaderboards.html" class="text-xs text-brand-red hover:text-white transition">View All &rarr;</a>
-        </div>
-        
-        <table class="w-full text-left">
-          <thead>
-            <tr class="text-gray-500 text-xs uppercase tracking-wider">
-              <th class="pb-3">Rank</th>
-              <th class="pb-3">Driver</th>
-              <th class="pb-3 text-right">Time</th>
-            </tr>
-          </thead>
-          <tbody id="dashboard-top-drivers" class="text-sm divide-y divide-brand-border">
-            <tr>
-              <td colspan="3" class="py-4 text-center text-gray-500 animate-pulse">Fetching telemetry...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        document.addEventListener('DOMContentLoaded', fetchLiveCMS);
 
-      <!-- System Status Widget (Small 1-Column Box Placed After Top Pro) -->
-      <div class="col-span-1 bg-brand-card border border-brand-border rounded-xl p-6 shadow-lg">
-        <h4 class="text-lg font-bold uppercase text-gray-300 border-b border-brand-border pb-2 mb-4">System Status</h4>
-        <div class="space-y-4">
-          <div class="flex justify-between items-center">
-            <span class="text-gray-400">Telemetry Link</span>
-            <span class="text-green-500 font-bold flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>ONLINE</span>
-          </div>
-          <div class="flex justify-between items-center">
-            <span class="text-gray-400">Active Tracks</span>
-            <span class="text-white font-bold">5</span>
-          </div>
-          <div class="flex justify-between items-center">
-            <span class="text-gray-400">Racing Classes</span>
-            <span class="text-white font-bold">Pro, Amateur, Pro+</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <script>
-    const WORKER_BASE_URL = "https://green-art-9cfb.gentlestormentertainment.workers.dev";
-
-    function formatTime(ms) {
-      if (!ms || ms <= 0) return "--:--";
-      const totalSeconds = ms / 1000;
-      const minutes = Math.floor(totalSeconds / 60);
-      const seconds = (totalSeconds % 60).toFixed(3);
-      if (minutes > 0) return `${minutes}m ${seconds.padStart(6, '0')}s`;
-      return `${seconds}s`;
-    }
-
-    async function fetchTopDrivers() {
-      const tbody = document.getElementById('dashboard-top-drivers');
-      try {
-        const res = await fetch(`${WORKER_BASE_URL}/leaderboard?class=pro&limit=3`);
-        const data = await res.json();
-
-        if (!data.ok || !data.leaderboard || data.leaderboard.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="3" class="py-4 text-center text-gray-500">No race entries recorded.</td></tr>`;
-          return;
+        async function fetchLiveCMS() {
+            try {
+                const res = await fetch(`${API_WORKER}/cms/live?page=main_menu`);
+                if (res.ok) {
+                    const sections = await res.json();
+                    if (sections && sections.length > 0) {
+                        renderCMSSections(sections);
+                    }
+                }
+            } catch (e) {
+                console.log("Using default homepage fallback content.");
+            }
         }
 
-        tbody.innerHTML = data.leaderboard.map((row, index) => {
-          let rankBadge = `<span class="font-bold text-gray-400">#${index + 1}</span>`;
-          if (index === 0) rankBadge = `<span class="text-yellow-500 font-bold">#1</span>`;
-          if (index === 1) rankBadge = `<span class="text-gray-300 font-bold">#2</span>`;
-          if (index === 2) rankBadge = `<span class="text-amber-600 font-bold">#3</span>`;
-
-          return `
-            <tr class="hover:bg-white/5 transition">
-              <td class="py-3">${rankBadge}</td>
-              <td class="py-3 font-semibold text-white">${row.display_name}</td>
-              <td class="py-3 text-right font-mono font-bold text-brand-red">${formatTime(row.total_time_ms)}</td>
-            </tr>
-          `;
-        }).join('');
-      } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="3" class="py-4 text-center text-red-500">Telemetry offline.</td></tr>`;
-      }
-    }
-
-    fetchTopDrivers();
-  </script>
+        function renderCMSSections(sections) {
+            const container = document.getElementById('cms-dynamic-sections');
+            container.innerHTML = sections.map(sec => {
+                const data = sec.live_data || {};
+                return `
+                    <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-lg">
+                        <h3 class="text-lg font-black uppercase text-brand-gold mb-2">${data.title || 'Announcement'}</h3>
+                        <p class="text-sm text-gray-300">${data.body || ''}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
 </body>
 </html>
