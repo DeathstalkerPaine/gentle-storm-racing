@@ -16,7 +16,8 @@
                             card: '#1e1e1e',
                             border: '#333333',
                             gold: '#c5a059',
-                            red: '#ff2a2a'
+                            red: '#ff2a2a',
+                            blue: '#2a75ff'
                         }
                     }
                 }
@@ -26,6 +27,7 @@
     <style>
         .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 10px rgba(197, 160, 89, 0.2); }
         .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 10px rgba(255, 42, 42, 0.2); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 10px rgba(42, 117, 255, 0.2); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
@@ -34,7 +36,7 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- TOP HEADER: CENTERED LOGO WITH TOP-RIGHT SIGN IN BUTTON -->
+    <!-- TOP HEADER: RELATIVE POSITION (SCROLLS OFF SCREEN) -->
     <header class="bg-brand-card border-b border-brand-gold relative py-3 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex items-center justify-center min-h-[110px] sm:min-h-[140px]">
             
@@ -75,9 +77,9 @@
     <!-- MAIN MENU GRID LAYOUT -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
 
-        <!-- ROW 1: 3-COLUMN WEEKLY SPOTLIGHTS -->
+        <!-- ROW 1: 3-COLUMN WEEKLY SPOTLIGHTS (GOLD / RED / BLUE) -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Team of the Week -->
+            <!-- Team of the Week (GOLD) -->
             <a href="teams.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
                 <div>
                     <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Spotlight</span>
@@ -89,7 +91,7 @@
                 </div>
             </a>
 
-            <!-- Racer of the Week -->
+            <!-- Racer of the Week (RED) -->
             <a href="racers.html" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between group">
                 <div>
                     <span class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Spotlight</span>
@@ -101,15 +103,15 @@
                 </div>
             </a>
 
-            <!-- Track of the Week -->
-            <a href="racetracks.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
+            <!-- Track of the Week (BLUE) -->
+            <a href="racetracks.html" class="bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl p-6 blue-border-glow transition flex flex-col justify-between group">
                 <div>
-                    <span class="text-[10px] font-black uppercase tracking-widest bg-gray-800 border border-brand-gold text-brand-gold px-2 py-0.5 rounded">Spotlight</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Track of the Week</h3>
+                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-blue text-white px-2 py-0.5 rounded">Spotlight</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-blue transition">Track of the Week</h3>
                     <p class="text-xs text-gray-400 mt-2">Shows an image of the Track card. Click to open the full Racetracks Hub.</p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Open Racetracks →</span>
+                    <span class="text-xs font-bold uppercase text-brand-blue">Open Racetracks →</span>
                 </div>
             </a>
         </section>
