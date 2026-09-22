@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Tree | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#121212',
+                            card: '#1e1e1e',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a',
+                            blue: '#2a75ff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 12px rgba(255, 42, 42, 0.25); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- TOP HEADER: 3-ZONE LAYOUT -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <!-- Zone 1: Top-Left Metallic Logo -->
+            <div class="flex items-center justify-start w-full md:w-auto">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-16 sm:h-20 w-auto object-contain drop-shadow-[0_0_15px_rgba(197,160,89,0.3)] hover:scale-105 transition-transform">
+                </a>
+            </div>
+
+            <!-- Zone 2: Center Title -->
+            <div class="text-center py-1 flex-grow">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">GSR Presents</span>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    SKILL TREE
+                </h1>
+            </div>
+
+            <!-- Zone 3: Compact Top-Right Sign In Button -->
+            <div class="absolute right-3 top-3 sm:right-6 sm:top-6 md:relative md:top-0 md:right-0">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 sm:px-5 sm:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition inline-block tracking-wider">
+                    Sign In
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR LINKS (Pro Plus specific) -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="story_campaign.html" class="text-gray-300 hover:text-brand-gold transition">Story Campaign</a>
+            <a href="what_is_pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">What is GSR Pro Plus?</a>
+            <a href="top_racers.html" class="text-gray-300 hover:text-brand-gold transition">Top Racers</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">News/Magazine</a>
+            <a href="tutorial.html" class="text-gray-300 hover:text-brand-gold transition">Tutorial</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+            <a href="trophies.html" class="text-gray-300 hover:text-brand-gold transition">Trophies/Titles</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT GRID LAYOUT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
+
+        <!-- SPONSORS BANNER -->
+        <section>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-center items-center text-center">
+                <h3 class="text-xl font-black uppercase tracking-wider text-brand-gold mb-1">Sponsors</h3>
+                <p class="text-xs text-gray-400">Official Pro Plus Partners & Title Sponsors</p>
+            </div>
+        </section>
+
+        <!-- ACTIVE PLAYER STATUS (Enhancement) -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex-grow">
+                <span class="text-[10px] font-black uppercase text-brand-blue tracking-widest">Driver Telemetry</span>
+                <h2 class="text-xl font-black uppercase text-white mt-1">Player Progression Status</h2>
+                <p class="text-xs text-gray-400 mt-1">Sign in to track your current Level, XP, and available Tuning Points.</p>
+            </div>
+            <div class="w-full md:w-auto flex flex-col items-end">
+                <div class="flex space-x-4 mb-2">
+                    <div class="text-center px-4 border-r border-brand-border">
+                        <span class="block text-xl font-black text-white">--</span>
+                        <span class="text-[9px] uppercase text-gray-500 font-bold tracking-wider">Current Level</span>
+                    </div>
+                    <div class="text-center px-4 border-r border-brand-border">
+                        <span class="block text-xl font-black text-brand-gold">--</span>
+                        <span class="text-[9px] uppercase text-gray-500 font-bold tracking-wider">Tuning Points</span>
+                    </div>
+                    <div class="text-center px-4">
+                        <span class="block text-xl font-black text-brand-red">-- / --</span>
+                        <span class="text-[9px] uppercase text-gray-500 font-bold tracking-wider">XP to Next</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILL TREE PROGRESSION HEADER -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-brand-border pb-2 mt-8">
+            <div>
+                <h2 class="text-2xl font-black uppercase text-white">The Progression Path</h2>
+                <p class="text-xs text-brand-gold mt-1">Note: XP thresholds and exact unlocks are currently in development.</p>
+            </div>
+        </div>
+
+        <!-- SKILL TREE GRID (Levels 1 to 50) -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            
+            <!-- Level 1 -->
+            <div class="bg-brand-bg border border-brand-blue rounded-lg p-5 flex flex-col relative overflow-hidden group">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="text-xs font-black text-gray-400">0 XP</span>
+                    <span class="bg-brand-blue text-white text-[10px] font-black uppercase px-2 py-1 rounded">LVL 1</span>
+                </div>
+                <h3 class="text-sm font-bold text-white uppercase mb-2">Unlock Rookie Racer Titles</h3>
+                <p class="text-[10px] text-gray-500 mt-auto">Welcome to the grid. Start earning XP to advance.</p>
+            </div>
+
+            <!-- Level 5 -->
+            <div class="bg-brand-bg border border-brand-border hover:border-gray-500 rounded-lg p-5 flex flex-col relative group transition">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="text-xs font-black text-gray-400">50 XP</span>
+                    <span class="bg-brand-card border border-brand-border text-gray-300 text-[10px] font-black uppercase px-2 py-1 rounded">LVL 5</span>
+                </div>
+                <h3 class="text-sm font-bold text-brand-gold uppercase mb-2">+2 Tuning Points</h3>
+                <p class="text-[10px] text-gray-500 mt-auto">Unlocks Tier 1 Vehicle Mods (Classified).</p>
+            </div>
+
+            <!-- Level 10 -->
+            <div class="bg-brand-bg border border-brand-border hover:border-gray-500 rounded-lg p-5 flex flex-col relative group transition">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="text-xs font-black text-gray-400">100 XP</span>
+                    <span class="bg-brand-card border border-brand-border text-gray-300 text-[10px] font-black uppercase px-2 py-1 rounded">LVL 10</span>
+                </div>
+                <h3 class="text-sm font-bold text-brand-gold uppercase mb-1">+4 Tuning Points</h3>
+                <h4 class="text-[11px] font-bold text-white uppercase mb-2">Unlock Trophies</h4>
+                <p class="text-[10px] text-gray-500 mt-auto">Access to the Trophy Room system.</p>
+            </div>
+
+            <!-- Level 15 -->
+            <div class="bg-brand-bg border border-brand-border hover:border-gray-500 rounded-lg p-5 flex flex-col relative group transition">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="text-xs font-black text-gray-400">150 XP</span>
+                    <span class="bg-brand-card border border-brand-border text-gray-300 text-[10px] font-black uppercase px-2 py-1 rounded">LVL 15</span>
+                </div>
+                <h3 class="text-sm font-bold text-brand-gold uppercase mb-2">+2 Tuning Points</h3>
+                <p class="text-[10px] text-gray-500 mt-auto">Unlocks Classified Items.</p>
+            </div>
+
+            <!-- Level 20 -->
+            <div class="bg-brand-bg border border-brand-border hover:border-gray-500 rounded-lg p-5 flex flex-col relative group transition">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="text-xs font-black text-gray-400">200 XP</span>
+                    <span class="bg-brand-card border border-brand-border text-gray-300 text-[10px] font-black uppercase px-2 py-1 rounded">LVL 20</span>
+                </div>
+                <h3 class="text-sm font-bold text-brand-gold uppercase mb-2">+4 Tuning Points</h3>
+                <p class="text-[10px] text-gray-500 mt-auto">Unlocks Classified Items.</p>
+            </div>
+
+            <!-- Level 25 -->
+            <div class="bg-brand-bg border border-brand-border hover:border-gray-500 rounded-lg p-5 flex flex-col relative group transition">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="text-xs font-black text-gray-400">250 XP</span>
+                    <span class="bg-brand-card border border-brand-border text-gray-300 text-[10px] font-black uppercase px-2 py-1 rounded">LVL 25</span>
+                </div>
+                <h3 class="text-sm font-bold text-brand-gold uppercase mb-2">+2 Tuning Points</h3>
+                <p class="text-[10px] text-gray-500 mt-auto">Unlocks Classified Items.</p>
+            </div>
+
+            <!-- Level 30 (MILESTONE - GOLD) -->
+            <div class="bg-brand-card border border-brand-gold rounded-lg p-5 flex flex-col relative overflow-hidden group gold-border-glow md:col-span-2">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="text-xs font-black text-brand-gold">300 XP</span>
+                    <span class="bg-brand-gold text-black text-[10px] font-black uppercase px-2 py-1 rounded">LVL 30</span>
+                </div>
+                <h3 class="text-base font-black text-brand-gold uppercase mb-1">+4 Tuning Points</h3>
+                <h4 class="text-sm font-bold text-white uppercase mb-1">Unlocks 1 Pit Crew Slot</h4>
+                <h4 class="text-[11px] font-bold text-brand-blue uppercase mb-2">Intermediate Racer Title</h4>
+                <p class="text-[10px] text-gray-400 mt-auto">Major Milestone: You can now hire your first Pit Crew member to assist during endurance races.</p>
+            </div>
+
+            <!-- Level 35 -->
+            <div class="bg-brand-bg border border-brand-border hover:border-gray-500 rounded-lg p-5 flex flex-col relative group transition">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="text-xs font-black text-gray-400">350 XP</span>
+                    <span class="bg-brand-card border border-brand-border text-gray-300 text-[10px] font-black uppercase px-2 py-1 rounded">LVL 35</span>
+                </div>
+                <h3 class="text-sm font-bold text-brand-gold uppercase mb-1">+2 Tuning Points</h3>
+                <h4 class="text-[11px] font-bold text-white uppercase mb-2">Unlocks 2nd Pit Crew</h4>
+                <p class="text-[10px] text-gray-500 mt-auto">Expand your team efficiency.</p>
+            </div>
+
+            <!-- Level 40 -->
+            <div class="bg-brand-bg border border-brand-border hover:border-gray-500 rounded-lg p-5 flex flex-col relative group transition">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="text-xs font-black text-gray-400">400 XP</span>
+                    <span class="bg-brand-card border border-brand-border text-gray-300 text-[10px] font-black uppercase px-2 py-1 rounded">LVL 40</span>
+                </div>
+                <h3 class="text-sm font-bold text-brand-gold uppercase mb-1">+4 Tuning Points</h3>
+                <h4 class="text-[11px] font-bold text-white uppercase mb-2">Unlocks 3rd Pit Crew</h4>
+                <p class="text-[10px] text-gray-500 mt-auto">Maximum standard crew limit reached.</p>
+            </div>
+
+            <!-- Level 45 -->
+            <div class="bg-brand-bg border border-brand-border hover:border-gray-500 rounded-lg p-5 flex flex-col relative group transition">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="text-xs font-black text-gray-400">450 XP</span>
+                    <span class="bg-brand-card border border-brand-border text-gray-300 text-[10px] font-black uppercase px-2 py-1 rounded">LVL 45</span>
+                </div>
+                <h3 class="text-sm font-bold text-brand-gold uppercase mb-2">+2 Tuning Points</h3>
+                <p class="text-[10px] text-gray-500 mt-auto">Unlocks Classified End-Game Items.</p>
+            </div>
+
+            <!-- Level 50 (ELITE MILESTONE - RED) -->
+            <div class="bg-[#2a0808] border border-brand-red rounded-lg p-6 flex flex-col relative overflow-hidden group red-border-glow md:col-span-2 lg:col-span-3">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="text-sm font-black text-brand-red">500 XP</span>
+                    <span class="bg-brand-red text-white text-[12px] font-black uppercase px-3 py-1 rounded">LVL 50 MAX</span>
+                </div>
+                <h3 class="text-lg font-black text-white uppercase mb-1">Unlock Crew Chief</h3>
+                <h4 class="text-sm font-bold text-brand-gold uppercase mb-2">Grants a 5% bonus speed to pit stops</h4>
+                <h4 class="text-xs font-black tracking-widest text-brand-red uppercase mb-4">Professional Racer Title</h4>
+                <p class="text-[11px] text-red-200 mt-auto">The pinnacle of the Pro Plus progression system. Earning the Crew Chief drastically alters your telemetry strategy during high-stakes Pro League circuits.</p>
+            </div>
+
+        </section>
+
+        <!-- MECHANICS EXPLANATION (Enhancement) -->
+        <section class="mt-12 bg-brand-card border border-brand-border rounded-xl p-8">
+            <h2 class="text-xl font-black uppercase text-white mb-6 border-b border-brand-border pb-3">How Systems Interact</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-sm font-black uppercase text-brand-gold mb-2 flex items-center"><span class="text-xl mr-2">🔧</span> Tuning Points</h3>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        Tuning points are directly allocated to your vehicle HUD in Second Life. Spending these points allows you to optimize telemetry variables—such as drift physics, acceleration curves, and braking power—giving you a mechanical edge tailored exactly to your driving style.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-black uppercase text-brand-blue mb-2 flex items-center"><span class="text-xl mr-2">⏱️</span> Pit Crew Slots</h3>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        Endurance races require mandatory pit stops. Unlocking Pit Crew slots and the elite Crew Chief reduces the time you spend frozen on the pit pad, shaving critical seconds off your overall race time. As our economy develops, you'll use Storm Coins to hire and upgrade specific crew members.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
