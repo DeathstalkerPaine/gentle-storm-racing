@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GSR Pro Plus Portal | Gentle Storm Racing</title>
+    <title>Story Campaign | Gentle Storm Racing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -36,7 +36,7 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- TOP HEADER: LOGO ON LEFT, "GSR PRESENTS / PRO PLUS" CENTERED, SIGN IN ON RIGHT -->
+    <!-- TOP HEADER: 3-ZONE LAYOUT -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
             
@@ -47,11 +47,11 @@
                 </a>
             </div>
 
-            <!-- Zone 2: Center Title ("GSR PRESENTS / PRO PLUS") -->
+            <!-- Zone 2: Center Title -->
             <div class="text-center py-1 flex-grow">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">GSR Presents</span>
                 <h1 class="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                    PRO PLUS
+                    STORY CAMPAIGN
                 </h1>
             </div>
 
@@ -65,11 +65,10 @@
         </div>
     </header>
 
-    <!-- SUB-NAVBAR LINKS -->
+    <!-- SUB-NAVBAR LINKS (Pro Plus specific) -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <a href="story_campaign.html" class="text-gray-300 hover:text-brand-gold transition">Story Campaign</a>
             <a href="skill_tree.html" class="text-gray-300 hover:text-brand-gold transition">Skill Tree</a>
             <a href="what_is_pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">What is GSR Pro Plus?</a>
             <a href="top_racers.html" class="text-gray-300 hover:text-brand-gold transition">Top Racers</a>
@@ -77,157 +76,164 @@
             <a href="tutorial.html" class="text-gray-300 hover:text-brand-gold transition">Tutorial</a>
             <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
             <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+            <a href="trophies.html" class="text-gray-300 hover:text-brand-gold transition">Trophies/Titles</a>
         </div>
     </nav>
 
     <!-- MAIN CONTENT GRID LAYOUT -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
 
-        <!-- ROW 1: SPONSORS BANNER -->
-        <section>
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-center items-center text-center">
-                <h3 class="text-xl font-black uppercase tracking-wider text-brand-gold mb-1">Sponsors</h3>
-                <p class="text-xs text-gray-400">Official Pro Plus Partners & Title Sponsors</p>
+        <!-- ACTIVE CAMPAIGN STATUS -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex-grow">
+                <span class="text-[10px] font-black uppercase text-brand-gold tracking-widest">Active Player Objective</span>
+                <h2 class="text-xl font-black uppercase text-white mt-1">Awaiting Driver Authentication</h2>
+                <p class="text-xs text-gray-400 mt-1">Once signed in, this panel will track your specific active quest and current storyline instructions.</p>
             </div>
-        </section>
-
-        <!-- ROW 2: 3-COLUMN HIGHLIGHT CARDS (GOLD / RED / BLUE) -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Story Campaign Card (GOLD) -->
-            <a href="story_campaign.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
-                <div>
-                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Campaign</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Story Campaign</h3>
-                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
-                        Features campaign artwork along with a short text summarizing the Chapter. Clicking here opens a new page on the entire Story Campaign.
-                    </p>
-                </div>
-                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Open Campaign →</span>
-                </div>
-            </a>
-
-            <!-- Skill Tree Card (RED) -->
-            <a href="skill_tree.html" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between group">
-                <div>
-                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Progression</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Skill Tree</h3>
-                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
-                        Will show the Skill Tree progression. Click here to open a new page to see full Skill Tree unlocks and pit crew bonuses.
-                    </p>
-                </div>
-                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span class="text-xs font-bold uppercase text-brand-red">View Skill Tree →</span>
-                </div>
-            </a>
-
-            <!-- What is GSR Pro Plus Card (BLUE) -->
-            <a href="what_is_pro_plus.html" class="bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl p-6 blue-border-glow transition flex flex-col justify-between group">
-                <div>
-                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-blue text-white px-2 py-0.5 rounded">Overview</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-blue transition">What is GSR Pro Plus?</h3>
-                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
-                        Shows an image and text stating quick detail on GSR Pro Plus. Clicking here takes to full detail on all that encompasses what GSR Pro Plus is.
-                    </p>
-                </div>
-                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span class="text-xs font-bold uppercase text-brand-blue">Full Details →</span>
-                </div>
-            </a>
-        </section>
-
-        <!-- ROW 3: GSR CHATS THREAD -->
-        <section>
-            <a href="chats.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group block">
-                <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-3">
-                    <h3 class="text-lg font-black uppercase text-white group-hover:text-brand-gold transition">GSR Chats Thread</h3>
-                    <span class="text-[10px] font-black uppercase bg-brand-gold text-black px-2 py-0.5 rounded">Live Discussion</span>
-                </div>
-                <p class="text-xs text-gray-300 leading-relaxed">
-                    This is where you can see latest global chat. Clicking here takes to GSR Chats which is a social media type chat system. This area will show the current chats entered on site.
-                </p>
-                <div class="mt-4 text-right">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Open Community Feed →</span>
-                </div>
-            </a>
-        </section>
-
-        <!-- ROW 4: MAGAZINE & TOP RACERS -->
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- GSR Magazine (Spans 2 Columns) -->
-            <a href="multimedia.html" class="lg:col-span-2 bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-8 transition flex flex-col justify-between group">
-                <div>
-                    <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Publication</span>
-                    <h2 class="text-2xl font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">GSR Magazine</h2>
-                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
-                        Features digital issue covers and driver spotlights. Click to open full magazine articles and driver stories.
-                    </p>
-                </div>
-                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Read Magazine →</span>
-                </div>
-            </a>
-
-            <!-- Top Racers Card (1 Column) -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
-                <div>
-                    <span class="text-[10px] font-black uppercase text-brand-red tracking-wider">Standings</span>
-                    <h3 class="text-base font-black uppercase text-white mt-2">Top Racers</h3>
-                    <p class="text-xs text-gray-400 mt-2 leading-relaxed">
-                        This shows top three racers based on how far along the story campaign, coins, XP earned, and if went Good, Bad, or Neutral.
-                    </p>
-                </div>
-                <a href="leaderboards.html" class="mt-4 text-xs font-bold uppercase text-brand-gold hover:text-white transition">
-                    View Full Standings →
+            <div class="w-full md:w-64 text-right">
+                <a href="admin.html" class="inline-block border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black text-xs font-bold uppercase px-4 py-2 rounded transition">
+                    Sign In to Track Quests
                 </a>
             </div>
         </section>
 
-        <!-- ROW 5: CURRENT NEWS -->
-        <section>
-            <a href="multimedia.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group block">
-                <div class="border-b border-brand-border pb-3 mb-3">
-                    <h3 class="text-xl font-black uppercase text-white group-hover:text-brand-gold transition">Current News</h3>
+        <!-- MAIN STORY CHAPTERS GRID -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Chapter 1 (Active/Unlocked) -->
+            <a href="#" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col group relative overflow-hidden">
+                <!-- Image Placeholder -->
+                <div class="h-40 w-full bg-brand-bg border border-brand-border rounded-lg mb-4 flex items-center justify-center text-gray-500 group-hover:border-brand-gold transition relative">
+                    <span class="text-xs font-black uppercase tracking-widest text-center px-4">[ Chapter 1 <br> The Syndicate Infiltration ]</span>
+                    <!-- Status Badge -->
+                    <div class="absolute top-2 right-2 bg-brand-gold text-black text-[9px] font-black uppercase px-2 py-1 rounded">Unlocked</div>
                 </div>
-                <p class="text-xs text-gray-300 leading-relaxed">
-                    Official announcements, patch notes, and campaign updates. Click to read full news releases.
+                
+                <h3 class="text-lg font-black uppercase text-white group-hover:text-brand-gold transition">Chapter 1: The Syndicate Infiltration</h3>
+                <p class="text-xs text-gray-300 mt-2 leading-relaxed flex-grow">
+                    Your journey begins here. Spanning approximately 50 story-driven quests, you will navigate the underground racing scene, make critical choices, and uncover the Syndicate's true motives.
                 </p>
-                <div class="mt-4 text-right">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Read Full News →</span>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-between items-center">
+                    <span class="text-[10px] font-bold text-gray-400">50 Quests Available</span>
+                    <span class="text-xs font-bold uppercase text-brand-gold">View Quest Log →</span>
                 </div>
             </a>
-        </section>
 
-        <!-- ROW 6: 3-COLUMN BOTTOM GRID & SYSTEM STATUS -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
-                <div>
-                    <h3 class="text-sm font-black uppercase text-white mb-2">Tutorials & Guides</h3>
-                    <p class="text-xs text-gray-400">Learn how campaign progression and Economy XP work.</p>
-                </div>
-                <a href="tutorial.html" class="mt-4 text-xs font-bold uppercase text-brand-gold hover:text-white transition">Start Tutorial →</a>
-            </div>
-
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
-                <div>
-                    <h3 class="text-sm font-black uppercase text-white mb-2">Trophies / Titles</h3>
-                    <p class="text-xs text-gray-400">View driver titles and trophy room achievements.</p>
-                </div>
-                <a href="trophies.html" class="mt-4 text-xs font-bold uppercase text-brand-gold hover:text-white transition">View Trophies →</a>
-            </div>
-
-            <!-- GSR Pro Plus System Status -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
-                <div>
-                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Infrastructure</span>
-                    <h3 class="text-base font-black uppercase text-white mt-1">GSR Pro Plus System Status</h3>
-                    <div class="mt-3 flex items-center space-x-2">
-                        <span class="h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse"></span>
-                        <span class="text-xs font-bold text-green-400 uppercase">Pro+ Systems Online</span>
+            <!-- Chapter 2 (Locked) -->
+            <div class="bg-[#161616] border border-[#222] rounded-xl p-6 flex flex-col relative opacity-80">
+                <div class="h-40 w-full bg-[#111] border border-[#222] rounded-lg mb-4 flex items-center justify-center text-[#444] relative">
+                    <span class="text-xs font-black uppercase tracking-widest">[ Classified ]</span>
+                    <div class="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
+                        <span class="text-brand-red font-black text-xl">🔒</span>
                     </div>
                 </div>
-                <p class="text-[10px] text-gray-500 mt-4">Supabase RPG Engine Connected</p>
+                
+                <h3 class="text-lg font-black uppercase text-gray-500">Chapter 2: ???</h3>
+                <p class="text-xs text-gray-600 mt-2 leading-relaxed flex-grow">
+                    Storyline details are currently classified. You must complete Chapter 1: The Syndicate Infiltration to reveal the next phase of the campaign.
+                </p>
+                <div class="mt-6 pt-4 border-t border-[#333] flex justify-end">
+                    <span class="text-[10px] font-bold uppercase text-gray-600 tracking-wider">Locked</span>
+                </div>
             </div>
+
+            <!-- Chapter 3 (Locked) -->
+            <div class="bg-[#161616] border border-[#222] rounded-xl p-6 flex flex-col relative opacity-80">
+                <div class="h-40 w-full bg-[#111] border border-[#222] rounded-lg mb-4 flex items-center justify-center text-[#444] relative">
+                    <span class="text-xs font-black uppercase tracking-widest">[ Classified ]</span>
+                    <div class="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
+                        <span class="text-brand-red font-black text-xl">🔒</span>
+                    </div>
+                </div>
+                
+                <h3 class="text-lg font-black uppercase text-gray-500">Chapter 3: ???</h3>
+                <p class="text-xs text-gray-600 mt-2 leading-relaxed flex-grow">
+                    Storyline details are currently classified. Future expansion content in active development.
+                </p>
+                <div class="mt-6 pt-4 border-t border-[#333] flex justify-end">
+                    <span class="text-[10px] font-bold uppercase text-gray-600 tracking-wider">Locked</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPONSORS BANNER -->
+        <section>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-center items-center text-center">
+                <h3 class="text-xl font-black uppercase tracking-wider text-brand-gold mb-1">Sponsors</h3>
+                <p class="text-xs text-gray-400">Campaign Partners & In-Game Sponsors</p>
+            </div>
+        </section>
+
+        <!-- SIDE QUESTS & ALIGNMENT SYSTEM -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Optional Side Quests (Blue Highlight) -->
+            <div class="bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl p-8 transition blue-border-glow">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <span class="text-[10px] font-black uppercase text-brand-blue tracking-wider">Optional Content</span>
+                        <h2 class="text-2xl font-black uppercase text-white mt-1">Side Quests & Bounties</h2>
+                    </div>
+                </div>
+                
+                <ul class="space-y-4">
+                    <li class="bg-brand-bg border border-brand-border p-4 rounded-lg flex justify-between items-center hover:border-brand-blue transition cursor-pointer">
+                        <div>
+                            <h4 class="text-sm font-bold text-white uppercase">Time Trial: Ancient Rome</h4>
+                            <p class="text-[10px] text-gray-400 mt-1">Beat 1:45.000 with a Tier 1 Car.</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-xs font-black text-brand-gold">+100 XP</span>
+                            <span class="text-[9px] uppercase text-gray-500">Weekly</span>
+                        </div>
+                    </li>
+                    <li class="bg-brand-bg border border-brand-border p-4 rounded-lg flex justify-between items-center hover:border-brand-blue transition cursor-pointer">
+                        <div>
+                            <h4 class="text-sm font-bold text-white uppercase">Delivery Run</h4>
+                            <p class="text-[10px] text-gray-400 mt-1">Transport tuning parts across the sim without damage.</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-xs font-black text-brand-gold">+50 Coins</span>
+                            <span class="text-[9px] uppercase text-gray-500">Daily</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Reputation & Alignment System (Red Highlight) -->
+            <div class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-8 transition red-border-glow">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-brand-red tracking-wider">Player Morality</span>
+                    <h2 class="text-2xl font-black uppercase text-white mt-1">Reputation & Alignment</h2>
+                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                        Every choice you make during <i>The Syndicate Infiltration</i> carries weight. Will you race clean, or will you play dirty? The decisions you make during your quests will permanently shift your driver's moral compass.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 gap-3 mt-6">
+                    <div class="bg-brand-bg border border-brand-border p-3 rounded-lg flex items-center space-x-4">
+                        <div class="h-8 w-8 rounded bg-blue-900/50 border border-blue-500 flex items-center justify-center text-blue-400 font-black">G</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-white uppercase">Good / Honorable</h4>
+                            <p class="text-[10px] text-gray-400">Earned through clean racing and honest decisions.</p>
+                        </div>
+                    </div>
+                    <div class="bg-brand-bg border border-brand-border p-3 rounded-lg flex items-center space-x-4">
+                        <div class="h-8 w-8 rounded bg-gray-800 border border-gray-500 flex items-center justify-center text-gray-400 font-black">N</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-white uppercase">Neutral / Mercenary</h4>
+                            <p class="text-[10px] text-gray-400">Strictly business. Looking out for number one.</p>
+                        </div>
+                    </div>
+                    <div class="bg-brand-bg border border-brand-border p-3 rounded-lg flex items-center space-x-4">
+                        <div class="h-8 w-8 rounded bg-red-900/50 border border-brand-red flex items-center justify-center text-brand-red font-black">B</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-white uppercase">Bad / Syndicate</h4>
+                            <p class="text-[10px] text-gray-400">Ruthless tactics, sabotage, and underworld ties.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
     </main>
