@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSR Pro Plus Portal | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#121212',
+                            card: '#1e1e1e',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 10px rgba(197, 160, 89, 0.2); }
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 10px rgba(255, 42, 42, 0.2); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- TOP HEADER: CENTERED LOGO WITH TOP-RIGHT SIGN IN BUTTON -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-3 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex items-center justify-center min-h-[110px] sm:min-h-[140px]">
+            
+            <!-- Centered Logo -->
+            <div class="text-center py-1">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-28 sm:h-36 md:h-44 w-auto max-w-full object-contain mx-auto drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] transition-transform duration-300">
+                </a>
+            </div>
+
+            <!-- Compact Sign In Button (Fixed Top-Right) -->
+            <div class="absolute right-3 top-3 sm:right-6 sm:top-1/2 sm:-translate-y-1/2 z-20">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 sm:px-5 sm:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition inline-block tracking-wider">
+                    Sign In
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR LINKS FOR PRO PLUS PORTAL -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="story_campaign.html" class="text-gray-300 hover:text-brand-gold transition">Story Campaign</a>
+            <a href="skill_tree.html" class="text-gray-300 hover:text-brand-gold transition">Skill Tree</a>
+            <a href="what_is_pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">What is GSR Pro Plus?</a>
+            <a href="top_racers.html" class="text-gray-300 hover:text-brand-gold transition">Top Racers</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">News/Magazine</a>
+            <a href="tutorial.html" class="text-gray-300 hover:text-brand-gold transition">Tutorial</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+            <a href="trophies.html" class="text-gray-300 hover:text-brand-gold transition">Trophies/Titles</a>
+        </div>
+    </nav>
+
+    <!-- PRO PLUS MAIN CONTENT GRID LAYOUT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
+
+        <!-- ROW 1: SPONSORS BANNER -->
+        <section>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-center items-center text-center">
+                <h3 class="text-xl font-black uppercase tracking-wider text-brand-gold mb-1">Sponsors</h3>
+                <p class="text-xs text-gray-400">Official Pro Plus Partners & Title Sponsors</p>
+            </div>
+        </section>
+
+        <!-- ROW 2: 3-COLUMN HUB HIGHLIGHTS -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Story Campaign Card -->
+            <a href="story_campaign.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Campaign</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Story Campaign</h3>
+                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                        Features campaign artwork and short storyline summary. Click to open the full Story Campaign Hub and chapter objectives.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Open Campaign →</span>
+                </div>
+            </a>
+
+            <!-- Skill Tree Card -->
+            <a href="skill_tree.html" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Progression</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Skill Tree</h3>
+                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                        Displays the RPG Level 1 to 50 skill tree. Click to view full unlockable stats, pit crew bonuses, and tuning points.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <span class="text-xs font-bold uppercase text-brand-red">View Skill Tree →</span>
+                </div>
+            </a>
+
+            <!-- What is GSR Pro Plus Card -->
+            <a href="what_is_pro_plus.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-widest bg-gray-800 border border-brand-gold text-brand-gold px-2 py-0.5 rounded">Overview</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">What is GSR Pro Plus?</h3>
+                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                        Shows preview image and quick summary of subscriber perks. Click to see everything encompassed in Pro Plus membership.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Full Details →</span>
+                </div>
+            </a>
+        </section>
+
+        <!-- ROW 3: GSR CHATS THREAD -->
+        <section>
+            <a href="chats.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group block">
+                <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-3">
+                    <h3 class="text-lg font-black uppercase text-white group-hover:text-brand-gold transition">GSR Chats Thread</h3>
+                    <span class="text-[10px] font-black uppercase bg-brand-gold text-black px-2 py-0.5 rounded">Live Social Feed</span>
+                </div>
+                <p class="text-xs text-gray-300 leading-relaxed">
+                    This is where you can see the latest global chats. Click here to open GSR Chats, our dedicated social media-style discussion feed.
+                </p>
+                <div class="mt-4 text-right">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Open Pro+ Social Feed →</span>
+                </div>
+            </a>
+        </section>
+
+        <!-- ROW 4: MAGAZINE & TOP RACERS -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- GSR Magazine (Spans 2 Columns) -->
+            <a href="multimedia.html" class="lg:col-span-2 bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-8 transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Official Reader</span>
+                    <h2 class="text-2xl font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">GSR Magazine</h2>
+                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                        Latest publication cover and featured story highlights. Click to open full magazine issues and driver interview reels.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Read Current Issue →</span>
+                </div>
+            </a>
+
+            <!-- Top Racers Card (1 Column) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-brand-red tracking-wider">Leaderboard Snapshot</span>
+                    <h3 class="text-base font-black uppercase text-white mt-2">Top Racers</h3>
+                    <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+                        Shows top 3 racers based on campaign progress, Storm Coins earned, total XP, and morality alignment (Good, Bad, or Neutral).
+                    </p>
+                </div>
+                <a href="leaderboards.html" class="mt-4 text-xs font-bold uppercase text-brand-gold hover:text-white transition">
+                    View Full Standings →
+                </a>
+            </div>
+        </section>
+
+        <!-- ROW 5: CURRENT NEWS -->
+        <section>
+            <a href="multimedia.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group block">
+                <div class="border-b border-brand-border pb-3 mb-3">
+                    <h3 class="text-xl font-black uppercase text-white group-hover:text-brand-gold transition">Current News</h3>
+                </div>
+                <p class="text-xs text-gray-300 leading-relaxed">
+                    Official Pro Plus announcements, updates, and upcoming patch release highlights. Click to read full news articles.
+                </p>
+                <div class="mt-4 text-right">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Read News →</span>
+                </div>
+            </a>
+        </section>
+
+        <!-- ROW 6: 3-COLUMN BOTTOM GRID & SYSTEM STATUS -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-sm font-black uppercase text-white mb-2">Campaign Quests</h3>
+                    <p class="text-xs text-gray-400">Track active chapter goals and lap requirements.</p>
+                </div>
+                <a href="story_campaign.html" class="mt-4 text-xs font-bold uppercase text-brand-gold hover:text-white transition">Quest Log →</a>
+            </div>
+
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-sm font-black uppercase text-white mb-2">Trophies & Titles</h3>
+                    <p class="text-xs text-gray-400">View unlocked driver titles and campaign badges.</p>
+                </div>
+                <a href="trophies.html" class="mt-4 text-xs font-bold uppercase text-brand-gold hover:text-white transition">Trophy Case →</a>
+            </div>
+
+            <!-- Pro Plus System Status -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Infrastructure</span>
+                    <h3 class="text-base font-black uppercase text-white mt-1">GSR Pro Plus System Status</h3>
+                    <div class="mt-3 flex items-center space-x-2">
+                        <span class="h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="text-xs font-bold text-green-400 uppercase">Subscribers Active</span>
+                    </div>
+                </div>
+                <p class="text-[10px] text-gray-500 mt-4">Supabase RPG Engine Connected</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
