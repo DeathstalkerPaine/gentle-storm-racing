@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Campaign | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#121212',
+                            card: '#1e1e1e',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a',
+                            blue: '#2a75ff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 12px rgba(255, 42, 42, 0.25); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- TOP HEADER: 3-ZONE LAYOUT -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <!-- Zone 1: Top-Left Metallic Logo -->
+            <div class="flex items-center justify-start w-full md:w-auto">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-16 sm:h-20 w-auto object-contain drop-shadow-[0_0_15px_rgba(197,160,89,0.3)] hover:scale-105 transition-transform">
+                </a>
+            </div>
+
+            <!-- Zone 2: Center Title -->
+            <div class="text-center py-1 flex-grow">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">GSR Presents</span>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    STORY CAMPAIGN
+                </h1>
+            </div>
+
+            <!-- Zone 3: Compact Top-Right Sign In Button -->
+            <div class="absolute right-3 top-3 sm:right-6 sm:top-6 md:relative md:top-0 md:right-0">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 sm:px-5 sm:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition inline-block tracking-wider">
+                    Sign In
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR LINKS (Pro Plus specific) -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="skill_tree.html" class="text-gray-300 hover:text-brand-gold transition">Skill Tree</a>
+            <a href="what_is_pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">What is GSR Pro Plus?</a>
+            <a href="top_racers.html" class="text-gray-300 hover:text-brand-gold transition">Top Racers</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">News/Magazine</a>
+            <a href="tutorial.html" class="text-gray-300 hover:text-brand-gold transition">Tutorial</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+            <a href="trophies.html" class="text-gray-300 hover:text-brand-gold transition">Trophies/Titles</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT GRID LAYOUT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
+
+        <!-- ACTIVE CAMPAIGN STATUS (Enhancement) -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex-grow">
+                <span class="text-[10px] font-black uppercase text-brand-gold tracking-widest">Current Objective</span>
+                <h2 class="text-xl font-black uppercase text-white mt-1">Chapter 1: The Rookie Trials</h2>
+                <p class="text-xs text-gray-400 mt-1">Complete 3 circuits in the Amateur League to attract a sponsor.</p>
+            </div>
+            <div class="w-full md:w-64">
+                <div class="flex justify-between text-xs font-bold uppercase mb-1">
+                    <span class="text-gray-400">Campaign Progress</span>
+                    <span class="text-brand-gold">15%</span>
+                </div>
+                <div class="w-full bg-brand-bg rounded-full h-2.5 border border-brand-border overflow-hidden">
+                    <div class="bg-brand-gold h-2.5 rounded-full" style="width: 15%"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAIN STORY CHAPTERS GRID -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Chapter 1 (Active/Unlocked) -->
+            <a href="#" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col group relative overflow-hidden">
+                <!-- Image Placeholder -->
+                <div class="h-40 w-full bg-brand-bg border border-brand-border rounded-lg mb-4 flex items-center justify-center text-gray-500 group-hover:border-brand-gold transition relative">
+                    <span class="text-xs font-black uppercase tracking-widest">[ Chapter 1 Artwork ]</span>
+                    <!-- Status Badge -->
+                    <div class="absolute top-2 right-2 bg-brand-gold text-black text-[9px] font-black uppercase px-2 py-1 rounded">Active</div>
+                </div>
+                
+                <h3 class="text-lg font-black uppercase text-white group-hover:text-brand-gold transition">Chapter One: Ignition</h3>
+                <p class="text-xs text-gray-300 mt-2 leading-relaxed flex-grow">
+                    Your journey starts here. Build your first drift car, hire your pit crew, and prove yourself on the local Second Life circuits. Every decision impacts your reputation.
+                </p>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-between items-center">
+                    <span class="text-[10px] font-bold text-gray-400">Rewards: 500 XP, 2 Tuning Pts</span>
+                    <span class="text-xs font-bold uppercase text-brand-gold">View Quests →</span>
+                </div>
+            </a>
+
+            <!-- Chapter 2 (Locked) -->
+            <div class="bg-[#161616] border border-[#222] rounded-xl p-6 flex flex-col relative opacity-80">
+                <div class="h-40 w-full bg-[#111] border border-[#222] rounded-lg mb-4 flex items-center justify-center text-[#444] relative">
+                    <span class="text-xs font-black uppercase tracking-widest">[ Locked Artwork ]</span>
+                    <div class="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
+                        <span class="text-brand-red font-black text-xl">🔒</span>
+                    </div>
+                </div>
+                
+                <h3 class="text-lg font-black uppercase text-gray-500">Chapter Two: Rivals</h3>
+                <p class="text-xs text-gray-600 mt-2 leading-relaxed flex-grow">
+                    Requires completion of Chapter One. The Pro League notices your talent, but veteran drivers aren't ready to share the podium.
+                </p>
+                <div class="mt-6 pt-4 border-t border-[#333] flex justify-end">
+                    <span class="text-[10px] font-bold uppercase text-gray-600 tracking-wider">Locked</span>
+                </div>
+            </div>
+
+            <!-- Chapter 3 (Locked) -->
+            <div class="bg-[#161616] border border-[#222] rounded-xl p-6 flex flex-col relative opacity-80">
+                <div class="h-40 w-full bg-[#111] border border-[#222] rounded-lg mb-4 flex items-center justify-center text-[#444] relative">
+                    <span class="text-xs font-black uppercase tracking-widest">[ Locked Artwork ]</span>
+                    <div class="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
+                        <span class="text-brand-red font-black text-xl">🔒</span>
+                    </div>
+                </div>
+                
+                <h3 class="text-lg font-black uppercase text-gray-500">Chapter Three: The Storm</h3>
+                <p class="text-xs text-gray-600 mt-2 leading-relaxed flex-grow">
+                    Compete in the ultimate championship. High stakes, extreme weather conditions, and legacy-defining choices.
+                </p>
+                <div class="mt-6 pt-4 border-t border-[#333] flex justify-end">
+                    <span class="text-[10px] font-bold uppercase text-gray-600 tracking-wider">Locked</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPONSORS BANNER -->
+        <section>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-center items-center text-center">
+                <h3 class="text-xl font-black uppercase tracking-wider text-brand-gold mb-1">Sponsors</h3>
+                <p class="text-xs text-gray-400">Campaign Partners & In-Game Sponsors</p>
+            </div>
+        </section>
+
+        <!-- SIDE QUESTS & REWARDS (Enhancement) -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Optional Side Quests (Blue Highlight) -->
+            <div class="bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl p-8 transition blue-border-glow">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <span class="text-[10px] font-black uppercase text-brand-blue tracking-wider">Optional Content</span>
+                        <h2 class="text-2xl font-black uppercase text-white mt-1">Side Quests & Bounties</h2>
+                    </div>
+                </div>
+                
+                <ul class="space-y-4">
+                    <li class="bg-brand-bg border border-brand-border p-4 rounded-lg flex justify-between items-center hover:border-brand-blue transition cursor-pointer">
+                        <div>
+                            <h4 class="text-sm font-bold text-white uppercase">Time Trial: Ancient Rome</h4>
+                            <p class="text-[10px] text-gray-400 mt-1">Beat 1:45.000 with a Tier 1 Car.</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-xs font-black text-brand-gold">+100 XP</span>
+                            <span class="text-[9px] uppercase text-gray-500">Weekly</span>
+                        </div>
+                    </li>
+                    <li class="bg-brand-bg border border-brand-border p-4 rounded-lg flex justify-between items-center hover:border-brand-blue transition cursor-pointer">
+                        <div>
+                            <h4 class="text-sm font-bold text-white uppercase">Delivery Run</h4>
+                            <p class="text-[10px] text-gray-400 mt-1">Transport tuning parts across the sim without damage.</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-xs font-black text-brand-gold">+50 Coins</span>
+                            <span class="text-[9px] uppercase text-gray-500">Daily</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Campaign Rewards Preview (Red Highlight) -->
+            <div class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-8 transition red-border-glow">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-brand-red tracking-wider">Loot & Progression</span>
+                    <h2 class="text-2xl font-black uppercase text-white mt-1">Campaign Rewards</h2>
+                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                        Completing story chapters doesn't just advance the narrative. You will earn exclusive Second Life items, tuning points for your skill tree, and unique forum badges.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 mt-6">
+                    <div class="bg-brand-bg border border-brand-border p-4 rounded-lg text-center">
+                        <span class="text-2xl block mb-2">🏎️</span>
+                        <h4 class="text-xs font-bold text-white uppercase">Exclusive Vehicles</h4>
+                    </div>
+                    <div class="bg-brand-bg border border-brand-border p-4 rounded-lg text-center">
+                        <span class="text-2xl block mb-2">🔧</span>
+                        <h4 class="text-xs font-bold text-white uppercase">Tuning Points</h4>
+                    </div>
+                    <div class="bg-brand-bg border border-brand-border p-4 rounded-lg text-center">
+                        <span class="text-2xl block mb-2">🏅</span>
+                        <h4 class="text-xs font-bold text-white uppercase">Driver Titles</h4>
+                    </div>
+                    <div class="bg-brand-bg border border-brand-border p-4 rounded-lg text-center">
+                        <span class="text-2xl block mb-2">💰</span>
+                        <h4 class="text-xs font-bold text-white uppercase">Storm Coins</h4>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
