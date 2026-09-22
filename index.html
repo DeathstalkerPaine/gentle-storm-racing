@@ -34,27 +34,28 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- TOP HEADER: LARGE CENTERED OFFICIAL LOGO BANNER & SIGN IN -->
-    <header class="bg-brand-card border-b border-brand-gold sticky top-0 z-50 py-4 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+    <!-- TOP HEADER: LOCKED HEIGHT WITH MAXIMIZED LOGO TEXT -->
+    <header class="bg-brand-card border-b border-brand-gold sticky top-0 z-50 py-0 shadow-xl overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-28 sm:h-32">
             <!-- Left Spacer for symmetry on desktop -->
             <div class="hidden md:block w-28"></div>
             
-            <!-- Prominent Official Logo Graphic -->
-            <div class="text-center flex-grow py-2">
-                <a href="index.html" class="inline-block">
-                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-32 sm:h-40 md:h-48 w-auto object-contain mx-auto drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] hover:scale-105 transition-transform duration-300">
+            <!-- Logo scaled to fill top-to-bottom without expanding header -->
+            <div class="text-center flex-grow h-full flex items-center justify-center overflow-hidden">
+                <a href="index.html" class="h-full flex items-center justify-center">
+                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-44 sm:h-52 md:h-60 w-auto object-contain mx-auto -my-8 scale-125 sm:scale-135 drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] hover:scale-140 transition-transform duration-300">
                 </a>
             </div>
 
             <!-- Sign In Button -->
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-3 z-10">
                 <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-xs px-5 py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition">
                     Sign In
                 </a>
             </div>
         </div>
     </header>
+
 
     <!-- SUB-NAVBAR LINKS -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
