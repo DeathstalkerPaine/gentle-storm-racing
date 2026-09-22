@@ -36,26 +36,26 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-        <!-- TOP HEADER: UNIVERSAL TRUE-CENTER TITLE & LARGE HORIZONTAL LOGO -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-4 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 relative flex items-center justify-between min-h-[60px]">
+         <!-- TOP HEADER: RESPONSIVE STACKED MOBILE / TRUE-CENTER DESKTOP -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-3 sm:py-4 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
             
-            <!-- Left: Larger Horizontal Logo -->
-            <div class="flex items-center z-10">
+            <!-- Left/Top: Horizontal Logo -->
+            <div class="flex items-center justify-center sm:justify-start w-full sm:w-auto z-10">
                 <a href="index.html" class="inline-block">
-                    <img src="h-logo.png" alt="Gentle Storm Racing Logo" class="h-12 sm:h-16 md:h-20 w-auto object-contain hover:scale-105 transition-transform">
+                    <img src="h-logo.png" alt="Gentle Storm Racing Logo" class="h-10 sm:h-16 md:h-20 w-auto object-contain hover:scale-105 transition-transform">
                 </a>
             </div>
 
-            <!-- Absolute Center: Dynamic Page Title Text -->
-            <div class="absolute inset-x-0 text-center pointer-events-none px-28">
-                <h1 id="page-title" class="text-lg sm:text-2xl md:text-3xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_15px_rgba(197,160,89,0.3)] truncate">
+            <!-- Center: Dynamic Page Title Text -->
+            <div class="w-full sm:absolute sm:inset-x-0 text-center pointer-events-none sm:px-32">
+                <h1 id="page-title" class="text-base sm:text-2xl md:text-3xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_15px_rgba(197,160,89,0.3)] truncate">
                     Loading...
                 </h1>
             </div>
 
-            <!-- Far Right: Sign In Button -->
-            <div class="flex items-center z-10">
+            <!-- Far Right/Top-Right: Sign In Button -->
+            <div class="absolute right-3 top-3 sm:relative sm:right-auto sm:top-auto flex items-center z-10">
                 <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 sm:px-5 sm:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition whitespace-nowrap tracking-wider">
                     Sign In
                 </a>
