@@ -16,7 +16,8 @@
                             card: '#1e1e1e',
                             border: '#333333',
                             gold: '#c5a059',
-                            red: '#ff2a2a'
+                            red: '#ff2a2a',
+                            blue: '#2a75ff'
                         }
                     }
                 }
@@ -24,8 +25,9 @@
         }
     </script>
     <style>
-        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 10px rgba(197, 160, 89, 0.2); }
-        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 10px rgba(255, 42, 42, 0.2); }
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 10px rgba(197, 160, 89, 0.25); }
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 10px rgba(255, 42, 42, 0.25); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 10px rgba(42, 117, 255, 0.25); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
@@ -34,26 +36,28 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- TOP HEADER: CLEAN 3-ZONE LAYOUT -->
+    <!-- TOP HEADER: 3-ZONE SUB-PAGE LAYOUT -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
             
-            <!-- Zone 1: Top-Left GSR Logo (logo.png) -->
+            <!-- Zone 1: Top-Left Compact GSR Logo Box -->
             <div class="flex items-center justify-start w-full md:w-auto">
-                <a href="index.html" class="inline-block transition hover:scale-105">
-                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-16 sm:h-20 md:h-24 w-auto object-contain drop-shadow-[0_0_10px_rgba(197,160,89,0.2)]">
+                <a href="index.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold p-2 rounded-xl inline-block transition shadow group">
+                    <img src="logo.png" alt="GSR Logo" class="h-14 sm:h-18 w-auto object-contain group-hover:scale-105 transition-transform">
                 </a>
             </div>
 
-            <!-- Zone 2: Center Page Title Banner (GSR PRESENTS / PRO PLUS) -->
+            <!-- Zone 2: Center Page Title Banner (Gold / Red / Blue Stacked Text) -->
             <div class="text-center py-1 flex-grow">
-                <h1 class="font-black uppercase tracking-widest leading-none">
-                    <span class="block text-brand-gold text-xs sm:text-sm font-bold tracking-[0.2em]">GSR PRESENTS</span>
-                    <span class="block text-white text-3xl sm:text-4xl md:text-5xl font-black drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] mt-1">PRO PLUS</span>
-                </h1>
+                <!-- TEMPORARY STACKED TEXT LOGO (SWAP WITH IMAGE LOGO LATER) -->
+                <div class="inline-block font-black uppercase tracking-widest text-2xl sm:text-3xl leading-tight drop-shadow-[0_0_15px_rgba(197,160,89,0.3)] border border-brand-border bg-brand-bg px-8 py-2 rounded-xl">
+                    <span class="block text-brand-gold">GSR</span>
+                    <span class="block text-brand-red">PRO</span>
+                    <span class="block text-brand-blue">PLUS</span>
+                </div>
             </div>
 
-            <!-- Zone 3: Top-Right Compact Sign In Button -->
+            <!-- Zone 3: Top-Right Sign In Button -->
             <div class="absolute right-3 top-3 sm:right-6 sm:top-6 md:relative md:top-0 md:right-0">
                 <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 sm:px-5 sm:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition inline-block tracking-wider">
                     Sign In
@@ -89,9 +93,9 @@
             </div>
         </section>
 
-        <!-- ROW 2: 3-COLUMN HIGHLIGHT CARDS -->
+        <!-- ROW 2: 3-COLUMN HIGHLIGHT CARDS (GOLD / RED / BLUE) -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Story Campaign Card -->
+            <!-- Story Campaign Card (GOLD) -->
             <a href="story_campaign.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
                 <div>
                     <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Campaign</span>
@@ -105,7 +109,7 @@
                 </div>
             </a>
 
-            <!-- Skill Tree Card -->
+            <!-- Skill Tree Card (RED) -->
             <a href="skill_tree.html" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between group">
                 <div>
                     <span class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Progression</span>
@@ -119,17 +123,17 @@
                 </div>
             </a>
 
-            <!-- What is GSR Pro Plus Card -->
-            <a href="what_is_pro_plus.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
+            <!-- What is GSR Pro Plus Card (BLUE) -->
+            <a href="what_is_pro_plus.html" class="bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl p-6 blue-border-glow transition flex flex-col justify-between group">
                 <div>
-                    <span class="text-[10px] font-black uppercase tracking-widest bg-gray-800 border border-brand-gold text-brand-gold px-2 py-0.5 rounded">Overview</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">What is GSR Pro Plus?</h3>
+                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-blue text-white px-2 py-0.5 rounded">Overview</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-blue transition">What is GSR Pro Plus?</h3>
                     <p class="text-xs text-gray-300 mt-2 leading-relaxed">
                         Shows an image and text stating quick detail on GSR Pro Plus. Clicking here takes to full detail on all that encompasses what GSR Pro Plus is.
                     </p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Full Details →</span>
+                    <span class="text-xs font-bold uppercase text-brand-blue">Full Details →</span>
                 </div>
             </a>
         </section>
