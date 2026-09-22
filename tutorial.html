@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorials & Guides | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#121212',
+                            card: '#1e1e1e',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a',
+                            blue: '#2a75ff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 12px rgba(255, 42, 42, 0.25); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- TOP HEADER: 3-ZONE LAYOUT -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <!-- Zone 1: Top-Left Metallic Logo -->
+            <div class="flex items-center justify-start w-full md:w-auto">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-16 sm:h-20 w-auto object-contain drop-shadow-[0_0_15px_rgba(197,160,89,0.3)] hover:scale-105 transition-transform">
+                </a>
+            </div>
+
+            <!-- Zone 2: Center Title -->
+            <div class="text-center py-1 flex-grow">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Pro Plus Academy</span>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    TUTORIALS
+                </h1>
+            </div>
+
+            <!-- Zone 3: Compact Top-Right Sign In Button -->
+            <div class="absolute right-3 top-3 sm:right-6 sm:top-6 md:relative md:top-0 md:right-0">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 sm:px-5 sm:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition inline-block tracking-wider">
+                    Sign In
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR LINKS (Pro Plus specific) -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="story_campaign.html" class="text-gray-300 hover:text-brand-gold transition">Story Campaign</a>
+            <a href="skill_tree.html" class="text-gray-300 hover:text-brand-gold transition">Skill Tree</a>
+            <a href="what_is_pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">What is GSR Pro Plus?</a>
+            <a href="top_racers.html" class="text-gray-300 hover:text-brand-gold transition">Top Racers</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">News/Magazine</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+            <a href="trophies.html" class="text-gray-300 hover:text-brand-gold transition">Trophies/Titles</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT GRID LAYOUT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
+
+        <!-- INTRO SECTION -->
+        <section class="text-center max-w-3xl mx-auto py-6">
+            <h2 class="text-2xl font-black uppercase text-white tracking-wide mb-4">Master the Ecosystem</h2>
+            <p class="text-sm text-gray-300 leading-relaxed">
+                Welcome to the Pro Plus Academy. Gentle Storm Racing isn't just about crossing the finish line—it's an integrated RPG experience. Here, you'll learn how to navigate the Story Campaign, optimize your Skill Tree, and dominate the Second Life circuits using our custom telemetry HUDs.
+            </p>
+        </section>
+
+        <!-- 3-PILLAR TUTORIAL CARDS (Gold, Blue, Red) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Pillar 1: The Campaign (Gold) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-8 flex flex-col relative transition gold-border-glow shadow-lg group">
+                <div class="text-brand-gold text-4xl mb-4 drop-shadow-[0_0_10px_rgba(197,160,89,0.5)]">📜</div>
+                <h3 class="text-xl font-black text-white uppercase mb-3 group-hover:text-brand-gold transition">1. The Campaign</h3>
+                <ul class="text-xs text-gray-300 space-y-3 flex-grow">
+                    <li class="flex items-start"><span class="text-brand-gold mr-2">▸</span> Start with Chapter 1: The Syndicate Infiltration.</li>
+                    <li class="flex items-start"><span class="text-brand-gold mr-2">▸</span> Sign in to your dashboard to track your current active quest objective.</li>
+                    <li class="flex items-start"><span class="text-brand-gold mr-2">▸</span> Your choices during quests impact your driver's Alignment (Good, Neutral, Bad).</li>
+                    <li class="flex items-start"><span class="text-brand-gold mr-2">▸</span> Complete quests to earn massive XP payouts and exclusive vehicle unlocks.</li>
+                </ul>
+            </div>
+
+            <!-- Pillar 2: Economy & XP (Blue) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-8 flex flex-col relative transition blue-border-glow shadow-lg group">
+                <div class="text-brand-blue text-4xl mb-4 drop-shadow-[0_0_10px_rgba(42,117,255,0.5)]">💰</div>
+                <h3 class="text-xl font-black text-white uppercase mb-3 group-hover:text-brand-blue transition">2. Economy & XP</h3>
+                <ul class="text-xs text-gray-300 space-y-3 flex-grow">
+                    <li class="flex items-start"><span class="text-brand-blue mr-2">▸</span> <strong>XP (Experience):</strong> Earned by finishing races, doing time trials, and completing campaign milestones.</li>
+                    <li class="flex items-start"><span class="text-brand-blue mr-2">▸</span> <strong>Storm Coins:</strong> The official GSR currency. Used to purchase cosmetics, store items, and hire pit crew members.</li>
+                    <li class="flex items-start"><span class="text-brand-blue mr-2">▸</span> Check the Daily and Weekly Bounties on the Campaign Hub for extra income.</li>
+                </ul>
+            </div>
+
+            <!-- Pillar 3: Skill Tree & Mechanics (Red) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-8 flex flex-col relative transition red-border-glow shadow-lg group">
+                <div class="text-brand-red text-4xl mb-4 drop-shadow-[0_0_10px_rgba(255,42,42,0.5)]">🔧</div>
+                <h3 class="text-xl font-black text-white uppercase mb-3 group-hover:text-brand-red transition">3. Skill Tree & HUD</h3>
+                <ul class="text-xs text-gray-300 space-y-3 flex-grow">
+                    <li class="flex items-start"><span class="text-brand-red mr-2">▸</span> As you earn XP, your Driver Level increases (Max Level 50).</li>
+                    <li class="flex items-start"><span class="text-brand-red mr-2">▸</span> Every 5 levels grants <strong>Tuning Points</strong>.</li>
+                    <li class="flex items-start"><span class="text-brand-red mr-2">▸</span> Apply Tuning Points to your Second Life GSR HUD to tweak drift physics, acceleration, and handling.</li>
+                    <li class="flex items-start"><span class="text-brand-red mr-2">▸</span> Higher levels unlock Pit Crew slots to reduce mandatory pit stop timers during endurance races.</li>
+                </ul>
+            </div>
+
+        </section>
+
+        <!-- GETTING STARTED STEP-BY-STEP -->
+        <section class="mt-12 bg-brand-bg border border-brand-border rounded-xl p-8 lg:p-12">
+            <h2 class="text-2xl font-black uppercase text-white mb-8 border-b border-brand-border pb-4">Quick Start Guide</h2>
+            
+            <div class="space-y-8">
+                
+                <!-- Step 1 -->
+                <div class="flex flex-col md:flex-row gap-6 items-start">
+                    <div class="flex-shrink-0 w-12 h-12 bg-brand-card border border-brand-gold rounded-full flex items-center justify-center text-xl font-black text-brand-gold">1</div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white uppercase mb-2">Register Your Account</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            To participate in the Pro Plus ecosystem, you must link your Second Life avatar to a GSR web account. Click "Sign In" at the top right of the site to create your profile. This connects your in-world racing telemetry to the Supabase database.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flex flex-col md:flex-row gap-6 items-start">
+                    <div class="flex-shrink-0 w-12 h-12 bg-brand-card border border-brand-gold rounded-full flex items-center justify-center text-xl font-black text-brand-gold">2</div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white uppercase mb-2">Acquire Your First Vehicle & HUD</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            Visit the GSR Headquarters in Second Life to grab your starter Tier 1 vehicle and equip the official GSR Racing HUD. The HUD is mandatory—it communicates with the start lines, pit pads, and tracks your lap times directly to our leaderboards.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex flex-col md:flex-row gap-6 items-start">
+                    <div class="flex-shrink-0 w-12 h-12 bg-brand-card border border-brand-gold rounded-full flex items-center justify-center text-xl font-black text-brand-gold">3</div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white uppercase mb-2">Hit the Track</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            Open the <strong>Story Campaign</strong> tab to find your first quest, or check the <strong>Racetracks</strong> hub to find open practice circuits. Complete laps, earn your first batch of XP, and start your climb up the Skill Tree!
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
