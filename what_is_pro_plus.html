@@ -36,7 +36,7 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- TOP HEADER: 3-ZONE SUB-PAGE LAYOUT WITH LARGER HORIZONTAL LOGO -->
+       <!-- TOP HEADER: 3-ZONE SUB-PAGE LAYOUT WITH LARGER HORIZONTAL LOGO -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
             
@@ -64,6 +64,28 @@
 
         </div>
     </header>
+
+    <!-- AUTOMATIC TITLE SCRIPT -->
+    <script>
+        const path = window.location.pathname;
+        const topEl = document.getElementById('page-title-top');
+        const botEl = document.getElementById('page-title-bottom');
+        
+        if (path.includes('story_campaign')) {
+            topEl.textContent = 'STORY';
+            botEl.textContent = 'CAMPAIGN';
+        } else if (path.includes('skill_tree')) {
+            topEl.textContent = 'SKILL';
+            botEl.textContent = 'TREE';
+        } else if (path.includes('what_is_pro_plus')) {
+            topEl.textContent = 'WHAT IS';
+            botEl.textContent = 'PRO PLUS?';
+        } else if (path.includes('tutorial')) {
+            topEl.textContent = 'GSR';
+            botEl.textContent = 'TUTORIAL';
+        }
+    </script>
+
 
     <!-- AUTOMATIC TITLE SCRIPT -->
     <script>
