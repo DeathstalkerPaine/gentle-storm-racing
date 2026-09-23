@@ -36,33 +36,51 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-        <!-- TOP HEADER: CLEAN HORIZONTAL LAYOUT -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-4 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 relative flex items-center justify-between min-h-[60px]">
+           <!-- UNIFIED HEADER: MATCHES DESKTOP HEIGHT (PIC 1) & MOBILE LAYOUT (PIC 3) -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-6 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col sm:flex-row items-center justify-between gap-4">
             
-            <!-- Left: Larger Horizontal Logo -->
-            <div class="flex items-center z-10">
+            <!-- Left (Desktop) / Top (Mobile): Larger Horizontal Logo -->
+            <div class="flex items-center justify-center sm:justify-start w-full sm:w-auto z-10">
                 <a href="index.html" class="inline-block">
-                    <img src="h-logo.png" alt="Gentle Storm Racing Logo" class="h-12 sm:h-16 md:h-20 w-auto object-contain hover:scale-105 transition-transform">
+                    <img src="h-logo.png" alt="Gentle Storm Racing Logo" class="h-16 sm:h-20 md:h-24 w-auto object-contain hover:scale-105 transition-transform">
                 </a>
             </div>
 
-            <!-- Absolute Center: Clean Text Title (No Box) -->
-            <div class="absolute inset-x-0 text-center pointer-events-none px-28">
-                <h1 id="page-title" class="text-lg sm:text-2xl md:text-3xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_15px_rgba(197,160,89,0.3)] truncate">
-                    Loading...
+            <!-- Center: Tall Header Title Block Matching Pic 1 / Pic 2 -->
+            <div class="text-center sm:absolute sm:inset-x-0 pointer-events-none py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">GSR Presents</span>
+                <h1 id="page-title" class="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    LOADING...
                 </h1>
             </div>
 
-            <!-- Far Right: Sign In Button -->
-            <div class="flex items-center z-10">
-                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 sm:px-5 sm:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition whitespace-nowrap tracking-wider">
+            <!-- Far Right (Desktop) / Top Right (Mobile): Sign In Button -->
+            <div class="absolute right-4 top-4 sm:relative sm:right-auto sm:top-auto flex items-center z-10">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-4 py-2 sm:px-5 sm:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition whitespace-nowrap tracking-wider">
                     Sign In
                 </a>
             </div>
 
         </div>
     </header>
+
+    <!-- AUTOMATIC TITLE SCRIPT -->
+    <script>
+        const path = window.location.pathname;
+        const titleEl = document.getElementById('page-title');
+        
+        if (path.includes('story_campaign')) {
+            titleEl.textContent = 'Story Campaign';
+        } else if (path.includes('skill_tree')) {
+            titleEl.textContent = 'Skill Tree';
+        } else if (path.includes('what_is_pro_plus')) {
+            titleEl.textContent = 'Pro Plus';
+        } else if (path.includes('tutorial')) {
+            titleEl.textContent = 'Tutorials';
+        }
+    </script>
+
 
     <!-- AUTOMATIC TITLE SCRIPT -->
     <script>
