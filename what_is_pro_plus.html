@@ -36,7 +36,7 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-             <!-- SUB-PAGE HEADER: TALL DESKTOP HEIGHT, NO GSR PRESENTS, INTACT MOBILE -->
+    <!-- SUB-PAGE HEADER: TALL DESKTOP HEIGHT, NO GSR PRESENTS, INTACT MOBILE -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 md:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
             
@@ -47,9 +47,9 @@
                 </a>
             </div>
 
-            <!-- Center: Title ONLY (No GSR Presents) -->
+            <!-- Center: Title ONLY (No GSR Presents). Removed truncate so text doesn't hide. -->
             <div class="w-full md:absolute md:inset-x-0 text-center pointer-events-none md:px-32 py-1">
-                <h1 id="page-title" class="text-xl sm:text-2xl md:text-4xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] truncate">
+                <h1 id="page-title" class="text-xl sm:text-2xl md:text-4xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
                     LOADING...
                 </h1>
             </div>
@@ -64,7 +64,7 @@
         </div>
     </header>
 
-    <!-- AUTOMATIC TITLE SCRIPT -->
+    <!-- AUTOMATIC TITLE SCRIPT (FIXED) -->
     <script>
         const path = window.location.pathname;
         const titleEl = document.getElementById('page-title');
@@ -77,101 +77,6 @@
             titleEl.textContent = 'WHAT IS PRO PLUS?';
         } else if (path.includes('tutorial')) {
             titleEl.textContent = 'TUTORIALS & GUIDES';
-        }
-    </script>
-
-
-    <!-- AUTOMATIC TITLE SCRIPT -->
-    <script>
-        const path = window.location.pathname;
-        const titleEl = document.getElementById('page-title');
-        
-        if (path.includes('story_campaign')) {
-            titleEl.textContent = 'Story Campaign';
-        } else if (path.includes('skill_tree')) {
-            titleEl.textContent = 'Skill Tree';
-        } else if (path.includes('what_is_pro_plus')) {
-            titleEl.textContent = 'Pro Plus';
-        } else if (path.includes('tutorial')) {
-            titleEl.textContent = 'Tutorials';
-        }
-    </script>
-
-
-    <!-- AUTOMATIC TITLE SCRIPT -->
-    <script>
-        const path = window.location.pathname;
-        const titleEl = document.getElementById('page-title');
-        
-        if (path.includes('story_campaign')) {
-            titleEl.textContent = 'Story Campaign';
-        } else if (path.includes('skill_tree')) {
-            titleEl.textContent = 'Skill Tree';
-        } else if (path.includes('what_is_pro_plus')) {
-            titleEl.textContent = 'What is Pro Plus?';
-        } else if (path.includes('tutorial')) {
-            titleEl.textContent = 'Tutorials & Guides';
-        }
-    </script>
-
-
-    <!-- AUTOMATIC TITLE SCRIPT -->
-    <script>
-        const path = window.location.pathname;
-        const topEl = document.getElementById('page-title-top');
-        const botEl = document.getElementById('page-title-bottom');
-        
-        if (path.includes('story_campaign')) {
-            topEl.textContent = 'STORY';
-            botEl.textContent = 'CAMPAIGN';
-        } else if (path.includes('skill_tree')) {
-            topEl.textContent = 'SKILL';
-            botEl.textContent = 'TREE';
-        } else if (path.includes('what_is_pro_plus')) {
-            topEl.textContent = 'WHAT IS';
-            botEl.textContent = 'PRO PLUS?';
-        } else if (path.includes('tutorial')) {
-            topEl.textContent = 'GSR';
-            botEl.textContent = 'TUTORIAL';
-        }
-    </script>
-
-
-    <!-- AUTOMATIC TITLE SCRIPT -->
-    <script>
-        const path = window.location.pathname;
-        const topEl = document.getElementById('page-title-top');
-        const botEl = document.getElementById('page-title-bottom');
-        
-        if (path.includes('story_campaign')) {
-            topEl.textContent = 'STORY';
-            botEl.textContent = 'CAMPAIGN';
-        } else if (path.includes('skill_tree')) {
-            topEl.textContent = 'SKILL';
-            botEl.textContent = 'TREE';
-        } else if (path.includes('what_is_pro_plus')) {
-            topEl.textContent = 'WHAT IS';
-            botEl.textContent = 'PRO PLUS?';
-        } else if (path.includes('tutorial')) {
-            topEl.textContent = 'GSR';
-            botEl.textContent = 'TUTORIAL';
-        }
-    </script>
-
-
-    <!-- AUTOMATIC TITLE SCRIPT -->
-    <script>
-        const path = window.location.pathname;
-        const titleEl = document.getElementById('page-title');
-        
-        if (path.includes('story_campaign')) {
-            titleEl.textContent = 'Story Campaign';
-        } else if (path.includes('skill_tree')) {
-            titleEl.textContent = 'Skill Tree';
-        } else if (path.includes('what_is_pro_plus')) {
-            titleEl.textContent = 'What is Pro Plus?';
-        } else if (path.includes('tutorial')) {
-            titleEl.textContent = 'Tutorials & Guides';
         }
     </script>
 
