@@ -36,28 +36,28 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- TOP HEADER: LOGO ON LEFT, "GSR PRESENTS / PRO PLUS" CENTERED, SIGN IN ON RIGHT -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-4 shadow-xl">
+        <!-- PRO PLUS HUB HEADER: TALL DESKTOP HEIGHT, INTACT MOBILE -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 md:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
             
-            <!-- Zone 1: Top-Left Metallic Logo -->
-            <div class="flex items-center justify-start w-full md:w-auto">
+            <!-- Left (Desktop) / Top (Mobile): Logo -->
+            <div class="flex items-center justify-center md:justify-start w-full md:w-auto z-10">
                 <a href="index.html" class="inline-block">
-                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-16 sm:h-20 w-auto object-contain drop-shadow-[0_0_15px_rgba(197,160,89,0.3)] hover:scale-105 transition-transform">
+                    <img src="h-logo.png" alt="Gentle Storm Racing Logo" class="h-10 sm:h-16 md:h-24 w-auto object-contain hover:scale-105 transition-transform">
                 </a>
             </div>
 
-            <!-- Zone 2: Center Title ("GSR PRESENTS / PRO PLUS") -->
-            <div class="text-center py-1 flex-grow">
+            <!-- Center: Title with GSR PRESENTS -->
+            <div class="w-full md:absolute md:inset-x-0 text-center pointer-events-none md:px-32 py-1">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">GSR Presents</span>
-                <h1 class="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                <h1 class="text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
                     PRO PLUS
                 </h1>
             </div>
 
-            <!-- Zone 3: Compact Top-Right Sign In Button -->
-            <div class="absolute right-3 top-3 sm:right-6 sm:top-6 md:relative md:top-0 md:right-0">
-                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 sm:px-5 sm:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition inline-block tracking-wider">
+            <!-- Right: Sign In Button -->
+            <div class="absolute right-3 top-3 md:relative md:right-auto md:top-auto flex items-center z-10">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 sm:px-5 sm:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition whitespace-nowrap tracking-wider">
                     Sign In
                 </a>
             </div>
