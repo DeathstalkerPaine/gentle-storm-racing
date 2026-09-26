@@ -26,12 +26,9 @@
     </script>
     <style>
         .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
-        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 12px rgba(255, 42, 42, 0.25); }
-        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
@@ -41,42 +38,32 @@
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
                 <a href="index.html" class="inline-block">
-                    <img src="h-logo.png" alt="Gentle Storm Racing Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
+                    <img src="h-logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
                 </a>
             </div>
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Circuit Profile</span>
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                    Las Vegas Strip Circuit
-                </h1>
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">Las Vegas Strip Circuit</h1>
             </div>
-            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
-                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition whitespace-nowrap tracking-wider">
-                    Sign In
-                </a>
+            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10">
+                <a href="admin.html" class="bg-brand-red text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded">Sign In</a>
             </div>
         </div>
     </header>
 
     <!-- SUB-NAVBAR -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
-        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
-            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
-            <a href="racetracks.html" class="text-brand-gold transition">← Back to Racetracks</a>
-            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboard</a>
+        <div class="max-w-7xl mx-auto px-4 flex justify-center gap-6 text-xs font-bold uppercase">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold">GSR Main Menu</a>
+            <a href="racetracks.html" class="text-brand-gold">← Back to Racetracks</a>
         </div>
     </nav>
 
     <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 space-y-10">
         <section class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-2xl">
-            <div class="w-full aspect-video bg-[#111] relative flex items-center justify-center border-b border-brand-border group cursor-pointer">
-                <span class="text-gray-500 font-black uppercase tracking-widest text-sm z-10">[ Las Vegas Hotlap Video Preview ]</span>
-                <div class="absolute inset-0 bg-gradient-to-t from-[#1e1e1e] to-transparent z-0"></div>
-                <div class="absolute z-10 w-16 h-16 bg-brand-red rounded-full flex items-center justify-center opacity-80 group-hover:opacity-100 group-hover:scale-110 transition shadow-[0_0_20px_rgba(255,42,42,0.6)]">
-                    <span class="text-white text-2xl ml-1">▶</span>
-                </div>
+            <div class="w-full aspect-video bg-[#111] relative flex items-center justify-center border-b border-brand-border">
+                <span class="text-gray-500 font-black uppercase tracking-widest text-sm">[ Las Vegas Hotlap Video Preview ]</span>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-brand-bg/50 text-center border-b border-brand-border">
                 <div><span class="block text-[10px] uppercase font-bold text-gray-500">Length</span><span class="text-sm font-black text-white">5.1 KM</span></div>
@@ -92,19 +79,8 @@
                 Race down the iconic neon-drenched boulevard under the night lights of Second Life. Designed with massive straightaways past resort landmarks, it rewards vehicles optimized for maximum top-end gearing. Managing your entry speed into the tight casino-front hairpins will make or break your lap time.
             </p>
         </section>
-
-        <section class="space-y-4">
-            <h3 class="text-lg font-black uppercase text-white tracking-wide">Photo Gallery</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="aspect-video bg-brand-card border border-brand-border rounded-xl flex items-center justify-center text-gray-500 font-bold text-xs uppercase">[ The Strip Straight ]</div>
-                <div class="aspect-video bg-brand-card border border-brand-border rounded-xl flex items-center justify-center text-gray-500 font-bold text-xs uppercase">[ Casino Hairpin ]</div>
-                <div class="aspect-video bg-brand-card border border-brand-border rounded-xl flex items-center justify-center text-gray-500 font-bold text-xs uppercase">[ Neon Paddock ]</div>
-            </div>
-        </section>
     </main>
 
-    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</div>
-    </footer>
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing.</footer>
 </body>
 </html>
