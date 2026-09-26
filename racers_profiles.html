@@ -3,33 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Driver Profiles Directory | Gentle Storm Racing</title>
+    <title>Driver Directory | Gentle Storm Racing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            bg: '#121212',
-                            card: '#1e1e1e',
-                            border: '#333333',
-                            gold: '#c5a059',
-                            red: '#ff2a2a',
-                            blue: '#2a75ff'
-                        }
-                    }
-                }
-            }
-        }
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
     </script>
     <style>
         .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
@@ -38,21 +21,19 @@
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
-                <a href="index.html" class="inline-block">
-                    <img src="h-logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
-                </a>
+                <a href="index.html"><img src="h-logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
             </div>
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Grid Directory</span>
                 <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">RACER PROFILES</h1>
             </div>
-            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10">
-                <a href="admin.html" class="bg-brand-red text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded">Sign In</a>
+            <div class="absolute right-3 top-3 z-10">
+                <a href="admin.html" class="bg-brand-red text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 rounded">Sign In</a>
             </div>
         </div>
     </header>
 
-    <!-- SUB-NAVBAR -->
+    <!-- NAVBAR -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
@@ -67,194 +48,88 @@
         </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
         
-        <!-- CONTROLS & FILTERS -->
+        <!-- FILTERS -->
         <section class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-4 shadow-xl">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                <!-- Search Input (Press Enter or Return to filter) -->
-                <div class="w-full md:w-1/2 relative">
-                    <input type="text" id="searchInput" placeholder="Search driver name & press Enter..." class="w-full bg-brand-bg border border-brand-border rounded-xl px-4 py-3 text-xs text-white uppercase focus:outline-none focus:border-brand-gold transition">
-                </div>
-                <!-- Filters -->
+            <div class="flex flex-col md:flex-row gap-4">
+                <input type="text" id="searchInput" placeholder="Search driver name & press Enter..." class="w-full md:w-1/2 bg-brand-bg border border-brand-border rounded-xl px-4 py-3 text-xs text-white uppercase focus:border-brand-gold outline-none">
                 <div class="w-full md:w-1/2 flex gap-3">
-                    <select id="teamFilter" class="w-1/2 bg-brand-bg border border-brand-border rounded-xl px-3 py-3 text-xs text-gray-300 uppercase focus:outline-none focus:border-brand-gold transition">
+                    <select id="teamFilter" class="w-1/2 bg-brand-bg border border-brand-border rounded-xl px-3 py-3 text-xs text-gray-300 uppercase focus:border-brand-gold outline-none">
                         <option value="ALL">All Teams</option>
                         <option value="Storm Riders">Storm Riders</option>
                     </select>
-                    <select id="tierFilter" class="w-1/2 bg-brand-bg border border-brand-border rounded-xl px-3 py-3 text-xs text-gray-300 uppercase focus:outline-none focus:border-brand-gold transition">
-                        <option value="ALL">All Tiers</option>
-                        <option value="Pro Plus">Pro Plus</option>
-                        <option value="Rookie">Rookie</option>
-                    </select>
                 </div>
             </div>
-
-            <!-- A-Z Index Bar -->
-            <div id="azBar" class="flex flex-wrap justify-center gap-1 pt-2 border-t border-brand-border text-[11px] font-black uppercase text-gray-400">
-                <button data-letter="ALL" class="az-btn px-2.5 py-1 bg-brand-bg border border-brand-gold rounded text-brand-gold transition">ALL</button>
-                <!-- Dynamic generation for letters A-Z -->
+            <!-- A-Z Index -->
+            <div id="azBar" class="flex flex-wrap justify-center gap-1 pt-2 border-t border-brand-border text-[11px] font-black uppercase">
+                <button data-letter="ALL" class="az-btn px-2.5 py-1 bg-brand-bg border border-brand-gold rounded text-brand-gold">ALL</button>
                 <script>
-                    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-                    alphabet.forEach(letter => {
-                        document.write(`<button data-letter="${letter}" class="az-btn px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold transition">${letter}</button>`);
-                    });
+                    "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(l => document.write(`<button data-letter="${l}" class="az-btn px-2 py-1 bg-brand-bg border border-brand-border rounded hover:border-brand-gold text-gray-400 hover:text-white transition">${l}</button>`));
                 </script>
             </div>
         </section>
 
-        <!-- RACER GRID CONTAINER -->
+        <!-- 16 CARD GRID -->
         <section id="racerGrid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             
-            <!-- Active Driver: Deathstalker Paine -->
-            <div class="racer-card bg-brand-card border border-brand-gold rounded-xl p-5 flex flex-col justify-between shadow-xl group hover:scale-[1.02] transition gold-border-glow" 
-                 data-name="Deathstalker Paine" data-team="Storm Riders" data-tier="Pro Plus">
+            <!-- Deathstalker Paine -->
+            <div class="racer-card bg-brand-card border border-brand-gold rounded-xl p-5 flex flex-col justify-between shadow-xl gold-border-glow" data-name="Deathstalker Paine" data-team="Storm Riders">
                 <div>
                     <div class="flex justify-between items-center mb-3">
                         <span class="bg-brand-red text-white text-[9px] font-black uppercase px-2 py-0.5 rounded">Pro League</span>
                         <span class="text-brand-red font-black italic text-lg">#13</span>
                     </div>
-                    <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border overflow-hidden">
-                        <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Driver Photo</span>
-                    </div>
-                    <h3 class="text-base font-black uppercase text-white tracking-wide group-hover:text-brand-gold transition">Deathstalker Paine</h3>
+                    <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-500 uppercase font-bold">Driver Photo</span></div>
+                    <h3 class="text-base font-black uppercase text-white">Deathstalker Paine</h3>
                     <p class="text-[11px] text-gray-400 mt-1">Team: <span class="text-white font-bold">Storm Riders</span></p>
-                    <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center">
-                        <div><span class="block text-[8px] uppercase font-bold text-gray-500">Points</span><span class="text-xs font-black text-brand-gold">50</span></div>
-                        <div><span class="block text-[8px] uppercase font-bold text-gray-500">Wins</span><span class="text-xs font-black text-white">3</span></div>
-                    </div>
                 </div>
-                <a href="#profile-modal" class="mt-5 text-[11px] font-black uppercase text-brand-gold bg-brand-bg border border-brand-border group-hover:border-brand-gold text-center py-2 rounded transition">
-                    View Full Profile →
-                </a>
+                <!-- LINKS TO racer.html -->
+                <a href="racer.html" class="mt-5 text-[11px] font-black uppercase text-brand-gold bg-brand-bg border border-brand-border text-center py-2 rounded hover:border-brand-gold transition">View Full Profile →</a>
             </div>
 
-            <!-- 15 Placeholder Open Slots (Automatically marked as pending rookies) -->
+            <!-- 15 Pending Slots -->
             <script>
-                for(let i = 2; i <= 16; i++) {
+                for(let i=2; i<=16; i++) {
                     document.write(`
-                        <div class="racer-card bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60" 
-                             data-name="Pending Driver ${i}" data-team="Unassigned" data-tier="Rookie">
+                        <div class="racer-card bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60" data-name="Pending" data-team="Unassigned">
                             <div>
-                                <div class="flex justify-between items-center mb-3">
-                                    <span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span>
-                                    <span class="text-gray-500 font-black italic text-lg">#--</span>
-                                </div>
-                                <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border">
-                                    <span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span>
-                                </div>
-                                <h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3>
-                                <p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p>
-                                <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center">
-                                    <div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div>
-                                    <div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div>
-                                </div>
+                                <div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div>
+                                <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase font-bold">Open Slot</span></div>
+                                <h3 class="text-base font-black uppercase text-gray-400">Pending Driver</h3>
                             </div>
-                            <span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span>
                         </div>
                     `);
                 }
             </script>
-
         </section>
-
-        <!-- NO RESULTS MESSAGE -->
-        <div id="noResults" class="hidden text-center py-12 text-gray-500 font-bold uppercase text-xs">
-            No racers found matching your search or letter criteria. Showing open slots.
-        </div>
-
+        
+        <div id="noResults" class="hidden text-center py-12 text-gray-500 font-bold uppercase text-xs">No racers found matching criteria.</div>
     </main>
 
-    <!-- JAVASCRIPT FILTERING & ENTER KEY LOGIC -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing.</footer>
+
+    <!-- Filter Script -->
     <script>
-        const searchInput = document.getElementById('searchInput');
-        const teamFilter = document.getElementById('teamFilter');
-        const tierFilter = document.getElementById('tierFilter');
-        const racerCards = document.getElementsByClassName('racer-card');
-        const noResults = document.getElementById('noResults');
-        const azButtons = document.querySelectorAll('.az-btn');
-
-        let activeLetter = 'ALL';
-
-        function filterRacers() {
-            const query = searchInput.value.toLowerCase().trim();
-            const selectedTeam = teamFilter.value;
-            const selectedTier = tierFilter.value;
-            let visibleCount = 0;
-
-            Array.from(racerCards).forEach(card => {
-                const name = card.getAttribute('data-name').toLowerCase();
-                const team = card.getAttribute('data-team');
-                const tier = card.getAttribute('data-tier');
-
-                // Check Search Query
-                const matchesSearch = query === '' || name.includes(query);
-                
-                // Check Team Dropdown
-                const matchesTeam = selectedTeam === 'ALL' || team === selectedTeam;
-
-                // Check Tier Dropdown
-                const matchesTier = selectedTier === 'ALL' || tier === selectedTier;
-
-                // Check A-Z Letter
-                const matchesLetter = activeLetter === 'ALL' || name.toUpperCase().startsWith(activeLetter);
-
-                if (matchesSearch && matchesTeam && matchesTier && matchesLetter) {
-                    card.style.display = 'flex';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
+        const s = document.getElementById('searchInput'), t = document.getElementById('teamFilter'), c = document.getElementsByClassName('racer-card'), n = document.getElementById('noResults'), a = document.querySelectorAll('.az-btn');
+        let l = 'ALL';
+        function f() {
+            let v = 0;
+            Array.from(c).forEach(x => {
+                const name = x.getAttribute('data-name').toLowerCase(), team = x.getAttribute('data-team');
+                if((s.value==='' || name.includes(s.value.toLowerCase().trim())) && (t.value==='ALL' || team===t.value) && (l==='ALL' || name.toUpperCase().startsWith(l))) {
+                    x.style.display = 'flex'; v++;
+                } else { x.style.display = 'none'; }
             });
-
-            if (visibleCount === 0) {
-                noResults.classList.remove('hidden');
-            } else {
-                noResults.classList.add('hidden');
-            }
+            v === 0 ? n.classList.remove('hidden') : n.classList.add('hidden');
         }
-
-        // Trigger on Enter/Return key in search bar
-        searchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                filterRacers();
-            }
-        });
-
-        // Trigger on dropdown changes
-        teamFilter.addEventListener('change', filterRacers);
-        tierFilter.addEventListener('change', filterRacers);
-
-        // Trigger on A-Z Button clicks
-        azButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                azButtons.forEach(b => {
-                    b.classList.remove('text-brand-gold', 'border-brand-gold');
-                    b.classList.add('border-brand-border', 'text-gray-400');
-                });
-                btn.classList.add('text-brand-gold', 'border-brand-gold');
-                btn.classList.remove('text-gray-400', 'border-brand-border');
-
-                activeLetter = btn.getAttribute('data-letter');
-                filterRacers();
-            });
-        });
+        s.addEventListener('keydown', e => { if(e.key === 'Enter') f(); });
+        t.addEventListener('change', f);
+        a.forEach(b => b.addEventListener('click', () => {
+            a.forEach(btn => { btn.classList.remove('text-brand-gold','border-brand-gold'); btn.classList.add('border-brand-border','text-gray-400'); });
+            b.classList.add('text-brand-gold','border-brand-gold'); b.classList.remove('text-gray-400','border-brand-border');
+            l = b.getAttribute('data-letter'); f();
+        }));
     </script>
-
-    <!-- UNIVERSAL FOOTER -->
-    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
-            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
-                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
-                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
-                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
-                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
-                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
-            </div>
-            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
-        </div>
-    </footer>
-
 </body>
 </html>
