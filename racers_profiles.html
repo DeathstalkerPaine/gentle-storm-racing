@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Profiles | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#121212',
+                            card: '#1e1e1e',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a',
+                            blue: '#2a75ff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 12px rgba(255, 42, 42, 0.25); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- SUB-PAGE HEADER (Uses h-logo.png) -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="h-logo.png" alt="Gentle Storm Racing Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
+            </div>
+
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Grid Directory</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    RACER PROFILES
+                </h1>
+            </div>
+
+            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition whitespace-nowrap tracking-wider">
+                    Sign In
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR (Media and Chats positioned strictly after all racer elements) -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
+            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
+            <a href="racers_profiles.html" class="text-brand-gold transition">Racers Profile</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Racer Leaderboard</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams</a>
+            <!-- Media & Chats after racers -->
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 space-y-8">
+        
+        <!-- NAVIGATION & SEARCH CONTROLS FOR HUNDREDS OF RACERS -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-4 shadow-xl">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <!-- 1. Instant Search Bar -->
+                <div class="w-full md:w-1/2 relative">
+                    <input type="text" placeholder="Search driver name or handle..." class="w-full bg-brand-bg border border-brand-border rounded-xl px-4 py-3 text-xs text-white uppercase focus:outline-none focus:border-brand-gold transition">
+                </div>
+                <!-- 2. Team / License Filter Dropdowns -->
+                <div class="w-full md:w-1/2 flex gap-3">
+                    <select class="w-1/2 bg-brand-bg border border-brand-border rounded-xl px-3 py-3 text-xs text-gray-300 uppercase focus:outline-none focus:border-brand-gold transition">
+                        <option>All Teams</option>
+                        <option>Storm Riders</option>
+                    </select>
+                    <select class="w-1/2 bg-brand-bg border border-brand-border rounded-xl px-3 py-3 text-xs text-gray-300 uppercase focus:outline-none focus:border-brand-gold transition">
+                        <option>All Tiers</option>
+                        <option>Pro Plus</option>
+                        <option>Rookie</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 3. Alphabetical Jump Bar (A-Z Index) -->
+            <div class="flex flex-wrap justify-center gap-1 pt-2 border-t border-brand-border text-[11px] font-black uppercase text-gray-400">
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">ALL</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">A</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">B</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">C</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">D</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">E</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">F</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">G</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">H</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">I</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">J</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">K</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">L</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded text-brand-gold border-brand-gold cursor-pointer transition">M</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">N</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">O</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">P</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">Q</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">R</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">S</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">T</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">U</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">V</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">W</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">X</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">Y</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">Z</span>
+            </div>
+        </section>
+
+        <!-- BACK BUTTON -->
+        <a href="racers.html" class="inline-flex items-center text-xs text-gray-400 hover:text-white transition uppercase font-bold">
+            &larr; Back to Racers Directory
+        </a>
+
+        <!-- FULL-PAGE HERO TRADING CARD: DEATHSTALKER PAINE -->
+        <div class="bg-brand-card border border-brand-gold rounded-2xl overflow-hidden shadow-2xl relative gold-border-glow">
+            
+            <!-- 1. DRIVER BACKGROUND COVER PHOTO BANNER -->
+            <div class="h-56 w-full bg-cover bg-center relative border-b border-brand-border bg-gradient-to-r from-red-950 via-gray-900 to-black" style="background-image: url('paine-banner.jpg');">
+                <div class="absolute inset-0 bg-black/40"></div>
+                <div class="absolute top-4 left-6 z-10">
+                    <span class="bg-brand-red text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded shadow border border-red-500/30">Pro League Driver</span>
+                </div>
+                <span class="absolute -bottom-4 right-4 text-9xl font-black text-white/10 italic select-none pointer-events-none">#13</span>
+            </div>
+
+            <!-- Card Body Content -->
+            <div class="p-8 relative">
+                
+                <!-- Header Row: Driver Photo & Info -->
+                <div class="flex flex-col md:flex-row items-start md:items-end justify-between -mt-24 mb-8 gap-6">
+                    
+                    <!-- 2. DRIVER PROFILE PHOTO BOX -->
+                    <div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-brand-bg shadow-2xl overflow-hidden flex items-center justify-center relative group z-10">
+                        <!-- Replace span below with: <img src="paine-photo.jpg" class="w-full h-full object-cover"> -->
+                        <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Photo Pending<br>Approval</span>
+                    </div>
+
+                    <!-- Driver Name & Team Link -->
+                    <div class="flex-1">
+                        <h2 class="text-3xl lg:text-4xl font-black text-white tracking-tight">Deathstalker Paine</h2>
+                        <p class="text-gray-400 text-xs mt-1">
+                            Affiliation: <a href="teams.html" class="text-brand-gold hover:underline font-bold">Storm Riders</a> 
+                            <span class="text-[10px] bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded ml-2 font-bold uppercase">Team Leader</span>
+                        </p>
+                    </div>
+
+                    <!-- Prominent Racing Number Badge -->
+                    <div class="bg-brand-red text-white text-3xl font-black italic px-6 py-3 rounded-lg shadow-lg border border-red-500">
+                        #13
+                    </div>
+                </div>
+
+                <!-- Bio Section -->
+                <div class="mb-8 bg-brand-bg/50 border border-brand-border p-5 rounded-xl">
+                    <h3 class="text-[10px] font-black uppercase tracking-wider text-brand-gold mb-2">Driver Statement / Bio</h3>
+                    <p class="text-gray-300 italic text-xs leading-relaxed">
+                        "Founder and lead driver for the Storm Riders. Competing in the Second Life Pro League series."
+                    </p>
+                </div>
+
+                <!-- Telemetry Stats Grid -->
+                <h3 class="text-[10px] font-black uppercase tracking-wider text-gray-400 mb-3">Lifetime Statistics</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-brand-bg border border-brand-border p-4 rounded-xl text-center">
+                        <span class="text-[9px] text-gray-500 uppercase font-bold block mb-1">League Class</span>
+                        <span class="text-lg font-black text-white uppercase">Pro</span>
+                    </div>
+                    <div class="bg-brand-bg border border-brand-border p-4 rounded-xl text-center">
+                        <span class="text-[9px] text-gray-500 uppercase font-bold block mb-1">Total Points</span>
+                        <span class="text-2xl font-black text-brand-gold">50</span>
+                    </div>
+                    <div class="bg-brand-bg border border-brand-border p-4 rounded-xl text-center">
+                        <span class="text-[9px] text-gray-500 uppercase font-bold block mb-1">Total XP</span>
+                        <span class="text-2xl font-black text-white">240</span>
+                    </div>
+                    <div class="bg-brand-bg border border-brand-border p-4 rounded-xl text-center">
+                        <span class="text-[9px] text-gray-500 uppercase font-bold block mb-1">Race Wins</span>
+                        <span class="text-2xl font-black text-brand-red">3</span>
+                    </div>
+                </div>
+
+                <!-- Recent Race Logs -->
+                <h3 class="text-[10px] font-black uppercase tracking-wider text-gray-400 mb-3">Recent Race Logs</h3>
+                <div class="border border-brand-border rounded-xl overflow-hidden bg-brand-bg/30">
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="bg-brand-bg text-gray-500 font-bold uppercase border-b border-brand-border">
+                                <th class="py-3 px-4">Race ID</th>
+                                <th class="py-3 px-4">Mode</th>
+                                <th class="py-3 px-4">Finish Position</th>
+                                <th class="py-3 px-4 text-right">Total Time</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-brand-border">
+                            <tr class="hover:bg-white/5 transition">
+                                <td class="py-3 px-4 font-mono text-gray-300">RACE-1788729864</td>
+                                <td class="py-3 px-4 uppercase font-bold text-gray-400">Normal</td>
+                                <td class="py-3 px-4 font-bold text-brand-gold">1st Place</td>
+                                <td class="py-3 px-4 text-right font-mono font-bold text-brand-red">26.593s</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
