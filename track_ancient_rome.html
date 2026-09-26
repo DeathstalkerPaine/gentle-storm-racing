@@ -6,22 +6,52 @@
     <title>Ancient Rome Colosseum | Gentle Storm Racing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } }
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#121212',
+                            card: '#1e1e1e',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a',
+                            blue: '#2a75ff'
+                        }
+                    }
+                }
+            }
+        }
     </script>
-    <style>.blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }</style>
+    <style>
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+    </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
-            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10"><a href="index.html"><img src="h-logo.png" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a></div>
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="h-logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
+            </div>
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Circuit Profile</span>
                 <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">Ancient Rome Colosseum</h1>
             </div>
-            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10"><a href="admin.html" class="bg-brand-red text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded">Sign In</a></div>
+            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10">
+                <a href="admin.html" class="bg-brand-red text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded">Sign In</a>
+            </div>
         </div>
     </header>
 
+    <!-- SUB-NAVBAR -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex justify-center gap-6 text-xs font-bold uppercase">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold">GSR Main Menu</a>
@@ -29,6 +59,7 @@
         </div>
     </nav>
 
+    <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 space-y-10">
         <section class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-2xl">
             <div class="w-full aspect-video bg-[#111] relative flex items-center justify-center border-b border-brand-border">
