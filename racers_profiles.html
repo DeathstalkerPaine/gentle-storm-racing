@@ -100,7 +100,7 @@
                 </div>
             </div>
 
-            <!-- 3. Alphabetical Jump Bar (A-Z Index) - Fixed 'ALL' highlighted by default -->
+            <!-- 3. Alphabetical Jump Bar (A-Z Index) -->
             <div class="flex flex-wrap justify-center gap-1 pt-2 border-t border-brand-border text-[11px] font-black uppercase text-gray-400">
                 <span class="px-2.5 py-1 bg-brand-bg border border-brand-gold rounded text-brand-gold cursor-pointer transition">ALL</span>
                 <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">A</span>
@@ -132,108 +132,96 @@
             </div>
         </section>
 
-        <!-- GRID OF COMPACT RACER CARDS (16-24 per page layout) -->
+        <!-- GRID OF 16 COMPACT RACER CARDS -->
         <section class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             
-            <!-- Driver Card 1: Deathstalker Paine (You!) -->
+            <!-- Driver Card 1: Deathstalker Paine (Active) -->
             <div class="bg-brand-card border border-brand-gold rounded-xl p-5 flex flex-col justify-between shadow-xl group hover:scale-[1.02] transition gold-border-glow">
                 <div>
-                    <!-- Top Row: Badge & Number -->
                     <div class="flex justify-between items-center mb-3">
                         <span class="bg-brand-red text-white text-[9px] font-black uppercase px-2 py-0.5 rounded">Pro League</span>
                         <span class="text-brand-red font-black italic text-lg">#13</span>
                     </div>
-                    <!-- Avatar Photo Box -->
                     <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border overflow-hidden">
                         <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Driver Photo</span>
                     </div>
-                    <!-- Driver Info -->
                     <h3 class="text-base font-black uppercase text-white tracking-wide group-hover:text-brand-gold transition">Deathstalker Paine</h3>
-                    <p class="text-[11px] text-gray-400 mt-1">
-                        Team: <span class="text-white font-bold">Storm Riders</span>
-                    </p>
+                    <p class="text-[11px] text-gray-400 mt-1">Team: <span class="text-white font-bold">Storm Riders</span></p>
                     <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center">
-                        <div>
-                            <span class="block text-[8px] uppercase font-bold text-gray-500">Points</span>
-                            <span class="text-xs font-black text-brand-gold">50</span>
-                        </div>
-                        <div>
-                            <span class="block text-[8px] uppercase font-bold text-gray-500">Wins</span>
-                            <span class="text-xs font-black text-white">3</span>
-                        </div>
+                        <div><span class="block text-[8px] uppercase font-bold text-gray-500">Points</span><span class="text-xs font-black text-brand-gold">50</span></div>
+                        <div><span class="block text-[8px] uppercase font-bold text-gray-500">Wins</span><span class="text-xs font-black text-white">3</span></div>
                     </div>
                 </div>
-                <!-- Action Button -->
                 <a href="#profile-modal" class="mt-5 text-[11px] font-black uppercase text-brand-gold bg-brand-bg border border-brand-border group-hover:border-brand-gold text-center py-2 rounded transition">
                     View Full Profile →
                 </a>
             </div>
 
-            <!-- Placeholder Card 2 (Future Driver) -->
+            <!-- Placeholder Cards 2 through 16 (Open Slots to fill the 16-card layout) -->
+            <!-- We will generate 15 identical clean placeholders for upcoming grid entries -->
+            <script>
+                // This template loop or repeated block creates exactly 15 open slots
+            </script>
+            
+            <!-- Card 2 -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
-                <div>
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span>
-                        <span class="text-gray-500 font-black italic text-lg">#--</span>
-                    </div>
-                    <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border">
-                        <span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span>
-                    </div>
-                    <h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3>
-                    <p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p>
-                    <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center">
-                        <div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div>
-                        <div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div>
-                    </div>
-                </div>
-                <span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">
-                    Slot Available
-                </span>
-            </div>
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
 
-            <!-- Placeholder Card 3 -->
+            <!-- Card 3 -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
-                <div>
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span>
-                        <span class="text-gray-500 font-black italic text-lg">#--</span>
-                    </div>
-                    <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border">
-                        <span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span>
-                    </div>
-                    <h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3>
-                    <p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p>
-                    <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center">
-                        <div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div>
-                        <div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div>
-                    </div>
-                </div>
-                <span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">
-                    Slot Available
-                </span>
-            </div>
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
 
-            <!-- Placeholder Card 4 -->
+            <!-- Card 4 -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
-                <div>
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span>
-                        <span class="text-gray-500 font-black italic text-lg">#--</span>
-                    </div>
-                    <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border">
-                        <span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span>
-                    </div>
-                    <h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3>
-                    <p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p>
-                    <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center">
-                        <div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div>
-                        <div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div>
-                    </div>
-                </div>
-                <span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">
-                    Slot Available
-                </span>
-            </div>
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
+
+            <!-- Card 5 -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
+
+            <!-- Card 6 -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
+
+            <!-- Card 7 -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
+
+            <!-- Card 8 -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
+
+            <!-- Card 9 -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
+
+            <!-- Card 10 -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
+
+            <!-- Card 11 -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
+
+            <!-- Card 12 -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
+
+            <!-- Card 13 -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
+
+            <!-- Card 14 -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
+
+            <!-- Card 15 -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
+
+            <!-- Card 16 -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div><div class="flex justify-between items-center mb-3"><span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span><span class="text-gray-500 font-black italic text-lg">#--</span></div><div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span></div><h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3><p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p><div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center"><div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div><div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div></div></div><span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span></div>
 
         </section>
 
