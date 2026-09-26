@@ -1,122 +1,22 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Racetracks Hub | Gentle Storm Racing</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            bg: '#121212',
-                            card: '#1e1e1e',
-                            border: '#333333',
-                            gold: '#c5a059',
-                            red: '#ff2a2a',
-                            blue: '#2a75ff'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
-        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 12px rgba(255, 42, 42, 0.25); }
-        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #121212; }
-        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
-    </style>
-</head>
-<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
-
-    <!-- MAIN HUB HEADER: TALL DESKTOP HEIGHT & PERFECT MOBILE -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
-            
-            <!-- Left (Desktop) / Top (Mobile): Logo -->
-            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
-                <a href="index.html" class="inline-block">
-                    <img src="h-logo.png" alt="Gentle Storm Racing Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
-                </a>
-            </div>
-
-            <!-- Center: Title -->
-            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
-                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Official Circuits</span>
-                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                    RACETRACKS
-                </h1>
-            </div>
-
-            <!-- Right: Sign In Button -->
-            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
-                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition whitespace-nowrap tracking-wider">
-                    Sign In
-                </a>
-            </div>
-
-        </div>
-    </header>
-
-    <!-- SUB-NAVBAR LINKS -->
-    <nav class="bg-brand-bg border-b border-brand-border py-3">
-        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
-            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
-            <a href="racetracks.html" class="text-brand-gold transition">Racetracks</a>
-            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers</a>
-            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams</a>
-            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">Leagues</a>
-            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards</a>
-            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
-            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
-        </div>
-    </nav>
-
-    <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
-
-        <!-- INTRO BANNER -->
-        <section class="bg-brand-card border border-brand-border rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
-            <div>
-                <span class="text-[10px] font-black uppercase text-brand-gold tracking-widest bg-black/50 px-2 py-1 rounded inline-block mb-2 border border-brand-gold/30">Telemetry Active</span>
-                <h2 class="text-2xl font-black uppercase text-white">Second Life Circuit Directory</h2>
-                <p class="text-xs text-gray-400 mt-1 max-w-2xl">
-                    Explore our official championship circuits. Each track is fully integrated with the GSR telemetry system, automatically logging lap times, sector splits, and leaderboard standings in real time.
-                </p>
-            </div>
-            <div class="bg-brand-bg border border-brand-border px-6 py-4 rounded-xl text-center min-w-[180px]">
-                <span class="block text-2xl font-black text-brand-blue">4 / 4</span>
-                <span class="text-[10px] uppercase font-bold text-gray-400">Active Circuits</span>
-            </div>
-        </section>
-
-        <!-- RACETRACKS GRID (4 INITIAL TRACKS) -->
+        <!-- RACETRACKS GRID (LAS VEGAS, BACK TO FUTURE, ANCIENT ROME, ABANDONED CITY) -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
-            <!-- Track 1: Apex Circuit -->
+            <!-- Track 1: Las Vegas -->
             <div class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-2xl flex flex-col group hover:border-brand-gold transition gold-border-glow">
                 <div class="aspect-video bg-[#111] relative flex items-center justify-center border-b border-brand-border overflow-hidden">
-                    <span class="text-gray-500 font-black uppercase tracking-widest text-xs z-10">[ Track Layout Preview: Las Vegas ]</span>
+                    <span class="text-gray-500 font-black uppercase tracking-widest text-xs z-10">[ Track Layout: Las Vegas ]</span>
                     <div class="absolute inset-0 bg-gradient-to-t from-[#1e1e1e] to-transparent z-0"></div>
                     <span class="absolute top-3 left-3 bg-brand-gold text-black font-black uppercase text-[10px] px-2.5 py-1 rounded">Circuit 01</span>
                 </div>
                 <div class="p-6 flex flex-col flex-grow space-y-4">
-                    <h3 class="text-xl font-black uppercase text-white tracking-wide group-hover:text-brand-gold transition">Las Vegas</h3>
+                    <h3 class="text-xl font-black uppercase text-white tracking-wide group-hover:text-brand-gold transition">Las Vegas Strip Circuit</h3>
                     <p class="text-xs text-gray-400 leading-relaxed flex-grow">
-                        Our premier high-speed road course featuring sweeping technical hairpins and a massive 1.2km straightaway designed to test top-end engine tuning and gear ratios.
+                        Race down the neon-drenched boulevard under the bright lights. High-speed straights past famous resort landmarks require maximum top-end gearing.
                     </p>
                     <div class="grid grid-cols-3 gap-2 py-3 border-y border-brand-border text-center">
                         <div>
                             <span class="block text-[9px] uppercase font-bold text-gray-500">Length</span>
-                            <span class="text-xs font-black text-white">4.8 KM</span>
+                            <span class="text-xs font-black text-white">5.1 KM</span>
                         </div>
                         <div>
                             <span class="block text-[9px] uppercase font-bold text-gray-500">Difficulty</span>
@@ -124,34 +24,34 @@
                         </div>
                         <div>
                             <span class="block text-[9px] uppercase font-bold text-gray-500">Lap Record</span>
-                            <span class="text-xs font-black text-brand-blue">1:14.289</span>
+                            <span class="text-xs font-black text-brand-blue">1:18.420</span>
                         </div>
                     </div>
                     <div class="pt-2 flex justify-between items-center">
-                        <span class="text-[10px] text-gray-400">Record Holder: <strong class="text-white">ShadowRacer99</strong></span>
-                        <a href="leaderboards.html" class="bg-brand-bg border border-brand-gold hover:bg-brand-gold hover:text-black text-brand-gold text-xs font-black uppercase px-4 py-2 rounded transition">
-                            View Leaderboard
+                        <span class="text-[10px] text-gray-400">Record Holder: <strong class="text-white">NeonAce</strong></span>
+                        <a href="track_las_vegas.html" class="bg-brand-bg border border-brand-gold hover:bg-brand-gold hover:text-black text-brand-gold text-xs font-black uppercase px-4 py-2 rounded transition">
+                            View Track Details
                         </a>
                     </div>
                 </div>
             </div>
 
-            <!-- Track 2: Storm Valley Speedway -->
+            <!-- Track 2: Back to Future -->
             <div class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-2xl flex flex-col group hover:border-brand-red transition red-border-glow">
                 <div class="aspect-video bg-[#111] relative flex items-center justify-center border-b border-brand-border overflow-hidden">
-                    <span class="text-gray-500 font-black uppercase tracking-widest text-xs z-10">[ Track Layout Preview: Back 2 Future  ]</span>
+                    <span class="text-gray-500 font-black uppercase tracking-widest text-xs z-10">[ Track Layout: Back to Future ]</span>
                     <div class="absolute inset-0 bg-gradient-to-t from-[#1e1e1e] to-transparent z-0"></div>
                     <span class="absolute top-3 left-3 bg-brand-red text-white font-black uppercase text-[10px] px-2.5 py-1 rounded">Circuit 02</span>
                 </div>
                 <div class="p-6 flex flex-col flex-grow space-y-4">
-                    <h3 class="text-xl font-black uppercase text-white tracking-wide group-hover:text-brand-red transition">Back 2 Future</h3>
+                    <h3 class="text-xl font-black uppercase text-white tracking-wide group-hover:text-brand-red transition">Back to Future Speedway</h3>
                     <p class="text-xs text-gray-400 leading-relaxed flex-grow">
-                        A grueling endurance oval embedded in the canyons. High banking corners and unpredictable crosswinds demand flawless vehicle drifting control and precise pit stop timing.
+                        A time-warped sci-fi circuit featuring futuristic architecture, neon flux grids, and gravity-defying parabolic curves that test high-speed stability.
                     </p>
                     <div class="grid grid-cols-3 gap-2 py-3 border-y border-brand-border text-center">
                         <div>
                             <span class="block text-[9px] uppercase font-bold text-gray-500">Length</span>
-                            <span class="text-xs font-black text-white">6.2 KM</span>
+                            <span class="text-xs font-black text-white">4.5 KM</span>
                         </div>
                         <div>
                             <span class="block text-[9px] uppercase font-bold text-gray-500">Difficulty</span>
@@ -159,34 +59,34 @@
                         </div>
                         <div>
                             <span class="block text-[9px] uppercase font-bold text-gray-500">Lap Record</span>
-                            <span class="text-xs font-black text-brand-blue">1:42.105</span>
+                            <span class="text-xs font-black text-brand-blue">1:10.955</span>
                         </div>
                     </div>
                     <div class="pt-2 flex justify-between items-center">
-                        <span class="text-[10px] text-gray-400">Record Holder: <strong class="text-white">Vortex_SL</strong></span>
-                        <a href="leaderboards.html" class="bg-brand-bg border border-brand-red hover:bg-brand-red hover:text-white text-brand-red text-xs font-black uppercase px-4 py-2 rounded transition">
-                            View Leaderboard
+                        <span class="text-[10px] text-gray-400">Record Holder: <strong class="text-white">DocBrown_SL</strong></span>
+                        <a href="track_back_to_future.html" class="bg-brand-bg border border-brand-red hover:bg-brand-red hover:text-white text-brand-red text-xs font-black uppercase px-4 py-2 rounded transition">
+                            View Track Details
                         </a>
                     </div>
                 </div>
             </div>
 
-            <!-- Track 3: Neon Harbor Sprint -->
+            <!-- Track 3: Ancient Rome -->
             <div class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-2xl flex flex-col group hover:border-brand-blue transition blue-border-glow">
                 <div class="aspect-video bg-[#111] relative flex items-center justify-center border-b border-brand-border overflow-hidden">
-                    <span class="text-gray-500 font-black uppercase tracking-widest text-xs z-10">[ Track Layout Preview: Ancient Rome ]</span>
+                    <span class="text-gray-500 font-black uppercase tracking-widest text-xs z-10">[ Track Layout: Ancient Rome ]</span>
                     <div class="absolute inset-0 bg-gradient-to-t from-[#1e1e1e] to-transparent z-0"></div>
                     <span class="absolute top-3 left-3 bg-brand-blue text-white font-black uppercase text-[10px] px-2.5 py-1 rounded">Circuit 03</span>
                 </div>
                 <div class="p-6 flex flex-col flex-grow space-y-4">
-                    <h3 class="text-xl font-black uppercase text-white tracking-wide group-hover:text-brand-blue transition">Ancient Rome</h3>
+                    <h3 class="text-xl font-black uppercase text-white tracking-wide group-hover:text-brand-blue transition">Ancient Rome Colosseum Circuit</h3>
                     <p class="text-xs text-gray-400 leading-relaxed flex-grow">
-                        A tight street circuit winding through the docks and neon-lit waterfronts. Zero room for error with concrete barriers lining every apex. Agility is king here.
+                        Battle for glory through grand stone colosseums, tight archway chicanes, and dusty historic brick roads echoing with the roar of engines.
                     </p>
                     <div class="grid grid-cols-3 gap-2 py-3 border-y border-brand-border text-center">
                         <div>
                             <span class="block text-[9px] uppercase font-bold text-gray-500">Length</span>
-                            <span class="text-xs font-black text-white">3.1 KM</span>
+                            <span class="text-xs font-black text-white">5.8 KM</span>
                         </div>
                         <div>
                             <span class="block text-[9px] uppercase font-bold text-gray-500">Difficulty</span>
@@ -194,34 +94,34 @@
                         </div>
                         <div>
                             <span class="block text-[9px] uppercase font-bold text-gray-500">Lap Record</span>
-                            <span class="text-xs font-black text-brand-blue">0:58.412</span>
+                            <span class="text-xs font-black text-brand-blue">1:35.812</span>
                         </div>
                     </div>
                     <div class="pt-2 flex justify-between items-center">
-                        <span class="text-[10px] text-gray-400">Record Holder: <strong class="text-white">BlazeRunner</strong></span>
-                        <a href="leaderboards.html" class="bg-brand-bg border border-brand-blue hover:bg-brand-blue hover:text-white text-brand-blue text-xs font-black uppercase px-4 py-2 rounded transition">
-                            View Leaderboard
+                        <span class="text-[10px] text-gray-400">Record Holder: <strong class="text-white">Maximus_GSR</strong></span>
+                        <a href="track_ancient_rome.html" class="bg-brand-bg border border-brand-blue hover:bg-brand-blue hover:text-white text-brand-blue text-xs font-black uppercase px-4 py-2 rounded transition">
+                            View Track Details
                         </a>
                     </div>
                 </div>
             </div>
 
-            <!-- Track 4: Nightfall Endurance -->
+            <!-- Track 4: Abandoned City -->
             <div class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-2xl flex flex-col group hover:border-brand-gold transition gold-border-glow">
                 <div class="aspect-video bg-[#111] relative flex items-center justify-center border-b border-brand-border overflow-hidden">
-                    <span class="text-gray-500 font-black uppercase tracking-widest text-xs z-10">[ Track Layout Preview: Abandoned City ]</span>
+                    <span class="text-gray-500 font-black uppercase tracking-widest text-xs z-10">[ Track Layout: Abandoned City ]</span>
                     <div class="absolute inset-0 bg-gradient-to-t from-[#1e1e1e] to-transparent z-0"></div>
                     <span class="absolute top-3 left-3 bg-brand-gold text-black font-black uppercase text-[10px] px-2.5 py-1 rounded">Circuit 04</span>
                 </div>
                 <div class="p-6 flex flex-col flex-grow space-y-4">
-                    <h3 class="text-xl font-black uppercase text-white tracking-wide group-hover:text-brand-gold transition">Abandoned City</h3>
+                    <h3 class="text-xl font-black uppercase text-white tracking-wide group-hover:text-brand-gold transition">Abandoned City Ruins</h3>
                     <p class="text-xs text-gray-400 leading-relaxed flex-grow">
-                        Run under the midnight sky. This damp, low-visibility circuit tests driver concentration and tire wear management across multi-lap races.
+                        Navigate through overgrown concrete canyons, cracked asphalt streets, and derelict industrial zones where precision and nerve are tested at every turn.
                     </p>
                     <div class="grid grid-cols-3 gap-2 py-3 border-y border-brand-border text-center">
                         <div>
                             <span class="block text-[9px] uppercase font-bold text-gray-500">Length</span>
-                            <span class="text-xs font-black text-white">5.5 KM</span>
+                            <span class="text-xs font-black text-white">4.2 KM</span>
                         </div>
                         <div>
                             <span class="block text-[9px] uppercase font-bold text-gray-500">Difficulty</span>
@@ -229,35 +129,16 @@
                         </div>
                         <div>
                             <span class="block text-[9px] uppercase font-bold text-gray-500">Lap Record</span>
-                            <span class="text-xs font-black text-brand-blue">1:31.904</span>
+                            <span class="text-xs font-black text-brand-blue">1:21.033</span>
                         </div>
                     </div>
                     <div class="pt-2 flex justify-between items-center">
-                        <span class="text-[10px] text-gray-400">Record Holder: <strong class="text-white">NightStorm</strong></span>
-                        <a href="leaderboards.html" class="bg-brand-bg border border-brand-gold hover:bg-brand-gold hover:text-black text-brand-gold text-xs font-black uppercase px-4 py-2 rounded transition">
-                            View Leaderboard
+                        <span class="text-[10px] text-gray-400">Record Holder: <strong class="text-white">RustDrifter</strong></span>
+                        <a href="track_abandoned_city.html" class="bg-brand-bg border border-brand-gold hover:bg-brand-gold hover:text-black text-brand-gold text-xs font-black uppercase px-4 py-2 rounded transition">
+                            View Track Details
                         </a>
                     </div>
                 </div>
             </div>
 
         </section>
-
-    </main>
-
-    <!-- UNIVERSAL FOOTER -->
-    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
-            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
-                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
-                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
-                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
-                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
-                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
-            </div>
-            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
-        </div>
-    </footer>
-
-</body>
-</html>
