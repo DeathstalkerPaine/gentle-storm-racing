@@ -1,4 +1,102 @@
-        <!-- RACETRACKS GRID (LAS VEGAS, BACK TO FUTURE, ANCIENT ROME, ABANDONED CITY) -->
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Racetracks Hub | Gentle Storm Racing</title>
+    <!-- Tailwind CSS Script -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#121212',
+                            card: '#1e1e1e',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a',
+                            blue: '#2a75ff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 12px rgba(255, 42, 42, 0.25); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- MAIN HUB HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="h-logo.png" alt="Gentle Storm Racing Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
+            </div>
+
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Official Circuits</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    RACETRACKS
+                </h1>
+            </div>
+
+            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition whitespace-nowrap tracking-wider">
+                    Sign In
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="racetracks.html" class="text-brand-gold transition">Racetracks</a>
+            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams</a>
+            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">Leagues</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT GRID -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
+
+        <!-- INTRO BANNER -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+            <div>
+                <span class="text-[10px] font-black uppercase text-brand-gold tracking-widest bg-black/50 px-2 py-1 rounded inline-block mb-2 border border-brand-gold/30">Telemetry Active</span>
+                <h2 class="text-2xl font-black uppercase text-white">Second Life Circuit Directory</h2>
+                <p class="text-xs text-gray-400 mt-1 max-w-2xl">
+                    Explore our official championship circuits. Each track is fully integrated with the GSR telemetry system.
+                </p>
+            </div>
+            <div class="bg-brand-bg border border-brand-border px-6 py-4 rounded-xl text-center min-w-[180px]">
+                <span class="block text-2xl font-black text-brand-blue">4 / 4</span>
+                <span class="text-[10px] uppercase font-bold text-gray-400">Active Circuits</span>
+            </div>
+        </section>
+
+        <!-- RACETRACKS GRID -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
             <!-- Track 1: Las Vegas -->
@@ -142,3 +240,22 @@
             </div>
 
         </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
