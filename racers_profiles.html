@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Driver Profiles | Gentle Storm Racing</title>
+    <title>Driver Profiles Directory | Gentle Storm Racing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -26,7 +26,6 @@
     </script>
     <style>
         .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
-        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 12px rgba(255, 42, 42, 0.25); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
@@ -78,9 +77,9 @@
     </nav>
 
     <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 space-y-8">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
         
-        <!-- NAVIGATION & SEARCH CONTROLS FOR HUNDREDS OF RACERS -->
+        <!-- NAVIGATION & SEARCH CONTROLS -->
         <section class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-4 shadow-xl">
             <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                 <!-- 1. Instant Search Bar -->
@@ -101,9 +100,9 @@
                 </div>
             </div>
 
-            <!-- 3. Alphabetical Jump Bar (A-Z Index) -->
+            <!-- 3. Alphabetical Jump Bar (A-Z Index) - Fixed 'ALL' highlighted by default -->
             <div class="flex flex-wrap justify-center gap-1 pt-2 border-t border-brand-border text-[11px] font-black uppercase text-gray-400">
-                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">ALL</span>
+                <span class="px-2.5 py-1 bg-brand-bg border border-brand-gold rounded text-brand-gold cursor-pointer transition">ALL</span>
                 <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">A</span>
                 <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">B</span>
                 <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">C</span>
@@ -116,7 +115,7 @@
                 <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">J</span>
                 <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">K</span>
                 <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">L</span>
-                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded text-brand-gold border-brand-gold cursor-pointer transition">M</span>
+                <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">M</span>
                 <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">N</span>
                 <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">O</span>
                 <span class="px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">P</span>
@@ -133,104 +132,118 @@
             </div>
         </section>
 
-        <!-- BACK BUTTON -->
-        <a href="racers.html" class="inline-flex items-center text-xs text-gray-400 hover:text-white transition uppercase font-bold">
-            &larr; Back to Racers Directory
-        </a>
-
-        <!-- FULL-PAGE HERO TRADING CARD: DEATHSTALKER PAINE -->
-        <div class="bg-brand-card border border-brand-gold rounded-2xl overflow-hidden shadow-2xl relative gold-border-glow">
+        <!-- GRID OF COMPACT RACER CARDS (16-24 per page layout) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             
-            <!-- 1. DRIVER BACKGROUND COVER PHOTO BANNER -->
-            <div class="h-56 w-full bg-cover bg-center relative border-b border-brand-border bg-gradient-to-r from-red-950 via-gray-900 to-black" style="background-image: url('paine-banner.jpg');">
-                <div class="absolute inset-0 bg-black/40"></div>
-                <div class="absolute top-4 left-6 z-10">
-                    <span class="bg-brand-red text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded shadow border border-red-500/30">Pro League Driver</span>
-                </div>
-                <span class="absolute -bottom-4 right-4 text-9xl font-black text-white/10 italic select-none pointer-events-none">#13</span>
-            </div>
-
-            <!-- Card Body Content -->
-            <div class="p-8 relative">
-                
-                <!-- Header Row: Driver Photo & Info -->
-                <div class="flex flex-col md:flex-row items-start md:items-end justify-between -mt-24 mb-8 gap-6">
-                    
-                    <!-- 2. DRIVER PROFILE PHOTO BOX -->
-                    <div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-brand-bg shadow-2xl overflow-hidden flex items-center justify-center relative group z-10">
-                        <!-- Replace span below with: <img src="paine-photo.jpg" class="w-full h-full object-cover"> -->
-                        <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Photo Pending<br>Approval</span>
+            <!-- Driver Card 1: Deathstalker Paine (You!) -->
+            <div class="bg-brand-card border border-brand-gold rounded-xl p-5 flex flex-col justify-between shadow-xl group hover:scale-[1.02] transition gold-border-glow">
+                <div>
+                    <!-- Top Row: Badge & Number -->
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="bg-brand-red text-white text-[9px] font-black uppercase px-2 py-0.5 rounded">Pro League</span>
+                        <span class="text-brand-red font-black italic text-lg">#13</span>
                     </div>
-
-                    <!-- Driver Name & Team Link -->
-                    <div class="flex-1">
-                        <h2 class="text-3xl lg:text-4xl font-black text-white tracking-tight">Deathstalker Paine</h2>
-                        <p class="text-gray-400 text-xs mt-1">
-                            Affiliation: <a href="teams.html" class="text-brand-gold hover:underline font-bold">Storm Riders</a> 
-                            <span class="text-[10px] bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded ml-2 font-bold uppercase">Team Leader</span>
-                        </p>
+                    <!-- Avatar Photo Box -->
+                    <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border overflow-hidden">
+                        <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Driver Photo</span>
                     </div>
-
-                    <!-- Prominent Racing Number Badge -->
-                    <div class="bg-brand-red text-white text-3xl font-black italic px-6 py-3 rounded-lg shadow-lg border border-red-500">
-                        #13
-                    </div>
-                </div>
-
-                <!-- Bio Section -->
-                <div class="mb-8 bg-brand-bg/50 border border-brand-border p-5 rounded-xl">
-                    <h3 class="text-[10px] font-black uppercase tracking-wider text-brand-gold mb-2">Driver Statement / Bio</h3>
-                    <p class="text-gray-300 italic text-xs leading-relaxed">
-                        "Founder and lead driver for the Storm Riders. Competing in the Second Life Pro League series."
+                    <!-- Driver Info -->
+                    <h3 class="text-base font-black uppercase text-white tracking-wide group-hover:text-brand-gold transition">Deathstalker Paine</h3>
+                    <p class="text-[11px] text-gray-400 mt-1">
+                        Team: <span class="text-white font-bold">Storm Riders</span>
                     </p>
-                </div>
-
-                <!-- Telemetry Stats Grid -->
-                <h3 class="text-[10px] font-black uppercase tracking-wider text-gray-400 mb-3">Lifetime Statistics</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <div class="bg-brand-bg border border-brand-border p-4 rounded-xl text-center">
-                        <span class="text-[9px] text-gray-500 uppercase font-bold block mb-1">League Class</span>
-                        <span class="text-lg font-black text-white uppercase">Pro</span>
-                    </div>
-                    <div class="bg-brand-bg border border-brand-border p-4 rounded-xl text-center">
-                        <span class="text-[9px] text-gray-500 uppercase font-bold block mb-1">Total Points</span>
-                        <span class="text-2xl font-black text-brand-gold">50</span>
-                    </div>
-                    <div class="bg-brand-bg border border-brand-border p-4 rounded-xl text-center">
-                        <span class="text-[9px] text-gray-500 uppercase font-bold block mb-1">Total XP</span>
-                        <span class="text-2xl font-black text-white">240</span>
-                    </div>
-                    <div class="bg-brand-bg border border-brand-border p-4 rounded-xl text-center">
-                        <span class="text-[9px] text-gray-500 uppercase font-bold block mb-1">Race Wins</span>
-                        <span class="text-2xl font-black text-brand-red">3</span>
+                    <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center">
+                        <div>
+                            <span class="block text-[8px] uppercase font-bold text-gray-500">Points</span>
+                            <span class="text-xs font-black text-brand-gold">50</span>
+                        </div>
+                        <div>
+                            <span class="block text-[8px] uppercase font-bold text-gray-500">Wins</span>
+                            <span class="text-xs font-black text-white">3</span>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Recent Race Logs -->
-                <h3 class="text-[10px] font-black uppercase tracking-wider text-gray-400 mb-3">Recent Race Logs</h3>
-                <div class="border border-brand-border rounded-xl overflow-hidden bg-brand-bg/30">
-                    <table class="w-full text-left text-xs">
-                        <thead>
-                            <tr class="bg-brand-bg text-gray-500 font-bold uppercase border-b border-brand-border">
-                                <th class="py-3 px-4">Race ID</th>
-                                <th class="py-3 px-4">Mode</th>
-                                <th class="py-3 px-4">Finish Position</th>
-                                <th class="py-3 px-4 text-right">Total Time</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-brand-border">
-                            <tr class="hover:bg-white/5 transition">
-                                <td class="py-3 px-4 font-mono text-gray-300">RACE-1788729864</td>
-                                <td class="py-3 px-4 uppercase font-bold text-gray-400">Normal</td>
-                                <td class="py-3 px-4 font-bold text-brand-gold">1st Place</td>
-                                <td class="py-3 px-4 text-right font-mono font-bold text-brand-red">26.593s</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
+                <!-- Action Button -->
+                <a href="#profile-modal" class="mt-5 text-[11px] font-black uppercase text-brand-gold bg-brand-bg border border-brand-border group-hover:border-brand-gold text-center py-2 rounded transition">
+                    View Full Profile →
+                </a>
             </div>
+
+            <!-- Placeholder Card 2 (Future Driver) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span>
+                        <span class="text-gray-500 font-black italic text-lg">#--</span>
+                    </div>
+                    <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border">
+                        <span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span>
+                    </div>
+                    <h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3>
+                    <p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p>
+                    <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center">
+                        <div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div>
+                        <div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div>
+                    </div>
+                </div>
+                <span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">
+                    Slot Available
+                </span>
+            </div>
+
+            <!-- Placeholder Card 3 -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span>
+                        <span class="text-gray-500 font-black italic text-lg">#--</span>
+                    </div>
+                    <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border">
+                        <span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span>
+                    </div>
+                    <h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3>
+                    <p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p>
+                    <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center">
+                        <div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div>
+                        <div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div>
+                    </div>
+                </div>
+                <span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">
+                    Slot Available
+                </span>
+            </div>
+
+            <!-- Placeholder Card 4 -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60">
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded">Rookie</span>
+                        <span class="text-gray-500 font-black italic text-lg">#--</span>
+                    </div>
+                    <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border">
+                        <span class="text-[10px] text-gray-600 uppercase text-center font-bold">Open Slot</span>
+                    </div>
+                    <h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Driver</h3>
+                    <p class="text-[11px] text-gray-600 mt-1">Team: Unassigned</p>
+                    <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-brand-border text-center">
+                        <div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div>
+                        <div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div>
+                    </div>
+                </div>
+                <span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">
+                    Slot Available
+                </span>
+            </div>
+
+        </section>
+
+        <!-- PAGINATION CONTROLS -->
+        <div class="flex justify-center items-center gap-2 pt-4">
+            <button class="px-4 py-2 bg-brand-card border border-brand-border text-xs font-bold uppercase rounded text-gray-400 cursor-not-allowed">Previous</button>
+            <span class="px-4 py-2 bg-brand-gold text-black font-black text-xs rounded">1</span>
+            <button class="px-4 py-2 bg-brand-card border border-brand-border text-xs font-bold uppercase rounded hover:text-white hover:border-brand-gold transition">Next</button>
         </div>
+
     </main>
 
     <!-- UNIVERSAL FOOTER -->
