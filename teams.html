@@ -1,86 +1,219 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gentle Storm Racing - Teams</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              red: '#ff2a2a',
-              dark: '#0e1117',
-              card: '#161b22',
-              border: '#30363d'
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teams Hub | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' }
+                    }
+                }
             }
-          }
         }
-      }
-    }
-  </script>
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
 </head>
-<body class="bg-brand-dark text-gray-100 min-h-screen font-sans">
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-  <!-- Header Navigation -->
-  <header class="border-b border-brand-border bg-brand-card py-4 px-8 flex justify-between items-center shadow-lg">
-    <div class="flex items-center space-x-3">
-      <div class="w-3 h-8 bg-brand-red rounded-sm"></div>
-      <h1 class="text-2xl font-black tracking-wider uppercase text-white">Gentle Storm <span class="text-brand-red">Racing</span></h1>
-    </div>
-    <nav class="flex space-x-6 text-sm font-semibold text-gray-400">
-      <a href="index.html" class="hover:text-white transition">Main Menu</a>
-      <a href="leaderboards.html" class="hover:text-white transition">Leaderboards</a>
-      <a href="#" class="hover:text-white transition">Tracks</a>
-      <a href="racers.html" class="hover:text-white transition">Racers</a>
-      <a href="teams.html" class="text-white border-b-2 border-brand-red pb-1">Teams</a>
-    </nav>
-  </header>
-
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto py-10 px-4">
-    
-    <div class="flex justify-between items-end mb-8 border-b border-brand-border pb-4">
-      <div>
-        <h2 class="text-3xl font-bold uppercase tracking-tight text-white">Active Teams</h2>
-        <p class="text-gray-400 mt-1">Official racing syndicates and league rosters.</p>
-      </div>
-    </div>
-
-    <!-- Teams Directory Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      
-      <!-- Clickable Storm Riders Card -->
-      <a href="team.html" class="block bg-brand-card border border-brand-border hover:border-brand-red rounded-xl overflow-hidden shadow-2xl transition duration-200 transform hover:-translate-y-1 group">
-        
-        <!-- Background Banner Preview -->
-        <div class="h-28 bg-cover bg-center relative border-b border-brand-border bg-gradient-to-r from-red-950 to-brand-dark" style="background-image: url('stormriders-banner.jpg');">
-          <div class="absolute inset-0 bg-black/40"></div>
-        </div>
-
-        <div class="p-6 relative">
-          <!-- Team Logo Box -->
-          <div class="flex justify-between items-end -mt-16 mb-4">
-            <div class="w-20 h-20 rounded-lg border-4 border-brand-card bg-gray-900 flex items-center justify-center overflow-hidden shadow-lg z-10">
-              <span class="text-xs text-gray-500 uppercase text-center font-bold">Logo</span>
+    <!-- MAIN PAGE HEADER (Uses logo.png) -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
             </div>
-            <span class="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded uppercase shadow">Pro League</span>
-          </div>
 
-          <h3 class="text-3xl font-black tracking-wider text-white group-hover:text-brand-red transition">Storm Riders</h3>
-          <p class="text-gray-400 text-sm mb-4">Founded by Deathstalker Paine. Seeking dominance on the track.</p>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Syndicates & Constructors</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    GSR TEAMS
+                </h1>
+            </div>
 
-          <div class="border-t border-brand-border pt-4 flex justify-between items-center text-sm">
-            <span class="text-gray-400">Leader: <strong class="text-white">Deathstalker Paine</strong></span>
-            <span class="text-brand-red font-bold">View Team Profile &rarr;</span>
-          </div>
+            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition tracking-wider">
+                    Sign In
+                </a>
+            </div>
         </div>
-      </a>
+    </header>
 
-    </div>
-  </main>
+    <!-- SUB-NAVBAR (Media and Chats follow all team elements) -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
+            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
+            <a href="teams.html" class="text-brand-gold transition">Teams Hub</a>
+            <a href="teams_profiles.html" class="text-gray-300 hover:text-brand-gold transition">Teams Profile</a>
+            <a href="team_leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Team Leaderboards</a>
+            <a href="team_events.html" class="text-gray-300 hover:text-brand-gold transition">Team Events</a>
+            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">League</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT GRID -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
+
+        <!-- ROW 1: 3-Column Top 5 Lists -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Top 5 League Teams -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
+                <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 League Teams</h2>
+                <div class="space-y-3 flex-grow">
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-gold rounded"><span class="text-brand-gold font-black italic">1.</span><span class="text-white text-xs font-bold uppercase">Storm Riders</span><span class="text-[10px] text-gray-500">12,500 PTS</span></div>
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-400 font-black italic">2.</span><span class="text-gray-300 text-xs font-bold uppercase">Neon Syndicate</span><span class="text-[10px] text-gray-500">10,200 PTS</span></div>
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-500 font-black italic">3.</span><span class="text-gray-400 text-xs font-bold uppercase">Apex Predators</span><span class="text-[10px] text-gray-500">9,800 PTS</span></div>
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-600 font-black italic">4.</span><span class="text-gray-500 text-xs font-bold uppercase">---</span><span class="text-[10px] text-gray-600">---</span></div>
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-600 font-black italic">5.</span><span class="text-gray-500 text-xs font-bold uppercase">---</span><span class="text-[10px] text-gray-600">---</span></div>
+                </div>
+                <a href="team_leaderboards.html" class="mt-4 text-[10px] uppercase font-bold text-brand-gold text-center hover:underline">View Full Leaderboard →</a>
+            </div>
+
+            <!-- Top 5 All-Time Team Racers -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
+                <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 All-Time Team Racers</h2>
+                <div class="space-y-3 flex-grow">
+                    <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-red rounded"><span class="text-brand-red font-black italic text-lg w-4">1</span><div class="w-6 h-6 bg-[#111] border border-brand-border rounded-full flex shrink-0 items-center justify-center text-[8px] text-gray-600">Avatar</div><div class="flex-grow"><p class="text-white text-[11px] font-black uppercase leading-tight">Deathstalker Paine</p><p class="text-[9px] text-gray-500 uppercase">Storm Riders</p></div></div>
+                    <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-60"><span class="text-gray-400 font-black italic text-lg w-4">2</span><div class="w-6 h-6 bg-[#111] border border-brand-border rounded-full"></div><div class="flex-grow"><p class="text-gray-300 text-[11px] font-black uppercase leading-tight">Vortex_SL</p><p class="text-[9px] text-gray-500 uppercase">Neon Syndicate</p></div></div>
+                    <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-50"><span class="text-gray-500 font-black italic text-lg w-4">3</span><div class="w-6 h-6 bg-[#111] border border-brand-border rounded-full"></div><div class="flex-grow"><p class="text-gray-400 text-[11px] font-black uppercase leading-tight">BlazeRunner</p><p class="text-[9px] text-gray-500 uppercase">Apex Predators</p></div></div>
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2.5 border border-brand-border rounded"><span class="text-gray-600 font-black italic">4.</span><span class="text-gray-600 text-[10px] font-bold uppercase">Pending</span></div>
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2.5 border border-brand-border rounded"><span class="text-gray-600 font-black italic">5.</span><span class="text-gray-600 text-[10px] font-bold uppercase">Pending</span></div>
+                </div>
+            </div>
+
+            <!-- Top 5 All-Time Teams -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
+                <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 All-Time Teams</h2>
+                <div class="space-y-3 flex-grow">
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-blue rounded"><span class="text-brand-blue font-black italic">1.</span><span class="text-white text-xs font-bold uppercase">Storm Riders</span><span class="text-[10px] text-brand-blue">45 Wins</span></div>
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-400 font-black italic">2.</span><span class="text-gray-300 text-xs font-bold uppercase">Neon Syndicate</span><span class="text-[10px] text-gray-500">22 Wins</span></div>
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-500 font-black italic">3.</span><span class="text-gray-400 text-xs font-bold uppercase">Apex Predators</span><span class="text-[10px] text-gray-500">18 Wins</span></div>
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-600 font-black italic">4.</span><span class="text-gray-500 text-xs font-bold uppercase">---</span><span class="text-[10px] text-gray-600">---</span></div>
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-600 font-black italic">5.</span><span class="text-gray-500 text-xs font-bold uppercase">---</span><span class="text-[10px] text-gray-600">---</span></div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ROW 2: Sponsors Banner -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 text-center space-y-3 shadow-xl">
+            <span class="text-[10px] font-black uppercase text-gray-500 tracking-widest">Team Sponsors & Partners</span>
+            <div class="flex flex-wrap justify-center items-center gap-8 py-2 opacity-75">
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Second Life Motors ]</span>
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Linden Fuel Co. ]</span>
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ StormTech HUDs ]</span>
+            </div>
+        </section>
+
+        <!-- ROW 3: GSR Chats Widget -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl">
+            <div class="flex justify-between items-center border-b border-brand-border pb-3 mb-4">
+                <h3 class="text-lg font-black uppercase text-white tracking-wide">💬 GSR Chats: Team Comms</h3>
+                <a href="chats.html" class="text-[10px] text-brand-gold hover:underline font-bold uppercase">Open Full Chat →</a>
+            </div>
+            <div class="bg-brand-bg border border-brand-border rounded-lg h-32 flex items-center justify-center text-gray-500 text-xs uppercase font-bold">
+                [ Live Team Chat Stream Widget Connected ]
+            </div>
+        </section>
+
+        <!-- ROW 4: 2-Column Week/Month Focus -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl gold-border-glow">
+                <h3 class="text-sm font-black uppercase text-brand-gold text-center border-b border-brand-border pb-3 mb-4">Top 5 Teams of the Week</h3>
+                <div class="bg-brand-bg border border-brand-border p-4 rounded-xl flex items-center justify-center h-32 text-gray-500 text-[10px] uppercase font-bold text-center">
+                    Weekly data aggregating...<br>Check back after current events.
+                </div>
+            </div>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl">
+                <h3 class="text-sm font-black uppercase text-white text-center border-b border-brand-border pb-3 mb-4">Top 5 Teams of the Month</h3>
+                <div class="bg-brand-bg border border-brand-border p-4 rounded-xl flex items-center justify-center h-32 text-gray-500 text-[10px] uppercase font-bold text-center">
+                    Monthly data aggregating...
+                </div>
+            </div>
+        </section>
+
+        <!-- ROW 5: 3-Column Bottom Features -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Next Team Event -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-brand-red bg-red-950 px-2 py-0.5 rounded border border-brand-red/30 inline-block mb-2">Upcoming Calendar</span>
+                    <h4 class="text-base font-black uppercase text-white">Next Team Event</h4>
+                    <p class="text-xs text-gray-400 mt-2">
+                        The Vegas Strip Relay is approaching. Squads must register their 3-driver rosters before the grid locks.
+                    </p>
+                </div>
+                <a href="team_events.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-red text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    View Event Details →
+                </a>
+            </div>
+
+            <!-- GSR Magazine -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-brand-gold bg-amber-950 px-2 py-0.5 rounded border border-brand-gold/30 inline-block mb-2">Team Spotlight</span>
+                    <h4 class="text-base font-black uppercase text-white">GSR Magazine</h4>
+                    <p class="text-xs text-gray-400 mt-2">
+                        Inside the garage: How Storm Riders built their dominant Pro Plus vehicle setups and organized their pit crews.
+                    </p>
+                </div>
+                <a href="multimedia.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    Read Latest Issue →
+                </a>
+            </div>
+
+            <!-- Team Recruitment Board -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-brand-blue bg-blue-950 px-2 py-0.5 rounded border border-brand-blue/30 inline-block mb-2">Free Agents</span>
+                    <h4 class="text-base font-black uppercase text-white">Team Recruitment</h4>
+                    <p class="text-xs text-gray-400 mt-2">
+                        Looking for a drive? Browse open slots from active teams or post your free agent telemetry for recruiters.
+                    </p>
+                </div>
+                <a href="teams_profiles.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-blue text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    Browse Rosters →
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
 </body>
 </html>
