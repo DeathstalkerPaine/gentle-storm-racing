@@ -55,12 +55,29 @@
             <div class="w-full aspect-video bg-[#111] relative flex items-center justify-center border-b border-brand-border">
                 <span class="text-gray-500 font-black uppercase tracking-widest text-sm">[ Back to Future Hotlap Video ]</span>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-brand-bg/50 text-center border-b border-brand-border">
-                <div><span class="block text-[10px] uppercase font-bold text-gray-500">Length</span><span class="text-sm font-black text-white">4.5 KM</span></div>
-                <div><span class="block text-[10px] uppercase font-bold text-gray-500">Turns</span><span class="text-sm font-black text-brand-gold">10 Turns</span></div>
-                <div><span class="block text-[10px] uppercase font-bold text-gray-500">Difficulty</span><span class="text-sm font-black text-brand-red">Advanced</span></div>
-                <div><span class="block text-[10px] uppercase font-bold text-gray-500">Record</span><span class="text-sm font-black text-brand-blue">1:10.955</span></div>
-            </div>
+               <!-- NEW TELEMETRY BAR -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 border-t border-brand-border text-center bg-black/40">
+        <!-- 1. Length -->
+        <div class="flex flex-col justify-center">
+            <span class="block text-[9px] uppercase font-bold text-gray-500">Track Length</span>
+            <span class="text-sm font-black text-white">4.5 KM</span>
+        </div>
+
+        <!-- 2. Lap Record -->
+        <div class="flex flex-col justify-center border-t sm:border-t-0 sm:border-l border-brand-border pt-2 sm:pt-0">
+            <span class="block text-[9px] uppercase font-bold text-brand-gold">Best Lap Record</span>
+            <span class="text-sm font-black font-mono text-brand-blue">0:38.210</span>
+            <span class="text-[10px] font-bold text-gray-300 uppercase">Deathstalker Paine</span>
+        </div>
+
+        <!-- 3. Track Record -->
+        <div class="flex flex-col justify-center border-t sm:border-t-0 sm:border-l border-brand-border pt-2 sm:pt-0">
+            <span class="block text-[9px] uppercase font-bold text-brand-gold">Track Record (Course)</span>
+            <span class="text-sm font-black font-mono text-brand-gold">1:10.955</span>
+            <span class="text-[10px] font-bold text-gray-300 uppercase">Deathstalker Paine</span>
+        </div>
+    </div>
+
         </section>
 
         <!-- Circuit Overview -->
