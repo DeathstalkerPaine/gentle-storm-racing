@@ -108,10 +108,13 @@
             <div class="px-8 pb-6 relative border-b border-brand-border">
                 <div class="flex flex-col md:flex-row items-start md:items-end justify-between -mt-20 gap-6 relative z-10">
                     
-                    <!-- Avatar -->
-                    <div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-[#111] shadow-2xl flex items-center justify-center shrink-0">
-                        <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Photo Pending<br>Approval</span>
-                    </div>
+                    <!-- Inside the Avatar div in racer.html -->
+<div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-[#111] shadow-2xl flex items-center justify-center shrink-0 relative">
+    <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Photo Pending</span>
+    <!-- HUD Online Status Indicator -->
+    <div class="absolute -top-2 -right-2 bg-green-500 border-2 border-[#111] w-4 h-4 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]" title="Active on Track HUD"></div>
+</div>
+
 
                     <!-- Identity -->
                     <div class="flex-1 pt-20 md:pt-0">
