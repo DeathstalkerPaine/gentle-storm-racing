@@ -3,32 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Leaderboard Database | GSR</title>
+    <title>Interactive Track Map | Gentle Storm Racing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' }
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #121212; }
-        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
-        .text-shadow-glow { text-shadow: 0 0 10px rgba(197, 160, 89, 0.5); }
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 15px rgba(197, 160, 89, 0.25); }
+        .hotspot-pulse { animation: pulseGlow 2s infinite; }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(197, 160, 89, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0); }
+        }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- SUB-PAGE HEADER (Uses h-logo.png) -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
-            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
-                <a href="index.html" class="inline-block"><img src="h-logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
+    <!-- HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-8 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                <span class="block text-[10px] font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Interactive Telemetry</span>
+                <h1 class="text-2xl sm:text-4xl font-black uppercase text-white">CIRCUIT MAPS</h1>
             </div>
-            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
-                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Live Telemetry Database</span>
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">GSR GLOBAL RANKINGS</h1>
-            </div>
-            <div class="absolute right-3 top-3 z-10">
-                <a href="admin.html" class="bg-brand-red text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 rounded">Sign In</a>
+            
+            <!-- TRACK SELECTOR DROPDOWN -->
+            <div class="w-full sm:w-auto">
+                <select id="trackSelect" onchange="loadMap()" class="w-full sm:w-64 bg-brand-bg border border-brand-gold text-white font-black uppercase text-xs px-4 py-3 rounded-lg outline-none cursor-pointer shadow-[0_0_10px_rgba(197,160,89,0.2)]">
+                    <option value="future">Back to Future</option>
+                    <option value="vegas">Las Vegas Strip</option>
+                    <option value="rome">Ancient Rome</option>
+                    <option value="city">Abandoned City</option>
+                </select>
             </div>
         </div>
     </header>
@@ -37,180 +53,164 @@
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <a href="leaderboard_view.html?category=team" class="text-gray-300 hover:text-brand-gold transition">Team Leaderboards</a>
-            <a href="leaderboard_view.html?class=pro" class="text-gray-300 hover:text-brand-gold transition">League Leaderboards</a>
-            <a href="leaderboard_view.html?category=racer" class="text-gray-300 hover:text-brand-gold transition">Racer Leaderboard</a>
-            <a href="leaderboard_view.html?category=racer&class=pro_plus" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Leaderboard</a>
-            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
-            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks Hub</a>
         </div>
     </nav>
 
-    <main class="flex-grow max-w-[90rem] w-full mx-auto px-4 py-8 space-y-8">
-        
-        <!-- TELEMETRY DATABASE FILTERS -->
-        <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl">
-            <h2 class="text-[10px] font-black uppercase text-gray-500 tracking-widest border-b border-brand-border pb-2 mb-4">Query Parameters</h2>
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 space-y-6">
+
+        <div class="text-center space-y-1">
+            <p class="text-xs text-gray-400 font-bold uppercase tracking-wider">Select a track above, then click any waypoint hotspot on the map below to view feature footage.</p>
+        </div>
+
+        <!-- MAP CONTAINER -->
+        <div class="relative bg-brand-card border border-brand-border rounded-xl aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden shadow-2xl gold-border-glow flex items-center justify-center">
             
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <!-- 1. Category -->
-                <select id="queryCategory" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
-                    <option value="racer">Individual Racers</option>
-                    <option value="team">Syndicates / Teams</option>
-                </select>
-
-                <!-- 2. Class/League -->
-                <select id="queryClass" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
-                    <option value="pro_plus">Pro Plus Class</option>
-                    <option value="pro">Pro League</option>
-                    <option value="amateur">Amateur League</option>
-                    <option value="all">Unrestricted (All)</option>
-                </select>
-
-                <!-- 3. Timeframe -->
-                <select id="queryTime" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
-                    <option value="all_time">All-Time Stats</option>
-                    <option value="monthly">This Month</option>
-                    <option value="weekly">This Week</option>
-                </select>
-
-                <!-- 4. Track Specific -->
-                <select id="queryTrack" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
-                    <option value="all">Global (All Tracks)</option>
-                    <option value="vegas">Las Vegas Strip</option>
-                    <option value="future">Back to Future</option>
-                    <option value="rome">Ancient Rome</option>
-                    <option value="city">Abandoned City</option>
-                </select>
+            <!-- OVERHEAD TRACK MAP IMAGE PLACEHOLDER -->
+            <div class="absolute inset-0 bg-[#161616] flex items-center justify-center opacity-40">
+                <span id="mapBackgroundText" class="text-xs sm:text-sm font-black uppercase text-gray-600 tracking-widest text-center px-4">
+                    [ MAP BACKGROUND ]
+                </span>
+                <!-- Eventually replace this div with an <img> tag that changes src via JS -->
             </div>
-        </section>
 
-        <!-- DYNAMIC LEADERBOARD TABLE -->
-        <section class="bg-brand-card border border-brand-border rounded-xl shadow-2xl overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs whitespace-nowrap min-w-[1000px]">
-                    <thead>
-                        <tr class="bg-black/80 text-gray-400 font-black uppercase tracking-wider border-b border-brand-border">
-                            <th class="py-4 px-6 w-16 text-center">Rank</th>
-                            <th class="py-4 px-4">Competitor</th>
-                            <th class="py-4 px-4 text-center text-brand-gold bg-brand-gold/5">Rating (PTS)</th>
-                            <th class="py-4 px-4 text-center">Win %</th>
-                            <th class="py-4 px-4 text-center" title="Wins / Losses / Disqualifications">Record (W-L-D)</th>
-                            <th class="py-4 px-4 text-center text-brand-blue bg-brand-blue/5">Best Lap</th>
-                            <th class="py-4 px-4 text-center text-brand-blue bg-brand-blue/5">Best Course</th>
-                            <th class="py-4 px-4 text-center text-brand-red">Dmg Dealt</th>
-                            <th class="py-4 px-4 text-center text-gray-500">Dmg Taken</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaderboardBody" class="divide-y divide-brand-border">
-                        <!-- Table rows injected via JS -->
-                    </tbody>
-                </table>
-            </div>
-            <div class="bg-brand-bg border-t border-brand-border p-3 flex justify-between items-center px-6">
-                <span id="trackLabel" class="text-[10px] font-bold uppercase text-gray-500">Showing: Global (All Tracks)</span>
-                <span class="text-[9px] font-black uppercase text-brand-gold animate-pulse">Live connection active. Data synchronized.</span>
-            </div>
-        </section>
+            <!-- HOTSPOTS INJECTED HERE VIA JS -->
+            <div id="hotspotContainer"></div>
+
+        </div>
 
     </main>
 
-    <!-- JS TELEMETRY SIMULATOR & URL PARAMETER PARSER -->
+    <!-- FEATURE DETAIL MODAL (POPUP WINDOW) -->
+    <div id="featureModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-brand-card border border-brand-gold rounded-xl max-w-2xl w-full p-6 shadow-2xl relative gold-border-glow space-y-4">
+            
+            <!-- Close Button -->
+            <button onclick="closeFeatureModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg font-black uppercase">✕</button>
+
+            <!-- Feature Header -->
+            <div>
+                <span id="modalCategory" class="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-brand-gold text-black">Sector Feature</span>
+                <h2 id="modalTitle" class="text-xl font-black uppercase text-white mt-2">Feature Name</h2>
+            </div>
+
+            <!-- Video Player Box -->
+            <div class="aspect-video bg-black border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
+                <!-- Replace with actual <video> tag when ready -->
+                <div id="modalVideoPlaceholder" class="text-[10px] sm:text-xs text-gray-500 font-mono uppercase text-center p-4">
+                    [ VIDEO PLAYBACK CONTAINER ]
+                </div>
+            </div>
+
+            <!-- Feature Description -->
+            <div class="border-t border-brand-border pt-3">
+                <h4 class="text-xs font-black uppercase text-brand-gold mb-1">Track Analysis</h4>
+                <p id="modalDescription" class="text-xs text-gray-300 leading-relaxed">Description loads here.</p>
+            </div>
+
+            <div class="text-right">
+                <button onclick="closeFeatureModal()" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-xs font-bold uppercase text-gray-300 px-4 py-2 rounded transition">
+                    Close Inspection
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAP ENGINE JAVASCRIPT -->
     <script>
-        const mockData = [
-            { name: "Deathstalker Paine", team: "Storm Riders", pts: 1250, w: 45, l: 12, dsq: 1, dmgOut: 18500, dmgIn: 9200, bestLap: "0:38.210", bestCourse: "1:18.420" },
-            { name: "Vortex_SL", team: "Neon Syndicate", pts: 980, w: 32, l: 15, dsq: 0, dmgOut: 14200, dmgIn: 11000, bestLap: "0:39.405", bestCourse: "1:19.850" },
-            { name: "BlazeRunner", team: "Apex Predators", pts: 740, w: 25, l: 18, dsq: 2, dmgOut: 11500, dmgIn: 2100, bestLap: "0:40.100", bestCourse: "1:21.330" },
-            { name: "RookieDriver_01", team: "Unassigned", pts: 450, w: 12, l: 5, dsq: 0, dmgOut: 4500, dmgIn: 3200, bestLap: "0:42.500", bestCourse: "1:25.100" },
-            { name: "AsphaltGhost", team: "Iron Syndicate", pts: 290, w: 8, l: 10, dsq: 1, dmgOut: 3200, dmgIn: 4100, bestLap: "0:44.220", bestCourse: "1:28.900" }
-        ];
-
-        function renderTable() {
-            const tbody = document.getElementById('leaderboardBody');
-            const category = document.getElementById('queryCategory').value;
-            const trackVal = document.getElementById('queryTrack').value;
-            const trackLabel = document.getElementById('trackLabel');
-            
-            tbody.innerHTML = '';
-
-            const trackNames = { 
-                'all': 'Global (All Tracks)', 
-                'vegas': 'Las Vegas Strip', 
-                'future': 'Back to Future',
-                'rome': 'Ancient Rome', 
-                'city': 'Abandoned City' 
-            };
-            trackLabel.innerText = `Showing: ${trackNames[trackVal] || 'Global (All Tracks)'}`;
-
-            let displayData = [...mockData];
-            
-            if (category === 'team') {
-                displayData = [
-                    { name: "Storm Riders", team: "Pro Plus", pts: 12500, w: 85, l: 30, dsq: 2, dmgOut: 45000, dmgIn: 22000, bestLap: "0:38.210", bestCourse: "1:18.420" },
-                    { name: "Neon Syndicate", team: "Pro Plus", pts: 10200, w: 60, l: 40, dsq: 1, dmgOut: 38000, dmgIn: 25000, bestLap: "0:39.405", bestCourse: "1:19.850" },
-                    { name: "Apex Predators", team: "Pro League", pts: 9800, w: 55, l: 42, dsq: 5, dmgOut: 32000, dmgIn: 18000, bestLap: "0:40.100", bestCourse: "1:21.330" }
-                ];
+        // Database of Maps and their Hotspots
+        const trackDatabase = {
+            future: {
+                bgText: "[ BACK TO FUTURE OVERHEAD MAP IMAGE ]",
+                hotspots: [
+                    { x: 50, y: 30, icon: '📍', title: 'Turn 1: Flux Hairpin', category: 'Heavy Braking', badge: 'bg-brand-red text-white', video: '🎬 [VIDEO: Entering Flux Hairpin]', desc: 'Heavy braking zone into a 180-degree neon-lit turn.' },
+                    { x: 80, y: 70, icon: '📍', title: 'Sector 2: Gravity Loop', category: 'High Speed', badge: 'bg-brand-blue text-white', video: '🎬 [VIDEO: High-G Loop Section]', desc: 'High-speed parabolic curve where downforce is critical.' }
+                ]
+            },
+            vegas: {
+                bgText: "[ LAS VEGAS STRIP OVERHEAD MAP IMAGE ]",
+                hotspots: [
+                    { x: 30, y: 50, icon: '📍', title: 'Main Boulevard', category: 'Drafting Zone', badge: 'bg-brand-blue text-white', video: '🎬 [VIDEO: Top speed down the strip]', desc: 'The longest straightaway. Prime location for drafting overtakes.' },
+                    { x: 75, y: 40, icon: '📍', title: 'Casino Chicane', category: 'Technical', badge: 'bg-brand-gold text-black', video: '🎬 [VIDEO: Navigating the tight chicane]', desc: 'A quick left-right flick requiring perfect curb riding.' }
+                ]
+            },
+            rome: {
+                bgText: "[ ANCIENT ROME OVERHEAD MAP IMAGE ]",
+                hotspots: [
+                    { x: 48, y: 20, icon: '📍', title: 'Turn 3: The Colosseum', category: 'Technical Turn', badge: 'bg-brand-gold text-black', video: '🎬 [VIDEO: Sweeping around the Colosseum]', desc: 'A sweeping high-speed left curve around the ancient stone amphitheater.' },
+                    { x: 82, y: 62, icon: '📍', title: 'Turn 6: Aqueduct Hairpin', category: 'Heavy Braking', badge: 'bg-brand-red text-white', video: '🎬 [VIDEO: Braking into the arches]', desc: 'Hardest braking point, passing under stone aqueduct arches.' },
+                    { x: 25, y: 75, icon: '📍', title: 'Emperor\'s Straight', category: 'High Speed', badge: 'bg-brand-blue text-white', video: '🎬 [VIDEO: Drafting speed test]', desc: 'Longest straightaway running alongside historic Roman columns.' }
+                ]
+            },
+            city: {
+                bgText: "[ ABANDONED CITY OVERHEAD MAP IMAGE ]",
+                hotspots: [
+                    { x: 40, y: 60, icon: '📍', title: 'Overpass Drop', category: 'Hazard', badge: 'bg-brand-red text-white', video: '🎬 [VIDEO: Dropping off the broken overpass]', desc: 'A sudden elevation drop requiring suspension stability.' },
+                    { x: 70, y: 30, icon: '📍', title: 'Debris Slalom', category: 'Technical', badge: 'bg-brand-gold text-black', video: '🎬 [VIDEO: Dodging concrete barriers]', desc: 'Tight urban slalom section avoiding concrete roadblocks.' }
+                ]
             }
+        };
 
-            displayData.forEach((row, index) => {
-                const rankClass = index === 0 ? 'text-brand-gold text-lg text-shadow-glow' : (index === 1 ? 'text-gray-300 text-base' : 'text-gray-500 text-sm');
-                const totalRaces = row.w + row.l + row.dsq;
-                const winPct = totalRaces > 0 ? Math.round((row.w / totalRaces) * 100) + '%' : '0%';
+        // Load Map Function
+        function loadMap() {
+            const trackId = document.getElementById('trackSelect').value;
+            const data = trackDatabase[trackId];
+            
+            // 1. Update Background Text/Image
+            document.getElementById('mapBackgroundText').innerText = data.bgText;
+
+            // 2. Clear Old Hotspots and Draw New Ones
+            const container = document.getElementById('hotspotContainer');
+            container.innerHTML = ''; // wipe
+
+            data.hotspots.forEach((spot, index) => {
+                const btn = document.createElement('button');
+                // Store data in the button so it can be passed to the modal
+                btn.onclick = () => openFeatureModal(spot);
+                btn.className = `absolute -translate-x-1/2 -translate-y-1/2 bg-brand-card border border-brand-border hover:border-brand-gold hover:scale-110 text-white font-black text-[9px] sm:text-[10px] px-2 py-1 sm:px-3 sm:py-1.5 rounded-full shadow-lg transition flex items-center gap-1.5 hotspot-pulse z-10`;
+                btn.style.top = `${spot.y}%`;
+                btn.style.left = `${spot.x}%`;
+                btn.innerHTML = `<span>${spot.icon}</span> <span class="hidden sm:inline whitespace-nowrap">${spot.title}</span>`;
                 
-                const displayLap = trackVal === 'all' ? '<span class="text-gray-600">--:--.---</span>' : row.bestLap;
-                const displayCourse = trackVal === 'all' ? '<span class="text-gray-600">--:--.---</span>' : row.bestCourse;
-                const dsqFormat = row.dsq > 0 ? `<span class="text-brand-red font-black">${row.dsq}</span>` : `<span class="text-gray-600">${row.dsq}</span>`;
-
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-white/5 transition";
-                tr.innerHTML = `
-                    <td class="py-4 px-6 text-center font-black italic ${rankClass}">${index + 1}</td>
-                    <td class="py-4 px-4 cursor-pointer hover:bg-brand-card transition rounded" onclick="window.location='${category === 'racer' ? 'racer.html' : 'team.html'}'">
-                        <div class="font-black text-white uppercase text-sm">${row.name}</div>
-                        <div class="font-bold text-[9px] text-gray-500 uppercase">${row.team}</div>
-                    </td>
-                    <td class="py-4 px-4 text-center font-black text-brand-gold text-base bg-brand-gold/5">${row.pts.toLocaleString()}</td>
-                    <td class="py-4 px-4 text-center font-black text-white">${winPct}</td>
-                    <td class="py-4 px-4 text-center font-bold text-gray-400">
-                        <span class="text-white">${row.w}</span> - ${row.l} - ${dsqFormat}
-                    </td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${displayLap}</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${displayCourse}</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-gray-300">${row.dmgOut.toLocaleString()}</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-gray-500">${row.dmgIn.toLocaleString()}</td>
-                `;
-                tbody.appendChild(tr);
+                container.appendChild(btn);
             });
         }
 
-        // Parse URL parameters to auto-select dropdowns on load
-        function initFromURL() {
-            const urlParams = new URLSearchParams(window.location.search);
-            
-            if (urlParams.has('category')) {
-                const categorySelect = document.getElementById('queryCategory');
-                if (categorySelect) categorySelect.value = urlParams.get('category');
-            }
-            if (urlParams.has('class')) {
-                const classSelect = document.getElementById('queryClass');
-                if (classSelect) classSelect.value = urlParams.get('class');
-            }
-            if (urlParams.has('time')) {
-                const timeSelect = document.getElementById('queryTime');
-                if (timeSelect) timeSelect.value = urlParams.get('time');
-            }
-            if (urlParams.has('track')) {
-                const trackSelect = document.getElementById('queryTrack');
-                if (trackSelect) trackSelect.value = urlParams.get('track');
-            }
+        // Modal Logic
+        function openFeatureModal(spot) {
+            document.getElementById('modalCategory').innerText = spot.category;
+            document.getElementById('modalCategory').className = `text-[9px] font-black uppercase px-2 py-0.5 rounded ${spot.badge}`;
+            document.getElementById('modalTitle').innerText = spot.title;
+            document.getElementById('modalVideoPlaceholder').innerText = spot.video;
+            document.getElementById('modalDescription').innerText = spot.desc;
 
-            renderTable();
+            const modal = document.getElementById('featureModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
-        window.onload = initFromURL;
+        function closeFeatureModal() {
+            const modal = document.getElementById('featureModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Init on page load (Check URL for ?track=vegas)
+        window.onload = () => {
+            const params = new URLSearchParams(window.location.search);
+            const trackParam = params.get('track');
+            if (trackParam && trackDatabase[trackParam]) {
+                document.getElementById('trackSelect').value = trackParam;
+            }
+            loadMap(); // Initial draw
+        };
     </script>
 
     <!-- UNIVERSAL FOOTER -->
-    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
 </body>
 </html>
