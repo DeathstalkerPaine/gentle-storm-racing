@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Track Map | Ancient Rome Circuit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#121212',
+                            card: '#1e1e1e',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a',
+                            blue: '#2a75ff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 15px rgba(197, 160, 89, 0.25); }
+        .hotspot-pulse { animation: pulseGlow 2s infinite; }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(197, 160, 89, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0); }
+        }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <span class="block text-[10px] font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Interactive Telemetry Map</span>
+            <h1 class="text-2xl sm:text-4xl font-black uppercase text-white">ANCIENT ROME CIRCUIT MAP</h1>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 space-y-6">
+
+        <div class="text-center space-y-1">
+            <p class="text-xs text-gray-400 font-bold uppercase tracking-wider">Click any waypoint hotspot on the track map below to view feature footage and circuit details.</p>
+        </div>
+
+        <!-- MAP CONTAINER -->
+        <div class="relative bg-brand-card border border-brand-border rounded-xl aspect-[16/9] w-full overflow-hidden shadow-2xl gold-border-glow flex items-center justify-center">
+            
+            <!-- OVERHEAD TRACK MAP IMAGE PLACEHOLDER (Replace src with your track image) -->
+            <div class="absolute inset-0 bg-[#161616] flex items-center justify-center opacity-40">
+                <span class="text-xs font-black uppercase text-gray-600 tracking-widest">[ OVERHEAD TRACK MAP IMAGE HERE ]</span>
+            </div>
+
+            <!-- SVG TRACK OVERLAY SKETCH -->
+            <svg class="absolute inset-0 w-full h-full pointer-events-none stroke-brand-gold/40 fill-none" viewBox="0 0 1000 600" stroke-width="4">
+                <path d="M 150,450 C 150,200 300,100 500,100 C 750,100 850,250 850,400 C 850,500 650,500 500,450 C 350,400 150,550 150,450 Z" />
+            </svg>
+
+            <!-- HOTSPOT 1: The Colosseum -->
+            <button onclick="openFeatureModal('colosseum')" 
+                    class="absolute top-[20%] left-[48%] -translate-x-1/2 -translate-y-1/2 bg-brand-gold hover:scale-110 text-black font-black text-[10px] px-3 py-1.5 rounded-full shadow-lg transition flex items-center gap-1.5 hotspot-pulse z-10">
+                <span>📍</span> <span>Turn 3: The Colosseum</span>
+            </button>
+
+            <!-- HOTSPOT 2: Aqueduct Hairpin -->
+            <button onclick="openFeatureModal('aqueduct')" 
+                    class="absolute top-[62%] left-[82%] -translate-x-1/2 -translate-y-1/2 bg-brand-red hover:scale-110 text-white font-black text-[10px] px-3 py-1.5 rounded-full shadow-lg transition flex items-center gap-1.5 hotspot-pulse z-10">
+                <span>📍</span> <span>Turn 6: Aqueduct Hairpin</span>
+            </button>
+
+            <!-- HOTSPOT 3: Emperor's Straight -->
+            <button onclick="openFeatureModal('straight')" 
+                    class="absolute top-[75%] left-[25%] -translate-x-1/2 -translate-y-1/2 bg-brand-blue hover:scale-110 text-white font-black text-[10px] px-3 py-1.5 rounded-full shadow-lg transition flex items-center gap-1.5 hotspot-pulse z-10">
+                <span>📍</span> <span>Sector 1: Emperor's Straight</span>
+            </button>
+
+        </div>
+
+    </main>
+
+    <!-- FEATURE DETAIL MODAL (POPUP WINDOW) -->
+    <div id="featureModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-brand-card border border-brand-gold rounded-xl max-w-2xl w-full p-6 shadow-2xl relative gold-border-glow space-y-4">
+            
+            <!-- Close Button -->
+            <button onclick="closeFeatureModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg font-black uppercase">✕</button>
+
+            <!-- Feature Header -->
+            <div>
+                <span id="modalCategory" class="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-brand-gold text-black">Sector Feature</span>
+                <h2 id="modalTitle" class="text-xl font-black uppercase text-white mt-2">Feature Name</h2>
+            </div>
+
+            <!-- Video Player Box -->
+            <div class="aspect-video bg-black border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
+                <!-- Replace with actual <video> tag or <iframe> when videos are ready -->
+                <div id="modalVideoPlaceholder" class="text-xs text-gray-500 font-mono uppercase text-center p-4">
+                    [ VIDEO PLAYBACK CONTAINER ]
+                </div>
+            </div>
+
+            <!-- Feature Description & Telemetry Notes -->
+            <div class="border-t border-brand-border pt-3">
+                <h4 class="text-xs font-black uppercase text-brand-gold mb-1">Track Analysis</h4>
+                <p id="modalDescription" class="text-xs text-gray-300 leading-relaxed">
+                    Description details for this feature will load here.
+                </p>
+            </div>
+
+            <div class="text-right">
+                <button onclick="closeFeatureModal()" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-xs font-bold uppercase text-gray-300 px-4 py-2 rounded transition">
+                    Close Feature Inspection
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Feature Data Directory
+        const featureData = {
+            colosseum: {
+                category: "Technical Turn",
+                title: "Turn 3: The Colosseum Curve",
+                badgeClass: "bg-brand-gold text-black",
+                videoText: "🎬 [VIDEO PLAYBACK: High-speed sweeping curve around the Ancient Colosseum walls]",
+                description: "A sweeping high-speed left curve that wraps directly around the ancient stone amphitheater. Drivers must balance throttle through the high-g arc while avoiding the stone curb."
+            },
+            aqueduct: {
+                category: "Heavy Braking Zone",
+                title: "Turn 6: Aqueduct Hairpin",
+                badgeClass: "bg-brand-red text-white",
+                videoText: "🎬 [VIDEO PLAYBACK: Heavy braking demo entering the narrow aqueduct archways]",
+                description: "The hardest braking point on the circuit. Racers decelerate from 180 mph down to 45 mph to navigate a tight 180-degree hairpin passing underneath stone arches."
+            },
+            straight: {
+                category: "High Speed Sector",
+                title: "Sector 1: Emperor's Straight",
+                badgeClass: "bg-brand-blue text-white",
+                videoText: "🎬 [VIDEO PLAYBACK: On-board drafting speed test down the main front straight]",
+                description: "The longest straightaway on the circuit, running alongside historic Roman columns. Prime location for drafting and utilizing KERS / boost pass maneuvers."
+            }
+        };
+
+        function openFeatureModal(key) {
+            const data = featureData[key];
+            if (!data) return;
+
+            document.getElementById('modalCategory').innerText = data.category;
+            document.getElementById('modalCategory').className = `text-[9px] font-black uppercase px-2 py-0.5 rounded ${data.badgeClass}`;
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalVideoPlaceholder').innerText = data.videoText;
+            document.getElementById('modalDescription').innerText = data.description;
+
+            const modal = document.getElementById('featureModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeFeatureModal() {
+            const modal = document.getElementById('featureModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    </script>
+
+</body>
+</html>
