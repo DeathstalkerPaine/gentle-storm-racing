@@ -1,140 +1,320 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gentle Storm Racing - Storm Riders</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              red: '#ff2a2a',
-              dark: '#0e1117',
-              card: '#161b22',
-              border: '#30363d'
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storm Riders | Official Team Card</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#121212',
+                            card: '#151515',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a',
+                            blue: '#2a75ff'
+                        }
+                    }
+                }
             }
-          }
         }
-      }
-    }
-  </script>
-</head>
-<body class="bg-brand-dark text-gray-100 min-h-screen font-sans">
-
-  <!-- Header Navigation -->
-  <header class="border-b border-brand-border bg-brand-card py-4 px-8 flex justify-between items-center shadow-lg">
-    <div class="flex items-center space-x-3">
-      <div class="w-3 h-8 bg-brand-red rounded-sm"></div>
-      <h1 class="text-2xl font-black tracking-wider uppercase text-white">Gentle Storm <span class="text-brand-red">Racing</span></h1>
-    </div>
-    <nav class="flex space-x-6 text-sm font-semibold text-gray-400">
-      <a href="index.html" class="hover:text-white transition">Main Menu</a>
-      <a href="leaderboards.html" class="hover:text-white transition">Leaderboards</a>
-      <a href="#" class="hover:text-white transition">Tracks</a>
-      <a href="racers.html" class="hover:text-white transition">Racers</a>
-      <a href="teams.html" class="text-white border-b-2 border-brand-red pb-1">Teams</a>
-    </nav>
-  </header>
-
-  <!-- Main Full-Page Team Profile -->
-  <main class="max-w-5xl mx-auto py-10 px-4">
-    
-    <!-- Back Button -->
-    <a href="teams.html" class="inline-flex items-center text-sm text-gray-400 hover:text-white transition mb-6">
-      &larr; Back to Teams Directory
-    </a>
-
-    <!-- Team Profile Container -->
-    <div class="bg-brand-card border-2 border-brand-border rounded-2xl overflow-hidden shadow-2xl relative">
-      
-      <!-- 1. BACKGROUND COVER PHOTO BANNER -->
-      <div class="h-56 w-full bg-cover bg-center relative border-b border-brand-border bg-gradient-to-r from-red-950 via-gray-900 to-black" style="background-image: url('stormriders-banner.jpg');">
-        <!-- Dark Overlay for contrast -->
-        <div class="absolute inset-0 bg-black/40"></div>
-        <div class="absolute top-4 right-6 z-10">
-          <span class="bg-brand-red text-white text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded shadow-lg border border-red-500">Pro League Syndicate</span>
-        </div>
-      </div>
-
-      <!-- Content Body -->
-      <div class="p-8 relative">
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
         
-        <!-- Header Row: Team Logo & Name -->
-        <div class="flex flex-col md:flex-row items-start md:items-end justify-between -mt-24 mb-8 gap-6">
-          
-          <!-- 2. TEAM LOGO PHOTO BOX -->
-          <div class="w-36 h-36 rounded-xl border-4 border-brand-card bg-gray-900 shadow-2xl overflow-hidden flex items-center justify-center relative group z-10">
-            <!-- Replace span below with: <img src="stormriders-logo.png" class="w-full h-full object-cover"> -->
-            <span class="text-xs text-gray-500 uppercase text-center font-bold">Logo Image<br>Pending</span>
-          </div>
+        /* Custom Trading Card Border Foil Effect */
+        .card-foil-border {
+            background: linear-gradient(135deg, #2a75ff 0%, #112a55 25%, #121212 50%, #112a55 75%, #2a75ff 100%);
+            padding: 2px;
+        }
+        .card-texture { background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 2px, transparent 2px, transparent 4px); }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-          <!-- Team Title & Founder -->
-          <div class="flex-1">
-            <h2 class="text-4xl font-black text-white tracking-tight uppercase">Storm Riders</h2>
-            <p class="text-gray-400 font-semibold mt-1">
-              Team Leader: <a href="racer.html" class="text-brand-red hover:underline font-bold">#13 Deathstalker Paine</a>
-            </p>
-          </div>
+    <!-- SUB-PAGE HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html"><img src="h-logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
+            </div>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Official Team Card</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">STORM RIDERS</h1>
+            </div>
+            <div class="absolute right-3 top-3 z-10">
+                <a href="admin.html" class="bg-brand-red text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 rounded">Sign In</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
+            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
+            <a href="racers_profiles.html" class="text-gray-300 hover:text-brand-gold transition">Racers Profile</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Racer Leaderboard</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams Hub</a>
+            <a href="teams_profiles.html" class="text-brand-gold transition">Teams Profile</a>
+            <a href="team_leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Team Leaderboards</a>
+            <a href="team_events.html" class="text-gray-300 hover:text-brand-gold transition">Team Events</a>
+            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">League</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-5xl w-full mx-auto py-10 px-4">
+        
+        <div class="flex justify-between items-center mb-6">
+            <a href="teams_profiles.html" class="inline-flex items-center text-xs text-gray-400 hover:text-white transition uppercase font-bold">
+                &larr; Back to Directory
+            </a>
+            <div class="bg-brand-card border border-brand-border px-4 py-2 rounded-lg shadow text-center">
+                <span class="block text-[9px] uppercase font-bold text-gray-500">Syndicate Points</span>
+                <span class="text-xl font-black text-brand-gold">12,500 <span class="text-[10px] text-white uppercase">PTS</span></span>
+            </div>
         </div>
 
-        <!-- Team Bio / Manifesto -->
-        <div class="mb-8 bg-black/40 border border-brand-border p-5 rounded-xl">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Team Overview / Bio</h3>
-          <p class="text-gray-300 italic text-sm">
-            "Founded by Deathstalker Paine. Built for speed, high-precision telemetry execution, and track dominance across Second Life competition circuits."
-          </p>
-        </div>
+        <!-- THE TEAM TRADING CARD WRAPPER -->
+        <div class="card-foil-border rounded-2xl shadow-[0_0_40px_rgba(42,117,255,0.15)] relative">
+            <div class="bg-brand-card rounded-[14px] overflow-hidden relative card-texture">
+                
+                <!-- 1. Banner & Status Badge -->
+                <div class="h-64 w-full bg-cover bg-center relative border-b border-brand-border" style="background-image: url('stormriders-banner.jpg'); background-color: #111a22;">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
+                    
+                    <div class="absolute top-4 right-6 z-10 flex gap-2">
+                        <span class="bg-black/80 text-brand-blue border border-brand-blue font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg">Pro Plus League Syndicate</span>
+                        <span class="bg-green-500 text-black border border-green-300 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg animate-pulse">● Recruiting Drivers</span>
+                    </div>
+                </div>
 
-        <!-- Team Telemetry Stats -->
-        <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Syndicate Statistics</h3>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div class="bg-black/30 border border-brand-border p-4 rounded-xl text-center">
-            <span class="text-xs text-gray-500 uppercase font-bold block mb-1">Active Roster</span>
-            <span class="text-2xl font-black text-white">1</span>
-          </div>
-          <div class="bg-black/30 border border-brand-border p-4 rounded-xl text-center">
-            <span class="text-xs text-gray-500 uppercase font-bold block mb-1">Syndicate Points</span>
-            <span class="text-2xl font-black text-brand-red">50</span>
-          </div>
-          <div class="bg-black/30 border border-brand-border p-4 rounded-xl text-center">
-            <span class="text-xs text-gray-500 uppercase font-bold block mb-1">Total XP</span>
-            <span class="text-2xl font-black text-white">240</span>
-          </div>
-          <div class="bg-black/30 border border-brand-border p-4 rounded-xl text-center">
-            <span class="text-xs text-gray-500 uppercase font-bold block mb-1">Syndicate Wins</span>
-            <span class="text-2xl font-black text-yellow-500">3</span>
-          </div>
-        </div>
+                <!-- 2. Header Box: Logo, Identity, Trophies -->
+                <div class="px-8 pb-6 relative border-b border-brand-border">
+                    <div class="flex flex-col md:flex-row items-start md:items-end justify-between -mt-20 gap-6 relative z-10">
+                        
+                        <!-- Team Logo Box -->
+                        <div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-[#0a0a0a] shadow-2xl flex items-center justify-center shrink-0">
+                            <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Logo Pending<br>Approval</span>
+                        </div>
 
-        <!-- Official Team Roster Table -->
-        <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Active Roster</h3>
-        <div class="border border-brand-border rounded-xl overflow-hidden bg-black/20">
-          <table class="w-full text-left text-sm">
-            <thead>
-              <tr class="bg-black/40 text-gray-500 text-xs uppercase border-b border-brand-border">
-                <th class="py-3 px-4">Number</th>
-                <th class="py-3 px-4">Driver Name</th>
-                <th class="py-3 px-4">Role</th>
-                <th class="py-3 px-4 text-right">Class</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-brand-border">
-              <tr class="hover:bg-white/5 transition cursor-pointer" onclick="window.location='racer.html'">
-                <td class="py-3 px-4 font-black text-brand-red italic">#13</td>
-                <td class="py-3 px-4 font-bold text-white">Deathstalker Paine</td>
-                <td class="py-3 px-4"><span class="text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 px-2 py-0.5 rounded font-bold">Team Leader</span></td>
-                <td class="py-3 px-4 text-right font-bold uppercase text-gray-300">Pro</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                        <!-- Identity -->
+                        <div class="flex-1 pt-20 md:pt-0">
+                            <div class="flex flex-wrap items-baseline gap-3">
+                                <h2 class="text-4xl lg:text-5xl font-black text-white tracking-tight uppercase">Storm Riders</h2>
+                                <span class="text-brand-blue text-sm lg:text-base font-black uppercase tracking-[0.2em] italic">"The Desert Scorpions"</span>
+                            </div>
+                            
+                            <!-- Team Trophies -->
+                            <div class="flex gap-2 mt-2">
+                                <span class="bg-gradient-to-br from-yellow-400 to-yellow-700 text-black text-[9px] font-black uppercase px-2 py-1 rounded border border-yellow-300 shadow">🏆 Pro Constructor '26</span>
+                                <span class="bg-gradient-to-br from-blue-500 to-blue-900 text-white text-[9px] font-black uppercase px-2 py-1 rounded border border-blue-400 shadow">🛡️ Highest Defense</span>
+                            </div>
 
-      </div>
-    </div>
-  </main>
+                            <p class="text-gray-400 text-xs mt-3 font-bold uppercase">
+                                Team Leader: <a href="racer.html" class="text-brand-red hover:text-brand-gold transition">Deathstalker Paine</a> 
+                            </p>
+                        </div>
+
+                        <!-- Follow Button -->
+                        <div class="flex flex-col items-end gap-3 w-full md:w-auto">
+                            <button id="followBtn" class="w-full md:w-auto bg-brand-bg border border-brand-border hover:border-brand-blue hover:text-white text-gray-400 text-[10px] font-black uppercase px-6 py-2.5 rounded transition shadow" onclick="toggleFollow()">
+                                Follow Syndicate +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Bio Section -->
+                <div class="p-8 border-b border-brand-border bg-black/20">
+                    <h3 class="text-[10px] font-black uppercase tracking-wider text-gray-500 mb-2">Team Manifesto</h3>
+                    <p class="text-gray-300 italic text-sm leading-relaxed border-l-2 border-brand-blue pl-4">
+                        "Built for speed, high-precision telemetry execution, and track dominance. The Storm Riders recruit only the most aggressive pilots in the Second Life grid."
+                    </p>
+                </div>
+
+                <!-- 4. Multi-Column Dashboard -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-brand-border">
+                    
+                    <!-- LEFT/MIDDLE: Telemetry Engine & Roster (2/3 width) -->
+                    <div class="p-8 lg:col-span-2 space-y-8 bg-black/20">
+                        
+                        <!-- Dynamic Filters -->
+                        <div class="flex flex-col sm:flex-row gap-4 items-center bg-brand-bg border border-brand-border p-3 rounded-xl">
+                            <span class="text-[10px] font-black uppercase text-gray-500 pl-2">Syndicate Telemetry:</span>
+                            <select id="classFilter" class="w-full sm:w-auto bg-brand-card border border-brand-border text-white text-[10px] font-bold uppercase px-3 py-2 rounded outline-none focus:border-brand-blue transition cursor-pointer" onchange="updateStats()">
+                                <option value="pro_plus">Pro Plus League Aggregate</option>
+                                <option value="pro">Pro League Aggregate</option>
+                                <option value="amateur">Amateur League Aggregate</option>
+                            </select>
+                            <select id="trackFilter" class="w-full sm:w-auto bg-brand-card border border-brand-border text-white text-[10px] font-bold uppercase px-3 py-2 rounded outline-none focus:border-brand-blue transition cursor-pointer" onchange="updateStats()">
+                                <option value="all">All Tracks</option>
+                                <option value="vegas">Las Vegas Strip</option>
+                                <option value="rome">Ancient Rome</option>
+                            </select>
+                        </div>
+
+                        <!-- Aggregate Statistics Grid -->
+                        <div>
+                            <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-3 flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></div> Live Constructor Statistics
+                            </h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Total Wins</span><span id="stat-wins" class="text-xl font-black text-brand-gold">0</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Total Losses</span><span id="stat-losses" class="text-xl font-black text-white">0</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Total Points</span><span id="stat-pts" class="text-xl font-black text-white">0</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Syndicate XP</span><span id="stat-xp" class="text-xl font-black text-brand-blue">0</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Active Roster Log -->
+                        <div>
+                            <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-3">Official Roster</h3>
+                            <div class="border border-brand-border rounded-xl overflow-hidden bg-brand-card">
+                                <table class="w-full text-left text-xs">
+                                    <thead><tr class="bg-brand-bg text-gray-500 font-black uppercase border-b border-brand-border"><th class="py-2.5 px-4">No.</th><th class="py-2.5 px-4">Pilot</th><th class="py-2.5 px-4">Role</th><th class="py-2.5 px-4 text-right">Status</th></tr></thead>
+                                    <tbody class="divide-y divide-brand-border">
+                                        <tr class="hover:bg-white/5 transition cursor-pointer" onclick="window.location='racer.html'"><td class="py-2.5 px-4 font-black italic text-brand-red">#13</td><td class="py-2.5 px-4 text-white font-bold">Deathstalker Paine</td><td class="py-2.5 px-4 text-gray-400">Team Leader</td><td class="py-2.5 px-4 text-right text-green-500 font-bold uppercase text-[10px] animate-pulse">● Active</td></tr>
+                                        <tr class="hover:bg-white/5 transition"><td class="py-2.5 px-4 font-black italic text-gray-600">#--</td><td class="py-2.5 px-4 text-gray-500 font-bold">Open Slot</td><td class="py-2.5 px-4 text-gray-600">Recruit</td><td class="py-2.5 px-4 text-right text-gray-600 font-bold uppercase text-[10px]">Pending</td></tr>
+                                        <tr class="hover:bg-white/5 transition"><td class="py-2.5 px-4 font-black italic text-gray-600">#--</td><td class="py-2.5 px-4 text-gray-500 font-bold">Open Slot</td><td class="py-2.5 px-4 text-gray-600">Recruit</td><td class="py-2.5 px-4 text-right text-gray-600 font-bold uppercase text-[10px]">Pending</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT COLUMN: GSR Chats Integration (1/3 width) -->
+                    <div class="p-8 lg:col-span-1 flex flex-col h-full bg-brand-bg">
+                        <h3 class="text-[10px] font-black uppercase tracking-widest text-white mb-3 text-center border-b border-brand-border pb-2">💬 GSR Comms</h3>
+                        
+                        <div class="bg-[#0a0a0a] border border-brand-border rounded-xl flex-grow flex flex-col overflow-hidden relative shadow-inner min-h-[300px]">
+                            
+                            <!-- Chat Filter Tabs -->
+                            <div class="flex text-[9px] font-black uppercase border-b border-brand-border">
+                                <button id="tabGlobal" class="flex-1 py-3 bg-brand-card text-brand-blue border-r border-brand-border transition" onclick="switchChat('global')">Global Feed</button>
+                                <button id="tabFollowing" class="flex-1 py-3 bg-[#0a0a0a] text-gray-600 hover:text-white transition" onclick="switchChat('following')">Team Fans</button>
+                            </div>
+                            
+                            <!-- Chat Feed Box -->
+                            <div id="chatFeed" class="p-3 space-y-3 overflow-y-auto flex-grow text-[10px]">
+                                <div class="text-gray-400"><span class="text-brand-blue font-bold">[Global] Vortex_SL:</span> Any Storm Riders online?</div>
+                                <div class="text-gray-400"><span class="text-brand-red font-bold">[Global] Paine:</span> We're holding the lobby. Join up.</div>
+                                <div class="text-gray-400"><span class="text-gray-500 font-bold">[System]:</span> Team event registration opens tomorrow.</div>
+                            </div>
+                            
+                            <!-- Chat Input Disabled State -->
+                            <div class="p-2 border-t border-brand-border bg-brand-card">
+                                <div class="bg-brand-bg border border-brand-border rounded px-3 py-2 text-gray-600 text-[9px] italic text-center">Chat disabled in profile view.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        // 1. Follow Button Logic
+        let isFollowing = false;
+        function toggleFollow() {
+            const btn = document.getElementById('followBtn');
+            isFollowing = !isFollowing;
+            if(isFollowing) {
+                btn.innerHTML = 'Following Syndicate ✓';
+                btn.classList.remove('text-gray-400', 'border-brand-border', 'bg-brand-bg');
+                btn.classList.add('text-black', 'bg-brand-blue', 'border-brand-blue');
+            } else {
+                btn.innerHTML = 'Follow Syndicate +';
+                btn.classList.add('text-gray-400', 'border-brand-border', 'bg-brand-bg');
+                btn.classList.remove('text-black', 'bg-brand-blue', 'border-brand-blue');
+            }
+        }
+
+        // 2. Chat Tab Switcher Logic
+        function switchChat(tab) {
+            const globalBtn = document.getElementById('tabGlobal');
+            const followingBtn = document.getElementById('tabFollowing');
+            const feed = document.getElementById('chatFeed');
+
+            if(tab === 'global') {
+                globalBtn.classList.replace('bg-[#0a0a0a]', 'bg-brand-card');
+                globalBtn.classList.replace('text-gray-600', 'text-brand-blue');
+                followingBtn.classList.replace('bg-brand-card', 'bg-[#0a0a0a]');
+                followingBtn.classList.replace('text-brand-blue', 'text-gray-600');
+                feed.innerHTML = `
+                    <div class="text-gray-400"><span class="text-brand-blue font-bold">[Global] Vortex_SL:</span> Any Storm Riders online?</div>
+                    <div class="text-gray-400"><span class="text-brand-red font-bold">[Global] Paine:</span> We're holding the lobby. Join up.</div>
+                `;
+            } else {
+                followingBtn.classList.replace('bg-[#0a0a0a]', 'bg-brand-card');
+                followingBtn.classList.replace('text-gray-600', 'text-brand-blue');
+                globalBtn.classList.replace('bg-brand-card', 'bg-[#0a0a0a]');
+                globalBtn.classList.replace('text-brand-blue', 'text-gray-600');
+                
+                if(isFollowing) {
+                    feed.innerHTML = `<div class="text-brand-blue"><span class="font-bold">[Storm Riders Fan Feed]:</span> You are tracking this syndicate's events.</div>`;
+                } else {
+                    feed.innerHTML = `<div class="text-gray-600 italic text-center mt-10">Follow the team to unlock fan comms.</div>`;
+                }
+            }
+        }
+
+        // 3. Dynamic Telemetry Engine (Aggregate Data)
+        const statsData = {
+            'pro_plus': {
+                'all': { w: 85, l: 30, pts: 12500, xp: 95000 },
+                'vegas': { w: 30, l: 10, pts: 4500, xp: 32000 },
+                'rome': { w: 25, l: 8, pts: 3800, xp: 28000 }
+            },
+            'pro': {
+                'all': { w: 42, l: 15, pts: 6200, xp: 45000 },
+                'vegas': { w: 18, l: 5, pts: 2100, xp: 18000 },
+                'rome': { w: 12, l: 4, pts: 1800, xp: 14000 }
+            },
+            'amateur': {
+                'all': { w: 12, l: 20, pts: 850, xp: 8500 },
+                'vegas': { w: 6, l: 8, pts: 400, xp: 4000 },
+                'rome': { w: 4, l: 5, pts: 300, xp: 3000 }
+            }
+        };
+
+        function updateStats() {
+            const classVal = document.getElementById('classFilter').value;
+            const trackVal = document.getElementById('trackFilter').value;
+            const data = statsData[classVal][trackVal] || { w: 0, l: 0, pts: 0, xp: 0 };
+
+            const statElements = ['wins', 'losses', 'pts', 'xp'];
+            statElements.forEach(id => {
+                const el = document.getElementById(`stat-${id}`);
+                el.style.opacity = 0;
+                setTimeout(() => {
+                    if(id === 'wins') el.innerText = data.w;
+                    if(id === 'losses') el.innerText = data.l;
+                    if(id === 'pts') el.innerText = data.pts.toLocaleString();
+                    if(id === 'xp') el.innerText = data.xp.toLocaleString();
+                    el.style.opacity = 1;
+                }, 150);
+            });
+        }
+
+        window.onload = updateStats;
+    </script>
+
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing.</footer>
 </body>
 </html>
