@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSR Amateur League | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 15px rgba(197, 160, 89, 0.2); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- SUB-PAGE HEADER (Uses h-logo.png) -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="h-logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
+            </div>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Development Tier</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(197,160,89,0.3)]">
+                    GSR AMATEUR LEAGUE
+                </h1>
+            </div>
+            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition tracking-wider">Sign In</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR (Media and Chats placed strictly after amateur items) -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">GSR Leagues</a>
+            <a href="team_leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Amateur League Leaderboard</a>
+            <!-- Media and Chats positioned strictly after amateur league links -->
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi-Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Amateur League Chats</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 space-y-10">
+
+        <!-- SECTION 1: TEAM AMATEUR LEAGUE STANDINGS -->
+        <section class="bg-brand-card border border-brand-gold rounded-xl p-8 shadow-xl gold-border-glow">
+            <h2 class="text-2xl font-black uppercase text-white tracking-widest text-center border-b border-brand-border pb-4 mb-6">Team Amateur League Standings</h2>
+            <div class="bg-brand-bg border border-brand-border rounded-xl overflow-hidden">
+                <table class="w-full text-left text-sm">
+                    <thead>
+                        <tr class="bg-[#111] text-brand-gold font-black uppercase text-xs border-b border-brand-border">
+                            <th class="py-3 px-6">Rank</th>
+                            <th class="py-3 px-6">Syndicate</th>
+                            <th class="py-3 px-6 text-right">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-brand-border text-gray-400">
+                        <tr class="hover:bg-white/5 transition"><td class="py-4 px-6 font-black italic text-gray-300 text-lg">1</td><td class="py-4 px-6 font-bold text-white uppercase">Rookie Vanguard</td><td class="py-4 px-6 text-right font-black text-brand-gold">4,100</td></tr>
+                        <tr class="hover:bg-white/5 transition"><td class="py-4 px-6 font-black italic text-gray-500 text-lg">2</td><td class="py-4 px-6 font-bold text-gray-300 uppercase">Iron Syndicate</td><td class="py-4 px-6 text-right font-black text-white">3,750</td></tr>
+                        <tr class="hover:bg-white/5 transition"><td class="py-4 px-6 font-black italic text-gray-600 text-lg">3</td><td class="py-4 px-6 font-bold text-gray-400 uppercase">Open Grid Racers</td><td class="py-4 px-6 text-right font-black text-white">3,120</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 2: UPCOMING LEAGUE EVENTS -->
+        <section class="bg-gradient-to-r from-amber-950 via-brand-card to-brand-card border border-brand-gold/50 rounded-xl p-8 text-center shadow-xl">
+            <h2 class="text-2xl font-black uppercase text-white tracking-widest mb-2">Upcoming Amateur Events</h2>
+            <p class="text-brand-gold text-xs font-bold uppercase tracking-widest">Rookie Sprint Qualifier - Saturday 2PM SLT</p>
+        </section>
+
+        <!-- SECTION 3: SPONSORS -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-8 text-center shadow-xl">
+            <h2 class="text-2xl font-black uppercase text-white tracking-widest mb-4">Sponsors</h2>
+            <div class="flex flex-wrap justify-center items-center gap-12 opacity-60">
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Second Life Motors ]</span>
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Linden Fuel Co. ]</span>
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ StormTech HUDs ]</span>
+            </div>
+        </section>
+
+        <!-- SECTION 4: GSR AMATEUR LEAGUE CHATS WIDGET -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-8 shadow-xl">
+            <h2 class="text-2xl font-black uppercase text-white tracking-widest text-center border-b border-brand-border pb-4 mb-6">GSR Amateur League Chats</h2>
+            <div class="bg-brand-bg border border-brand-border rounded-lg h-40 flex items-center justify-center text-gray-500 text-xs uppercase font-bold text-center p-4">
+                [ Dedicated Amateur League Live Chat Widget ]
+            </div>
+        </section>
+
+        <!-- SECTION 5: 3-COLUMN BOTTOM GRID -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Top 5 Team Racers -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
+                <h3 class="text-sm font-black uppercase text-brand-gold border-b border-brand-border pb-3 mb-4 text-center">Top 5 Team Racers</h3>
+                <div class="space-y-3 flex-grow">
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-brand-gold font-black italic">1.</span><span class="text-white text-[10px] font-bold uppercase">RookieDriver_01</span></div>
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-400 font-black italic">2.</span><span class="text-gray-300 text-[10px] font-bold uppercase">VelocityX</span></div>
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-500 font-black italic">3.</span><span class="text-gray-400 text-[10px] font-bold uppercase">AsphaltGhost</span></div>
+                </div>
+            </div>
+            
+            <!-- Recent Amateur Results -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
+                <h3 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Recent Amateur Results</h3>
+                <div class="flex-grow flex items-center justify-center bg-brand-bg border border-brand-border rounded-xl text-gray-500 text-[10px] font-bold uppercase text-center p-4">
+                    Latest Development Podiums
+                </div>
+            </div>
+
+            <!-- Amateur Regulations -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
+                <h3 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Amateur Regulations</h3>
+                <div class="flex-grow flex items-center justify-center bg-brand-bg border border-brand-border rounded-xl text-gray-500 text-[10px] font-bold uppercase text-center p-4">
+                    Tier Restrictions & Safety Rules
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
+</body>
+</html>
