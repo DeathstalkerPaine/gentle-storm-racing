@@ -12,6 +12,7 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        .text-shadow-glow { text-shadow: 0 0 10px rgba(197, 160, 89, 0.5); }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
@@ -42,7 +43,7 @@
         </div>
     </nav>
 
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
+    <main class="flex-grow max-w-[90rem] w-full mx-auto px-4 py-8 space-y-8">
         
         <!-- TELEMETRY DATABASE FILTERS -->
         <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl">
@@ -50,13 +51,13 @@
             
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <!-- 1. Category -->
-                <select id="queryCategory" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold" onchange="renderTable()">
+                <select id="queryCategory" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
                     <option value="racer">Individual Racers</option>
                     <option value="team">Syndicates / Teams</option>
                 </select>
 
                 <!-- 2. Class/League -->
-                <select id="queryClass" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold" onchange="renderTable()">
+                <select id="queryClass" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
                     <option value="pro_plus">Pro Plus Class</option>
                     <option value="pro">Pro League</option>
                     <option value="amateur">Amateur League</option>
@@ -64,14 +65,14 @@
                 </select>
 
                 <!-- 3. Timeframe -->
-                <select id="queryTime" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold" onchange="renderTable()">
+                <select id="queryTime" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
                     <option value="all_time">All-Time Stats</option>
                     <option value="monthly">This Month</option>
                     <option value="weekly">This Week</option>
                 </select>
 
                 <!-- 4. Track Specific -->
-                <select id="queryTrack" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold" onchange="renderTable()">
+                <select id="queryTrack" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
                     <option value="all">Global (All Tracks)</option>
                     <option value="vegas">Las Vegas Strip</option>
                     <option value="rome">Ancient Rome</option>
@@ -83,17 +84,19 @@
         <!-- DYNAMIC LEADERBOARD TABLE -->
         <section class="bg-brand-card border border-brand-border rounded-xl shadow-2xl overflow-hidden">
             <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs whitespace-nowrap">
+                <!-- Expanded Data Table -->
+                <table class="w-full text-left text-xs whitespace-nowrap min-w-[1000px]">
                     <thead>
-                        <tr class="bg-black/50 text-gray-500 font-black uppercase tracking-wider border-b border-brand-border">
-                            <th class="py-4 px-6 w-16">Rank</th>
-                            <th class="py-4 px-6">Name / Competitor</th>
-                            <th class="py-4 px-6 text-center text-brand-gold">Player Rating (PTS)</th>
-                            <th class="py-4 px-6 text-center text-white">Wins</th>
-                            <th class="py-4 px-6 text-center text-gray-400">Losses</th>
-                            <th class="py-4 px-6 text-center text-brand-red">DSQ</th>
-                            <th class="py-4 px-6 text-center text-brand-blue">Dmg Dealt</th>
-                            <th class="py-4 px-6 text-center text-gray-500">Dmg Taken</th>
+                        <tr class="bg-black/80 text-gray-400 font-black uppercase tracking-wider border-b border-brand-border">
+                            <th class="py-4 px-6 w-16 text-center">Rank</th>
+                            <th class="py-4 px-4">Competitor</th>
+                            <th class="py-4 px-4 text-center text-brand-gold bg-brand-gold/5">Rating (PTS)</th>
+                            <th class="py-4 px-4 text-center">Win %</th>
+                            <th class="py-4 px-4 text-center" title="Wins / Losses / Disqualifications">Record (W-L-D)</th>
+                            <th class="py-4 px-4 text-center text-brand-blue bg-brand-blue/5">Best Lap</th>
+                            <th class="py-4 px-4 text-center text-brand-blue bg-brand-blue/5">Best Course</th>
+                            <th class="py-4 px-4 text-center text-brand-red">Dmg Dealt</th>
+                            <th class="py-4 px-4 text-center text-gray-500">Dmg Taken</th>
                         </tr>
                     </thead>
                     <tbody id="leaderboardBody" class="divide-y divide-brand-border">
@@ -102,7 +105,8 @@
                 </table>
             </div>
             <!-- Loading / Status Footer -->
-            <div class="bg-brand-bg border-t border-brand-border p-3 text-center">
+            <div class="bg-brand-bg border-t border-brand-border p-3 flex justify-between items-center px-6">
+                <span id="trackLabel" class="text-[10px] font-bold uppercase text-gray-500">Showing: Global (All Tracks)</span>
                 <span class="text-[9px] font-black uppercase text-brand-gold animate-pulse">Live connection active. Data synchronized.</span>
             </div>
         </section>
@@ -111,52 +115,72 @@
 
     <!-- JS TELEMETRY SIMULATOR -->
     <script>
-        // Mock Supabase / Cloudflare Worker payload
+        // Expanded Mock Data including Lap and Course times
         const mockData = [
-            { name: "Deathstalker Paine", team: "Storm Riders", pts: 1250, w: 45, l: 12, dsq: 1, dmgOut: 18500, dmgIn: 9200 },
-            { name: "Vortex_SL", team: "Neon Syndicate", pts: 980, w: 32, l: 15, dsq: 0, dmgOut: 14200, dmgIn: 11000 },
-            { name: "BlazeRunner", team: "Apex Predators", pts: 740, w: 25, l: 18, dsq: 2, dmgOut: 11500, dmgIn: 2100 },
-            { name: "RookieDriver_01", team: "Unassigned", pts: 450, w: 12, l: 5, dsq: 0, dmgOut: 4500, dmgIn: 3200 },
-            { name: "AsphaltGhost", team: "Iron Syndicate", pts: 290, w: 8, l: 10, dsq: 1, dmgOut: 3200, dmgIn: 4100 }
+            { name: "Deathstalker Paine", team: "Storm Riders", pts: 1250, w: 45, l: 12, dsq: 1, dmgOut: 18500, dmgIn: 9200, bestLap: "0:38.210", bestCourse: "1:18.420" },
+            { name: "Vortex_SL", team: "Neon Syndicate", pts: 980, w: 32, l: 15, dsq: 0, dmgOut: 14200, dmgIn: 11000, bestLap: "0:39.405", bestCourse: "1:19.850" },
+            { name: "BlazeRunner", team: "Apex Predators", pts: 740, w: 25, l: 18, dsq: 2, dmgOut: 11500, dmgIn: 2100, bestLap: "0:40.100", bestCourse: "1:21.330" },
+            { name: "RookieDriver_01", team: "Unassigned", pts: 450, w: 12, l: 5, dsq: 0, dmgOut: 4500, dmgIn: 3200, bestLap: "0:42.500", bestCourse: "1:25.100" },
+            { name: "AsphaltGhost", team: "Iron Syndicate", pts: 290, w: 8, l: 10, dsq: 1, dmgOut: 3200, dmgIn: 4100, bestLap: "0:44.220", bestCourse: "1:28.900" }
         ];
 
         function renderTable() {
             const tbody = document.getElementById('leaderboardBody');
             const category = document.getElementById('queryCategory').value;
+            const trackVal = document.getElementById('queryTrack').value;
+            const trackLabel = document.getElementById('trackLabel');
             
             // Clear current table
             tbody.innerHTML = '';
 
-            // Simulate filtering based on Category (In production, Cloudflare Worker fetches this)
+            // Update Track Label in footer
+            const trackNames = { 'all': 'Global (All Tracks)', 'vegas': 'Las Vegas Strip', 'rome': 'Ancient Rome', 'city': 'Abandoned City' };
+            trackLabel.innerText = `Showing: ${trackNames[trackVal]}`;
+
+            // Simulate filtering based on Category
             let displayData = [...mockData];
             
             if (category === 'team') {
-                // Mock team aggregation
                 displayData = [
-                    { name: "Storm Riders", team: "Pro Plus", pts: 12500, w: 85, l: 30, dsq: 2, dmgOut: 45000, dmgIn: 22000 },
-                    { name: "Neon Syndicate", team: "Pro Plus", pts: 10200, w: 60, l: 40, dsq: 1, dmgOut: 38000, dmgIn: 25000 },
-                    { name: "Apex Predators", team: "Pro League", pts: 9800, w: 55, l: 42, dsq: 5, dmgOut: 32000, dmgIn: 18000 }
+                    { name: "Storm Riders", team: "Pro Plus", pts: 12500, w: 85, l: 30, dsq: 2, dmgOut: 45000, dmgIn: 22000, bestLap: "0:38.210", bestCourse: "1:18.420" },
+                    { name: "Neon Syndicate", team: "Pro Plus", pts: 10200, w: 60, l: 40, dsq: 1, dmgOut: 38000, dmgIn: 25000, bestLap: "0:39.405", bestCourse: "1:19.850" },
+                    { name: "Apex Predators", team: "Pro League", pts: 9800, w: 55, l: 42, dsq: 5, dmgOut: 32000, dmgIn: 18000, bestLap: "0:40.100", bestCourse: "1:21.330" }
                 ];
             }
 
-            // Render rows
+            // Render rows dynamically
             displayData.forEach((row, index) => {
-                const rankClass = index === 0 ? 'text-brand-gold text-lg' : (index === 1 ? 'text-gray-300 text-base' : 'text-gray-500 text-sm');
+                // Formatting specific column styles
+                const rankClass = index === 0 ? 'text-brand-gold text-lg text-shadow-glow' : (index === 1 ? 'text-gray-300 text-base' : 'text-gray-500 text-sm');
                 
+                // Calculations
+                const totalRaces = row.w + row.l + row.dsq;
+                const winPct = totalRaces > 0 ? Math.round((row.w / totalRaces) * 100) + '%' : '0%';
+                
+                // Logic: If 'All Tracks' is selected, you can't show a global lap time. Show '--' instead.
+                const displayLap = trackVal === 'all' ? '<span class="text-gray-600">--:--.---</span>' : row.bestLap;
+                const displayCourse = trackVal === 'all' ? '<span class="text-gray-600">--:--.---</span>' : row.bestCourse;
+                
+                // Dsq Formatting (Highlights Red if they have DSQs)
+                const dsqFormat = row.dsq > 0 ? `<span class="text-brand-red font-black">${row.dsq}</span>` : `<span class="text-gray-600">${row.dsq}</span>`;
+
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-white/5 transition";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-black italic ${rankClass}">${index + 1}</td>
-                    <td class="py-4 px-6">
+                    <td class="py-4 px-6 text-center font-black italic ${rankClass}">${index + 1}</td>
+                    <td class="py-4 px-4 cursor-pointer hover:bg-brand-card transition rounded" onclick="window.location='${category === 'racer' ? 'racer.html' : 'team.html'}'">
                         <div class="font-black text-white uppercase text-sm">${row.name}</div>
                         <div class="font-bold text-[9px] text-gray-500 uppercase">${row.team}</div>
                     </td>
-                    <td class="py-4 px-6 text-center font-black text-brand-gold text-base">${row.pts.toLocaleString()}</td>
-                    <td class="py-4 px-6 text-center font-black text-white">${row.w}</td>
-                    <td class="py-4 px-6 text-center font-bold text-gray-400">${row.l}</td>
-                    <td class="py-4 px-6 text-center font-black ${row.dsq > 0 ? 'text-brand-red' : 'text-gray-600'}">${row.dsq}</td>
-                    <td class="py-4 px-6 text-center font-mono font-bold text-brand-blue">${row.dmgOut.toLocaleString()}</td>
-                    <td class="py-4 px-6 text-center font-mono font-bold text-gray-500">${row.dmgIn.toLocaleString()}</td>
+                    <td class="py-4 px-4 text-center font-black text-brand-gold text-base bg-brand-gold/5">${row.pts.toLocaleString()}</td>
+                    <td class="py-4 px-4 text-center font-black text-white">${winPct}</td>
+                    <td class="py-4 px-4 text-center font-bold text-gray-400">
+                        <span class="text-white">${row.w}</span> - ${row.l} - ${dsqFormat}
+                    </td>
+                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${displayLap}</td>
+                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${displayCourse}</td>
+                    <td class="py-4 px-4 text-center font-mono font-bold text-gray-300">${row.dmgOut.toLocaleString()}</td>
+                    <td class="py-4 px-4 text-center font-mono font-bold text-gray-500">${row.dmgIn.toLocaleString()}</td>
                 `;
                 tbody.appendChild(tr);
             });
