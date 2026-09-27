@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GSR Pro Plus Portal | Gentle Storm Racing</title>
+    <title>GSR Pro Plus Hub | Gentle Storm Racing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -13,7 +13,7 @@
                     colors: {
                         brand: {
                             bg: '#121212',
-                            card: '#1e1e1e',
+                            card: '#1a1a1a',
                             border: '#333333',
                             gold: '#c5a059',
                             red: '#ff2a2a',
@@ -25,9 +25,9 @@
         }
     </script>
     <style>
-        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
-        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 12px rgba(255, 42, 42, 0.25); }
-        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 15px rgba(197, 160, 89, 0.2); }
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 15px rgba(255, 42, 42, 0.2); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 15px rgba(42, 117, 255, 0.2); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
@@ -36,199 +36,215 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-            <!-- PRO PLUS HUB HEADER: TALL DESKTOP, PERFECT MOBILE (VERTICAL & HORIZONTAL) -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
-            
-            <!-- Left (Desktop) / Top (Mobile): Logo -->
-            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+    <!-- TOP HEADER: CENTERED LOGO WITH TOP-RIGHT SIGN IN BUTTON -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-3 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex items-center justify-center min-h-[110px] sm:min-h-[140px]">
+            <div class="text-center py-1">
                 <a href="index.html" class="inline-block">
-                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
+                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-28 sm:h-36 md:h-44 w-auto max-w-full object-contain mx-auto drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] transition-transform duration-300">
                 </a>
             </div>
-
-            <!-- Center: Title with GSR PRESENTS -->
-            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
-                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">GSR Presents</span>
-                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                    PRO PLUS
-                </h1>
-            </div>
-
-            <!-- Right: Sign In Button -->
-            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
-                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition whitespace-nowrap tracking-wider">
+            <div class="absolute right-3 top-3 sm:right-6 sm:top-1/2 sm:-translate-y-1/2 z-20">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 sm:px-5 sm:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition inline-block tracking-wider">
                     Sign In
                 </a>
             </div>
-
         </div>
     </header>
 
-
-       <!-- SUB-NAVBAR LINKS -->
+    <!-- SUB-NAVBAR LINKS -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
-            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <a href="story_campaign.html" class="text-gray-300 hover:text-brand-gold transition">Story Campaign</a>
-            <a href="skill_tree.html" class="text-gray-300 hover:text-brand-gold transition">Skill Tree</a>
-            <a href="what_is_pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">What is GSR Pro Plus?</a>
-            <a href="top_racers.html" class="text-gray-300 hover:text-brand-gold transition">Top Racers</a>
-            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">News/Magazine</a>
-            <a href="tutorial.html" class="text-gray-300 hover:text-brand-gold transition">Tutorial</a>
+            <a href="pro_plus.html" class="text-brand-gold transition">GSRacing Pro Plus</a>
+            <a href="store.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Store</a>
+            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
+            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams</a>
+            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">Leagues</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards</a>
+            <a href="sponsors.html" class="text-gray-300 hover:text-brand-gold transition">Sponsors</a>
             <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="upcoming_events.html" class="text-gray-300 hover:text-brand-gold transition">Upcoming Events</a>
             <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
-            <a href="trophies.html" class="text-gray-300 hover:text-brand-gold transition">Trophies/Titles</a>
         </div>
     </nav>
 
-    <!-- MAIN CONTENT GRID LAYOUT -->
+    <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
 
-        <!-- ROW 1: SPONSORS BANNER -->
-        <section>
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-center items-center text-center">
-                <h3 class="text-xl font-black uppercase tracking-wider text-brand-gold mb-1">Sponsors</h3>
-                <p class="text-xs text-gray-400">Official Pro Plus Partners & Title Sponsors</p>
-            </div>
+        <!-- ROW 0: SPONSORS BANNER -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-5 text-center shadow-lg">
+            <span class="text-[9px] font-black uppercase text-brand-gold tracking-[0.2em] block mb-1">Sponsors</span>
+            <p class="text-[11px] text-gray-400 font-bold uppercase">Official Pro Plus Partners & Title Sponsors</p>
         </section>
 
-        <!-- ROW 2: 3-COLUMN HIGHLIGHT CARDS (GOLD / RED / BLUE) -->
+        <!-- ROW 1: 3-COLUMN FEATURE CARDS (Campaign, Skill Tree, Overview) -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Story Campaign Card (GOLD) -->
-            <a href="story_campaign.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
+            
+            <!-- Story Campaign -->
+            <div class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 flex flex-col justify-between shadow-xl transition group">
                 <div>
-                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Campaign</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Campaign</span>
                     <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Story Campaign</h3>
-                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                    <p class="text-xs text-gray-400 mt-2 leading-relaxed">
                         Features campaign artwork along with a short text summarizing the Chapter. Clicking here opens a new page on the entire Story Campaign.
                     </p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Open Campaign →</span>
+                    <a href="story_campaign.html" class="text-xs font-bold uppercase text-brand-gold hover:text-white transition">Open Campaign →</a>
                 </div>
-            </a>
+            </div>
 
-            <!-- Skill Tree Card (RED) -->
-            <a href="skill_tree.html" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between group">
+            <!-- Skill Tree -->
+            <div class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 flex flex-col justify-between shadow-xl transition group red-border-glow">
                 <div>
-                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Progression</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Progression</span>
                     <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Skill Tree</h3>
-                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                    <p class="text-xs text-gray-400 mt-2 leading-relaxed">
                         Will show the Skill Tree progression. Click here to open a new page to see full Skill Tree unlocks and pit crew bonuses.
                     </p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span class="text-xs font-bold uppercase text-brand-red">View Skill Tree →</span>
+                    <a href="skill_tree.html" class="text-xs font-bold uppercase text-brand-red hover:text-white transition">View Skill Tree →</a>
                 </div>
-            </a>
+            </div>
 
-            <!-- What is GSR Pro Plus Card (BLUE) -->
-            <a href="what_is_pro_plus.html" class="bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl p-6 blue-border-glow transition flex flex-col justify-between group">
+            <!-- What is GSR Pro Plus -->
+            <div class="bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl p-6 flex flex-col justify-between shadow-xl transition group blue-border-glow">
                 <div>
-                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-blue text-white px-2 py-0.5 rounded">Overview</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest bg-brand-blue text-white px-2 py-0.5 rounded">Overview</span>
                     <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-blue transition">What is GSR Pro Plus?</h3>
-                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                    <p class="text-xs text-gray-400 mt-2 leading-relaxed">
                         Shows an image and text stating quick detail on GSR Pro Plus. Clicking here takes to full detail on all that encompasses what GSR Pro Plus is.
                     </p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span class="text-xs font-bold uppercase text-brand-blue">Full Details →</span>
+                    <a href="pro_plus_details.html" class="text-xs font-bold uppercase text-brand-blue hover:text-white transition">Full Details →</a>
                 </div>
-            </a>
+            </div>
+
         </section>
 
-        <!-- ROW 3: GSR CHATS THREAD -->
-        <section>
-            <a href="chats.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group block">
-                <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-3">
-                    <h3 class="text-lg font-black uppercase text-white group-hover:text-brand-gold transition">GSR Chats Thread</h3>
-                    <span class="text-[10px] font-black uppercase bg-brand-gold text-black px-2 py-0.5 rounded">Live Discussion</span>
-                </div>
-                <p class="text-xs text-gray-300 leading-relaxed">
-                    This is where you can see latest global chat. Clicking here takes to GSR Chats which is a social media type chat system. This area will show the current chats entered on site.
-                </p>
-                <div class="mt-4 text-right">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Open Community Feed →</span>
-                </div>
-            </a>
+        <!-- ROW 2: GSR CHATS THREAD BANNER -->
+        <section class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 shadow-xl transition group">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-brand-border pb-3 mb-3 gap-2">
+                <h3 class="text-lg font-black uppercase text-white tracking-wide group-hover:text-brand-gold transition">💬 GSR Chats Thread</h3>
+                <span class="bg-amber-950 text-brand-gold border border-brand-gold/30 text-[9px] font-black uppercase px-2.5 py-1 rounded">Live Discussion</span>
+            </div>
+            <p class="text-xs text-gray-300 leading-relaxed">
+                This is where you can see latest global chat. Clicking here takes to GSR Chats which is a social media type chat system. This area will show the current chats entered on site.
+            </p>
+            <div class="mt-4 pt-3 border-t border-brand-border text-right">
+                <a href="chats.html" class="text-xs font-bold uppercase text-brand-gold hover:text-white transition">Open Community Feed →</a>
+            </div>
         </section>
 
-        <!-- ROW 4: MAGAZINE & TOP RACERS -->
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- GSR Magazine (Spans 2 Columns) -->
-            <a href="multimedia.html" class="lg:col-span-2 bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-8 transition flex flex-col justify-between group">
+        <!-- ROW 3: 2-COLUMN (Magazine & Top Racers Standings) -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- GSR Magazine -->
+            <div class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 flex flex-col justify-between shadow-xl transition group">
                 <div>
-                    <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Publication</span>
-                    <h2 class="text-2xl font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">GSR Magazine</h2>
-                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                    <span class="text-[9px] font-black uppercase text-brand-gold tracking-wider">Publication</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">GSR Magazine</h3>
+                    <p class="text-xs text-gray-400 mt-2 leading-relaxed">
                         Features digital issue covers and driver spotlights. Click to open full magazine articles and driver stories.
                     </p>
                 </div>
-                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Read Magazine →</span>
+                <div class="mt-6 pt-4 border-t border-brand-border text-right">
+                    <a href="multimedia.html" class="text-xs font-bold uppercase text-brand-gold hover:text-white transition">Read Magazine →</a>
                 </div>
-            </a>
+            </div>
 
-            <!-- Top Racers Card (1 Column) -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
+            <!-- Top Racers Standings (Campaign Progress, Coins, XP, Alignment) -->
+            <div class="bg-brand-card border border-brand-gold rounded-xl p-6 flex flex-col justify-between shadow-xl gold-border-glow">
                 <div>
-                    <span class="text-[10px] font-black uppercase text-brand-red tracking-wider">Standings</span>
-                    <h3 class="text-base font-black uppercase text-white mt-2">Top Racers</h3>
-                    <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+                    <div class="flex justify-between items-center border-b border-brand-border pb-3 mb-4">
+                        <div>
+                            <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest">Standings</span>
+                            <h3 class="text-lg font-black uppercase text-white mt-0.5">Top Racers</h3>
+                        </div>
+                        <span class="text-[9px] text-gray-400 uppercase font-bold">Story & Progression</span>
+                    </div>
+                    <p class="text-[11px] text-gray-400 mb-4 italic">
                         This shows top three racers based on how far along the story campaign, coins, XP earned, and if went Good, Bad, or Neutral.
                     </p>
-                </div>
-                <a href="leaderboards.html" class="mt-4 text-xs font-bold uppercase text-brand-gold hover:text-white transition">
-                    View Full Standings →
-                </a>
-            </div>
-        </section>
 
-        <!-- ROW 5: CURRENT NEWS -->
-        <section>
-            <a href="multimedia.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group block">
-                <div class="border-b border-brand-border pb-3 mb-3">
-                    <h3 class="text-xl font-black uppercase text-white group-hover:text-brand-gold transition">Current News</h3>
-                </div>
-                <p class="text-xs text-gray-300 leading-relaxed">
-                    Official announcements, patch notes, and campaign updates. Click to read full news releases.
-                </p>
-                <div class="mt-4 text-right">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Read Full News →</span>
-                </div>
-            </a>
-        </section>
+                    <!-- Top 3 Racers List -->
+                    <div class="space-y-3">
+                        
+                        <!-- #1 Racer: Deathstalker Paine (Bad Alignment - Red B) -->
+                        <div class="bg-brand-bg border border-brand-red/60 p-3 rounded-lg flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="w-6 h-6 rounded-full bg-brand-gold text-black font-black text-xs flex items-center justify-center shrink-0">1</span>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-white text-xs font-black uppercase">Deathstalker Paine</span>
+                                        <span class="bg-brand-red text-white text-[9px] font-black px-1.5 py-0.2 rounded" title="Bad Alignment">B</span>
+                                    </div>
+                                    <p class="text-[9px] text-gray-400 uppercase font-bold">Chapter 7 • 12,500 XP</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs font-black text-brand-gold">🪙 4,500</span>
+                            </div>
+                        </div>
 
-        <!-- ROW 6: 3-COLUMN BOTTOM GRID & SYSTEM STATUS -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
-                <div>
-                    <h3 class="text-sm font-black uppercase text-white mb-2">Tutorials & Guides</h3>
-                    <p class="text-xs text-gray-400">Learn how campaign progression and Economy XP work.</p>
-                </div>
-                <a href="tutorial.html" class="mt-4 text-xs font-bold uppercase text-brand-gold hover:text-white transition">Start Tutorial →</a>
-            </div>
+                        <!-- #2 Racer: Vortex_SL (Good Alignment - Blue G) -->
+                        <div class="bg-brand-bg border border-brand-blue/60 p-3 rounded-lg flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="w-6 h-6 rounded-full bg-gray-400 text-black font-black text-xs flex items-center justify-center shrink-0">2</span>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-white text-xs font-black uppercase">Vortex_SL</span>
+                                        <span class="bg-brand-blue text-white text-[9px] font-black px-1.5 py-0.2 rounded" title="Good Alignment">G</span>
+                                    </div>
+                                    <p class="text-[9px] text-gray-400 uppercase font-bold">Chapter 6 • 10,200 XP</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs font-black text-brand-gold">🪙 3,800</span>
+                            </div>
+                        </div>
 
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
-                <div>
-                    <h3 class="text-sm font-black uppercase text-white mb-2">Trophies / Titles</h3>
-                    <p class="text-xs text-gray-400">View driver titles and trophy room achievements.</p>
-                </div>
-                <a href="trophies.html" class="mt-4 text-xs font-bold uppercase text-brand-gold hover:text-white transition">View Trophies →</a>
-            </div>
+                        <!-- #3 Racer: BlazeRunner (Neutral Alignment - Gold N) -->
+                        <div class="bg-brand-bg border border-brand-gold/60 p-3 rounded-lg flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="w-6 h-6 rounded-full bg-amber-700 text-white font-black text-xs flex items-center justify-center shrink-0">3</span>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-white text-xs font-black uppercase">BlazeRunner</span>
+                                        <span class="bg-brand-gold text-black text-[9px] font-black px-1.5 py-0.2 rounded" title="Neutral Alignment">N</span>
+                                    </div>
+                                    <p class="text-[9px] text-gray-400 uppercase font-bold">Chapter 6 • 9,400 XP</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs font-black text-brand-gold">🪙 3,100</span>
+                            </div>
+                        </div>
 
-            <!-- GSR Pro Plus System Status -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
-                <div>
-                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Infrastructure</span>
-                    <h3 class="text-base font-black uppercase text-white mt-1">GSR Pro Plus System Status</h3>
-                    <div class="mt-3 flex items-center space-x-2">
-                        <span class="h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse"></span>
-                        <span class="text-xs font-bold text-green-400 uppercase">Pro+ Systems Online</span>
                     </div>
                 </div>
-                <p class="text-[10px] text-gray-500 mt-4">Supabase RPG Engine Connected</p>
+
+                <div class="mt-6 pt-4 border-t border-brand-border text-right">
+                    <a href="leaderboard_view.html?category=racer&class=pro_plus" class="text-xs font-bold uppercase text-brand-gold hover:text-white transition">View Full Standings →</a>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ROW 4: CURRENT NEWS (Full Width) -->
+        <section class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 shadow-xl transition group">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-brand-border pb-3 mb-3 gap-2">
+                <h3 class="text-lg font-black uppercase text-white tracking-wide group-hover:text-brand-gold transition">Current News</h3>
+                <span class="text-[9px] font-black uppercase text-gray-400">Official Announcements</span>
+            </div>
+            <p class="text-xs text-gray-300 leading-relaxed">
+                Official announcements, patch notes, and campaign updates. Click to read full news releases.
+            </p>
+            <div class="mt-4 pt-3 border-t border-brand-border text-right">
+                <a href="multimedia.html" class="text-xs font-bold uppercase text-brand-gold hover:text-white transition">Read Full News →</a>
             </div>
         </section>
 
