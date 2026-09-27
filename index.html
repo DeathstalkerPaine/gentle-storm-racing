@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gentle Storm Racing | Main Menu Hub</title>
+    <title>Gentle Storm Racing | Official Grid Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -25,31 +25,34 @@
         }
     </script>
     <style>
-        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 10px rgba(197, 160, 89, 0.2); }
-        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 10px rgba(255, 42, 42, 0.2); }
-        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 10px rgba(42, 117, 255, 0.2); }
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 15px rgba(197, 160, 89, 0.2); }
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 15px rgba(255, 42, 42, 0.2); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- TOP HEADER: RELATIVE POSITION (SCROLLS OFF SCREEN) -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-3 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 relative flex items-center justify-center min-h-[110px] sm:min-h-[140px]">
+    <!-- MAIN PAGE HEADER (Uses logo.png) -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
             
-            <!-- Centered Logo -->
-            <div class="text-center py-1">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
                 <a href="index.html" class="inline-block">
-                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-28 sm:h-36 md:h-44 w-auto max-w-full object-contain mx-auto drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] transition-transform duration-300">
+                    <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
                 </a>
             </div>
 
-            <!-- Compact Sign In Button (Fixed Top-Right) -->
-            <div class="absolute right-3 top-3 sm:right-6 sm:top-1/2 sm:-translate-y-1/2 z-20">
-                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 sm:px-5 sm:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition inline-block tracking-wider">
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Second Life Racing Network</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    GENTLE STORM RACING
+                </h1>
+            </div>
+
+            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition tracking-wider">
                     Sign In
                 </a>
             </div>
@@ -57,182 +60,172 @@
         </div>
     </header>
 
-    <!-- SUB-NAVBAR LINKS -->
+    <!-- SUB-NAVBAR -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
-            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Pro Plus</a>
-            <a href="store.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Store</a>
+            <a href="index.html" class="text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
             <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
-            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers</a>
-            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams</a>
+            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams Hub</a>
             <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">Leagues</a>
             <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards</a>
-            <a href="sponsors.html" class="text-gray-300 hover:text-brand-gold transition">Sponsors</a>
             <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
-            <a href="upcoming_events.html" class="text-gray-300 hover:text-brand-gold transition">Upcoming Events</a>
             <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
         </div>
     </nav>
 
-    <!-- MAIN MENU GRID LAYOUT -->
+    <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
 
-        <!-- ROW 1: 3-COLUMN WEEKLY SPOTLIGHTS (GOLD / RED / BLUE) -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Team of the Week (GOLD) -->
-            <a href="teams.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
+        <!-- ROW 1: TOP 3 RACERS SECTION (DIRECT LINK TO LEADERBOARD) -->
+        <section class="bg-brand-card border border-brand-gold rounded-xl p-6 shadow-2xl gold-border-glow">
+            
+            <div class="flex flex-col sm:flex-row justify-between items-center border-b border-brand-border pb-4 mb-6 gap-2">
                 <div>
-                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Spotlight</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Team of the Week</h3>
-                    <p class="text-xs text-gray-400 mt-2">Shows an image of the Teams card. Click to open the full Teams Hub.</p>
+                    <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest block">Live Global Standings</span>
+                    <h2 class="text-xl sm:text-2xl font-black uppercase text-white tracking-wide">Top 3 Racers</h2>
                 </div>
-                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Open Teams →</span>
-                </div>
-            </a>
-
-            <!-- Racer of the Week (RED) -->
-            <a href="racers.html" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between group">
-                <div>
-                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Spotlight</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Racer of the Week</h3>
-                    <p class="text-xs text-gray-400 mt-2">Shows an image of the Racers card. Click to open the full Racers Hub.</p>
-                </div>
-                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span class="text-xs font-bold uppercase text-brand-red">Open Racers →</span>
-                </div>
-            </a>
-
-            <!-- Track of the Week (BLUE) -->
-            <a href="racetracks.html" class="bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl p-6 blue-border-glow transition flex flex-col justify-between group">
-                <div>
-                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-blue text-white px-2 py-0.5 rounded">Spotlight</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-blue transition">Track of the Week</h3>
-                    <p class="text-xs text-gray-400 mt-2">Shows an image of the Track card. Click to open the full Racetracks Hub.</p>
-                </div>
-                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span class="text-xs font-bold uppercase text-brand-blue">Open Racetracks →</span>
-                </div>
-            </a>
-        </section>
-
-        <!-- ROW 2: 2-COLUMN NEWS & CHATS -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Current News -->
-            <a href="multimedia.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
-                <div>
-                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Latest Announcement</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Current News</h3>
-                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
-                        Short news excerpt and announcement summary. Click to read full news articles and official updates.
-                    </p>
-                </div>
-                <div class="mt-4 pt-3 border-t border-brand-border text-right">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Read News →</span>
-                </div>
-            </a>
-
-            <!-- GSR Chats Threads -->
-            <a href="chats.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
-                <div>
-                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Live Discussion</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">GSR Chats Threads</h3>
-                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
-                        Shows the latest community chats and driver threads. Click to open the global discussion feed.
-                    </p>
-                </div>
-                <div class="mt-4 pt-3 border-t border-brand-border text-right">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Open Community Chats →</span>
-                </div>
-            </a>
-        </section>
-
-        <!-- ROW 3: MAGAZINE & SPONSORS -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Gentle Storm Racing Magazine -->
-            <a href="multimedia.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
-                <div>
-                    <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Publication</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Gentle Storm Racing Magazine</h3>
-                    <p class="text-xs text-gray-400 mt-2">Cover image preview. Click to open the digital magazine reader.</p>
-                </div>
-                <div class="mt-4 pt-3 border-t border-brand-border text-right">
-                    <span class="text-xs font-bold uppercase text-brand-gold">View Issue →</span>
-                </div>
-            </a>
-
-            <!-- Sponsors Banner -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-center items-center text-center">
-                <h3 class="text-xl font-black uppercase tracking-wider text-brand-gold mb-2">Sponsors</h3>
-                <p class="text-xs text-gray-400">Official Partners & League Sponsors</p>
-            </div>
-        </section>
-
-        <!-- ROW 4: 3-COLUMN STATS, EVENTS & HIGHLIGHTS -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Top 3 Racers Lifetime Stats -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
-                <div>
-                    <h3 class="text-base font-black uppercase text-white mb-2">Top 3 Racers</h3>
-                    <p class="text-xs text-gray-400">Lifetime stats based on points ratings system.</p>
-                </div>
-                <a href="leaderboards.html" class="mt-4 text-xs font-bold uppercase text-brand-gold hover:text-white transition">
-                    View Full Leaderboards →
+                <a href="leaderboard_view.html?category=racer" class="text-xs font-black uppercase text-brand-gold hover:text-white transition bg-brand-bg border border-brand-border px-4 py-2 rounded-lg flex items-center gap-2">
+                    View Full Leaderboard <span class="text-brand-gold">&rarr;</span>
                 </a>
             </div>
 
-            <!-- Next Event -->
-            <a href="upcoming_events.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
-                <div>
-                    <span class="text-[10px] font-black uppercase text-brand-red tracking-wider">Schedule</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Next Event</h3>
-                    <p class="text-xs text-gray-400 mt-2">Countdown timer and track details for the upcoming race.</p>
-                </div>
-                <div class="mt-4 pt-3 border-t border-brand-border text-right">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Event Details →</span>
-                </div>
-            </a>
+            <!-- TOP 3 RACERS GRID (CLICKING ANY RACER OPENS LEADERBOARDS) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- #1 RACER: Deathstalker Paine -->
+                <a href="leaderboard_view.html?category=racer" class="bg-brand-bg border border-brand-gold hover:border-brand-red rounded-xl p-5 flex flex-col justify-between shadow-xl transition transform hover:-translate-y-1 group">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-gradient-to-r from-yellow-500 to-amber-700 text-black font-black text-[10px] uppercase px-2.5 py-0.5 rounded shadow">Rank #1</span>
+                            <span class="text-brand-red font-black text-[10px] uppercase">Pro Plus</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="w-14 h-14 rounded-xl bg-[#111] border-2 border-brand-gold flex items-center justify-center text-[9px] text-gray-500 uppercase font-bold text-center shrink-0">
+                                Photo
+                            </div>
+                            <div>
+                                <h3 class="text-base font-black uppercase text-white group-hover:text-brand-gold transition">Deathstalker Paine</h3>
+                                <p class="text-[10px] text-gray-400 uppercase font-bold">Storm Riders</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-t border-brand-border pt-3 mt-2 flex justify-between items-center">
+                        <span class="text-[9px] font-bold uppercase text-gray-500">Rating Points</span>
+                        <span class="text-base font-black text-brand-gold">1,250 PTS</span>
+                    </div>
+                </a>
 
-            <!-- Race Highlights -->
-            <a href="multimedia.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
-                <div>
-                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Media</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Race Highlights</h3>
-                    <p class="text-xs text-gray-400 mt-2">Featured video reels, text summaries, and photo galleries.</p>
-                </div>
-                <div class="mt-4 pt-3 border-t border-brand-border text-right">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Watch Replays →</span>
-                </div>
-            </a>
+                <!-- #2 RACER: Vortex_SL -->
+                <a href="leaderboard_view.html?category=racer" class="bg-brand-bg border border-brand-border hover:border-brand-gold rounded-xl p-5 flex flex-col justify-between shadow-xl transition transform hover:-translate-y-1 group opacity-90 hover:opacity-100">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-gradient-to-r from-gray-300 to-gray-500 text-black font-black text-[10px] uppercase px-2.5 py-0.5 rounded shadow">Rank #2</span>
+                            <span class="text-brand-blue font-black text-[10px] uppercase">Pro Class</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="w-14 h-14 rounded-xl bg-[#111] border-2 border-gray-400 flex items-center justify-center text-[9px] text-gray-500 uppercase font-bold text-center shrink-0">
+                                Photo
+                            </div>
+                            <div>
+                                <h3 class="text-base font-black uppercase text-white group-hover:text-brand-gold transition">Vortex_SL</h3>
+                                <p class="text-[10px] text-gray-400 uppercase font-bold">Neon Syndicate</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-t border-brand-border pt-3 mt-2 flex justify-between items-center">
+                        <span class="text-[9px] font-bold uppercase text-gray-500">Rating Points</span>
+                        <span class="text-base font-black text-white">980 PTS</span>
+                    </div>
+                </a>
+
+                <!-- #3 RACER: BlazeRunner -->
+                <a href="leaderboard_view.html?category=racer" class="bg-brand-bg border border-brand-border hover:border-brand-gold rounded-xl p-5 flex flex-col justify-between shadow-xl transition transform hover:-translate-y-1 group opacity-80 hover:opacity-100">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-gradient-to-r from-amber-700 to-amber-900 text-white font-black text-[10px] uppercase px-2.5 py-0.5 rounded shadow">Rank #3</span>
+                            <span class="text-brand-blue font-black text-[10px] uppercase">Pro Class</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="w-14 h-14 rounded-xl bg-[#111] border-2 border-amber-700 flex items-center justify-center text-[9px] text-gray-500 uppercase font-bold text-center shrink-0">
+                                Photo
+                            </div>
+                            <div>
+                                <h3 class="text-base font-black uppercase text-white group-hover:text-brand-gold transition">BlazeRunner</h3>
+                                <p class="text-[10px] text-gray-400 uppercase font-bold">Apex Predators</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-t border-brand-border pt-3 mt-2 flex justify-between items-center">
+                        <span class="text-[9px] font-bold uppercase text-gray-500">Rating Points</span>
+                        <span class="text-base font-black text-white">740 PTS</span>
+                    </div>
+                </a>
+
+            </div>
         </section>
 
-        <!-- ROW 5: LEAGUES OVERVIEW & SYSTEM STATUS -->
-        <section class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            <!-- GSR Leagues (Spans 3 Columns) -->
-            <a href="leagues.html" class="lg:col-span-3 bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-8 transition flex flex-col justify-between group">
+        <!-- ROW 2: SPONSORS BANNER -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 text-center shadow-xl">
+            <span class="text-[10px] font-black uppercase text-gray-500 tracking-widest">Official GSR Sponsors</span>
+            <div class="flex flex-wrap justify-center items-center gap-10 py-3 opacity-75">
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Second Life Motors ]</span>
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Linden Fuel Co. ]</span>
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ StormTech HUDs ]</span>
+            </div>
+        </section>
+
+        <!-- ROW 3: GSR CHATS STREAM -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl">
+            <div class="flex justify-between items-center border-b border-brand-border pb-3 mb-4">
+                <h3 class="text-lg font-black uppercase text-white tracking-wide">💬 GSR Chats: Main Stream</h3>
+                <a href="chats.html" class="text-[10px] text-brand-gold hover:underline font-bold uppercase">Open Full Chat →</a>
+            </div>
+            <div class="bg-brand-bg border border-brand-border rounded-lg h-32 flex items-center justify-center text-gray-500 text-xs uppercase font-bold">
+                [ Live Global Chat Stream Widget Connected ]
+            </div>
+        </section>
+
+        <!-- ROW 4: FEATURE MODULES -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
                 <div>
-                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Championships</span>
-                    <h2 class="text-2xl font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">GSR Leagues</h2>
-                    <p class="text-xs text-gray-300 mt-2">
-                        Compare Pro League vs. Amateur League standings, team statistics, and active season schedules.
+                    <span class="text-[9px] font-black uppercase text-brand-red bg-red-950 px-2 py-0.5 rounded border border-brand-red/30 inline-block mb-2">Circuit Hub</span>
+                    <h4 class="text-base font-black uppercase text-white">Featured Racetracks</h4>
+                    <p class="text-xs text-gray-400 mt-2">
+                        Explore Las Vegas Strip, Back to Future, and Ancient Rome. Check track records and difficulty ratings.
                     </p>
                 </div>
-                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span class="text-xs font-bold uppercase text-brand-gold">Explore Leagues →</span>
-                </div>
-            </a>
+                <a href="racetracks.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    Explore Racetracks →
+                </a>
+            </div>
 
-            <!-- GSR System Status (1 Column) -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
                 <div>
-                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Infrastructure</span>
-                    <h3 class="text-base font-black uppercase text-white mt-2">GSR System Status</h3>
-                    <div class="mt-3 flex items-center space-x-2">
-                        <span class="h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse"></span>
-                        <span class="text-xs font-bold text-green-400 uppercase">All Systems Operational</span>
-                    </div>
+                    <span class="text-[9px] font-black uppercase text-brand-gold bg-amber-950 px-2 py-0.5 rounded border border-brand-gold/30 inline-block mb-2">Premium Tier</span>
+                    <h4 class="text-base font-black uppercase text-white">Pro Plus Membership</h4>
+                    <p class="text-xs text-gray-400 mt-2">
+                        Unlock customized card alignment borders, exclusive Pro Plus chat feeds, and higher point yields.
+                    </p>
                 </div>
-                <p class="text-[10px] text-gray-500 mt-4">Supabase DB & Cloudflare Workers Active</p>
+                <a href="pro_plus.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    Pro Plus Details →
+                </a>
+            </div>
+
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-brand-blue bg-blue-950 px-2 py-0.5 rounded border border-brand-blue/30 inline-block mb-2">Media Center</span>
+                    <h4 class="text-base font-black uppercase text-white">GSR Multi-Media</h4>
+                    <p class="text-xs text-gray-400 mt-2">
+                        Watch race replays, browse driver interviews, and read the latest issue of GSR Magazine.
+                    </p>
+                </div>
+                <a href="multimedia.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-blue text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    View Multi-Media →
+                </a>
             </div>
         </section>
 
