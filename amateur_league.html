@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amateur League | Gentle Storm Racing</title>
+    <title>GSR Amateur League | Gentle Storm Racing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
@@ -28,7 +28,7 @@
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Development Tier</span>
                 <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(197,160,89,0.3)]">
-                    AMATEUR LEAGUE
+                    GSR AMATEUR LEAGUE
                 </h1>
             </div>
             <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
@@ -37,13 +37,12 @@
         </div>
     </header>
 
-    <!-- SUB-NAVBAR (Media and Chats placed strictly after amateur items) -->
+    <!-- SUB-NAVBAR (Fixed Amateur Leaderboard Link) -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
             <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">GSR Leagues</a>
-            <a href="team_leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Amateur League Leaderboard</a>
-            <!-- Media and Chats positioned strictly after amateur league links -->
+            <a href="leaderboard_view.html?class=amateur" class="text-brand-gold transition">Amateur League Leaderboard</a>
             <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi-Media</a>
             <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Amateur League Chats</a>
         </div>
@@ -70,6 +69,9 @@
                         <tr class="hover:bg-white/5 transition"><td class="py-4 px-6 font-black italic text-gray-600 text-lg">3</td><td class="py-4 px-6 font-bold text-gray-400 uppercase">Open Grid Racers</td><td class="py-4 px-6 text-right font-black text-white">3,120</td></tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="mt-4 text-right">
+                <a href="leaderboard_view.html?category=team&class=amateur" class="text-xs font-black uppercase text-brand-gold hover:underline">Open Full Amateur Team Telemetry →</a>
             </div>
         </section>
 
@@ -99,7 +101,6 @@
 
         <!-- SECTION 5: 3-COLUMN BOTTOM GRID -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Top 5 Team Racers -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
                 <h3 class="text-sm font-black uppercase text-brand-gold border-b border-brand-border pb-3 mb-4 text-center">Top 5 Team Racers</h3>
                 <div class="space-y-3 flex-grow">
@@ -108,16 +109,12 @@
                     <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-500 font-black italic">3.</span><span class="text-gray-400 text-[10px] font-bold uppercase">AsphaltGhost</span></div>
                 </div>
             </div>
-            
-            <!-- Recent Amateur Results -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
                 <h3 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Recent Amateur Results</h3>
                 <div class="flex-grow flex items-center justify-center bg-brand-bg border border-brand-border rounded-xl text-gray-500 text-[10px] font-bold uppercase text-center p-4">
                     Latest Development Podiums
                 </div>
             </div>
-
-            <!-- Amateur Regulations -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
                 <h3 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Amateur Regulations</h3>
                 <div class="flex-grow flex items-center justify-center bg-brand-bg border border-brand-border rounded-xl text-gray-500 text-[10px] font-bold uppercase text-center p-4">
