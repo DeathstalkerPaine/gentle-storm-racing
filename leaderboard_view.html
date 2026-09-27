@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Leaderboard Database | GSR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- SUB-PAGE HEADER (Uses h-logo.png) -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html" class="inline-block"><img src="h-logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
+            </div>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Live Telemetry Database</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">GSR GLOBAL RANKINGS</h1>
+            </div>
+            <div class="absolute right-3 top-3 z-10">
+                <a href="admin.html" class="bg-brand-red text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 rounded">Sign In</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards Hub</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
+        
+        <!-- TELEMETRY DATABASE FILTERS -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl">
+            <h2 class="text-[10px] font-black uppercase text-gray-500 tracking-widest border-b border-brand-border pb-2 mb-4">Query Parameters</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- 1. Category -->
+                <select id="queryCategory" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold" onchange="renderTable()">
+                    <option value="racer">Individual Racers</option>
+                    <option value="team">Syndicates / Teams</option>
+                </select>
+
+                <!-- 2. Class/League -->
+                <select id="queryClass" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold" onchange="renderTable()">
+                    <option value="pro_plus">Pro Plus Class</option>
+                    <option value="pro">Pro League</option>
+                    <option value="amateur">Amateur League</option>
+                    <option value="all">Unrestricted (All)</option>
+                </select>
+
+                <!-- 3. Timeframe -->
+                <select id="queryTime" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold" onchange="renderTable()">
+                    <option value="all_time">All-Time Stats</option>
+                    <option value="monthly">This Month</option>
+                    <option value="weekly">This Week</option>
+                </select>
+
+                <!-- 4. Track Specific -->
+                <select id="queryTrack" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold" onchange="renderTable()">
+                    <option value="all">Global (All Tracks)</option>
+                    <option value="vegas">Las Vegas Strip</option>
+                    <option value="rome">Ancient Rome</option>
+                    <option value="city">Abandoned City</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- DYNAMIC LEADERBOARD TABLE -->
+        <section class="bg-brand-card border border-brand-border rounded-xl shadow-2xl overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs whitespace-nowrap">
+                    <thead>
+                        <tr class="bg-black/50 text-gray-500 font-black uppercase tracking-wider border-b border-brand-border">
+                            <th class="py-4 px-6 w-16">Rank</th>
+                            <th class="py-4 px-6">Name / Competitor</th>
+                            <th class="py-4 px-6 text-center text-brand-gold">Player Rating (PTS)</th>
+                            <th class="py-4 px-6 text-center text-white">Wins</th>
+                            <th class="py-4 px-6 text-center text-gray-400">Losses</th>
+                            <th class="py-4 px-6 text-center text-brand-red">DSQ</th>
+                            <th class="py-4 px-6 text-center text-brand-blue">Dmg Dealt</th>
+                            <th class="py-4 px-6 text-center text-gray-500">Dmg Taken</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody" class="divide-y divide-brand-border">
+                        <!-- Table rows injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- Loading / Status Footer -->
+            <div class="bg-brand-bg border-t border-brand-border p-3 text-center">
+                <span class="text-[9px] font-black uppercase text-brand-gold animate-pulse">Live connection active. Data synchronized.</span>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JS TELEMETRY SIMULATOR -->
+    <script>
+        // Mock Supabase / Cloudflare Worker payload
+        const mockData = [
+            { name: "Deathstalker Paine", team: "Storm Riders", pts: 1250, w: 45, l: 12, dsq: 1, dmgOut: 18500, dmgIn: 9200 },
+            { name: "Vortex_SL", team: "Neon Syndicate", pts: 980, w: 32, l: 15, dsq: 0, dmgOut: 14200, dmgIn: 11000 },
+            { name: "BlazeRunner", team: "Apex Predators", pts: 740, w: 25, l: 18, dsq: 2, dmgOut: 11500, dmgIn: 2100 },
+            { name: "RookieDriver_01", team: "Unassigned", pts: 450, w: 12, l: 5, dsq: 0, dmgOut: 4500, dmgIn: 3200 },
+            { name: "AsphaltGhost", team: "Iron Syndicate", pts: 290, w: 8, l: 10, dsq: 1, dmgOut: 3200, dmgIn: 4100 }
+        ];
+
+        function renderTable() {
+            const tbody = document.getElementById('leaderboardBody');
+            const category = document.getElementById('queryCategory').value;
+            
+            // Clear current table
+            tbody.innerHTML = '';
+
+            // Simulate filtering based on Category (In production, Cloudflare Worker fetches this)
+            let displayData = [...mockData];
+            
+            if (category === 'team') {
+                // Mock team aggregation
+                displayData = [
+                    { name: "Storm Riders", team: "Pro Plus", pts: 12500, w: 85, l: 30, dsq: 2, dmgOut: 45000, dmgIn: 22000 },
+                    { name: "Neon Syndicate", team: "Pro Plus", pts: 10200, w: 60, l: 40, dsq: 1, dmgOut: 38000, dmgIn: 25000 },
+                    { name: "Apex Predators", team: "Pro League", pts: 9800, w: 55, l: 42, dsq: 5, dmgOut: 32000, dmgIn: 18000 }
+                ];
+            }
+
+            // Render rows
+            displayData.forEach((row, index) => {
+                const rankClass = index === 0 ? 'text-brand-gold text-lg' : (index === 1 ? 'text-gray-300 text-base' : 'text-gray-500 text-sm');
+                
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-white/5 transition";
+                tr.innerHTML = `
+                    <td class="py-4 px-6 font-black italic ${rankClass}">${index + 1}</td>
+                    <td class="py-4 px-6">
+                        <div class="font-black text-white uppercase text-sm">${row.name}</div>
+                        <div class="font-bold text-[9px] text-gray-500 uppercase">${row.team}</div>
+                    </td>
+                    <td class="py-4 px-6 text-center font-black text-brand-gold text-base">${row.pts.toLocaleString()}</td>
+                    <td class="py-4 px-6 text-center font-black text-white">${row.w}</td>
+                    <td class="py-4 px-6 text-center font-bold text-gray-400">${row.l}</td>
+                    <td class="py-4 px-6 text-center font-black ${row.dsq > 0 ? 'text-brand-red' : 'text-gray-600'}">${row.dsq}</td>
+                    <td class="py-4 px-6 text-center font-mono font-bold text-brand-blue">${row.dmgOut.toLocaleString()}</td>
+                    <td class="py-4 px-6 text-center font-mono font-bold text-gray-500">${row.dmgIn.toLocaleString()}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Initial load
+        window.onload = renderTable;
+    </script>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
+</body>
+</html>
