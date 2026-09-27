@@ -37,7 +37,10 @@
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards Hub</a>
+            <a href="leaderboard_view.html?category=team" class="text-gray-300 hover:text-brand-gold transition">Team Leaderboards</a>
+            <a href="leaderboard_view.html?class=pro" class="text-gray-300 hover:text-brand-gold transition">League Leaderboards</a>
+            <a href="leaderboard_view.html?category=racer" class="text-gray-300 hover:text-brand-gold transition">Racer Leaderboard</a>
+            <a href="leaderboard_view.html?category=racer&class=pro_plus" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Leaderboard</a>
             <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
             <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
         </div>
@@ -112,9 +115,8 @@
 
     </main>
 
-    <!-- JS TELEMETRY SIMULATOR -->
+    <!-- JS TELEMETRY SIMULATOR & URL PARAMETER PARSER -->
     <script>
-        // Expanded Mock Data
         const mockData = [
             { name: "Deathstalker Paine", team: "Storm Riders", pts: 1250, w: 45, l: 12, dsq: 1, dmgOut: 18500, dmgIn: 9200, bestLap: "0:38.210", bestCourse: "1:18.420" },
             { name: "Vortex_SL", team: "Neon Syndicate", pts: 980, w: 32, l: 15, dsq: 0, dmgOut: 14200, dmgIn: 11000, bestLap: "0:39.405", bestCourse: "1:19.850" },
@@ -129,10 +131,8 @@
             const trackVal = document.getElementById('queryTrack').value;
             const trackLabel = document.getElementById('trackLabel');
             
-            // Clear current table
             tbody.innerHTML = '';
 
-            // Update Track Label in footer
             const trackNames = { 
                 'all': 'Global (All Tracks)', 
                 'vegas': 'Las Vegas Strip', 
@@ -140,9 +140,8 @@
                 'rome': 'Ancient Rome', 
                 'city': 'Abandoned City' 
             };
-            trackLabel.innerText = `Showing: ${trackNames[trackVal]}`;
+            trackLabel.innerText = `Showing: ${trackNames[trackVal] || 'Global (All Tracks)'}`;
 
-            // Simulate filtering based on Category
             let displayData = [...mockData];
             
             if (category === 'team') {
@@ -153,7 +152,6 @@
                 ];
             }
 
-            // Render rows dynamically
             displayData.forEach((row, index) => {
                 const rankClass = index === 0 ? 'text-brand-gold text-lg text-shadow-glow' : (index === 1 ? 'text-gray-300 text-base' : 'text-gray-500 text-sm');
                 const totalRaces = row.w + row.l + row.dsq;
@@ -185,7 +183,31 @@
             });
         }
 
-        window.onload = renderTable;
+        // Parse URL parameters to auto-select dropdowns on load
+        function initFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            if (urlParams.has('category')) {
+                const categorySelect = document.getElementById('queryCategory');
+                if (categorySelect) categorySelect.value = urlParams.get('category');
+            }
+            if (urlParams.has('class')) {
+                const classSelect = document.getElementById('queryClass');
+                if (classSelect) classSelect.value = urlParams.get('class');
+            }
+            if (urlParams.has('time')) {
+                const timeSelect = document.getElementById('queryTime');
+                if (timeSelect) timeSelect.value = urlParams.get('time');
+            }
+            if (urlParams.has('track')) {
+                const trackSelect = document.getElementById('queryTrack');
+                if (trackSelect) trackSelect.value = urlParams.get('track');
+            }
+
+            renderTable();
+        }
+
+        window.onload = initFromURL;
     </script>
 
     <!-- UNIVERSAL FOOTER -->
