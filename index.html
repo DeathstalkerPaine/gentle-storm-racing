@@ -168,16 +168,21 @@
 
         <!-- ROW 4: 3-COLUMN STATS, EVENTS & HIGHLIGHTS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Top 3 Racers Lifetime Stats -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
+            
+            <!-- NEW: Top 3 Racers Block -->
+            <a href="leaderboard_view.html?category=racer" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 flex flex-col justify-between transition group">
                 <div>
-                    <h3 class="text-base font-black uppercase text-white mb-2">Top 3 Racers</h3>
-                    <p class="text-xs text-gray-400">Lifetime stats based on points ratings system.</p>
+                    <h3 class="text-base font-black uppercase text-white mb-3 group-hover:text-brand-gold transition">Top 3 Racers</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-gold"><span class="text-brand-gold font-black italic text-[10px] w-3">1</span><span class="text-white text-[10px] font-bold uppercase">Deathstalker Paine</span></div>
+                        <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-border"><span class="text-gray-400 font-black italic text-[10px] w-3">2</span><span class="text-gray-300 text-[10px] font-bold uppercase">Vortex_SL</span></div>
+                        <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-border"><span class="text-gray-500 font-black italic text-[10px] w-3">3</span><span class="text-gray-400 text-[10px] font-bold uppercase">BlazeRunner</span></div>
+                    </div>
                 </div>
-                <a href="leaderboards.html" class="mt-4 text-xs font-bold uppercase text-brand-gold hover:text-white transition">
+                <div class="mt-4 text-[10px] font-bold uppercase text-brand-gold group-hover:text-white transition">
                     View Full Leaderboards →
-                </a>
-            </div>
+                </div>
+            </a>
 
             <!-- Next Event -->
             <a href="upcoming_events.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
