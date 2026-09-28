@@ -48,6 +48,7 @@
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
             <a href="racetracks.html" class="text-brand-gold transition">Racetracks Hub</a>
+            <a href="interactive_map.html" class="text-gray-300 hover:text-brand-gold transition">Interactive Maps</a>
             <a href="leaderboard_view.html" class="text-gray-300 hover:text-brand-gold transition">Track Leaderboards</a>
             <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
             <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
@@ -57,13 +58,14 @@
     <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
 
-        <!-- INTERACTIVE MAP LAUNCHER BUTTON -->
-        <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col sm:flex-row justify-between items-center gap-4">
+        <!-- GLOBAL MAP LAUNCHER BANNER -->
+        <section class="bg-brand-card border border-brand-gold rounded-xl p-6 shadow-xl gold-border-glow flex flex-col sm:flex-row justify-between items-center gap-4">
             <div>
-                <h2 class="text-xl font-black uppercase text-white">Interactive Circuit Maps</h2>
-                <p class="text-xs text-gray-400 mt-1">Explore detailed telemetry maps, sectors, and video highlights for all tracks.</p>
+                <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest block">Telemetry Visualizer</span>
+                <h2 class="text-xl font-black uppercase text-white mt-0.5">Interactive Track Map</h2>
+                <p class="text-xs text-gray-400 mt-1">Select any circuit to view sector analysis, telemetry hotspots, and video clips.</p>
             </div>
-            <a href="interactive_map.html" class="bg-brand-gold hover:bg-yellow-600 text-black font-black text-xs uppercase px-6 py-3 rounded transition shadow-[0_0_15px_rgba(197,160,89,0.4)] text-center w-full sm:w-auto">
+            <a href="interactive_map.html" class="bg-brand-gold hover:bg-yellow-600 text-black font-black text-xs uppercase px-6 py-3 rounded transition shadow-[0_0_15px_rgba(197,160,89,0.4)] text-center w-full sm:w-auto shrink-0">
                 Open Interactive Map 🗺️
             </a>
         </section>
@@ -101,9 +103,13 @@
                         A time-warped sci-fi circuit featuring futuristic architecture, neon flux grids, and gravity-defying parabolic curves. High-speed stability is key through the loop sections.
                     </p>
                 </div>
-                <div class="p-5 pt-0">
-                    <a href="back_to_future.html" class="block w-full text-center text-xs font-black uppercase text-brand-gold bg-brand-bg border border-brand-border group-hover:border-brand-gold py-2.5 rounded transition">
-                        View Track Circuit &rarr;
+                <!-- Action Buttons -->
+                <div class="p-5 pt-0 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <a href="back_to_future.html" class="block text-center text-xs font-black uppercase text-white bg-brand-bg border border-brand-border hover:border-brand-gold py-2.5 rounded transition">
+                        View Circuit Details &rarr;
+                    </a>
+                    <a href="interactive_map.html?track=future" class="block text-center text-xs font-black uppercase text-black bg-brand-gold hover:bg-yellow-600 py-2.5 rounded transition shadow-md">
+                        Interactive Map 🗺️
                     </a>
                 </div>
             </div>
@@ -138,9 +144,13 @@
                         High-speed straights under bright neon lights, sharp street corners, and technical chicane sections along the main strip. Precision braking determines victory here.
                     </p>
                 </div>
-                <div class="p-5 pt-0">
-                    <a href="las_vegas_strip.html" class="block w-full text-center text-xs font-black uppercase text-brand-gold bg-brand-bg border border-brand-border group-hover:border-brand-gold py-2.5 rounded transition">
-                        View Track Circuit &rarr;
+                <!-- Action Buttons -->
+                <div class="p-5 pt-0 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <a href="las_vegas_strip.html" class="block text-center text-xs font-black uppercase text-white bg-brand-bg border border-brand-border hover:border-brand-gold py-2.5 rounded transition">
+                        View Circuit Details &rarr;
+                    </a>
+                    <a href="interactive_map.html?track=vegas" class="block text-center text-xs font-black uppercase text-black bg-brand-gold hover:bg-yellow-600 py-2.5 rounded transition shadow-md">
+                        Interactive Map 🗺️
                     </a>
                 </div>
             </div>
@@ -175,9 +185,13 @@
                         A sweeping historic circuit running through grand aqueducts, stone coliseums, and narrow cobblestone hairpin turns requiring precise braking control.
                     </p>
                 </div>
-                <div class="p-5 pt-0">
-                    <a href="ancient_rome.html" class="block w-full text-center text-xs font-black uppercase text-brand-gold bg-brand-bg border border-brand-border group-hover:border-brand-gold py-2.5 rounded transition">
-                        View Track Circuit &rarr;
+                <!-- Action Buttons -->
+                <div class="p-5 pt-0 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <a href="ancient_rome.html" class="block text-center text-xs font-black uppercase text-white bg-brand-bg border border-brand-border hover:border-brand-gold py-2.5 rounded transition">
+                        View Circuit Details &rarr;
+                    </a>
+                    <a href="interactive_map.html?track=rome" class="block text-center text-xs font-black uppercase text-black bg-brand-gold hover:bg-yellow-600 py-2.5 rounded transition shadow-md">
+                        Interactive Map 🗺️
                     </a>
                 </div>
             </div>
@@ -212,9 +226,13 @@
                         An overgrown urban wasteland circuit filled with debris-strewn tight turns, sudden elevation shifts, and unforgiving concrete barriers. Vehicle damage control is essential.
                     </p>
                 </div>
-                <div class="p-5 pt-0">
-                    <a href="abandoned_city.html" class="block w-full text-center text-xs font-black uppercase text-brand-gold bg-brand-bg border border-brand-border group-hover:border-brand-gold py-2.5 rounded transition">
-                        View Track Circuit &rarr;
+                <!-- Action Buttons -->
+                <div class="p-5 pt-0 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <a href="abandoned_city.html" class="block text-center text-xs font-black uppercase text-white bg-brand-bg border border-brand-border hover:border-brand-gold py-2.5 rounded transition">
+                        View Circuit Details &rarr;
+                    </a>
+                    <a href="interactive_map.html?track=city" class="block text-center text-xs font-black uppercase text-black bg-brand-gold hover:bg-yellow-600 py-2.5 rounded transition shadow-md">
+                        Interactive Map 🗺️
                     </a>
                 </div>
             </div>
@@ -225,11 +243,7 @@
 
     <!-- UNIVERSAL FOOTER -->
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
-            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
-                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
-                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
-            </div>
+        <div class="max-w-7xl mx-auto px-4 text-center">
             <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
         </div>
     </footer>
