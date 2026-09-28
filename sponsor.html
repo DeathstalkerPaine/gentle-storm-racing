@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsors Hub | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 20px rgba(197, 160, 89, 0.25); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
+            </div>
+
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[9px] font-black uppercase tracking-[0.3em] text-brand-gold">Official Partners & Ecosystem Backers</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] font-serif italic text-brand-gold">
+                    Sponsors Hub
+                </h1>
+            </div>
+
+            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition tracking-wider">
+                    Sign In
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="store.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Store</a>
+            <a href="sponsors.html" class="text-brand-gold transition">Sponsors Showcase</a>
+            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">Leagues</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
+
+        <!-- HIGHLIGHTED TIER: LEAGUE TEAM SPONSORS BANNER -->
+        <section class="bg-gradient-to-r from-brand-card via-[#221c12] to-brand-card border-2 border-brand-gold rounded-2xl p-6 sm:p-8 shadow-2xl gold-border-glow space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-brand-gold/30 pb-4 gap-2">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-black bg-brand-gold px-2.5 py-1 rounded tracking-widest">Premier Partnership Tier</span>
+                    <h2 class="text-xl sm:text-2xl font-black uppercase text-white mt-2 font-serif italic">League Team Elite Backers</h2>
+                </div>
+                <span class="text-[10px] font-mono text-brand-gold uppercase tracking-widest bg-brand-bg px-3 py-1.5 rounded border border-brand-gold/40">
+                    Active Season Support
+                </span>
+            </div>
+
+            <p class="text-xs text-gray-300 max-w-3xl leading-relaxed">
+                These elite partners directly power our competitive racing teams across championship circuits, providing custom telemetry liveries, garage bay backing, and heavy in-world support.
+            </p>
+
+            <!-- Premier Team Sponsors Grid -->
+            <div id="premierGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+        <!-- MAIN SPONSOR DIRECTORY & CATEGORY FILTER TABS -->
+        <section class="space-y-6">
+            
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-brand-border pb-3 gap-3">
+                <div>
+                    <h2 class="text-lg font-black uppercase text-white font-serif italic">Ecosystem Sponsor Directory</h2>
+                    <p class="text-[11px] text-gray-400">Filter partners by category across tracks, billboards, website pages, and leagues.</p>
+                </div>
+
+                <!-- Category Buttons -->
+                <div id="filterButtons" class="flex flex-wrap gap-2 text-[10px] font-black uppercase">
+                    <button onclick="filterSponsors('all', this)" class="filter-btn bg-brand-gold text-black px-3 py-1.5 rounded transition shadow">All Partners</button>
+                    <button onclick="filterSponsors('league', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition">Leagues</button>
+                    <button onclick="filterSponsors('track_billboard', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition">Tracks & Billboards</button>
+                    <button onclick="filterSponsors('website', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition">Website & Pages</button>
+                </div>
+            </div>
+
+            <!-- DYNAMIC SPONSORS GRID -->
+            <div id="sponsorsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
+    <!-- SPONSOR SCRIPT ENGINE -->
+    <script>
+        /*
+          ADMIN-READY REPOSITORY:
+          Easily add new sponsors, assign categories ('league', 'track_billboard', 'website'), 
+          mark them as premier league team backers ('isPremier: true'), and list placement pages.
+        */
+        const sponsorsDatabase = [
+            {
+                id: 1,
+                name: "StormTech HUD Dynamics",
+                category: "league",
+                isPremier: true,
+                teamBacked: "Storm Riders Pro Racing Team",
+                placement: "League Hub & Car Liveries",
+                desc: "Official telemetry HUD and dashboard developer powering all Pro Plus championship vehicles.",
+                link: "secondlife://..."
+            },
+            {
+                id: 2,
+                name: "Linden Fuel & Oil Co.",
+                category: "league",
+                isPremier: true,
+                teamBacked: "Vortex Syndicate Racing",
+                placement: "Championship Series & Pit Lane",
+                desc: "Primary fuel sponsor providing high-octane pit stop animations and endurance awards.",
+                link: "secondlife://..."
+            },
+            {
+                id: 3,
+                name: "Second Life Motors",
+                category: "track_billboard",
+                isPremier: false,
+                placement: "Ancient Rome Circuit (Turn 1 Billboard)",
+                desc: "In-world automotive marketplace featuring prominent trackside signage and digital banners.",
+                link: "secondlife://..."
+            },
+            {
+                id: 4,
+                name: "CyberGrid Neon Arrays",
+                category: "track_billboard",
+                isPremier: false,
+                placement: "Las Vegas Strip Circuit & Main Straight",
+                desc: "Suppliers of track lighting arrays, night-racing glow grids, and circuit architecture.",
+                link: "secondlife://..."
+            },
+            {
+                id: 5,
+                name: "PixelCraft Media Group",
+                category: "website",
+                isPremier: false,
+                placement: "GSRacing Store & Multimedia Hub",
+                desc: "Digital publishing partner supporting our video archives, magazine issues, and web infrastructure.",
+                link: "secondlife://..."
+            },
+            {
+                id: 6,
+                name: "Dragonwood Estates & Decor",
+                category: "website",
+                isPremier: false,
+                placement: "Main Menu & Gentle Storm Products Page",
+                desc: "Luxury estate builders and fine framing partners for community display structures.",
+                link: "secondlife://..."
+            }
+        ];
+
+        let activeCategory = 'all';
+
+        function renderSponsors() {
+            const premierGridEl = document.getElementById('premierGrid');
+            const sponsorsGridEl = document.getElementById('sponsorsGrid');
+
+            premierGridEl.innerHTML = '';
+            sponsorsGridEl.innerHTML = '';
+
+            // 1. Render Premier League Team Backers
+            const premierSponsors = sponsorsDatabase.filter(s => s.isPremier);
+            premierSponsors.forEach(s => {
+                const card = document.createElement('div');
+                card.className = "bg-brand-bg border border-brand-gold/60 hover:border-brand-gold rounded-xl p-5 shadow-lg flex flex-col justify-between transition group";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">Team Backer</span>
+                            <span class="text-[9px] text-gray-400 font-mono">Backed: ${s.teamBacked}</span>
+                        </div>
+                        <h3 class="text-base font-black uppercase text-white group-hover:text-brand-gold transition mt-1">${s.name}</h3>
+                        <p class="text-xs text-gray-400 mt-2 leading-relaxed">${s.desc}</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-brand-border flex justify-between items-center text-[10px]">
+                        <span class="text-gray-500 uppercase font-mono">Placement: ${s.placement}</span>
+                        <a href="${s.link}" target="_blank" class="text-brand-gold hover:underline font-bold uppercase">Visit Partner ↗</a>
+                    </div>
+                `;
+                premierGridEl.appendChild(card);
+            });
+
+            // 2. Render Main Directory based on filter
+            const filtered = sponsorsDatabase.filter(s => {
+                if (activeCategory === 'all') return true;
+                return s.category === activeCategory;
+            });
+
+            if (filtered.length === 0) {
+                sponsorsGridEl.innerHTML = `<div class="col-span-full py-12 text-center text-xs text-gray-500 uppercase font-bold">[ No sponsors found in this category ]</div>`;
+                return;
+            }
+
+            filtered.forEach(s => {
+                const card = document.createElement('div');
+                card.className = "bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-5 shadow-xl flex flex-col justify-between transition group";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[9px] font-black uppercase text-gray-400 bg-brand-bg px-2 py-0.5 rounded border border-brand-border">${s.category.replace('_', ' ').toUpperCase()}</span>
+                            <span class="text-[9px] text-brand-gold uppercase font-bold">${s.isPremier ? '★ Premier Tier' : 'Standard Partner'}</span>
+                        </div>
+                        <h3 class="text-base font-black uppercase text-white group-hover:text-brand-gold transition mt-1">${s.name}</h3>
+                        <p class="text-xs text-gray-400 mt-2 leading-relaxed">${s.desc}</p>
+                    </div>
+                    <div class="mt-6 pt-3 border-t border-brand-border flex justify-between items-center text-[10px]">
+                        <span class="text-gray-500 uppercase font-mono">Location: ${s.placement}</span>
+                        <a href="${s.link}" target="_blank" class="text-brand-gold hover:underline font-bold uppercase">Details ↗</a>
+                    </div>
+                `;
+                sponsorsGridEl.appendChild(card);
+            });
+        }
+
+        function filterSponsors(category, btnElement) {
+            activeCategory = category;
+
+            // Highlight active button state
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.className = "filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition";
+            });
+            btnElement.className = "filter-btn bg-brand-gold text-black px-3 py-1.5 rounded transition shadow font-black";
+
+            renderSponsors();
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            renderSponsors();
+        };
+    </script>
+</body>
+</html>
