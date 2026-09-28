@@ -10,7 +10,7 @@
     </script>
     <style>
         .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 20px rgba(197, 160, 89, 0.25); }
-        .magazine-page { background: #18181b; background-image: radial-gradient(circle at 50% 50%, #202025 0%, #121212 100%); }
+        .magazine-page { background-color: #18181b; background-size: cover; background-position: center; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
@@ -18,27 +18,32 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- HEADER -->
+    <!-- HEADER: LOGO LEFT, TITLE CENTER, BACK BUTTON RIGHT -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-8 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
             
-            <div class="flex items-center gap-4">
-                <a href="multimedia.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-white font-bold uppercase text-xs px-3 py-2 rounded transition">
-                    ← Multi-Media Hub
+            <!-- Left Logo (Clickable to Main Menu) -->
+            <div class="flex items-center justify-center md:justify-start w-full md:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-14 w-auto object-contain hover:scale-105 transition-transform">
                 </a>
-                <div>
-                    <span class="block text-[9px] font-black uppercase tracking-[0.3em] text-brand-gold">GSRacing Publication</span>
-                    <h1 class="text-xl sm:text-2xl font-black uppercase text-white tracking-wide">GSRacing Magazine</h1>
-                </div>
             </div>
 
-            <!-- ISSUE SELECTOR DROPDOWN (Add future months here) -->
-            <div class="flex items-center gap-3 w-full md:w-auto">
-                <label for="issueSelect" class="text-[10px] font-bold uppercase text-gray-400 tracking-widest whitespace-nowrap">Select Issue:</label>
-                <select id="issueSelect" onchange="switchIssue(this.value)" class="w-full md:w-56 bg-brand-bg border border-brand-gold text-white font-black uppercase text-xs px-3 py-2.5 rounded-lg outline-none cursor-pointer">
-                    <option value="oct_2026">October 2026 (Volume 1)</option>
-                    <option value="nov_2026" disabled>November 2026 (Upcoming)</option>
+            <!-- Centered Title -->
+            <div class="w-full md:absolute md:inset-x-0 text-center pointer-events-none md:px-40 py-1">
+                <span class="block text-[9px] font-black uppercase tracking-[0.3em] text-brand-gold">Official Publication</span>
+                <h1 class="text-xl sm:text-2xl font-black uppercase text-white tracking-wider font-serif italic">GSRACING MAGAZINE</h1>
+            </div>
+
+            <!-- Right Controls -->
+            <div class="flex items-center gap-3 z-10 w-full md:w-auto justify-center">
+                <label for="issueSelect" class="text-[9px] font-bold uppercase text-gray-400 tracking-widest whitespace-nowrap hidden sm:inline">Issue:</label>
+                <select id="issueSelect" onchange="switchIssue(this.value)" class="bg-brand-bg border border-brand-gold text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer">
+                    <option value="oct_2026">October 2026 (Vol 1)</option>
                 </select>
+                <a href="multimedia.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-white font-bold uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap">
+                    Hub →
+                </a>
             </div>
 
         </div>
@@ -48,7 +53,7 @@
     <nav class="bg-brand-bg border-b border-brand-border py-2.5">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-6 text-xs font-bold uppercase tracking-wider">
             <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Media Hub</a>
-            <a href="magazine.html" class="text-brand-gold transition">Digital Magazine</a>
+            <a href="magazine.html" class="text-brand-gold transition">GSRacing Magazine</a>
             <a href="news.html" class="text-gray-300 hover:text-brand-gold transition">News Desk</a>
             <a href="videos.html" class="text-gray-300 hover:text-brand-gold transition">Video Archives</a>
             <a href="photos.html" class="text-gray-300 hover:text-brand-gold transition">Photo Gallery</a>
@@ -59,15 +64,15 @@
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 flex flex-col justify-center items-center space-y-6">
 
         <!-- SPREAD VIEWER BOX -->
-        <div class="w-full max-w-6xl bg-brand-card border border-brand-gold rounded-xl overflow-hidden shadow-2xl gold-border-glow grid grid-cols-1 md:grid-cols-2 relative min-h-[550px]">
+        <div class="w-full max-w-6xl bg-brand-card border border-brand-gold rounded-xl overflow-hidden shadow-2xl gold-border-glow grid grid-cols-1 md:grid-cols-2 relative min-h-[580px]">
             
             <!-- LEFT PAGE -->
-            <div id="leftPage" class="magazine-page p-8 sm:p-12 flex flex-col justify-between border-b md:border-b-0 md:border-r border-brand-border/60 relative">
+            <div id="leftPage" class="magazine-page p-8 sm:p-12 flex relative border-b md:border-b-0 md:border-r border-brand-border/60 overflow-hidden">
                 <!-- Content injected via JS -->
             </div>
 
             <!-- RIGHT PAGE -->
-            <div id="rightPage" class="magazine-page p-8 sm:p-12 flex flex-col justify-between relative">
+            <div id="rightPage" class="magazine-page p-8 sm:p-12 flex relative overflow-hidden">
                 <!-- Content injected via JS -->
             </div>
 
@@ -77,103 +82,131 @@
         <div class="w-full max-w-6xl flex items-center justify-between bg-brand-card border border-brand-border p-4 rounded-xl shadow-lg">
             
             <button onclick="prevSpread()" id="prevBtn" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-white font-black text-xs uppercase px-6 py-3 rounded transition disabled:opacity-30 disabled:cursor-not-allowed">
-                ← Previous Page
+                ← Previous Spread
             </button>
 
             <div class="text-center">
                 <span id="pageIndicator" class="text-xs font-black uppercase text-brand-gold tracking-widest font-mono">Page 1-2 of 6</span>
-                <span class="block text-[9px] text-gray-500 uppercase font-bold mt-0.5">Gentle Storm Racing Official Publication</span>
+                <span class="block text-[9px] text-gray-500 uppercase font-bold mt-0.5">GSRacing Publication Engine</span>
             </div>
 
             <button onclick="nextSpread()" id="nextBtn" class="bg-brand-gold hover:bg-yellow-600 text-black font-black text-xs uppercase px-6 py-3 rounded transition shadow-md disabled:opacity-30 disabled:cursor-not-allowed">
-                Next Page →
+                Next Spread →
             </button>
 
         </div>
 
     </main>
 
-    <!-- MAGAZINE CONTENT ENGINE JAVASCRIPT -->
+    <!-- MAGAZINE DYNAMIC ENGINE SCRIPT -->
     <script>
-        // ADMIN-READY DATA REPOSITORY: Edit pages easily here or connect to a database later!
+        /* 
+          ADMIN-READY STRUCTURE: 
+          Each spread contains 'left' and 'right' page objects.
+          - bg: Background image URL (leave empty '' for default dark texture)
+          - align: Flex alignment classes (e.g., 'justify-start items-start' for top-left, 'justify-end items-end' for bottom-right)
+          - html: Magazine text or embedded video markup
+        */
         const magazineData = {
             oct_2026: [
                 // Spread 0 (Pages 1 & 2)
                 {
-                    left: `
-                        <div>
-                            <span class="text-[9px] font-black uppercase tracking-widest text-brand-red bg-brand-red/10 border border-brand-red/30 px-2 py-1 rounded inline-block mb-4">Volume 1 • Issue 1</span>
-                            <h2 class="text-3xl sm:text-4xl font-black uppercase text-white font-serif italic mb-4">GSRACING MAGAZINE</h2>
-                            <p class="text-xs text-gray-300 leading-relaxed mb-6">
-                                Welcome to the official monthly publication of Gentle Storm Racing. As our Second Life racing ecosystem expands into Pro Plus campaign integration, this magazine serves as your official briefing on upcoming tracks, team standings, and technical telemetry breakdowns.
-                            </p>
-                        </div>
-                        <div class="border-t border-brand-border pt-4 text-[10px] text-gray-500 font-bold uppercase">
-                            Published by GSR Media Group • October 2026
-                        </div>
-                    `,
-                    right: `
-                        <div class="space-y-4">
-                            <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest">Editor's Note</span>
-                            <h3 class="text-xl font-black uppercase text-white">Pushing the Limits of Second Life Physics</h3>
-                            <p class="text-xs text-gray-400 leading-relaxed">
-                                "When we set out to build Gentle Storm Racing, our goal wasn't just to make another racing track in Second Life. We wanted to build a living, breathing competitive ecosystem. With our Cloudflare and Supabase database integration firing live telemetry every second, drivers aren't just racing—they are writing history into a permanent global leaderboard."
-                            </p>
-                            <p class="text-[11px] font-bold text-white uppercase mt-4">— Deathstalker Paine, Lead Developer</p>
-                        </div>
-                    `
-                },
-                // Spread 1 (Pages 3 & 4)
-                {
-                    left: `
-                        <div class="space-y-4">
-                            <span class="text-[9px] font-black uppercase text-brand-blue tracking-widest">Circuit Spotlight</span>
-                            <h3 class="text-2xl font-black uppercase text-white">Mastering Ancient Rome</h3>
-                            <p class="text-xs text-gray-400 leading-relaxed">
-                                The 5.2 KM Ancient Rome circuit remains one of the most punishing tracks in the GSR championship. With its sweeping stone colosseum curves and tight cobblestone aqueduct hairpins, heavy braking precision is valued far above raw horsepower.
-                            </p>
-                            <div class="bg-brand-bg border border-brand-border p-4 rounded-lg space-y-1">
-                                <span class="text-[9px] font-bold text-brand-gold uppercase block">Track Record Holder</span>
-                                <span class="text-xs font-black text-white">Vortex_SL — 1:18.900</span>
+                    left: {
+                        bg: '',
+                        align: 'justify-between items-start',
+                        html: `
+                            <div>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-brand-red bg-brand-red/10 border border-brand-red/30 px-2 py-1 rounded inline-block mb-4">Volume 1 • Issue 1</span>
+                                <h2 class="text-3xl sm:text-4xl font-black uppercase text-white font-serif italic mb-4">GSRACING MAGAZINE</h2>
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    Welcome to the official monthly publication of Gentle Storm Racing. Built for elite drivers and syndicates across Second Life.
+                                </p>
                             </div>
-                        </div>
-                    `,
-                    right: `
-                        <div class="space-y-4">
-                            <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest">Pro Plus Career Mode</span>
-                            <h3 class="text-2xl font-black uppercase text-white">The Morality System Explained</h3>
-                            <p class="text-xs text-gray-400 leading-relaxed">
-                                In Pro Plus, your reputation precedes you. Drivers who maintain clean racing lines earn Good alignment status, unlocking elite pit crew bonuses. Those who trade paint and dominate through aggressive contact lean into Bad alignment, unlocking specialized high-risk telemetry perks.
-                            </p>
-                            <p class="text-xs text-gray-300 italic">"Choose your path carefully when Chapter 1 launches next month."</p>
-                        </div>
-                    `
-                },
-                // Spread 2 (Pages 5 & 6)
-                {
-                    left: `
-                        <div class="space-y-4">
-                            <span class="text-[9px] font-black uppercase text-brand-red tracking-widest">Team Standings</span>
-                            <h3 class="text-2xl font-black uppercase text-white">Storm Riders Take Early Lead</h3>
-                            <p class="text-xs text-gray-400 leading-relaxed">
-                                Dominating the Pro Plus standings, the Storm Riders syndicate has secured an early 2,000-point lead over the Neon Syndicate. Can anyone close the gap before the mid-season championship?
-                            </p>
-                        </div>
-                    `,
-                    right: `
-                        <div class="space-y-4 text-center flex flex-col justify-center h-full">
-                            <span class="text-4xl">🏁</span>
-                            <h3 class="text-2xl font-black uppercase text-white">See You On The Grid</h3>
-                            <p class="text-xs text-gray-400 leading-relaxed">
-                                Thank you for reading Volume 1 of GSR Digital Magazine. Check back next month for Volume 2 featuring the Winter Track Expansion preview!
-                            </p>
-                            <div class="pt-4">
-                                <a href="racetracks.html" class="inline-block bg-brand-gold text-black font-black uppercase text-xs px-6 py-3 rounded shadow transition">
-                                    Explore Racetracks Hub →
-                                </a>
+                            <div class="border-t border-brand-border pt-4 text-[10px] text-gray-500 font-bold uppercase w-full">
+                                Published by GSR Media Group • October 2026
                             </div>
-                        </div>
-                    `
+                        `
+                    },
+                    right: {
+                        bg: '',
+                        align: 'justify-center items-start',
+                        html: `
+                            <div class="space-y-4 w-full">
+                                <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest">Editor's Note</span>
+                                <h3 class="text-xl font-black uppercase text-white">Pushing the Limits of Second Life Physics</h3>
+                                <p class="text-xs text-gray-400 leading-relaxed">
+                                    "When we set out to build Gentle Storm Racing, our goal wasn't just to make another track. We wanted a permanent global database where every lap matters."
+                                </p>
+                                <p class="text-[11px] font-bold text-white uppercase mt-4">— Deathstalker Paine, Lead Developer</p>
+                            </div>
+                        `
+                    }
+                },
+                // Spread 1 (Pages 3 & 4) - Example with video container prep
+                {
+                    left: {
+                        bg: '',
+                        align: 'justify-start items-start',
+                        html: `
+                            <div class="space-y-4 w-full">
+                                <span class="text-[9px] font-black uppercase text-brand-blue tracking-widest">Circuit Spotlight</span>
+                                <h3 class="text-2xl font-black uppercase text-white">Mastering Ancient Rome</h3>
+                                <p class="text-xs text-gray-400 leading-relaxed">
+                                    The 5.2 KM circuit demands absolute throttle control through the stone archways and colosseum sweepers.
+                                </p>
+                                <div class="aspect-video bg-black rounded border border-brand-border flex items-center justify-center text-[10px] text-gray-500 font-mono">
+                                    [ ADMIN EMBEDDED VIDEO PLAYER ]
+                                </div>
+                            </div>
+                        `
+                    },
+                    right: {
+                        bg: '',
+                        align: 'justify-center items-start',
+                        html: `
+                            <div class="space-y-4 w-full">
+                                <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest">Pro Plus System</span>
+                                <h3 class="text-2xl font-black uppercase text-white">The Morality & Alignment Engine</h3>
+                                <p class="text-xs text-gray-400 leading-relaxed">
+                                    Clean racing unlocks Good standing perks, while aggressive contact builds your Bad alignment reputation. Your choices shape your campaign rewards.
+                                </p>
+                            </div>
+                        `
+                    }
+                },
+                // Spread 2 (Pages 5 & 6) - Easily add extra spreads/pages here in the future via admin!
+                {
+                    left: {
+                        bg: '',
+                        align: 'justify-center items-start',
+                        html: `
+                            <div class="space-y-4 w-full">
+                                <span class="text-[9px] font-black uppercase text-brand-red tracking-widest">Syndicate News</span>
+                                <h3 class="text-2xl font-black uppercase text-white">Storm Riders Take Early Lead</h3>
+                                <p class="text-xs text-gray-400 leading-relaxed">
+                                    Dominating the Pro Plus standings with over 12,500 championship points, the Storm Riders set the benchmark for team telemetry efficiency.
+                                </p>
+                            </div>
+                        `
+                    },
+                    right: {
+                        bg: '',
+                        align: 'justify-center items-center text-center',
+                        html: `
+                            <div class="space-y-4 w-full">
+                                <span class="text-4xl">🏁</span>
+                                <h3 class="text-2xl font-black uppercase text-white">See You On The Grid</h3>
+                                <p class="text-xs text-gray-400 leading-relaxed">
+                                    Thank you for reading Volume 1. Stay tuned for Volume 2 coming next month.
+                                </p>
+                                <div class="pt-2">
+                                    <a href="racetracks.html" class="inline-block bg-brand-gold text-black font-black uppercase text-xs px-6 py-3 rounded shadow transition">
+                                        Explore Racetracks →
+                                    </a>
+                                </div>
+                            </div>
+                        `
+                    }
                 }
             ]
         };
@@ -185,15 +218,24 @@
             const spreads = magazineData[currentIssue];
             const spreadData = spreads[currentSpread];
 
-            document.getElementById('leftPage').innerHTML = spreadData.left;
-            document.getElementById('rightPage').innerHTML = spreadData.right;
+            // Render Left Page
+            const leftEl = document.getElementById('leftPage');
+            leftEl.className = `magazine-page p-8 sm:p-12 flex relative border-b md:border-b-0 md:border-r border-brand-border/60 overflow-hidden ${spreadData.left.align}`;
+            leftEl.style.backgroundImage = spreadData.left.bg ? `linear-gradient(rgba(18,18,18,0.85), rgba(18,18,18,0.85)), url('${spreadData.left.bg}')` : 'none';
+            leftEl.innerHTML = spreadData.left.html;
 
-            // Update Page Indicator text (e.g., Pages 1-2 of 6)
+            // Render Right Page
+            const rightEl = document.getElementById('rightPage');
+            rightEl.className = `magazine-page p-8 sm:p-12 flex relative overflow-hidden ${spreadData.right.align}`;
+            rightEl.style.backgroundImage = spreadData.right.bg ? `linear-gradient(rgba(18,18,18,0.85), rgba(18,18,18,0.85)), url('${spreadData.right.bg}')` : 'none';
+            rightEl.innerHTML = spreadData.right.html;
+
+            // Page Indicator
             const startPage = (currentSpread * 2) + 1;
             const endPage = Math.min(startPage + 1, spreads.length * 2);
             document.getElementById('pageIndicator').innerText = `Page ${startPage}-${endPage} of ${spreads.length * 2}`;
 
-            // Update Button States
+            // Button States
             document.getElementById('prevBtn').disabled = currentSpread === 0;
             document.getElementById('nextBtn').disabled = currentSpread === spreads.length - 1;
         }
@@ -221,7 +263,6 @@
             }
         }
 
-        // Initialize on load
         window.onload = () => {
             renderMagazine();
         };
