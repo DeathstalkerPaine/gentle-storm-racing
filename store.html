@@ -120,14 +120,14 @@
             <div class="bg-brand-card border border-brand-border rounded-xl p-4 flex flex-col md:flex-row justify-between items-center gap-4 shadow-lg">
                 <div>
                     <h2 class="text-lg font-black uppercase text-white font-serif italic">Catalog Directory</h2>
-                    <p class="text-[11px] text-gray-400">Search through 50+ vehicles, parts, and custom modifications instantly.</p>
+                    <p class="text-[11px] text-gray-400">Search through vehicles, parts, and custom modifications instantly.</p>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
                     <!-- Real-Time Search Bar -->
                     <input type="text" id="searchInput" oninput="filterCatalog()" placeholder="Search items (e.g. hood, rims)..." class="bg-brand-bg border border-brand-border text-white text-xs px-3 py-2 rounded outline-none focus:border-brand-gold w-full md:w-64">
                     
-                    <!-- Sub-Filter Dropdown (Hoods, Rims, Tires, Car 1, etc.) -->
+                    <!-- Sub-Filter Dropdown -->
                     <select id="subFilterSelect" onchange="filterCatalog()" class="bg-brand-bg border border-brand-border text-white font-bold uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer">
                         <option value="all">All Sub-Categories</option>
                         <option value="hood">Hoods</option>
@@ -135,6 +135,8 @@
                         <option value="tire">Tires</option>
                         <option value="bumper">Bumpers</option>
                         <option value="exhaust">Exhaust Systems</option>
+                        <option value="fairing">Fairings</option>
+                        <option value="handlebar">Handlebars</option>
                     </select>
                 </div>
             </div>
@@ -163,10 +165,6 @@
 
     <!-- STORE SEARCH & FILTER ENGINE SCRIPT -->
     <script>
-        /*
-          ADMIN-READY REPOSITORY: 
-          Easily scale to 50+ items by adding objects with 'type', 'subType', 'name', 'price', etc.
-        */
         const storeDatabase = [
             // CARS (5 Cars)
             { type: 'car', subType: 'car_model', name: 'StormDrift GT-1 (Car 1)', price: 'L$2,499', desc: 'High-performance drift chassis with custom LSL telemetry gauges.', link: 'secondlife://...' },
@@ -175,17 +173,17 @@
             { type: 'car', subType: 'car_model', name: 'Eclipse XR-9 (Car 4)', price: 'L$2,899', desc: 'Futuristic cyberpunk racer with integrated neon strip lighting.', link: 'secondlife://...' },
             { type: 'car', subType: 'car_model', name: 'Thunderbolt S-Type (Car 5)', price: 'L$2,399', desc: 'Lightweight endurance racer optimized for long-distance circuits.', link: 'secondlife://...' },
 
-            // CAR PARTS (5 Parts categories x multiple options)
-            { type: 'car_part', subType: 'hood', name: 'Carbon Fiber Vented Hood (Option A)', price: 'L$499', desc: 'Reduces vehicle drag and improves cooling telemetry.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'hood', name: 'Aggressive Cowl Induction Hood (Option B)', price: 'L$450', desc: 'High-clearance racing hood with matte black finish.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'rim', name: 'Forged Deep-Dish Rims (Chrome)', price: 'L$599', desc: 'Customizable multi-piece rim set with high-gloss shine.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'rim', name: 'Monoblock Split-Spoke Rims (Black)', price: 'L$549', desc: 'Lightweight track wheels designed for minimal rotational mass.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'tire', name: 'Racing Slick Compounds (Set of 4)', price: 'L$399', desc: 'Maximum dry-track grip compound for superior cornering.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'tire', name: 'Semi-Slick All-Weather Tires', price: 'L$350', desc: 'Reliable traction across wet or dry asphalt surfaces.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'bumper', name: 'Widebody Aero Front Bumper', price: 'L$649', desc: 'Generates heavy front downforce on tight hairpins.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'bumper', name: 'Carbon Diffuser Rear Bumper', price: 'L$699', desc: 'Smooths out trailing wake turbulence at high speeds.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'exhaust', name: 'Titanium Quad-Tip Exhaust System', price: 'L$549', desc: 'Custom exhaust audio note and backfire particle scripts.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'exhaust', name: 'Side-Exit Racing Exhaust', price: 'L$499', desc: 'Short-path high-flow exhaust for maximum horsepower output.', link: 'secondlife://...' },
+            // CAR PARTS
+            { type: 'car_part', subType: 'hood', name: 'Carbon Fiber Vented Hood (Car Part)', price: 'L$499', desc: 'Reduces vehicle drag and improves cooling telemetry.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'hood', name: 'Aggressive Cowl Induction Hood (Car Part)', price: 'L$450', desc: 'High-clearance racing hood with matte black finish.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'rim', name: 'Forged Deep-Dish Rims (Car Part)', price: 'L$599', desc: 'Customizable multi-piece rim set with high-gloss shine.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'rim', name: 'Monoblock Split-Spoke Rims (Car Part)', price: 'L$549', desc: 'Lightweight track wheels designed for minimal rotational mass.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'tire', name: 'Racing Slick Compounds (Car Part)', price: 'L$399', desc: 'Maximum dry-track grip compound for superior cornering.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'tire', name: 'Semi-Slick All-Weather Tires (Car Part)', price: 'L$350', desc: 'Reliable traction across wet or dry asphalt surfaces.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'bumper', name: 'Widebody Aero Front Bumper (Car Part)', price: 'L$649', desc: 'Generates heavy front downforce on tight hairpins.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'bumper', name: 'Carbon Diffuser Rear Bumper (Car Part)', price: 'L$699', desc: 'Smooths out trailing wake turbulence at high speeds.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'exhaust', name: 'Titanium Quad-Tip Exhaust System (Car Part)', price: 'L$549', desc: 'Custom exhaust audio note and backfire particle scripts.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'exhaust', name: 'Side-Exit Racing Exhaust (Car Part)', price: 'L$499', desc: 'Short-path high-flow exhaust for maximum horsepower output.', link: 'secondlife://...' },
 
             // BIKES (5 Bikes)
             { type: 'bike', subType: 'bike_model', name: 'Cyclone Apex Superbike (Bike 1)', price: 'L$1,899', desc: 'Agile two-wheel racer featuring advanced lean angle physics.', link: 'secondlife://...' },
@@ -195,8 +193,8 @@
             { type: 'bike', subType: 'bike_model', name: 'Ignition Moto-GP Spec (Bike 5)', price: 'L$2,100', desc: 'Strictly engineered for professional closed-circuit racing.', link: 'secondlife://...' },
 
             // BIKE PARTS
-            { type: 'bike_part', subType: 'fairing', name: 'Carbon Race Fairings Kit', price: 'L$449', desc: 'Lightweight body kit designed for maximum straight-line speed.', link: 'secondlife://...' },
-            { type: 'bike_part', subType: 'handlebar', name: 'Clip-On Racing Handlebars', price: 'L$299', desc: 'Lowered aggressive riding posture for tighter turns.', link: 'secondlife://...' },
+            { type: 'bike_part', subType: 'fairing', name: 'Carbon Race Fairings Kit (Bike Part)', price: 'L$449', desc: 'Lightweight body kit designed for maximum straight-line speed.', link: 'secondlife://...' },
+            { type: 'bike_part', subType: 'handlebar', name: 'Clip-On Racing Handlebars (Bike Part)', price: 'L$299', desc: 'Lowered aggressive riding posture for tighter turns.', link: 'secondlife://...' },
 
             // GENTLE STORM PRODUCTS (Non-Racing)
             { type: 'gentle_storm', subType: 'decor', name: 'Handcrafted Stone Mosaic Art', price: 'L$999', desc: 'Custom slate and travertine framed mosaic artwork for your estate.', link: 'secondlife://...' },
@@ -218,7 +216,7 @@
             document.getElementById('searchInput').value = '';
             document.getElementById('subFilterSelect').value = 'all';
 
-            renderCatalog();
+            filterCatalog();
         }
 
         function filterCatalog() {
