@@ -47,20 +47,19 @@
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <button onclick="filterCatalog('car')" class="nav-tab text-brand-gold transition cursor-pointer">Racing Cars</button>
-            <button onclick="filterCatalog('car_part')" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer">Car Parts</button>
-            <button onclick="filterCatalog('bike')" class="nav-tab text-gray-300 hover:text-gray-300 transition cursor-pointer">Race Bikes</button>
-            <button onclick="filterCatalog('bike_part')" class="nav-tab text-gray-300 hover:text-gray-300 transition cursor-pointer">Bike Parts</button>
-            <button onclick="filterCatalog('gentle_storm')" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer">Gentle Storm Products</button>
+            <button onclick="filterMainCategory('car', this)" class="nav-tab text-brand-gold transition cursor-pointer font-black underline">Racing Cars</button>
+            <button onclick="filterMainCategory('car_part', this)" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer">Car Parts</button>
+            <button onclick="filterMainCategory('bike', this)" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer">Race Bikes</button>
+            <button onclick="filterMainCategory('bike_part', this)" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer">Bike Parts</button>
+            <button onclick="filterMainCategory('gentle_storm', this)" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer">Gentle Storm Products</button>
         </div>
     </nav>
 
     <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
         
-        <!-- ROW 1: FEATURED PRODUCTS SHOWCASE (3-COLUMN WIREFRAME) -->
+        <!-- ROW 1: FEATURED PRODUCTS SHOWCASE -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
             <div class="bg-brand-card border border-brand-gold rounded-xl p-6 shadow-xl gold-border-glow flex flex-col justify-between">
                 <div>
                     <span class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">Featured Car</span>
@@ -68,10 +67,10 @@
                         <span class="text-[10px] text-gray-500 font-bold uppercase">[ DRIFT SPEC V1 PREVIEW ]</span>
                     </div>
                     <h3 class="text-base font-black uppercase text-white">StormDrift GT-1</h3>
-                    <p class="text-xs text-gray-400 mt-1">Full chassis setup tuned for high-angle drifting across Second Life tracks. Price: L$2,499</p>
+                    <p class="text-xs text-gray-400 mt-1">Full chassis setup tuned for high-angle drifting. Price: L$2,499</p>
                 </div>
                 <div class="mt-4 pt-3 border-t border-brand-border">
-                    <a href="#catalog" class="text-xs font-bold uppercase text-brand-gold hover:underline">View Details →</a>
+                    <a href="#catalog" class="text-xs font-bold uppercase text-brand-gold hover:underline">View Catalog →</a>
                 </div>
             </div>
 
@@ -82,10 +81,10 @@
                         <span class="text-[10px] text-gray-500 font-bold uppercase">[ CYCLONE BIKE PREVIEW ]</span>
                     </div>
                     <h3 class="text-base font-black uppercase text-white">Cyclone Apex Superbike</h3>
-                    <p class="text-xs text-gray-400 mt-1">Precision two-wheel racing machine with custom telemetry scripting. Price: L$1,899</p>
+                    <p class="text-xs text-gray-400 mt-1">Precision two-wheel racing machine. Price: L$1,899</p>
                 </div>
                 <div class="mt-4 pt-3 border-t border-brand-border">
-                    <a href="#catalog" class="text-xs font-bold uppercase text-brand-blue hover:underline">View Details →</a>
+                    <a href="#catalog" class="text-xs font-bold uppercase text-brand-blue hover:underline">View Catalog →</a>
                 </div>
             </div>
 
@@ -96,13 +95,12 @@
                         <span class="text-[10px] text-gray-500 font-bold uppercase">[ NON-RACING ITEM PREVIEW ]</span>
                     </div>
                     <h3 class="text-base font-black uppercase text-white">Handcrafted Stone Mosaic Art</h3>
-                    <p class="text-xs text-gray-400 mt-1">Exclusive dragonwood home decor piece for your Second Life estate. Price: L$999</p>
+                    <p class="text-xs text-gray-400 mt-1">Exclusive dragonwood home decor. Price: L$999</p>
                 </div>
                 <div class="mt-4 pt-3 border-t border-brand-border">
-                    <a href="#catalog" class="text-xs font-bold uppercase text-brand-red hover:underline">View Details →</a>
+                    <a href="#catalog" class="text-xs font-bold uppercase text-brand-red hover:underline">View Catalog →</a>
                 </div>
             </div>
-
         </section>
 
         <!-- ROW 2: SPONSORS BANNER -->
@@ -115,15 +113,29 @@
             </div>
         </section>
 
-        <!-- ROW 3: MAIN CATALOG DIRECTORY -->
+        <!-- ROW 3: CATALOG DIRECTORY WITH SEARCH & SUB-FILTERS -->
         <section id="catalog" class="space-y-6">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-brand-border pb-3 gap-2">
+            
+            <!-- Controls Bar: Search & Sub-Category Dropdown -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-4 flex flex-col md:flex-row justify-between items-center gap-4 shadow-lg">
                 <div>
-                    <h2 class="text-xl font-black uppercase text-white font-serif italic">Complete Catalog Directory</h2>
-                    <p class="text-xs text-gray-400">Browse specs, Linden pricing, part breakdowns (Hoods, Rims, Tires, Bumpers, Exhausts), and purchase links.</p>
+                    <h2 class="text-lg font-black uppercase text-white font-serif italic">Catalog Directory</h2>
+                    <p class="text-[11px] text-gray-400">Search through 50+ vehicles, parts, and custom modifications instantly.</p>
                 </div>
-                <div class="text-[10px] font-bold uppercase text-gray-500">
-                    Admin-Managed Database
+
+                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                    <!-- Real-Time Search Bar -->
+                    <input type="text" id="searchInput" oninput="filterCatalog()" placeholder="Search items (e.g. hood, rims)..." class="bg-brand-bg border border-brand-border text-white text-xs px-3 py-2 rounded outline-none focus:border-brand-gold w-full md:w-64">
+                    
+                    <!-- Sub-Filter Dropdown (Hoods, Rims, Tires, Car 1, etc.) -->
+                    <select id="subFilterSelect" onchange="filterCatalog()" class="bg-brand-bg border border-brand-border text-white font-bold uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer">
+                        <option value="all">All Sub-Categories</option>
+                        <option value="hood">Hoods</option>
+                        <option value="rim">Rims</option>
+                        <option value="tire">Tires</option>
+                        <option value="bumper">Bumpers</option>
+                        <option value="exhaust">Exhaust Systems</option>
+                    </select>
                 </div>
             </div>
 
@@ -149,45 +161,83 @@
         </div>
     </footer>
 
-    <!-- STORE CATALOG SCRIPT ENGINE -->
+    <!-- STORE SEARCH & FILTER ENGINE SCRIPT -->
     <script>
         /*
-          ADMIN-READY CATALOG REPOSITORY:
-          Easily add your 5 cars, 5 bikes, car parts (hoods, rims, tires, bumpers, exhausts), 
-          bike parts, and Gentle Storm products here!
+          ADMIN-READY REPOSITORY: 
+          Easily scale to 50+ items by adding objects with 'type', 'subType', 'name', 'price', etc.
         */
         const storeDatabase = [
-            // CARS
-            { id: 1, type: 'car', name: 'StormDrift GT-1 (Car 1 of 5)', price: 'L$2,499', desc: 'High-performance drift chassis with custom LSL telemetry drift gauges included.', image: '', link: 'secondlife://...' },
-            { id: 2, type: 'car', name: 'Viper Apex GT (Car 2 of 5)', price: 'L$2,799', desc: 'Aerodynamic time-trial track specialist built for high-speed cornering.', image: '', link: 'secondlife://...' },
-            
-            // CAR PARTS (Hoods, Rims, Tires, Bumpers, Exhausts)
-            { id: 3, type: 'car_part', name: 'Carbon Fiber Vented Hood (Car Part)', price: 'L$499', desc: 'Reduces overall vehicle drag. 5 different style variations available in-world.', image: '', link: 'secondlife://...' },
-            { id: 4, type: 'car_part', name: 'Forged Deep-Dish Rims Set (Car Part)', price: 'L$599', desc: 'Customizable chrome and matte finish rim pack. 5 variations included.', image: '', link: 'secondlife://...' },
-            { id: 5, type: 'car_part', name: 'Racing Slick Tires (Car Part)', price: 'L$399', desc: 'Maximum track grip compound. 5 tread patterns available.', image: '', link: 'secondlife://...' },
-            { id: 6, type: 'car_part', name: 'Widebody Aero Bumper Kit (Car Part)', price: 'L$649', desc: 'Aggressive front and rear downforce bumpers. 5 styles.', image: '', link: 'secondlife://...' },
-            { id: 7, type: 'car_part', name: 'Titanium Exhaust System (Car Part)', price: 'L$549', desc: 'Custom exhaust note audio pack and flame spitting scripts. 5 options.', image: '', link: 'secondlife://...' },
+            // CARS (5 Cars)
+            { type: 'car', subType: 'car_model', name: 'StormDrift GT-1 (Car 1)', price: 'L$2,499', desc: 'High-performance drift chassis with custom LSL telemetry gauges.', link: 'secondlife://...' },
+            { type: 'car', subType: 'car_model', name: 'Viper Apex GT (Car 2)', price: 'L$2,799', desc: 'Aerodynamic time-trial track specialist built for cornering speed.', link: 'secondlife://...' },
+            { type: 'car', subType: 'car_model', name: 'Phantom V8 Coupe (Car 3)', price: 'L$2,650', desc: 'Classic muscle styling with modern track-tuned suspension scripts.', link: 'secondlife://...' },
+            { type: 'car', subType: 'car_model', name: 'Eclipse XR-9 (Car 4)', price: 'L$2,899', desc: 'Futuristic cyberpunk racer with integrated neon strip lighting.', link: 'secondlife://...' },
+            { type: 'car', subType: 'car_model', name: 'Thunderbolt S-Type (Car 5)', price: 'L$2,399', desc: 'Lightweight endurance racer optimized for long-distance circuits.', link: 'secondlife://...' },
 
-            // BIKES
-            { id: 8, type: 'bike', name: 'Cyclone Apex Superbike (Bike 1 of 5)', price: 'L$1,899', desc: 'Agile two-wheel racer featuring advanced lean angle physics.', image: '', link: 'secondlife://...' },
-            
+            // CAR PARTS (5 Parts categories x multiple options)
+            { type: 'car_part', subType: 'hood', name: 'Carbon Fiber Vented Hood (Option A)', price: 'L$499', desc: 'Reduces vehicle drag and improves cooling telemetry.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'hood', name: 'Aggressive Cowl Induction Hood (Option B)', price: 'L$450', desc: 'High-clearance racing hood with matte black finish.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'rim', name: 'Forged Deep-Dish Rims (Chrome)', price: 'L$599', desc: 'Customizable multi-piece rim set with high-gloss shine.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'rim', name: 'Monoblock Split-Spoke Rims (Black)', price: 'L$549', desc: 'Lightweight track wheels designed for minimal rotational mass.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'tire', name: 'Racing Slick Compounds (Set of 4)', price: 'L$399', desc: 'Maximum dry-track grip compound for superior cornering.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'tire', name: 'Semi-Slick All-Weather Tires', price: 'L$350', desc: 'Reliable traction across wet or dry asphalt surfaces.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'bumper', name: 'Widebody Aero Front Bumper', price: 'L$649', desc: 'Generates heavy front downforce on tight hairpins.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'bumper', name: 'Carbon Diffuser Rear Bumper', price: 'L$699', desc: 'Smooths out trailing wake turbulence at high speeds.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'exhaust', name: 'Titanium Quad-Tip Exhaust System', price: 'L$549', desc: 'Custom exhaust audio note and backfire particle scripts.', link: 'secondlife://...' },
+            { type: 'car_part', subType: 'exhaust', name: 'Side-Exit Racing Exhaust', price: 'L$499', desc: 'Short-path high-flow exhaust for maximum horsepower output.', link: 'secondlife://...' },
+
+            // BIKES (5 Bikes)
+            { type: 'bike', subType: 'bike_model', name: 'Cyclone Apex Superbike (Bike 1)', price: 'L$1,899', desc: 'Agile two-wheel racer featuring advanced lean angle physics.', link: 'secondlife://...' },
+            { type: 'bike', subType: 'bike_model', name: 'Stalker Streetfighter (Bike 2)', price: 'L$1,750', desc: 'Raw naked-bike styling with incredible acceleration curves.', link: 'secondlife://...' },
+            { type: 'bike', subType: 'bike_model', name: 'Vortex Lightning RR (Bike 3)', price: 'L$1,999', desc: 'Top-tier championship superbike with digital HUD integration.', link: 'secondlife://...' },
+            { type: 'bike', subType: 'bike_model', name: 'Shadow Cruiser X (Bike 4)', price: 'L$1,650', desc: 'Custom low-slung cruiser built for scenic estate tours.', link: 'secondlife://...' },
+            { type: 'bike', subType: 'bike_model', name: 'Ignition Moto-GP Spec (Bike 5)', price: 'L$2,100', desc: 'Strictly engineered for professional closed-circuit racing.', link: 'secondlife://...' },
+
             // BIKE PARTS
-            { id: 9, type: 'bike_part', name: 'Carbon Race Fairings (Bike Part)', price: 'L$449', desc: 'Lightweight body kit designed for maximum straight-line speed.', image: '', link: 'secondlife://...' },
+            { type: 'bike_part', subType: 'fairing', name: 'Carbon Race Fairings Kit', price: 'L$449', desc: 'Lightweight body kit designed for maximum straight-line speed.', link: 'secondlife://...' },
+            { type: 'bike_part', subType: 'handlebar', name: 'Clip-On Racing Handlebars', price: 'L$299', desc: 'Lowered aggressive riding posture for tighter turns.', link: 'secondlife://...' },
 
             // GENTLE STORM PRODUCTS (Non-Racing)
-            { id: 10, type: 'gentle_storm', name: 'Handcrafted Stone Mosaic Art', price: 'L$999', desc: 'Custom slate and travertine framed mosaic artwork for your Second Life estate.', image: '', link: 'secondlife://...' }
+            { type: 'gentle_storm', subType: 'decor', name: 'Handcrafted Stone Mosaic Art', price: 'L$999', desc: 'Custom slate and travertine framed mosaic artwork for your estate.', link: 'secondlife://...' },
+            { type: 'gentle_storm', subType: 'decor', name: 'Dragonwood Display Frame', price: 'L$499', desc: 'Hand-carved wooden display mount for collectibles.', link: 'secondlife://...' }
         ];
 
-        let activeFilter = 'car';
+        let activeMainCategory = 'car';
 
-        function renderCatalog() {
+        function filterMainCategory(type, btnElement) {
+            activeMainCategory = type;
+
+            // Update tab styles
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.className = "nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer";
+            });
+            btnElement.className = "nav-tab text-brand-gold transition cursor-pointer font-black underline";
+
+            // Reset search and sub-filter when switching categories
+            document.getElementById('searchInput').value = '';
+            document.getElementById('subFilterSelect').value = 'all';
+
+            renderCatalog();
+        }
+
+        function filterCatalog() {
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            const subFilter = document.getElementById('subFilterSelect').value;
             const gridEl = document.getElementById('storeGrid');
+            
             gridEl.innerHTML = '';
 
-            const filtered = storeDatabase.filter(item => item.type === activeFilter);
+            const filtered = storeDatabase.filter(item => {
+                const matchesMain = item.type === activeMainCategory;
+                const matchesSub = subFilter === 'all' || item.subType === subFilter;
+                const matchesSearch = item.name.toLowerCase().includes(searchQuery) || item.desc.toLowerCase().includes(searchQuery);
+                
+                return matchesMain && matchesSub && matchesSearch;
+            });
 
             if (filtered.length === 0) {
-                gridEl.innerHTML = `<div class="col-span-full py-12 text-center text-xs text-gray-500 uppercase font-bold">[ No items found in this category yet ]</div>`;
+                gridEl.innerHTML = `<div class="col-span-full py-16 text-center text-xs text-gray-500 uppercase font-bold">[ No matching items found in directory ]</div>`;
                 return;
             }
 
@@ -198,7 +248,7 @@
                     <div>
                         <div class="flex justify-between items-center mb-3">
                             <span class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">${item.price}</span>
-                            <span class="text-[9px] font-bold text-gray-500 uppercase">In-World Showcase</span>
+                            <span class="text-[9px] font-bold text-gray-500 uppercase">In-World Directory</span>
                         </div>
                         <div class="aspect-video bg-[#111] rounded-lg my-3 flex items-center justify-center border border-brand-border">
                             <span class="text-[10px] text-gray-600 font-bold uppercase">[ ITEM PREVIEW IMAGE ]</span>
@@ -207,7 +257,7 @@
                         <p class="text-xs text-gray-400 mt-2 leading-relaxed">${item.desc}</p>
                     </div>
                     <div class="mt-6 pt-3 border-t border-brand-border flex justify-between items-center">
-                        <span class="text-[10px] text-gray-500 font-mono">SLURL Directory Active</span>
+                        <span class="text-[10px] text-gray-500 font-mono">SLURL Active</span>
                         <a href="${item.link}" target="_blank" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2 rounded transition shadow">
                             Buy in Second Life ↗
                         </a>
@@ -217,21 +267,9 @@
             });
         }
 
-        function filterCatalog(type) {
-            activeFilter = type;
-
-            // Update tab styling highlights
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.className = "nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer";
-            });
-            event.target.className = "nav-tab text-brand-gold transition cursor-pointer font-black underline";
-
-            renderCatalog();
-        }
-
         // Initialize on load
         window.onload = () => {
-            renderCatalog();
+            filterCatalog();
         };
     </script>
 </body>
