@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Development Roadmap | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 15px rgba(197, 160, 89, 0.2); }
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 15px rgba(255, 42, 42, 0.2); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 15px rgba(42, 117, 255, 0.2); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html" class="inline-block"><img src="h-logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform"></a>
+            </div>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-gray-400 mb-1">Developer Updates</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    DEVELOPMENT ROADMAP
+                </h1>
+            </div>
+            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition tracking-wider">Sign In</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="roadmap.html" class="text-brand-gold transition">Dev Roadmap</a>
+            <a href="story_campaign.html" class="text-gray-300 hover:text-brand-gold transition">Story Campaign</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">News/Magazine</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-12 space-y-12">
+
+        <!-- INTRO SECTION -->
+        <section class="text-center space-y-4">
+            <h2 class="text-2xl font-black uppercase text-white tracking-widest">The Future of Racing</h2>
+            <p class="text-sm text-gray-400 leading-relaxed max-w-3xl mx-auto">
+                Gentle Storm Racing is a constantly evolving ecosystem. Our commitment to the community means regular updates, new campaign chapters, and cutting-edge LSL script advancements. Here is what is coming to the grid.
+            </p>
+        </section>
+
+        <!-- VERTICAL TIMELINE -->
+        <section class="relative border-l border-brand-border ml-3 md:ml-6 space-y-10 pb-10">
+            
+            <!-- PHASE 1: ACTIVE NOW -->
+            <div class="relative pl-8 md:pl-12">
+                <!-- Timeline Dot -->
+                <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-brand-gold border-4 border-brand-bg shadow-[0_0_10px_rgba(197,160,89,0.8)] animate-pulse"></div>
+                
+                <!-- Content Card -->
+                <div class="bg-brand-card border border-brand-gold rounded-xl p-6 shadow-xl gold-border-glow">
+                    <span class="text-[10px] font-black uppercase text-brand-gold tracking-widest block mb-2">Phase 1 (Current) • Late 2026</span>
+                    <h3 class="text-xl font-black uppercase text-white mb-3">Foundation & Telemetry</h3>
+                    <p class="text-xs text-gray-300 mb-4 leading-relaxed">
+                        Establishing the core GSR ecosystem in Second Life, integrating web telemetry, and launching the initial Pro Plus framework.
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-400 font-bold">
+                        <li class="flex items-start"><span class="text-brand-gold mr-2">✓</span> Deployment of 4 Core Circuits (Vegas, Rome, Future, City)</li>
+                        <li class="flex items-start"><span class="text-brand-gold mr-2">✓</span> Live Cloudflare/Supabase Database Integration</li>
+                        <li class="flex items-start"><span class="text-brand-gold mr-2">✓</span> Pro Plus Campaign Hub Launch</li>
+                        <li class="flex items-start"><span class="text-brand-gold mr-2">►</span> Interactive Maps System Completion</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PHASE 2: NEXT UP -->
+            <div class="relative pl-8 md:pl-12">
+                <!-- Timeline Dot -->
+                <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-brand-blue border-4 border-brand-bg"></div>
+                
+                <!-- Content Card -->
+                <div class="bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl p-6 shadow-lg transition blue-border-glow">
+                    <span class="text-[10px] font-black uppercase text-brand-blue tracking-widest block mb-2">Phase 2 • Early 2027</span>
+                    <h3 class="text-xl font-black uppercase text-white mb-3">Elements & Progression</h3>
+                    <p class="text-xs text-gray-300 mb-4 leading-relaxed">
+                        Introducing environmental hazards and deepening the RPG mechanics of the Pro Plus subscription.
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-400 font-bold">
+                        <li class="flex items-start"><span class="text-brand-blue mr-2">○</span> Dynamic Weather Physics (Rain/Snow LSL Handling Impacts)</li>
+                        <li class="flex items-start"><span class="text-brand-blue mr-2">○</span> Story Campaign: Chapter 2 Release</li>
+                        <li class="flex items-start"><span class="text-brand-blue mr-2">○</span> Full Skill Tree Unlocks & Pit Crew Management</li>
+                        <li class="flex items-start"><span class="text-brand-blue mr-2">○</span> Live In-World Leaderboard HUDs</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PHASE 3: FUTURE -->
+            <div class="relative pl-8 md:pl-12">
+                <!-- Timeline Dot -->
+                <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-brand-red border-4 border-brand-bg"></div>
+                
+                <!-- Content Card -->
+                <div class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 shadow-lg transition red-border-glow">
+                    <span class="text-[10px] font-black uppercase text-brand-red tracking-widest block mb-2">Phase 3 • Mid 2027</span>
+                    <h3 class="text-xl font-black uppercase text-white mb-3">Global Syndicates</h3>
+                    <p class="text-xs text-gray-300 mb-4 leading-relaxed">
+                        Massive expansion of the team ecosystem and the introduction of new, highly technical racing environments.
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-400 font-bold">
+                        <li class="flex items-start"><span class="text-brand-red mr-2">○</span> Syndicate Wars: League vs League Tournaments</li>
+                        <li class="flex items-start"><span class="text-brand-red mr-2">○</span> Circuit Expansion: Neon Cyber-Tokyo Track</li>
+                        <li class="flex items-start"><span class="text-brand-red mr-2">○</span> Vehicle Damage & Wear Simulation Economy</li>
+                        <li class="flex items-start"><span class="text-brand-red mr-2">○</span> Custom Pro Plus Liveries Workshop</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PHASE 4: LONG TERM -->
+            <div class="relative pl-8 md:pl-12">
+                <!-- Timeline Dot -->
+                <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-gray-600 border-4 border-brand-bg"></div>
+                
+                <!-- Content Card -->
+                <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-lg opacity-75">
+                    <span class="text-[10px] font-black uppercase text-gray-500 tracking-widest block mb-2">Phase 4 • Late 2027 & Beyond</span>
+                    <h3 class="text-xl font-black uppercase text-gray-300 mb-3">E-Sports & Broadcast</h3>
+                    <ul class="space-y-2 text-xs text-gray-500 font-bold">
+                        <li class="flex items-start"><span class="mr-2">○</span> Integrated Live Twitch Broadcasting Widgets</li>
+                        <li class="flex items-start"><span class="mr-2">○</span> Real-Time 3D Web Viewer for Races</li>
+                        <li class="flex items-start"><span class="mr-2">○</span> Story Campaign: Chapter 3 Finale</li>
+                    </ul>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-8">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
