@@ -11,14 +11,7 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            bg: '#121212',
-                            card: '#1a1a1a',
-                            border: '#333333',
-                            gold: '#c5a059',
-                            red: '#ff2a2a',
-                            blue: '#2a75ff'
-                        }
+                        brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' }
                     }
                 }
             }
@@ -43,7 +36,6 @@
             <!-- Left Logo (Clickable to Main Menu) -->
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
                 <a href="index.html" class="inline-block">
-                    <!-- Swap logo.png to h-logo.png if you prefer the horizontal variant here -->
                     <img src="logo.png" alt="GSR Logo" class="h-12 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
                 </a>
             </div>
@@ -66,11 +58,12 @@
         </div>
     </header>
 
-    <!-- SUB-NAVBAR LINKS -->
+    <!-- SUB-NAVBAR LINKS (Now includes "What is Pro Plus?") -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <a href="pro_plus.html" class="text-brand-grey transition">GSRacing Pro Plus</a>
+            <a href="pro_plus.html" class="text-brand-gold transition">GSRacing Pro Plus</a>
+            <a href="pro_plus_details.html" class="text-gray-300 hover:text-brand-blue transition">What is Pro Plus?</a>
             <a href="store.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Store</a>
             <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
             <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers</a>
@@ -93,7 +86,7 @@
             <p class="text-[11px] text-gray-400 font-bold uppercase">Official Pro Plus Partners & Title Sponsors</p>
         </section>
 
-        <!-- ROW 1: 3-COLUMN FEATURE CARDS (Campaign, Skill Tree, Overview) -->
+        <!-- ROW 1: 3-COLUMN FEATURE CARDS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             <!-- Story Campaign -->
@@ -171,7 +164,7 @@
                 </div>
             </div>
 
-            <!-- Top Racers Standings (Campaign Progress, Coins, XP, Alignment) -->
+            <!-- Top Racers Standings -->
             <div class="bg-brand-card border border-brand-gold rounded-xl p-6 flex flex-col justify-between shadow-xl gold-border-glow">
                 <div>
                     <div class="flex justify-between items-center border-b border-brand-border pb-3 mb-4">
@@ -187,8 +180,6 @@
 
                     <!-- Top 3 Racers List -->
                     <div class="space-y-3">
-                        
-                        <!-- #1 Racer: Deathstalker Paine (Bad Alignment - Red B) -->
                         <div class="bg-brand-bg border border-brand-red/60 p-3 rounded-lg flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <span class="w-6 h-6 rounded-full bg-brand-gold text-black font-black text-xs flex items-center justify-center shrink-0">1</span>
@@ -205,7 +196,6 @@
                             </div>
                         </div>
 
-                        <!-- #2 Racer: Vortex_SL (Good Alignment - Blue G) -->
                         <div class="bg-brand-bg border border-brand-blue/60 p-3 rounded-lg flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <span class="w-6 h-6 rounded-full bg-gray-400 text-black font-black text-xs flex items-center justify-center shrink-0">2</span>
@@ -222,7 +212,6 @@
                             </div>
                         </div>
 
-                        <!-- #3 Racer: BlazeRunner (Neutral Alignment - Gold N) -->
                         <div class="bg-brand-bg border border-brand-gold/60 p-3 rounded-lg flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <span class="w-6 h-6 rounded-full bg-amber-700 text-white font-black text-xs flex items-center justify-center shrink-0">3</span>
@@ -238,7 +227,6 @@
                                 <span class="text-xs font-black text-brand-gold">🪙 3,100</span>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -249,7 +237,7 @@
 
         </section>
 
-        <!-- ROW 4: CURRENT NEWS (Full Width) -->
+        <!-- ROW 4: CURRENT NEWS -->
         <section class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 shadow-xl transition group">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-brand-border pb-3 mb-3 gap-2">
                 <h3 class="text-lg font-black uppercase text-white tracking-wide group-hover:text-brand-gold transition">Current News</h3>
