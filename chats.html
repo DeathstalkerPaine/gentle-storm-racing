@@ -2,7 +2,7 @@
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GSR Chats Hub | Gentle Storm Racing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -15,21 +15,24 @@
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 3px; }
         .chat-bubble { max-width: 85%; }
+        /* Smooth momentum scrolling for touch devices */
+        .scroll-touch { -webkit-overflow-scrolling: touch; }
     </style>
 </head>
-<body class="bg-brand-bg text-gray-100 font-sans antialiased h-screen flex flex-col overflow-hidden">
+<!-- h-[100dvh] ensures it fits perfectly on mobile/tablet browsers without cutting off -->
+<body class="bg-brand-bg text-gray-100 font-sans antialiased h-[100dvh] flex flex-col overflow-hidden">
 
-    <!-- HEADER (Locked at top) -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-3 shadow-xl flex-shrink-0">
+    <!-- HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-3 shadow-xl flex-shrink-0 z-20">
         <div class="max-w-[1400px] mx-auto px-4 flex items-center justify-between">
-            <div class="flex items-center gap-4 z-10">
+            <div class="flex items-center gap-4">
                 <a href="index.html"><img src="logo.png" alt="GSR Logo" class="h-10 w-auto object-contain"></a>
                 <div class="hidden sm:block border-l border-brand-border pl-4">
                     <h1 class="text-lg font-black uppercase text-brand-gold tracking-wider font-serif italic">GSR Comms Network</h1>
                     <span class="text-[9px] text-gray-400 uppercase tracking-widest">Verified Drivers Only</span>
                 </div>
             </div>
-            <div class="flex items-center gap-4 z-10">
+            <div class="flex items-center gap-4">
                 <div class="text-right hidden md:block">
                     <span class="block text-xs font-black text-white">Deathstalker Paine</span>
                     <span class="text-[9px] text-brand-green uppercase font-mono">Status: Cleared to Race</span>
@@ -39,9 +42,9 @@
         </div>
     </header>
 
-    <!-- SUB-NAVBAR (Locked below header) -->
-    <nav class="bg-[#0a0a0a] border-b border-brand-border py-2 flex-shrink-0">
-        <div class="max-w-[1400px] mx-auto px-4 flex gap-6 text-[10px] font-black uppercase tracking-wider">
+    <!-- SUB-NAVBAR -->
+    <nav class="bg-[#0a0a0a] border-b border-brand-border py-2 flex-shrink-0 z-10">
+        <div class="max-w-[1400px] mx-auto px-4 flex gap-6 text-[10px] font-black uppercase tracking-wider overflow-x-auto scroll-touch whitespace-nowrap">
             <a href="index.html" class="text-gray-500 hover:text-brand-gold transition">Main Menu</a>
             <a href="chats.html" class="text-brand-gold underline decoration-2 underline-offset-4">GSR Chats</a>
             <a href="racers.html" class="text-gray-500 hover:text-brand-gold transition">Racer Directory</a>
@@ -49,12 +52,11 @@
         </div>
     </nav>
 
-    <!-- MAIN APP CONTAINER (min-h-0 prevents it from pushing off screen) -->
-    <main class="flex-grow min-h-0 max-w-[1400px] w-full mx-auto px-2 sm:px-4 py-4 flex gap-4 h-full">
+    <!-- MAIN APP CONTAINER -->
+    <main class="flex-grow flex max-w-[1400px] w-full mx-auto px-2 sm:px-4 py-4 gap-4 min-h-0">
 
-        <!-- LEFT SIDEBAR: CHANNELS & SETTINGS -->
+        <!-- LEFT SIDEBAR -->
         <aside class="w-64 flex flex-col gap-4 flex-shrink-0 hidden md:flex min-h-0">
-            <!-- Security / Access Status -->
             <div class="bg-brand-card border border-brand-green/30 rounded-lg p-3 flex-shrink-0">
                 <div class="flex items-center gap-2 mb-1">
                     <div class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></div>
@@ -63,10 +65,8 @@
                 <p class="text-[9px] text-gray-400 leading-tight">Requirement Met: Min 1 Official Race Completed.</p>
             </div>
 
-            <!-- Channels Box -->
-            <div class="bg-brand-card border border-brand-border rounded-lg p-2 flex-grow overflow-y-auto">
+            <div class="bg-brand-card border border-brand-border rounded-lg p-2 flex-grow overflow-y-auto scroll-touch">
                 <span class="text-[9px] font-black uppercase text-gray-500 tracking-widest px-2 mb-2 block">Network Feeds</span>
-                
                 <button onclick="switchChannel('global', this)" class="channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase bg-brand-gold text-black transition flex justify-between items-center mb-1 font-black shadow">
                     <span>🌐 Global Chat</span>
                 </button>
@@ -77,42 +77,29 @@
                     <span>🛡️ Team Syndicate</span>
                     <span class="text-[8px] bg-brand-red/20 text-brand-red px-1 rounded">Locked</span>
                 </button>
-
-                <span class="text-[9px] font-black uppercase text-gray-500 tracking-widest px-2 mb-2 block">Direct Messages</span>
-                <div class="space-y-1">
-                    <button class="w-full text-left px-3 py-2 rounded text-xs font-bold text-gray-400 hover:bg-brand-bg transition flex items-center gap-2">
-                        <div class="w-1.5 h-1.5 rounded-full bg-brand-green"></div>
-                        Vortex_SL
-                    </button>
-                    <button class="w-full text-left px-3 py-2 rounded text-xs font-bold text-gray-400 hover:bg-brand-bg transition flex items-center gap-2">
-                        <div class="w-1.5 h-1.5 rounded-full bg-gray-600"></div>
-                        BlazeRunner
-                    </button>
-                </div>
             </div>
         </aside>
 
-        <!-- CENTER: CHAT WINDOW -->
-        <section class="flex-grow flex flex-col bg-brand-card border border-brand-border rounded-lg shadow-2xl overflow-hidden min-h-0 relative">
+        <!-- CENTER CHAT WINDOW -->
+        <section class="flex-grow flex flex-col bg-brand-card border border-brand-border rounded-lg shadow-2xl overflow-hidden min-h-0">
             
-            <!-- Chat Header (Locked at top of chat) -->
             <div class="bg-brand-bg border-b border-brand-border p-3 sm:p-4 flex justify-between items-center flex-shrink-0">
                 <div>
                     <h2 id="channelTitle" class="text-sm font-black uppercase text-white">🌐 Global Chat</h2>
-                    <p id="channelDesc" class="text-[10px] text-gray-400">Public broadcast for all verified racers. Subject to ToS moderation.</p>
+                    <p id="channelDesc" class="text-[10px] text-gray-400">Public broadcast for all verified racers.</p>
                 </div>
             </div>
 
-            <!-- Messages Container (This is the only part that scrolls) -->
-            <div id="messagesArea" class="flex-grow p-4 overflow-y-auto space-y-4 font-sans flex flex-col">
-                <!-- Messages JS Injected Here -->
+            <!-- Scrollable Messages Area -->
+            <div id="messagesArea" class="flex-grow p-4 overflow-y-auto scroll-touch space-y-4 font-sans flex flex-col">
+                <!-- Messages populated dynamically -->
             </div>
 
-            <!-- INPUT AREA (Locked at bottom of chat) -->
+            <!-- Input Form (Locked to bottom) -->
             <div class="bg-[#151515] border-t border-brand-border p-3 sm:p-4 flex flex-col gap-2 flex-shrink-0">
                 <div class="flex items-center gap-2 text-[9px] text-gray-500 font-mono">
-                    <span class="text-brand-red font-bold">⚠️ AUTOMATED MODERATION ACTIVE.</span>
-                    <span class="hidden sm:inline">Hate speech, racism, or explicit language results in an immediate permanent ecosystem ban.</span>
+                    <span class="text-brand-red font-bold">⚠️ MODERATION ACTIVE.</span>
+                    <span class="hidden sm:inline">Hate speech or explicit language results in a ban.</span>
                 </div>
                 <div class="flex gap-2">
                     <input type="text" id="chatInput" placeholder="Type your message here..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition placeholder-gray-600">
@@ -124,22 +111,19 @@
         </section>
 
         <!-- RIGHT SIDEBAR: ONLINE ROSTER -->
-        <aside class="w-56 bg-brand-card border border-brand-border rounded-lg p-3 flex-col hidden lg:flex flex-shrink-0 overflow-y-auto min-h-0">
-            <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest px-2 mb-3 block border-b border-brand-border pb-2">Active Racers (42)</span>
+        <aside class="w-56 bg-brand-card border border-brand-border rounded-lg p-3 flex-col hidden lg:flex flex-shrink-0 overflow-y-auto scroll-touch min-h-0">
+            <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest px-2 mb-3 block border-b border-brand-border pb-2">Active Racers</span>
             
             <div class="space-y-2">
-                <!-- Roster Item -->
                 <div class="flex items-center gap-2 p-1.5 hover:bg-brand-bg rounded transition cursor-pointer group">
-                    <img src="default-avatar.png" alt="Avatar" class="w-6 h-6 rounded bg-gray-800 border border-brand-border group-hover:border-brand-gold transition" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'white\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z\'/></svg>'">
+                    <div class="w-6 h-6 rounded bg-gray-800 border border-brand-border group-hover:border-brand-gold transition flex items-center justify-center">👤</div>
                     <div>
                         <a href="racers.html?user=vortex" class="block text-[10px] font-black uppercase text-white hover:text-brand-gold">Vortex_SL</a>
                         <span class="block text-[8px] text-gray-500 uppercase">Team Syndicate</span>
                     </div>
                 </div>
-
-                <!-- Roster Item -->
                 <div class="flex items-center gap-2 p-1.5 hover:bg-brand-bg rounded transition cursor-pointer group">
-                    <img src="default-avatar.png" alt="Avatar" class="w-6 h-6 rounded bg-gray-800 border border-brand-border group-hover:border-brand-gold transition" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'white\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z\'/></svg>'">
+                    <div class="w-6 h-6 rounded bg-gray-800 border border-brand-border group-hover:border-brand-gold transition flex items-center justify-center">👤</div>
                     <div>
                         <a href="racers.html?user=blaze" class="block text-[10px] font-black uppercase text-white hover:text-brand-gold">BlazeRunner</a>
                         <span class="block text-[8px] text-gray-500 uppercase">Independent</span>
@@ -154,20 +138,16 @@
     <div id="reportModal" class="fixed inset-0 bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
         <div class="bg-brand-card border border-brand-red rounded-xl max-w-md w-full p-6 shadow-2xl relative red-border-glow">
             <h2 class="text-lg font-black uppercase text-white mb-2">Report Violation</h2>
-            <p class="text-xs text-gray-400 mb-4">You are reporting this message to GSR Admins for violating the Terms of Service. False reporting may result in a penalty.</p>
-            
+            <p class="text-xs text-gray-400 mb-4">Reporting this message to GSR Admins. False reporting may result in a penalty.</p>
             <div class="bg-[#0a0a0a] p-3 rounded border border-brand-border mb-4">
-                <span class="text-[10px] text-gray-500 block mb-1">Message Preview:</span>
+                <span class="text-[10px] text-gray-500 block mb-1">Preview:</span>
                 <p id="reportPreviewText" class="text-xs text-white italic">"..."</p>
             </div>
-
             <select class="w-full bg-brand-bg border border-brand-border text-xs text-white p-2 mb-4 rounded">
                 <option>Explicit Language / Profanity</option>
                 <option>Racism / Hate Speech</option>
                 <option>Harassment / Threats</option>
-                <option>Spam / Scam Link</option>
             </select>
-
             <div class="flex justify-end gap-3">
                 <button onclick="closeReportModal()" class="text-xs font-bold text-gray-400 hover:text-white px-4 py-2">Cancel</button>
                 <button onclick="submitReport()" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-xs px-4 py-2 rounded shadow transition">Submit Report</button>
@@ -175,34 +155,42 @@
         </div>
     </div>
 
-    <!-- SCRIPTS -->
+    <!-- PERSISTENT CHAT SCRIPT ENGINE -->
     <script>
-        const chatData = {
+        // 1. Setup default database if memory is completely empty
+        const defaultChatData = {
             global: [
                 { id: 1, racer: "Vortex_SL", isMe: false, time: "14:02", text: "Anyone testing setups on the new Las Vegas Strip circuit tonight?", lang: "en" },
-                { id: 2, racer: "BlazeRunner", isMe: false, time: "14:05", text: "¡Sí! El agarre ha mejorado bastante con los nuevos neumáticos.", lang: "es" },
-                { id: 3, racer: "Deathstalker Paine", isMe: true, time: "14:06", text: "Telemetry looks solid. Make sure scripts are updated.", lang: "en" }
+                { id: 2, racer: "BlazeRunner", isMe: false, time: "14:05", text: "¡Sí! El agarre ha mejorado bastante con los nuevos neumáticos.", lang: "es" }
             ],
-            following: [
-                { id: 4, racer: "Vortex_SL", isMe: false, time: "10:15", text: "Tuned my gearbox ratios. Ready for the grand prix.", lang: "en" }
-            ],
-            team: [
-                { id: 5, racer: "Admin", isMe: false, time: "09:00", text: "Team strategy meeting in Discord before qualifying starts.", lang: "en" }
-            ]
+            following: [],
+            team: []
         };
 
+        // 2. Load from Browser Local Storage (This keeps chats alive when switching pages!)
+        let chatData = JSON.parse(localStorage.getItem('gsr_chat_network')) || defaultChatData;
         let activeChannel = 'global';
+
+        // Listen for changes from OTHER tabs or pages (e.g., typing in live_events.html updates chats.html instantly)
+        window.addEventListener('storage', (e) => {
+            if(e.key === 'gsr_chat_network') {
+                chatData = JSON.parse(e.newValue);
+                renderMessages();
+            }
+        });
 
         function switchChannel(channel, btn) {
             activeChannel = channel;
             
+            // UI Button Updates
             document.querySelectorAll('.channel-btn').forEach(b => {
                 b.className = "channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase text-gray-400 hover:bg-brand-bg transition flex justify-between items-center mb-1";
             });
             btn.className = "channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase bg-brand-gold text-black transition flex justify-between items-center mb-1 font-black shadow";
 
+            // UI Header Updates
             const headers = {
-                global: { title: "🌐 Global Chat", desc: "Public broadcast for all verified racers. Subject to ToS moderation." },
+                global: { title: "🌐 Global Chat", desc: "Public broadcast for all verified racers." },
                 following: { title: "👥 Following", desc: "Filtered feed showing only racers and teams you actively follow." },
                 team: { title: "🛡️ Team Syndicate", desc: "Encrypted channel visible ONLY to current team roster members." }
             };
@@ -247,7 +235,7 @@
                     </div>
                 `;
             });
-            container.scrollTop = container.scrollHeight;
+            container.scrollTop = container.scrollHeight; // Auto-scroll to bottom
         }
 
         function sendMessage() {
@@ -255,35 +243,42 @@
             const val = input.value.trim();
             if(!val) return;
 
+            // Profanity Check
             const profanityFilter = ["racistword", "explicitword"]; 
-            let cleanText = val;
             let violationDetected = false;
-
             profanityFilter.forEach(word => {
-                if(cleanText.toLowerCase().includes(word)) {
-                    violationDetected = true;
-                }
+                if(val.toLowerCase().includes(word)) violationDetected = true;
             });
 
             if(violationDetected) {
-                alert("WARNING: Your message was blocked for violating the GSR Terms of Service. Further infractions will result in an automated ban.");
+                alert("WARNING: Message blocked for ToS violation.");
                 input.value = '';
                 return;
             }
 
+            // Push to local data
             chatData[activeChannel].push({
                 id: Date.now(),
                 racer: "Deathstalker Paine",
                 isMe: true,
                 time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-                text: cleanText,
+                text: val,
                 lang: "en"
             });
+
+            // Save to browser memory globally so it stays when you refresh or change pages
+            localStorage.setItem('gsr_chat_network', JSON.stringify(chatData));
 
             input.value = '';
             renderMessages();
         }
 
+        // Allow pressing Enter key to send message
+        document.getElementById('chatInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Utilities for Translating and Reporting
         function translateMsg(btn) {
             const bubble = btn.parentElement.previousElementSibling;
             const contentSpan = bubble.querySelector('.msg-content');
@@ -293,30 +288,25 @@
 
         function openReportModal(text) {
             document.getElementById('reportPreviewText').innerText = `"${text}"`;
-            const modal = document.getElementById('reportModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            document.getElementById('reportModal').classList.remove('hidden');
+            document.getElementById('reportModal').classList.add('flex');
         }
 
         function closeReportModal() {
-            const modal = document.getElementById('reportModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+            document.getElementById('reportModal').classList.add('hidden');
+            document.getElementById('reportModal').classList.remove('flex');
         }
 
         function submitReport() {
-            alert("Report submitted to GSR Administration. Thank you for keeping the ecosystem clean.");
+            alert("Report submitted to GSR Administration.");
             closeReportModal();
         }
-
-        document.getElementById('chatInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') sendMessage();
-        });
 
         function escapeHtml(text) {
             return text.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
+        // Initial Load
         window.onload = () => renderMessages();
     </script>
 </body>
