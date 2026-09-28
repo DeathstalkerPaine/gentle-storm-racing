@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSRacing Store & Showcase | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 20px rgba(197, 160, 89, 0.2); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER: LOGO LEFT, TITLE CENTER, SIGN IN RIGHT -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
+            </div>
+
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[9px] font-black uppercase tracking-[0.3em] text-brand-gold">In-World Linden Showcase & Directory</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] font-serif italic text-brand-gold">
+                    GSRacing Store
+                </h1>
+            </div>
+
+            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition tracking-wider">
+                    Sign In
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR CATEGORIES -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <button onclick="filterCatalog('car')" class="nav-tab text-brand-gold transition cursor-pointer">Racing Cars</button>
+            <button onclick="filterCatalog('car_part')" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer">Car Parts</button>
+            <button onclick="filterCatalog('bike')" class="nav-tab text-gray-300 hover:text-gray-300 transition cursor-pointer">Race Bikes</button>
+            <button onclick="filterCatalog('bike_part')" class="nav-tab text-gray-300 hover:text-gray-300 transition cursor-pointer">Bike Parts</button>
+            <button onclick="filterCatalog('gentle_storm')" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer">Gentle Storm Products</button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
+        
+        <!-- ROW 1: FEATURED PRODUCTS SHOWCASE (3-COLUMN WIREFRAME) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="bg-brand-card border border-brand-gold rounded-xl p-6 shadow-xl gold-border-glow flex flex-col justify-between">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">Featured Car</span>
+                    <div class="aspect-video bg-[#111] rounded-lg my-4 flex items-center justify-center border border-brand-border">
+                        <span class="text-[10px] text-gray-500 font-bold uppercase">[ DRIFT SPEC V1 PREVIEW ]</span>
+                    </div>
+                    <h3 class="text-base font-black uppercase text-white">StormDrift GT-1</h3>
+                    <p class="text-xs text-gray-400 mt-1">Full chassis setup tuned for high-angle drifting across Second Life tracks. Price: L$2,499</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border">
+                    <a href="#catalog" class="text-xs font-bold uppercase text-brand-gold hover:underline">View Details →</a>
+                </div>
+            </div>
+
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col justify-between">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-brand-blue bg-brand-blue/10 px-2 py-0.5 rounded border border-brand-blue/30">Featured Bike</span>
+                    <div class="aspect-video bg-[#111] rounded-lg my-4 flex items-center justify-center border border-brand-border">
+                        <span class="text-[10px] text-gray-500 font-bold uppercase">[ CYCLONE BIKE PREVIEW ]</span>
+                    </div>
+                    <h3 class="text-base font-black uppercase text-white">Cyclone Apex Superbike</h3>
+                    <p class="text-xs text-gray-400 mt-1">Precision two-wheel racing machine with custom telemetry scripting. Price: L$1,899</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border">
+                    <a href="#catalog" class="text-xs font-bold uppercase text-brand-blue hover:underline">View Details →</a>
+                </div>
+            </div>
+
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col justify-between">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-brand-red bg-brand-red/10 px-2 py-0.5 rounded border border-brand-red/30">Gentle Storm Special</span>
+                    <div class="aspect-video bg-[#111] rounded-lg my-4 flex items-center justify-center border border-brand-border">
+                        <span class="text-[10px] text-gray-500 font-bold uppercase">[ NON-RACING ITEM PREVIEW ]</span>
+                    </div>
+                    <h3 class="text-base font-black uppercase text-white">Handcrafted Stone Mosaic Art</h3>
+                    <p class="text-xs text-gray-400 mt-1">Exclusive dragonwood home decor piece for your Second Life estate. Price: L$999</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border">
+                    <a href="#catalog" class="text-xs font-bold uppercase text-brand-red hover:underline">View Details →</a>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ROW 2: SPONSORS BANNER -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 text-center shadow-xl">
+            <h3 class="text-sm font-black uppercase text-brand-gold tracking-[0.3em] mb-2 font-serif italic text-lg">Sponsors</h3>
+            <div class="flex flex-wrap justify-center items-center gap-8 py-2 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest">
+                <span>[ Second Life Motors ]</span>
+                <span>[ Linden Fuel Co. ]</span>
+                <span>[ StormTech HUDs ]</span>
+            </div>
+        </section>
+
+        <!-- ROW 3: MAIN CATALOG DIRECTORY -->
+        <section id="catalog" class="space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-brand-border pb-3 gap-2">
+                <div>
+                    <h2 class="text-xl font-black uppercase text-white font-serif italic">Complete Catalog Directory</h2>
+                    <p class="text-xs text-gray-400">Browse specs, Linden pricing, part breakdowns (Hoods, Rims, Tires, Bumpers, Exhausts), and purchase links.</p>
+                </div>
+                <div class="text-[10px] font-bold uppercase text-gray-500">
+                    Admin-Managed Database
+                </div>
+            </div>
+
+            <!-- DYNAMIC CATALOG GRID -->
+            <div id="storeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Items populate dynamically via JavaScript -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
+    <!-- STORE CATALOG SCRIPT ENGINE -->
+    <script>
+        /*
+          ADMIN-READY CATALOG REPOSITORY:
+          Easily add your 5 cars, 5 bikes, car parts (hoods, rims, tires, bumpers, exhausts), 
+          bike parts, and Gentle Storm products here!
+        */
+        const storeDatabase = [
+            // CARS
+            { id: 1, type: 'car', name: 'StormDrift GT-1 (Car 1 of 5)', price: 'L$2,499', desc: 'High-performance drift chassis with custom LSL telemetry drift gauges included.', image: '', link: 'secondlife://...' },
+            { id: 2, type: 'car', name: 'Viper Apex GT (Car 2 of 5)', price: 'L$2,799', desc: 'Aerodynamic time-trial track specialist built for high-speed cornering.', image: '', link: 'secondlife://...' },
+            
+            // CAR PARTS (Hoods, Rims, Tires, Bumpers, Exhausts)
+            { id: 3, type: 'car_part', name: 'Carbon Fiber Vented Hood (Car Part)', price: 'L$499', desc: 'Reduces overall vehicle drag. 5 different style variations available in-world.', image: '', link: 'secondlife://...' },
+            { id: 4, type: 'car_part', name: 'Forged Deep-Dish Rims Set (Car Part)', price: 'L$599', desc: 'Customizable chrome and matte finish rim pack. 5 variations included.', image: '', link: 'secondlife://...' },
+            { id: 5, type: 'car_part', name: 'Racing Slick Tires (Car Part)', price: 'L$399', desc: 'Maximum track grip compound. 5 tread patterns available.', image: '', link: 'secondlife://...' },
+            { id: 6, type: 'car_part', name: 'Widebody Aero Bumper Kit (Car Part)', price: 'L$649', desc: 'Aggressive front and rear downforce bumpers. 5 styles.', image: '', link: 'secondlife://...' },
+            { id: 7, type: 'car_part', name: 'Titanium Exhaust System (Car Part)', price: 'L$549', desc: 'Custom exhaust note audio pack and flame spitting scripts. 5 options.', image: '', link: 'secondlife://...' },
+
+            // BIKES
+            { id: 8, type: 'bike', name: 'Cyclone Apex Superbike (Bike 1 of 5)', price: 'L$1,899', desc: 'Agile two-wheel racer featuring advanced lean angle physics.', image: '', link: 'secondlife://...' },
+            
+            // BIKE PARTS
+            { id: 9, type: 'bike_part', name: 'Carbon Race Fairings (Bike Part)', price: 'L$449', desc: 'Lightweight body kit designed for maximum straight-line speed.', image: '', link: 'secondlife://...' },
+
+            // GENTLE STORM PRODUCTS (Non-Racing)
+            { id: 10, type: 'gentle_storm', name: 'Handcrafted Stone Mosaic Art', price: 'L$999', desc: 'Custom slate and travertine framed mosaic artwork for your Second Life estate.', image: '', link: 'secondlife://...' }
+        ];
+
+        let activeFilter = 'car';
+
+        function renderCatalog() {
+            const gridEl = document.getElementById('storeGrid');
+            gridEl.innerHTML = '';
+
+            const filtered = storeDatabase.filter(item => item.type === activeFilter);
+
+            if (filtered.length === 0) {
+                gridEl.innerHTML = `<div class="col-span-full py-12 text-center text-xs text-gray-500 uppercase font-bold">[ No items found in this category yet ]</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 shadow-xl flex flex-col justify-between transition group";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">${item.price}</span>
+                            <span class="text-[9px] font-bold text-gray-500 uppercase">In-World Showcase</span>
+                        </div>
+                        <div class="aspect-video bg-[#111] rounded-lg my-3 flex items-center justify-center border border-brand-border">
+                            <span class="text-[10px] text-gray-600 font-bold uppercase">[ ITEM PREVIEW IMAGE ]</span>
+                        </div>
+                        <h3 class="text-base font-black uppercase text-white group-hover:text-brand-gold transition">${item.name}</h3>
+                        <p class="text-xs text-gray-400 mt-2 leading-relaxed">${item.desc}</p>
+                    </div>
+                    <div class="mt-6 pt-3 border-t border-brand-border flex justify-between items-center">
+                        <span class="text-[10px] text-gray-500 font-mono">SLURL Directory Active</span>
+                        <a href="${item.link}" target="_blank" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2 rounded transition shadow">
+                            Buy in Second Life ↗
+                        </a>
+                    </div>
+                `;
+                gridEl.appendChild(card);
+            });
+        }
+
+        function filterCatalog(type) {
+            activeFilter = type;
+
+            // Update tab styling highlights
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.className = "nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer";
+            });
+            event.target.className = "nav-tab text-brand-gold transition cursor-pointer font-black underline";
+
+            renderCatalog();
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            renderCatalog();
+        };
+    </script>
+</body>
+</html>
