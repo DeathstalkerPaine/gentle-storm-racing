@@ -19,7 +19,7 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased h-screen flex flex-col overflow-hidden">
 
-    <!-- HEADER -->
+    <!-- HEADER (Locked at top) -->
     <header class="bg-brand-card border-b border-brand-gold relative py-3 shadow-xl flex-shrink-0">
         <div class="max-w-[1400px] mx-auto px-4 flex items-center justify-between">
             <div class="flex items-center gap-4 z-10">
@@ -39,7 +39,7 @@
         </div>
     </header>
 
-    <!-- SUB-NAVBAR -->
+    <!-- SUB-NAVBAR (Locked below header) -->
     <nav class="bg-[#0a0a0a] border-b border-brand-border py-2 flex-shrink-0">
         <div class="max-w-[1400px] mx-auto px-4 flex gap-6 text-[10px] font-black uppercase tracking-wider">
             <a href="index.html" class="text-gray-500 hover:text-brand-gold transition">Main Menu</a>
@@ -49,13 +49,13 @@
         </div>
     </nav>
 
-    <!-- MAIN APP CONTAINER (Fills remaining screen height) -->
-    <main class="flex-grow max-w-[1400px] w-full mx-auto px-4 py-4 flex gap-4 h-full overflow-hidden">
+    <!-- MAIN APP CONTAINER (min-h-0 prevents it from pushing off screen) -->
+    <main class="flex-grow min-h-0 max-w-[1400px] w-full mx-auto px-2 sm:px-4 py-4 flex gap-4 h-full">
 
         <!-- LEFT SIDEBAR: CHANNELS & SETTINGS -->
-        <aside class="w-64 flex flex-col gap-4 flex-shrink-0 hidden md:flex">
+        <aside class="w-64 flex flex-col gap-4 flex-shrink-0 hidden md:flex min-h-0">
             <!-- Security / Access Status -->
-            <div class="bg-brand-card border border-brand-green/30 rounded-lg p-3">
+            <div class="bg-brand-card border border-brand-green/30 rounded-lg p-3 flex-shrink-0">
                 <div class="flex items-center gap-2 mb-1">
                     <div class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></div>
                     <span class="text-[10px] font-black uppercase text-brand-green tracking-widest">Access Granted</span>
@@ -63,11 +63,11 @@
                 <p class="text-[9px] text-gray-400 leading-tight">Requirement Met: Min 1 Official Race Completed.</p>
             </div>
 
-            <!-- Channels -->
+            <!-- Channels Box -->
             <div class="bg-brand-card border border-brand-border rounded-lg p-2 flex-grow overflow-y-auto">
                 <span class="text-[9px] font-black uppercase text-gray-500 tracking-widest px-2 mb-2 block">Network Feeds</span>
                 
-                <button onclick="switchChannel('global', this)" class="channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase bg-brand-gold text-black transition flex justify-between items-center mb-1">
+                <button onclick="switchChannel('global', this)" class="channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase bg-brand-gold text-black transition flex justify-between items-center mb-1 font-black shadow">
                     <span>🌐 Global Chat</span>
                 </button>
                 <button onclick="switchChannel('following', this)" class="channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase text-gray-400 hover:bg-brand-bg transition flex justify-between items-center mb-1">
@@ -93,30 +93,30 @@
         </aside>
 
         <!-- CENTER: CHAT WINDOW -->
-        <section class="flex-grow bg-brand-card border border-brand-border rounded-lg shadow-2xl flex flex-col overflow-hidden relative">
+        <section class="flex-grow flex flex-col bg-brand-card border border-brand-border rounded-lg shadow-2xl overflow-hidden min-h-0 relative">
             
-            <!-- Chat Header -->
-            <div class="bg-brand-bg border-b border-brand-border p-3 sm:p-4 flex justify-between items-center">
+            <!-- Chat Header (Locked at top of chat) -->
+            <div class="bg-brand-bg border-b border-brand-border p-3 sm:p-4 flex justify-between items-center flex-shrink-0">
                 <div>
                     <h2 id="channelTitle" class="text-sm font-black uppercase text-white">🌐 Global Chat</h2>
                     <p id="channelDesc" class="text-[10px] text-gray-400">Public broadcast for all verified racers. Subject to ToS moderation.</p>
                 </div>
             </div>
 
-            <!-- Messages Container -->
+            <!-- Messages Container (This is the only part that scrolls) -->
             <div id="messagesArea" class="flex-grow p-4 overflow-y-auto space-y-4 font-sans flex flex-col">
                 <!-- Messages JS Injected Here -->
             </div>
 
-            <!-- Input Area & ToS Warning -->
-            <div class="bg-brand-bg border-t border-brand-border p-3 sm:p-4 flex flex-col gap-2">
+            <!-- INPUT AREA (Locked at bottom of chat) -->
+            <div class="bg-[#151515] border-t border-brand-border p-3 sm:p-4 flex flex-col gap-2 flex-shrink-0">
                 <div class="flex items-center gap-2 text-[9px] text-gray-500 font-mono">
                     <span class="text-brand-red font-bold">⚠️ AUTOMATED MODERATION ACTIVE.</span>
-                    <span>Hate speech, racism, or explicit language results in an immediate permanent ecosystem ban.</span>
+                    <span class="hidden sm:inline">Hate speech, racism, or explicit language results in an immediate permanent ecosystem ban.</span>
                 </div>
                 <div class="flex gap-2">
-                    <input type="text" id="chatInput" placeholder="Enter message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition placeholder-gray-600">
-                    <button onclick="sendMessage()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-6 py-3 rounded transition shadow shrink-0">
+                    <input type="text" id="chatInput" placeholder="Type your message here..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition placeholder-gray-600">
+                    <button onclick="sendMessage()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-5 sm:px-8 py-3 rounded transition shadow shrink-0">
                         Send ↵
                     </button>
                 </div>
@@ -124,7 +124,7 @@
         </section>
 
         <!-- RIGHT SIDEBAR: ONLINE ROSTER -->
-        <aside class="w-56 bg-brand-card border border-brand-border rounded-lg p-3 flex-col hidden lg:flex flex-shrink-0 overflow-y-auto">
+        <aside class="w-56 bg-brand-card border border-brand-border rounded-lg p-3 flex-col hidden lg:flex flex-shrink-0 overflow-y-auto min-h-0">
             <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest px-2 mb-3 block border-b border-brand-border pb-2">Active Racers (42)</span>
             
             <div class="space-y-2">
@@ -175,6 +175,7 @@
         </div>
     </div>
 
+    <!-- SCRIPTS -->
     <script>
         const chatData = {
             global: [
@@ -195,13 +196,11 @@
         function switchChannel(channel, btn) {
             activeChannel = channel;
             
-            // Update UI buttons
             document.querySelectorAll('.channel-btn').forEach(b => {
                 b.className = "channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase text-gray-400 hover:bg-brand-bg transition flex justify-between items-center mb-1";
             });
             btn.className = "channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase bg-brand-gold text-black transition flex justify-between items-center mb-1 font-black shadow";
 
-            // Update Header
             const headers = {
                 global: { title: "🌐 Global Chat", desc: "Public broadcast for all verified racers. Subject to ToS moderation." },
                 following: { title: "👥 Following", desc: "Filtered feed showing only racers and teams you actively follow." },
@@ -229,8 +228,6 @@
                 const bgClass = msg.isMe ? "bg-brand-gold/10 border border-brand-gold text-white" : "bg-[#1f1f1f] border border-brand-border text-gray-200";
                 
                 let translateBtn = msg.lang !== 'en' ? `<button onclick="translateMsg(this)" class="text-[9px] text-brand-gold hover:underline uppercase ml-2 bg-brand-gold/10 px-1.5 rounded">Translate</button>` : '';
-                
-                // Add report button for other users' messages
                 let reportBtn = !msg.isMe ? `<button onclick="openReportModal('${escapeHtml(msg.text)}')" class="text-[9px] text-gray-600 hover:text-brand-red uppercase ml-2 transition">Report</button>` : '';
 
                 container.innerHTML += `
@@ -258,8 +255,7 @@
             const val = input.value.trim();
             if(!val) return;
 
-            // Client-side hard filter (Backend Supabase/Cloudflare Workers will do the real enforcement)
-            const profanityFilter = ["racistword", "explicitword"]; // Mock array
+            const profanityFilter = ["racistword", "explicitword"]; 
             let cleanText = val;
             let violationDetected = false;
 
@@ -288,15 +284,13 @@
             renderMessages();
         }
 
-        // Mock translation - hook up to LibreTranslate or similar free API later
         function translateMsg(btn) {
             const bubble = btn.parentElement.previousElementSibling;
             const contentSpan = bubble.querySelector('.msg-content');
             contentSpan.innerHTML = `<span class="text-brand-green italic">[Translated]:</span> Yes! Grip has improved a lot with the new tires.`;
-            btn.remove(); // Hide translate button after use
+            btn.remove();
         }
 
-        // Report Modal Logic
         function openReportModal(text) {
             document.getElementById('reportPreviewText').innerText = `"${text}"`;
             const modal = document.getElementById('reportModal');
@@ -315,7 +309,6 @@
             closeReportModal();
         }
 
-        // Allow pressing Enter to send
         document.getElementById('chatInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') sendMessage();
         });
