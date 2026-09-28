@@ -3,294 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Profiles Directory | Gentle Storm Racing</title>
+    <title>Storm Riders | Team Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            bg: '#121212',
-                            card: '#1e1e1e',
-                            border: '#333333',
-                            gold: '#c5a059',
-                            red: '#ff2a2a',
-                            blue: '#2a75ff'
-                        }
-                    }
-                }
-            }
-        }
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
     </script>
     <style>
-        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
-        ::-webkit-scrollbar { width: 8px; }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 20px rgba(42, 117, 255, 0.15); }
+        .watermark-text { font-size: 7rem; line-height: 1; color: rgba(255, 255, 255, 0.02); position: absolute; right: 20px; top: 0px; z-index: 0; pointer-events: none; font-weight: 900; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #121212; }
-        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 3px; }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- SUB-PAGE HEADER (Uses h-logo.png) -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
-            
-            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
-                <a href="index.html" class="inline-block">
-                    <img src="h-logo.png" alt="Gentle Storm Racing Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
-                </a>
+    <!-- HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-6 shadow-xl z-20">
+        <div class="max-w-[1400px] mx-auto px-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="index.html"><img src="logo.png" alt="GSR Logo" class="h-10 w-auto object-contain"></a>
             </div>
-
-            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
-                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Syndicate Directory</span>
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                    TEAM PROFILES
-                </h1>
-            </div>
-
-            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
-                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition whitespace-nowrap tracking-wider">
-                    Sign In
-                </a>
-            </div>
-
+            <a href="admin.html" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[10px] uppercase font-black px-4 py-2 rounded transition">Sign In</a>
         </div>
     </header>
 
     <!-- SUB-NAVBAR -->
-    <nav class="bg-brand-bg border-b border-brand-border py-3">
-        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
-            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
-            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
-            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
-            <a href="racers_profiles.html" class="text-gray-300 hover:text-brand-gold transition">Racers Profile</a>
-            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Racer Leaderboard</a>
-            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams Hub</a>
-            <a href="teams_profiles.html" class="text-brand-gold transition">Teams Profile</a>
-            <a href="team_leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Team Leaderboards</a>
-            <a href="team_events.html" class="text-gray-300 hover:text-brand-gold transition">Team Events</a>
-            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">League</a>
-            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
-            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+    <nav class="bg-[#0a0a0a] border-b border-brand-border py-2 z-10">
+        <div class="max-w-[1400px] mx-auto px-4 flex gap-6 text-[10px] font-black uppercase tracking-wider overflow-x-auto whitespace-nowrap">
+            <a href="index.html" class="text-gray-500 hover:text-brand-gold transition">Main Menu</a>
+            <a href="teams.html" class="text-gray-500 hover:text-brand-gold transition">Teams Hub</a>
+            <a href="team_profile.html" class="text-brand-blue underline decoration-2 underline-offset-4">Storm Riders Profile</a>
+            <a href="chats.html" class="text-gray-500 hover:text-brand-gold transition">GSR Chats</a>
         </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
+    <!-- MAIN PROFILE CONTAINER -->
+    <main class="flex-grow max-w-[1200px] w-full mx-auto px-4 py-8">
         
-        <!-- NAVIGATION & SEARCH CONTROLS -->
-        <section class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-4 shadow-xl">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                <!-- 1. Instant Search Bar -->
-                <div class="w-full md:w-1/2 relative">
-                    <input type="text" id="searchInput" placeholder="Search team name & press Enter..." class="w-full bg-brand-bg border border-brand-border rounded-xl px-4 py-3 text-xs text-white uppercase focus:outline-none focus:border-brand-gold transition">
-                </div>
-                <!-- 2. League / Recruitment Filters -->
-                <div class="w-full md:w-1/2 flex gap-3">
-                    <select id="tierFilter" class="w-1/2 bg-brand-bg border border-brand-border rounded-xl px-3 py-3 text-xs text-gray-300 uppercase focus:outline-none focus:border-brand-gold transition">
-                        <option value="ALL">All Leagues</option>
-                        <option value="Pro Plus">Pro Plus League</option>
-                        <option value="Pro">Pro League</option>
-                        <option value="Amateur">Amateur League</option>
-                    </select>
-                    <select id="statusFilter" class="w-1/2 bg-brand-bg border border-brand-border rounded-xl px-3 py-3 text-xs text-gray-300 uppercase focus:outline-none focus:border-brand-gold transition">
-                        <option value="ALL">All Roster Status</option>
-                        <option value="Recruiting">Recruiting Drivers</option>
-                        <option value="Closed">Roster Full</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- 3. Alphabetical Jump Bar (A-Z Index) -->
-            <div id="azBar" class="flex flex-wrap justify-center gap-1 pt-2 border-t border-brand-border text-[11px] font-black uppercase text-gray-400">
-                <button data-letter="ALL" class="az-btn px-2.5 py-1 bg-brand-bg border border-brand-gold rounded text-brand-gold cursor-pointer transition">ALL</button>
-                <script>
-                    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-                    alphabet.forEach(letter => {
-                        document.write(`<button data-letter="${letter}" class="az-btn px-2 py-1 bg-brand-bg border border-brand-border rounded hover:text-white hover:border-brand-gold cursor-pointer transition">${letter}</button>`);
-                    });
-                </script>
-            </div>
-        </section>
-
-        <!-- BACK BUTTON -->
-        <a href="teams.html" class="inline-flex items-center text-xs text-gray-400 hover:text-white transition uppercase font-bold">
-            &larr; Back to Teams Hub
-        </a>
-
-        <!-- GRID OF 16 COMPACT TEAM CARDS -->
-        <section id="teamGrid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- THE BLUE BORDER CARD (Matches image_7.png) -->
+        <div class="bg-brand-card rounded-xl p-6 sm:p-10 relative overflow-hidden blue-border-glow">
             
-            <!-- Team Card 1: Storm Riders (Active) -->
-            <div class="team-card bg-brand-card border border-brand-gold rounded-xl p-5 flex flex-col justify-between shadow-xl group hover:scale-[1.02] transition gold-border-glow" 
-                 data-name="Storm Riders" data-tier="Pro Plus" data-status="Recruiting">
-                <div>
-                    <!-- Top Row: Badge & Status -->
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="bg-brand-red text-white text-[9px] font-black uppercase px-2 py-0.5 rounded shadow">Pro Plus League</span>
-                        <span class="text-green-500 font-black text-[9px] uppercase tracking-wider animate-pulse">● Recruiting</span>
+            <!-- TOP SECTION: Logo & Title -->
+            <div class="flex flex-col md:flex-row gap-8 items-start relative z-10 border-b border-brand-border pb-8">
+                
+                <!-- Logo Box -->
+                <div class="w-32 h-40 bg-[#111] rounded-lg border border-brand-border flex items-center justify-center flex-shrink-0">
+                    <span class="text-[9px] text-gray-600 font-bold uppercase tracking-widest text-center px-2">Logo Pending Approval</span>
+                </div>
+
+                <!-- Titles & Badges -->
+                <div class="flex-grow flex flex-col justify-between w-full">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-start w-full gap-4">
+                        <div>
+                            <h1 class="text-4xl sm:text-5xl font-black uppercase tracking-wide text-white">Storm Riders</h1>
+                            <h2 class="text-brand-blue font-bold uppercase tracking-[0.2em] italic text-sm mt-1">"The Desert Scorpions"</h2>
+                        </div>
+                        <button class="bg-brand-bg border border-brand-border hover:border-brand-blue text-gray-300 hover:text-brand-blue text-[10px] font-black uppercase px-4 py-2 rounded transition whitespace-nowrap">
+                            Follow Syndicate +
+                        </button>
                     </div>
-                    <!-- Team Logo Box -->
-                    <div class="aspect-video bg-gradient-to-br from-gray-900 to-[#111] rounded-lg mb-4 flex items-center justify-center border border-brand-border overflow-hidden">
-                        <span class="text-[12px] text-brand-gold uppercase text-center font-black tracking-widest px-2 drop-shadow-md">Storm Riders<br><span class="text-[8px] text-gray-500 font-bold tracking-normal">Logo Graphic</span></span>
+
+                    <!-- Badges Row -->
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        <span class="bg-yellow-600/20 text-yellow-500 border border-yellow-600/50 text-[9px] font-black uppercase px-2 py-1 rounded">🏆 Pro Constructor '26</span>
+                        <span class="bg-brand-blue/20 text-brand-blue border border-brand-blue/50 text-[9px] font-black uppercase px-2 py-1 rounded">🛡️ Highest Defense</span>
                     </div>
-                    <!-- Team Info -->
-                    <h3 class="text-base font-black uppercase text-white tracking-wide group-hover:text-brand-gold transition">Storm Riders</h3>
-                    <p class="text-[11px] text-gray-400 mt-1">
-                        Leader: <span class="text-brand-red font-bold">Deathstalker Paine</span>
-                    </p>
-                    <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-brand-border text-center">
-                        <div>
-                            <span class="block text-[8px] uppercase font-bold text-gray-500">Points</span>
-                            <span class="text-xs font-black text-brand-gold">12.5k</span>
-                        </div>
-                        <div>
-                            <span class="block text-[8px] uppercase font-bold text-gray-500">Wins</span>
-                            <span class="text-xs font-black text-white">45</span>
-                        </div>
-                        <div>
-                            <span class="block text-[8px] uppercase font-bold text-gray-500">Roster</span>
-                            <span class="text-xs font-black text-white">1/4</span>
-                        </div>
+
+                    <!-- Alliance Info -->
+                    <div class="flex items-center gap-3 mt-4 text-[10px] uppercase font-bold text-gray-400 tracking-wider">
+                        <span>Team Leader: <span class="text-white">Deathstalker Paine</span></span>
                     </div>
                 </div>
-                <!-- Action Button links to team.html -->
-                <a href="team.html" class="mt-5 text-[11px] font-black uppercase text-brand-gold bg-brand-bg border border-brand-border group-hover:border-brand-gold text-center py-2 rounded transition">
-                    View Team Profile →
-                </a>
             </div>
 
-            <!-- Placeholder Cards 2 through 16 (Open Slots to fill the 16-card layout) -->
-            <script>
-                for(let i = 2; i <= 16; i++) {
-                    document.write(`
-                        <div class="team-card bg-brand-card border border-brand-border rounded-xl p-5 flex flex-col justify-between shadow-xl opacity-60" 
-                             data-name="Pending Team ${i}" data-tier="Amateur" data-status="Closed">
-                            <div>
-                                <div class="flex justify-between items-center mb-3">
-                                    <span class="bg-gray-700 text-gray-300 text-[9px] font-black uppercase px-2 py-0.5 rounded shadow">Unranked</span>
-                                    <span class="text-gray-500 font-black text-[9px] uppercase tracking-wider">● Closed</span>
-                                </div>
-                                <div class="aspect-video bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border">
-                                    <span class="text-[10px] text-gray-600 uppercase text-center font-bold">Registration<br>Pending</span>
-                                </div>
-                                <h3 class="text-base font-black uppercase text-gray-400 tracking-wide">Pending Syndicate</h3>
-                                <p class="text-[11px] text-gray-600 mt-1">Leader: TBD</p>
-                                <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-brand-border text-center">
-                                    <div><span class="block text-[8px] uppercase font-bold text-gray-600">Points</span><span class="text-xs font-black text-gray-600">0</span></div>
-                                    <div><span class="block text-[8px] uppercase font-bold text-gray-600">Wins</span><span class="text-xs font-black text-gray-600">0</span></div>
-                                    <div><span class="block text-[8px] uppercase font-bold text-gray-600">Roster</span><span class="text-xs font-black text-gray-600">0/4</span></div>
-                                </div>
+            <!-- MANIFESTO -->
+            <div class="py-6 border-b border-brand-border relative z-10">
+                <span class="text-[9px] font-black uppercase text-gray-600 tracking-widest block mb-2">Team Manifesto</span>
+                <div class="border-l-2 border-brand-blue pl-4">
+                    <p class="text-sm text-gray-300 italic">"Built for speed, high-precision telemetry execution, and track dominance. The Storm Riders recruit only the most aggressive pilots in the Second Life grid."</p>
+                </div>
+            </div>
+
+            <!-- BOTTOM SECTION: Stats & Comms Widget Split -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-8 relative z-10">
+                
+                <!-- LEFT SIDE (2/3 width): Telemetry & Statistics -->
+                <div class="lg:col-span-2 space-y-6">
+                    
+                    <!-- Filters -->
+                    <div class="flex items-center gap-4 bg-brand-bg p-3 rounded-lg border border-brand-border">
+                        <span class="text-[9px] font-black uppercase text-gray-500 tracking-widest">Syndicate Telemetry:</span>
+                        <select class="bg-brand-card border border-brand-border text-[10px] text-white uppercase font-bold px-2 py-1 rounded outline-none">
+                            <option>Pro Plus League Aggregate</option>
+                        </select>
+                        <select class="bg-brand-card border border-brand-border text-[10px] text-white uppercase font-bold px-2 py-1 rounded outline-none">
+                            <option>All Tracks</option>
+                        </select>
+                    </div>
+
+                    <!-- Live Constructor Statistics -->
+                    <div>
+                        <span class="text-[10px] font-black uppercase text-brand-blue tracking-widest block mb-3 flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-blue"></span> Live Constructor Statistics
+                        </span>
+                        
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                            <div class="bg-[#111] border border-brand-border rounded-lg p-4 text-center">
+                                <span class="text-[9px] text-gray-500 uppercase font-black tracking-widest block mb-1">Total Wins</span>
+                                <span class="text-2xl font-black text-brand-gold">85</span>
                             </div>
-                            <span class="mt-5 text-[11px] font-black uppercase text-gray-600 bg-brand-bg border border-brand-border text-center py-2 rounded">Slot Available</span>
+                            <div class="bg-[#111] border border-brand-border rounded-lg p-4 text-center">
+                                <span class="text-[9px] text-gray-500 uppercase font-black tracking-widest block mb-1">Total Losses</span>
+                                <span class="text-2xl font-black text-white">30</span>
+                            </div>
+                            <div class="bg-[#111] border border-brand-border rounded-lg p-4 text-center">
+                                <span class="text-[9px] text-gray-500 uppercase font-black tracking-widest block mb-1">Total Points</span>
+                                <span class="text-2xl font-black text-white">12,500</span>
+                            </div>
+                            <div class="bg-[#111] border border-brand-border rounded-lg p-4 text-center">
+                                <span class="text-[9px] text-gray-500 uppercase font-black tracking-widest block mb-1">Syndicate XP</span>
+                                <span class="text-2xl font-black text-brand-blue">95,000</span>
+                            </div>
                         </div>
-                    `);
-                }
-            </script>
 
-        </section>
+                        <!-- Official Roster Table -->
+                        <div class="bg-[#111] border border-brand-border rounded-lg p-4 space-y-3">
+                            <span class="text-[9px] font-black uppercase text-gray-400 tracking-widest block border-b border-brand-border pb-2">Official Roster</span>
+                            
+                            <div class="grid grid-cols-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                                <span>No.</span>
+                                <span>Pilot</span>
+                                <span>Role</span>
+                                <span class="text-right">Status</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-4 text-xs items-center bg-brand-bg p-2 rounded border border-brand-border">
+                                <span class="font-mono text-brand-red font-black">#13</span>
+                                <span class="font-bold text-white">Deathstalker Paine</span>
+                                <span class="text-gray-400 text-[10px]">Team Leader</span>
+                                <span class="text-right text-[10px] text-brand-green font-bold">● Active</span>
+                            </div>
+                            <div class="grid grid-cols-4 text-xs items-center bg-brand-bg/50 p-2 rounded border border-brand-border/50">
+                                <span class="font-mono text-gray-600">#--</span>
+                                <span class="text-gray-500 italic">Open Slot</span>
+                                <span class="text-gray-600 text-[10px]">Recruit</span>
+                                <span class="text-right text-[10px] text-gray-600">Pending</span>
+                            </div>
+                        </div>
 
-        <!-- NO RESULTS MESSAGE -->
-        <div id="noResults" class="hidden text-center py-12 text-gray-500 font-bold uppercase text-xs">
-            No teams found matching your search or filter criteria. Showing open registration slots.
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE (1/3 width): GSR Comms Read-Only Widget -->
+                <div class="lg:col-span-1 flex justify-center lg:justify-end">
+                    
+                    <div class="bg-[#0a0a0a] border border-brand-border rounded-xl shadow-xl flex flex-col w-full max-w-sm h-80">
+                        <!-- Widget Header -->
+                        <div class="border-b border-brand-border p-3 flex justify-center items-center">
+                            <span class="text-[10px] font-black uppercase text-white tracking-widest flex items-center gap-2">
+                                💬 GSR Comms
+                            </span>
+                        </div>
+                        <div class="border-b border-brand-border p-0 flex text-[9px] font-bold uppercase text-center bg-brand-bg">
+                            <span class="w-1/2 text-brand-red py-2 border-b-2 border-brand-red">Global Feed</span>
+                            <span class="w-1/2 text-gray-600 py-2">Team Fans</span>
+                        </div>
+
+                        <!-- Messages Display (Read-Only) -->
+                        <div id="miniChatFeed" class="flex-grow p-3 overflow-hidden space-y-3 flex flex-col justify-end bg-[#111]">
+                            <!-- JavaScript will inject chats here -->
+                        </div>
+
+                        <!-- Click-to-Chat Redirect Button -->
+                        <div class="p-3 border-t border-brand-border bg-brand-card rounded-b-xl">
+                            <a href="chats.html" class="block w-full bg-[#1a1a1a] border border-brand-border hover:border-brand-gold transition text-center py-2.5 rounded text-[9px] font-bold text-gray-500 hover:text-brand-gold uppercase tracking-widest">
+                                Chat disabled in profile view.
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
-
-        <!-- PAGINATION CONTROLS -->
-        <div class="flex justify-center items-center gap-2 pt-4">
-            <button class="px-4 py-2 bg-brand-card border border-brand-border text-xs font-bold uppercase rounded text-gray-400 cursor-not-allowed">Previous</button>
-            <span class="px-4 py-2 bg-brand-gold text-black font-black text-xs rounded">1</span>
-            <button class="px-4 py-2 bg-brand-card border border-brand-border text-xs font-bold uppercase rounded hover:text-white hover:border-brand-gold transition">Next</button>
-        </div>
-
     </main>
 
-    <!-- JAVASCRIPT FILTERING & ENTER KEY LOGIC -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing.</footer>
+
+    <!-- WIDGET BRAIN (Loads the chats from local memory) -->
     <script>
-        const searchInput = document.getElementById('searchInput');
-        const tierFilter = document.getElementById('tierFilter');
-        const statusFilter = document.getElementById('statusFilter');
-        const teamCards = document.getElementsByClassName('team-card');
-        const noResults = document.getElementById('noResults');
-        const azButtons = document.querySelectorAll('.az-btn');
+        function loadMiniChatWidget() {
+            const feedContainer = document.getElementById('miniChatFeed');
+            if (!feedContainer) return; 
 
-        let activeLetter = 'ALL';
-
-        function filterTeams() {
-            const query = searchInput.value.toLowerCase().trim();
-            const selectedTier = tierFilter.value;
-            const selectedStatus = statusFilter.value;
-            let visibleCount = 0;
-
-            Array.from(teamCards).forEach(card => {
-                const name = card.getAttribute('data-name').toLowerCase();
-                const tier = card.getAttribute('data-tier');
-                const status = card.getAttribute('data-status');
-
-                // Checks
-                const matchesSearch = query === '' || name.includes(query);
-                const matchesTier = selectedTier === 'ALL' || tier === selectedTier;
-                const matchesStatus = selectedStatus === 'ALL' || status === selectedStatus;
-                const matchesLetter = activeLetter === 'ALL' || name.toUpperCase().startsWith(activeLetter);
-
-                if (matchesSearch && matchesTier && matchesStatus && matchesLetter) {
-                    card.style.display = 'flex';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
+            const rawData = localStorage.getItem('gsr_chat_network');
+            
+            if (rawData) {
+                const chatData = JSON.parse(rawData);
+                const globalMessages = chatData.global || [];
+                
+                // Grab only the last 3 messages so it doesn't overflow the box
+                const latestMessages = globalMessages.slice(-3);
+                
+                feedContainer.innerHTML = ''; 
+                
+                if (latestMessages.length === 0) {
+                    feedContainer.innerHTML = `<span class="text-[10px] text-gray-500 text-center block w-full">[ No recent comms ]</span>`;
+                    return;
                 }
-            });
 
-            if (visibleCount === 0) {
-                noResults.classList.remove('hidden');
+                latestMessages.forEach(msg => {
+                    feedContainer.innerHTML += `
+                        <div class="text-[10px] leading-relaxed">
+                            <span class="font-black text-brand-blue uppercase hover:underline cursor-pointer">[Global] ${msg.racer}:</span> 
+                            <span class="text-gray-400">${msg.text}</span>
+                        </div>
+                    `;
+                });
             } else {
-                noResults.classList.add('hidden');
+                // Mockup backup data
+                feedContainer.innerHTML = `
+                    <div class="text-[10px] leading-relaxed">
+                        <span class="font-black text-brand-blue uppercase">[Global] Vortex_SL:</span> <span class="text-gray-400">Any Storm Riders online?</span>
+                    </div>
+                    <div class="text-[10px] leading-relaxed">
+                        <span class="font-black text-brand-red uppercase">[Global] Paine:</span> <span class="text-gray-400">We're holding the lobby. Join up.</span>
+                    </div>
+                `;
             }
         }
 
-        // Trigger on Enter/Return key in search bar
-        searchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                filterTeams();
+        window.onload = loadMiniChatWidget;
+
+        window.addEventListener('storage', (e) => {
+            if(e.key === 'gsr_chat_network') {
+                loadMiniChatWidget();
             }
         });
-
-        // Trigger on dropdown changes
-        tierFilter.addEventListener('change', filterTeams);
-        statusFilter.addEventListener('change', filterTeams);
-
-        // Trigger on A-Z Button clicks
-        azButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                azButtons.forEach(b => {
-                    b.classList.remove('text-brand-gold', 'border-brand-gold');
-                    b.classList.add('border-brand-border', 'text-gray-400');
-                });
-                btn.classList.add('text-brand-gold', 'border-brand-gold');
-                btn.classList.remove('text-gray-400', 'border-brand-border');
-
-                activeLetter = btn.getAttribute('data-letter');
-                filterTeams();
-            });
-        });
     </script>
-
-    <!-- UNIVERSAL FOOTER -->
-    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
-            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
-                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
-                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
-                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
-                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
-                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
-            </div>
-            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
-        </div>
-    </footer>
-
 </body>
 </html>
