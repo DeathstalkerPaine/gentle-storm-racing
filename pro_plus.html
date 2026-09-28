@@ -36,25 +36,40 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- TOP HEADER: CENTERED LOGO WITH TOP-RIGHT SIGN IN BUTTON -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-3 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 relative flex items-center justify-center min-h-[110px] sm:min-h-[140px]">
-            <div class="text-center py-1">
+    <!-- HEADER: LOGO LEFT, TEXT CENTER, BUTTON RIGHT -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            
+            <!-- Left Logo (Clickable to Main Menu) -->
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
                 <a href="index.html" class="inline-block">
-                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-28 sm:h-36 md:h-44 w-auto max-w-full object-contain mx-auto drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] transition-transform duration-300">
+                    <!-- Swap logo.png to h-logo.png if you prefer the horizontal variant here -->
+                    <img src="logo.png" alt="GSR Logo" class="h-12 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
                 </a>
             </div>
-            <div class="absolute right-3 top-3 sm:right-6 sm:top-1/2 sm:-translate-y-1/2 z-20">
-                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 sm:px-5 sm:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition inline-block tracking-wider">
+            
+            <!-- Centered Text -->
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-gray-400 mb-1">GSR Presents</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-brand-gold drop-shadow-[0_0_20px_rgba(197,160,89,0.3)]">
+                    PRO PLUS
+                </h1>
+            </div>
+
+            <!-- Right Sign In -->
+            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition tracking-wider">
                     Sign In
                 </a>
             </div>
+            
         </div>
     </header>
 
     <!-- SUB-NAVBAR LINKS -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
             <a href="pro_plus.html" class="text-brand-gold transition">GSRacing Pro Plus</a>
             <a href="store.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Store</a>
             <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
