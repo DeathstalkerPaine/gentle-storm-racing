@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Track Map | Ancient Rome Circuit</title>
+    <title>Interactive Track Map | Gentle Storm Racing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,14 +11,7 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            bg: '#121212',
-                            card: '#1e1e1e',
-                            border: '#333333',
-                            gold: '#c5a059',
-                            red: '#ff2a2a',
-                            blue: '#2a75ff'
-                        }
+                        brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' }
                     }
                 }
             }
@@ -37,49 +30,54 @@
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
     <!-- HEADER -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <span class="block text-[10px] font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Interactive Telemetry Map</span>
-            <h1 class="text-2xl sm:text-4xl font-black uppercase text-white">ANCIENT ROME CIRCUIT MAP</h1>
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-8 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+                <span class="block text-[10px] font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Telemetry Visualizer</span>
+                <!-- Page Title is now Locked -->
+                <h1 class="text-2xl sm:text-4xl font-black uppercase text-white">INTERACTIVE TRACK MAP</h1>
+            </div>
+            
+            <!-- TRACK SELECTOR DROPDOWN -->
+            <div class="w-full md:w-auto flex flex-col">
+                <label for="trackSelect" class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">Select Circuit:</label>
+                <select id="trackSelect" onchange="switchTrack(this.value)" class="w-full md:w-64 bg-brand-bg border border-brand-gold text-white font-black uppercase text-xs px-4 py-3 rounded-lg outline-none cursor-pointer shadow-[0_0_10px_rgba(197,160,89,0.2)]">
+                    <option value="future">Back to Future</option>
+                    <option value="vegas">Las Vegas Strip</option>
+                    <option value="rome">Ancient Rome</option>
+                    <option value="city">Abandoned City</option>
+                </select>
+            </div>
         </div>
     </header>
 
+    <!-- SUB-NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks Hub</a>
+        </div>
+    </nav>
+
     <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 space-y-6">
 
-        <div class="text-center space-y-1">
-            <p class="text-xs text-gray-400 font-bold uppercase tracking-wider">Click any waypoint hotspot on the track map below to view feature footage and circuit details.</p>
+        <div class="flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 font-bold uppercase gap-2 border-b border-brand-border pb-3">
+            <span>Click any waypoint hotspot pin on the map to inspect feature footage</span>
+            <a href="racetracks.html" class="text-brand-gold hover:underline">← Back to Racetracks Directory</a>
         </div>
 
         <!-- MAP CONTAINER -->
-        <div class="relative bg-brand-card border border-brand-border rounded-xl aspect-[16/9] w-full overflow-hidden shadow-2xl gold-border-glow flex items-center justify-center">
+        <div class="relative bg-brand-card border border-brand-gold rounded-xl aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden shadow-2xl gold-border-glow flex items-center justify-center">
             
-            <!-- OVERHEAD TRACK MAP IMAGE PLACEHOLDER (Replace src with your track image) -->
+            <!-- OVERHEAD TRACK MAP IMAGE PLACEHOLDER -->
             <div class="absolute inset-0 bg-[#161616] flex items-center justify-center opacity-40">
-                <span class="text-xs font-black uppercase text-gray-600 tracking-widest">[ OVERHEAD TRACK MAP IMAGE HERE ]</span>
+                <span id="mapBackgroundText" class="text-xs sm:text-lg font-black uppercase text-gray-500 tracking-widest text-center px-4">
+                    [ MAP BACKGROUND ]
+                </span>
             </div>
 
-            <!-- SVG TRACK OVERLAY SKETCH -->
-            <svg class="absolute inset-0 w-full h-full pointer-events-none stroke-brand-gold/40 fill-none" viewBox="0 0 1000 600" stroke-width="4">
-                <path d="M 150,450 C 150,200 300,100 500,100 C 750,100 850,250 850,400 C 850,500 650,500 500,450 C 350,400 150,550 150,450 Z" />
-            </svg>
-
-            <!-- HOTSPOT 1: The Colosseum -->
-            <button onclick="openFeatureModal('colosseum')" 
-                    class="absolute top-[20%] left-[48%] -translate-x-1/2 -translate-y-1/2 bg-brand-gold hover:scale-110 text-black font-black text-[10px] px-3 py-1.5 rounded-full shadow-lg transition flex items-center gap-1.5 hotspot-pulse z-10">
-                <span>📍</span> <span>Turn 3: The Colosseum</span>
-            </button>
-
-            <!-- HOTSPOT 2: Aqueduct Hairpin -->
-            <button onclick="openFeatureModal('aqueduct')" 
-                    class="absolute top-[62%] left-[82%] -translate-x-1/2 -translate-y-1/2 bg-brand-red hover:scale-110 text-white font-black text-[10px] px-3 py-1.5 rounded-full shadow-lg transition flex items-center gap-1.5 hotspot-pulse z-10">
-                <span>📍</span> <span>Turn 6: Aqueduct Hairpin</span>
-            </button>
-
-            <!-- HOTSPOT 3: Emperor's Straight -->
-            <button onclick="openFeatureModal('straight')" 
-                    class="absolute top-[75%] left-[25%] -translate-x-1/2 -translate-y-1/2 bg-brand-blue hover:scale-110 text-white font-black text-[10px] px-3 py-1.5 rounded-full shadow-lg transition flex items-center gap-1.5 hotspot-pulse z-10">
-                <span>📍</span> <span>Sector 1: Emperor's Straight</span>
-            </button>
+            <!-- HOTSPOTS INJECTED HERE VIA JS -->
+            <div id="hotspotContainer"></div>
 
         </div>
 
@@ -100,64 +98,92 @@
 
             <!-- Video Player Box -->
             <div class="aspect-video bg-black border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
-                <!-- Replace with actual <video> tag or <iframe> when videos are ready -->
-                <div id="modalVideoPlaceholder" class="text-xs text-gray-500 font-mono uppercase text-center p-4">
+                <div id="modalVideoPlaceholder" class="text-[10px] sm:text-xs text-gray-500 font-mono uppercase text-center p-4">
                     [ VIDEO PLAYBACK CONTAINER ]
                 </div>
             </div>
 
-            <!-- Feature Description & Telemetry Notes -->
+            <!-- Feature Description -->
             <div class="border-t border-brand-border pt-3">
                 <h4 class="text-xs font-black uppercase text-brand-gold mb-1">Track Analysis</h4>
-                <p id="modalDescription" class="text-xs text-gray-300 leading-relaxed">
-                    Description details for this feature will load here.
-                </p>
+                <p id="modalDescription" class="text-xs text-gray-300 leading-relaxed">Description loads here.</p>
             </div>
 
             <div class="text-right">
                 <button onclick="closeFeatureModal()" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-xs font-bold uppercase text-gray-300 px-4 py-2 rounded transition">
-                    Close Feature Inspection
+                    Close Inspection
                 </button>
             </div>
-
         </div>
     </div>
 
+    <!-- MAP ENGINE JAVASCRIPT -->
     <script>
-        // Feature Data Directory
-        const featureData = {
-            colosseum: {
-                category: "Technical Turn",
-                title: "Turn 3: The Colosseum Curve",
-                badgeClass: "bg-brand-gold text-black",
-                videoText: "🎬 [VIDEO PLAYBACK: High-speed sweeping curve around the Ancient Colosseum walls]",
-                description: "A sweeping high-speed left curve that wraps directly around the ancient stone amphitheater. Drivers must balance throttle through the high-g arc while avoiding the stone curb."
+        const trackDatabase = {
+            future: {
+                bgText: "[ BACK TO FUTURE OVERHEAD MAP IMAGE ]",
+                hotspots: [
+                    { x: 50, y: 30, icon: '📍', title: 'Turn 1: Flux Hairpin', category: 'Heavy Braking', badge: 'bg-brand-red text-white', video: '🎬 [VIDEO: Entering Flux Hairpin]', desc: 'Heavy braking zone into a 180-degree neon-lit turn.' },
+                    { x: 80, y: 70, icon: '📍', title: 'Sector 2: Gravity Loop', category: 'High Speed', badge: 'bg-brand-blue text-white', video: '🎬 [VIDEO: High-G Loop Section]', desc: 'High-speed parabolic curve where downforce is critical.' }
+                ]
             },
-            aqueduct: {
-                category: "Heavy Braking Zone",
-                title: "Turn 6: Aqueduct Hairpin",
-                badgeClass: "bg-brand-red text-white",
-                videoText: "🎬 [VIDEO PLAYBACK: Heavy braking demo entering the narrow aqueduct archways]",
-                description: "The hardest braking point on the circuit. Racers decelerate from 180 mph down to 45 mph to navigate a tight 180-degree hairpin passing underneath stone arches."
+            vegas: {
+                bgText: "[ LAS VEGAS STRIP OVERHEAD MAP IMAGE ]",
+                hotspots: [
+                    { x: 30, y: 50, icon: '📍', title: 'Main Boulevard', category: 'Drafting Zone', badge: 'bg-brand-blue text-white', video: '🎬 [VIDEO: Top speed down the strip]', desc: 'The longest straightaway. Prime location for drafting overtakes.' },
+                    { x: 75, y: 40, icon: '📍', title: 'Casino Chicane', category: 'Technical', badge: 'bg-brand-gold text-black', video: '🎬 [VIDEO: Navigating the tight chicane]', desc: 'A quick left-right flick requiring perfect curb riding.' }
+                ]
             },
-            straight: {
-                category: "High Speed Sector",
-                title: "Sector 1: Emperor's Straight",
-                badgeClass: "bg-brand-blue text-white",
-                videoText: "🎬 [VIDEO PLAYBACK: On-board drafting speed test down the main front straight]",
-                description: "The longest straightaway on the circuit, running alongside historic Roman columns. Prime location for drafting and utilizing KERS / boost pass maneuvers."
+            rome: {
+                bgText: "[ ANCIENT ROME OVERHEAD MAP IMAGE ]",
+                hotspots: [
+                    { x: 48, y: 20, icon: '📍', title: 'Turn 3: The Colosseum', category: 'Technical Turn', badge: 'bg-brand-gold text-black', video: '🎬 [VIDEO: Sweeping around the Colosseum]', desc: 'A sweeping high-speed left curve around the ancient stone amphitheater.' },
+                    { x: 82, y: 62, icon: '📍', title: 'Turn 6: Aqueduct Hairpin', category: 'Heavy Braking', badge: 'bg-brand-red text-white', video: '🎬 [VIDEO: Braking into the arches]', desc: 'Hardest braking point, passing under stone aqueduct arches.' },
+                    { x: 25, y: 75, icon: '📍', title: 'Emperor\'s Straight', category: 'High Speed', badge: 'bg-brand-blue text-white', video: '🎬 [VIDEO: Drafting speed test]', desc: 'Longest straightaway running alongside historic Roman columns.' }
+                ]
+            },
+            city: {
+                bgText: "[ ABANDONED CITY OVERHEAD MAP IMAGE ]",
+                hotspots: [
+                    { x: 40, y: 60, icon: '📍', title: 'Overpass Drop', category: 'Hazard', badge: 'bg-brand-red text-white', video: '🎬 [VIDEO: Dropping off the broken overpass]', desc: 'A sudden elevation drop requiring suspension stability.' },
+                    { x: 70, y: 30, icon: '📍', title: 'Debris Slalom', category: 'Technical', badge: 'bg-brand-gold text-black', video: '🎬 [VIDEO: Dodging concrete barriers]', desc: 'Tight urban slalom section avoiding concrete roadblocks.' }
+                ]
             }
         };
 
-        function openFeatureModal(key) {
-            const data = featureData[key];
-            if (!data) return;
+        function switchTrack(trackId) {
+            // Fallback to 'future' if trackId is missing
+            if (!trackDatabase[trackId]) trackId = 'future';
 
-            document.getElementById('modalCategory').innerText = data.category;
-            document.getElementById('modalCategory').className = `text-[9px] font-black uppercase px-2 py-0.5 rounded ${data.badgeClass}`;
-            document.getElementById('modalTitle').innerText = data.title;
-            document.getElementById('modalVideoPlaceholder').innerText = data.videoText;
-            document.getElementById('modalDescription').innerText = data.description;
+            // Sync Dropdown
+            document.getElementById('trackSelect').value = trackId;
+
+            // Update Background Image Text
+            const data = trackDatabase[trackId];
+            document.getElementById('mapBackgroundText').innerText = data.bgText;
+
+            // Render Hotspots
+            const container = document.getElementById('hotspotContainer');
+            container.innerHTML = '';
+
+            data.hotspots.forEach(spot => {
+                const btn = document.createElement('button');
+                btn.onclick = () => openFeatureModal(spot);
+                btn.className = `absolute -translate-x-1/2 -translate-y-1/2 bg-brand-card border border-brand-border hover:border-brand-gold hover:scale-110 text-white font-black text-[9px] sm:text-[10px] px-2.5 py-1.5 rounded-full shadow-lg transition flex items-center gap-1.5 hotspot-pulse z-10`;
+                btn.style.top = `${spot.y}%`;
+                btn.style.left = `${spot.x}%`;
+                btn.innerHTML = `<span>${spot.icon}</span> <span class="hidden sm:inline whitespace-nowrap">${spot.title}</span>`;
+                
+                container.appendChild(btn);
+            });
+        }
+
+        function openFeatureModal(spot) {
+            document.getElementById('modalCategory').innerText = spot.category;
+            document.getElementById('modalCategory').className = `text-[9px] font-black uppercase px-2 py-0.5 rounded ${spot.badge}`;
+            document.getElementById('modalTitle').innerText = spot.title;
+            document.getElementById('modalVideoPlaceholder').innerText = spot.video;
+            document.getElementById('modalDescription').innerText = spot.desc;
 
             const modal = document.getElementById('featureModal');
             modal.classList.remove('hidden');
@@ -169,7 +195,20 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
+
+        // Initialize from URL search query on load
+        window.onload = () => {
+            const params = new URLSearchParams(window.location.search);
+            const trackParam = params.get('track');
+            switchTrack(trackParam || 'future');
+        };
     </script>
 
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
 </body>
 </html>
