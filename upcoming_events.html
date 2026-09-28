@@ -9,7 +9,8 @@
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
     </script>
     <style>
-        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 20px rgba(197, 160, 89, 0.25); }
+        .gold-border-glow { border: 2px solid #c5a059; box-shadow: 0 0 25px rgba(197, 160, 89, 0.2); }
+        .calendar-grid-cell { min-height: 110px; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
@@ -33,60 +34,8 @@
             </div>
 
             <div class="flex items-center gap-3 z-10 w-full md:w-auto justify-center">
-                <label for="calendarMonthSelect" class="text-[9px] font-bold uppercase text-gray-400 tracking-widest whitespace-nowrap hidden sm:inline">Select Month:</label>
-                <select id="calendarMonthSelect" onchange="changeMonth(this.value)" class="bg-brand-bg border border-brand-gold text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer">
-                    <option value="2026-10">October 2026</option>
-                    <option value="2026-11">November 2026</option>
-                    <option value="2026-12">December 2026</option>
-                    <option value="2027-01">January 2027</option>
-                    <option value="2027-02">February 2027</option>
-                    <option value="2027-03Here is the complete template for the **Upcoming Events Calendar (`upcoming_events.html`)**. 
-
-### Key Features Built Into This Calendar Hub:
-1. **Full Monthly Calendar Grid:** A structured Sunday–Saturday calendar layout with date cells ready for you to input events.
-2. **1-Year Month Selector Dropdown:** Easily flip through the months (October 2026 through September 2027 and beyond) to schedule future races, concerts, and live DJ sets.
-3. **Interactive Date Popup Modal:** When a user clicks on any date cell on the calendar, a clean modal window pops up displaying the full event details, supporting an image/video placeholder, and descriptive text.
-4. **Main Hub Sync Concept:** The upcoming events list at the top highlights the absolute closest upcoming events so visitors see them instantly when they visit the site.
-
-Save this file as **`upcoming_events.html`**:
-
-```html
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upcoming Events Calendar | Gentle Storm Racing</title>
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
-    <script>
-        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
-    </script>
-    <style>
-        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 20px rgba(197, 160, 89, 0.25); }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #121212; }
-        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
-    </style>
-</head>
-<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
-
-    <!-- HEADER -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-8 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
-            
-            <div class="flex items-center justify-center md:justify-start w-full md:w-auto z-10">
-                <a href="index.html" class="inline-block">
-                    <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-14 w-auto object-contain hover:scale-105 transition-transform">
-                </a>
-            </div>
-
-            <div class="w-full md:absolute md:inset-x-0 text-center pointer-events-none md:px-40 py-1">
-                <span class="block text-[9px] font-black uppercase tracking-[0.3em] text-brand-gold">Master Schedule</span>
-                <h1 class="text-xl sm:text-2xl font-black uppercase text-white tracking-wider">UPCOMING EVENTS CALENDAR</h1>
-            </div>
-
-            <div class="flex items-center gap-3 z-10 w-full md:w-auto justify-center">
-                <!-- 1-Year Month Dropdown Selector -->
+                <label for="calendarMonthSelect" class="text-[9px] font-bold uppercase text-gray-400 tracking-widest whitespace-nowrap hidden sm:inline">Month:</label>
+                <!-- 1-Year+ Month Dropdown Selector -->
                 <select id="calendarMonthSelect" onchange="changeCalendarMonth(this.value)" class="bg-brand-bg border border-brand-gold text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer">
                     <option value="2026-10">October 2026</option>
                     <option value="2026-11">November 2026</option>
@@ -112,71 +61,70 @@ Save this file as **`upcoming_events.html`**:
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">Main Menu</a>
             <a href="upcoming_events.html" class="text-brand-gold transition">Upcoming Events</a>
             <a href="events.html" class="text-gray-300 hover:text-brand-gold transition">Live Broadcast Hub</a>
-            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Media Hub</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-gray-300 transition">Media Hub</a>
         </div>
     </nav>
 
     <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 space-y-10">
 
-        <!-- NEAREST UPCOMING EVENTS HIGHLIGHT BAR (Synced to Main Hub Concept) -->
-        <section class="bg-brand-card border border-brand-gold rounded-xl p-6 shadow-xl gold-border-glow space-y-4">
+        <!-- NEAREST UPCOMING EVENTS HIGHLIGHT BAR (Synced to Main Hub) -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl space-y-4">
             <div class="flex justify-between items-center border-b border-brand-border pb-3">
-                <h3 class="text-xs font-black uppercase text-brand-gold tracking-widest">⚡ Immediate Upcoming Grid</h3>
+                <h3 class="text-xs font-black uppercase text-brand-gold tracking-widest">⚡ Nearest Upcoming Grid</h3>
                 <span class="text-[9px] text-gray-400 uppercase font-bold">Synced Live</span>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Highlight Card 1 -->
                 <div class="bg-brand-bg border border-brand-border p-4 rounded-lg flex flex-col justify-between">
                     <div>
                         <span class="text-[9px] font-black text-brand-red uppercase block">Oct 5, 2026 • 8:00 PM SLT</span>
                         <h4 class="text-sm font-black text-white uppercase mt-1">Pro Plus Grand Prix R1</h4>
                         <p class="text-[11px] text-gray-400 mt-1">Opening championship round at Ancient Rome.</p>
                     </div>
-                    <span class="text-[10px] font-bold text-brand-gold mt-3 uppercase">Status: Scheduled</span>
                 </div>
-
-                <!-- Highlight Card 2 -->
                 <div class="bg-brand-bg border border-brand-border p-4 rounded-lg flex flex-col justify-between">
                     <div>
                         <span class="text-[9px] font-black text-brand-blue uppercase block">Oct 12, 2026 • 6:00 PM SLT</span>
                         <h4 class="text-sm font-black text-white uppercase mt-1">Second Life Live Arena Concert</h4>
                         <p class="text-[11px] text-gray-400 mt-1">Special musical performance in the entertainment plaza.</p>
                     </div>
-                    <span class="text-[10px] font-bold text-brand-gold mt-3 uppercase">Status: Scheduled</span>
                 </div>
-
-                <!-- Highlight Card 3 -->
                 <div class="bg-brand-bg border border-brand-border p-4 rounded-lg flex flex-col justify-between">
                     <div>
                         <span class="text-[9px] font-black text-brand-gold uppercase block">Oct 19, 2026 • 9:00 PM SLT</span>
                         <h4 class="text-sm font-black text-white uppercase mt-1">After-Party DJ Set w/ DJ Storm</h4>
-                        <p class="text-[11px] text-gray-400 mt-1">High-energy synthwave and electronic mixes.</p>
+                        <p class="text-[11px] text-gray-400 mt-1">High-energy electronic beats and synthwave mixes.</p>
                     </div>
-                    <span class="text-[10px] font-bold text-brand-gold mt-3 uppercase">Status: Scheduled</span>
                 </div>
             </div>
         </section>
 
-        <!-- MASTER MONTHLY CALENDAR GRID -->
-        <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-2xl space-y-6">
+        <!-- WALL-CALENDAR STYLE CONTAINER -->
+        <section class="bg-brand-card gold-border-glow rounded-2xl p-6 sm:p-10 shadow-2xl space-y-6 relative overflow-hidden">
             
-            <!-- Calendar Header Bar -->
-            <div class="flex justify-between items-center border-b border-brand-border pb-4">
-                <h2 id="calendarTitle" class="text-xl font-black uppercase text-white">October 2026</h2>
-                <span class="text-[10px] font-bold uppercase text-gray-400">Click any date to inspect details</span>
+            <!-- Seasonal / Themed Top Header (Month & Year Displayed Boldly) -->
+            <div class="text-center border-b-2 border-brand-gold pb-6 space-y-1">
+                <span class="text-[10px] font-black uppercase tracking-[0.4em] text-brand-gold">Gentle Storm Racing Schedule</span>
+                <h2 id="calendarTitle" class="text-3xl sm:text-4xl font-black uppercase tracking-wider text-white font-serif">OCTOBER 2026</h2>
             </div>
 
-            <!-- Days of the Week Header -->
-            <div class="grid grid-cols-7 gap-2 text-center font-black uppercase text-[10px] text-brand-gold">
-                <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+            <!-- Days of the Week Header Row -->
+            <div class="grid grid-cols-7 gap-2 text-center font-black uppercase text-xs text-brand-gold tracking-widest pb-2 border-b border-brand-border">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tues</div>
+                <div>Wed</div>
+                <div>Thurs</div>
+                <div>Fri</div>
+                <div>Sat</div>
             </div>
 
-            <!-- Calendar Days Grid (Populated via JS) -->
+            <!-- Calendar Grid (Generated via JS) -->
             <div id="calendarGrid" class="grid grid-cols-7 gap-2">
-                <!-- Days generated dynamically -->
+                <!-- Days populate here -->
             </div>
+
         </section>
 
     </main>
@@ -188,7 +136,7 @@ Save this file as **`upcoming_events.html`**:
             <button onclick="closeEventModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg font-black uppercase">✕</button>
 
             <div>
-                <span id="modalDateTag" class="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-brand-gold text-black">Event Details</span>
+                <span id="modalDateTag" class="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-brand-gold text-black font-bold">Category</span>
                 <h2 id="modalTitle" class="text-xl font-black uppercase text-white mt-2">Event Title</h2>
             </div>
 
@@ -214,12 +162,11 @@ Save this file as **`upcoming_events.html`**:
         &copy; 2026 Gentle Storm Racing. Built for Second Life.
     </footer>
 
-    <!-- CALENDAR ENGINE SCRIPT -->
+    <!-- CALENDAR SCRIPT ENGINE -->
     <script>
         /*
-          ADMIN-READY EVENT REPOSITORY:
-          You can add events by date key (YYYY-MM-DD) so they automatically 
-          populate the correct calendar cell and trigger the popup modal!
+          ADMIN-READY REPOSITORY:
+          Add upcoming events by date key (YYYY-MM-DD). 
         */
         const eventsDatabase = {
             "2026-10-05": {
@@ -227,7 +174,7 @@ Save this file as **`upcoming_events.html`**:
                 time: "Oct 5, 2026 • 8:00 PM SLT",
                 category: "Leagues / Seasons",
                 desc: "The official opening round of the GSR Pro Plus championship. Racers will compete across 5 laps of the Ancient Rome circuit. Telemetry tracking is active.",
-                media: "[ LIVE STREAM / CIRCUIT PREVIEW IMAGE ]"
+                media: "[ CIRCUIT PREVIEW IMAGE ]"
             },
             "2026-10-12": {
                 title: "Second Life Live Arena Concert",
@@ -251,17 +198,17 @@ Save this file as **`upcoming_events.html`**:
 
             const [year, month] = yearMonth.split('-').map(Number);
             
-            // Set Title Header
+            // Set Header Title
             const dateObj = new Date(year, month - 1, 1);
-            document.getElementById('calendarTitle.innerText') = dateObj.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+            document.getElementById('calendarTitle').innerText = dateObj.toLocaleString('en-US', { month: 'long', year: 'numeric' });
 
             const firstDayIndex = new Date(year, month - 1, 1).getDay();
             const totalDays = new Date(year, month, 0).getDate();
 
-            // Blank padding for days before start of month
+            // Blank padding cells for offset days
             for (let i = 0; i < firstDayIndex; i++) {
                 const emptyCell = document.createElement('div');
-                emptyCell.className = "bg-brand-bg/40 border border-brand-border/20 rounded-lg min-h-[90px] opacity-25";
+                emptyCell.className = "bg-brand-bg/20 border border-brand-border/20 rounded-lg calendar-grid-cell opacity-20";
                 gridEl.appendChild(emptyCell);
             }
 
@@ -272,18 +219,17 @@ Save this file as **`upcoming_events.html`**:
                 const dateKey = `${year}-${formattedMonth}-${formattedDay}`;
 
                 const cell = document.createElement('div');
-                cell.className = "bg-brand-bg border border-brand-border rounded-lg p-2 min-h-[95px] flex flex-col justify-between transition hover:border-brand-gold group cursor-pointer relative";
+                cell.className = "bg-brand-bg border border-brand-border rounded-lg p-2 calendar-grid-cell flex flex-col justify-between transition hover:border-brand-gold group cursor-pointer relative";
                 
-                let dayContent = `<span class="text-xs font-black text-gray-400 group-hover:text-brand-gold">${day}</span>`;
+                let dayContent = `<span class="text-xs font-black text-gray-400 group-hover:text-brand-gold font-mono">${day}</span>`;
 
-                // Check if an event exists on this date
                 if (eventsDatabase[dateKey]) {
                     const ev = eventsDatabase[dateKey];
-                    cell.className += " border-brand-gold bg-brand-gold/5 shadow-[0_0_10px_rgba(197,160,89,0.15)]";
+                    cell.className += " border-brand-gold bg-brand-gold/10 shadow-[0_0_12px_rgba(197,160,89,0.2)]";
                     dayContent += `
-                        <div class="mt-1 bg-brand-gold/20 border border-brand-gold/40 rounded p-1">
+                        <div class="mt-1 bg-brand-gold/20 border border-brand-gold/50 rounded p-1.5">
                             <span class="block text-[9px] font-black uppercase text-brand-gold truncate">${ev.title}</span>
-                            <span class="text-[8px] text-gray-300 uppercase">${ev.category}</span>
+                            <span class="text-[8px] text-gray-300 uppercase block mt-0.5">${ev.category}</span>
                         </div>
                     `;
                     cell.onclick = () => openEventModal(ev);
@@ -328,7 +274,6 @@ Save this file as **`upcoming_events.html`**:
             modal.classList.remove('flex');
         }
 
-        // Initialize calendar on load for October 2026
         window.onload = () => {
             generateCalendar("2026-10");
         };
