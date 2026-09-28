@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Media Hub | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 15px rgba(197, 160, 89, 0.2); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER: LOGO LEFT, TITLE CENTER, SIGN IN RIGHT -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            
+            <!-- Left Logo (Clickable to Main Menu) -->
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="h-logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
+            </div>
+
+            <!-- Centered Title -->
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] font-serif italic text-brand-gold">
+                    GSR Multi Media
+                </h1>
+            </div>
+
+            <!-- Right Sign In -->
+            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
+                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition tracking-wider">
+                    Sign In
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR (Wireframe Links) -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="magazine.html" class="text-gray-300 hover:text-brand-gold transition">GSR Magazine</a>
+            <a href="news.html" class="text-gray-300 hover:text-brand-gold transition">GSR News</a>
+            <a href="videos.html" class="text-gray-300 hover:text-brand-gold transition">GSR Video</a>
+            <a href="events.html" class="text-gray-300 hover:text-brand-gold transition">GSR Live Events</a>
+            <a href="photos.html" class="text-gray-300 hover:text-brand-gold transition">GSR Photos</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT WIREFRAME LAYOUT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
+        
+        <!-- ROW 1: CURRENT MAGAZINE & CURRENT NEWS (2-COLUMN) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Current Magazine Card -->
+            <div class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 shadow-xl transition group flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center border-b border-brand-border pb-3 mb-4">
+                        <h2 class="text-xl font-black uppercase text-white group-hover:text-brand-gold transition font-serif italic">Current Magazine</h2>
+                        <span class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">Latest Issue</span>
+                    </div>
+                    <div class="aspect-[16/9] bg-[#111] rounded-lg flex items-center justify-center border border-brand-border mb-4">
+                        <span class="text-xs text-gray-500 font-bold uppercase tracking-widest">[ MAGAZINE COVER PREVIEW ]</span>
+                    </div>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        Explore Volume 1 featuring exclusive driver interviews, tech breakdowns of the Pro Plus telemetry framework, and expert circuit guides.
+                    </p>
+                </div>
+                <div class="mt-6 pt-3 border-t border-brand-border text-right">
+                    <a href="magazine.html" class="text-xs font-bold uppercase text-brand-gold hover:text-white transition">Read Magazine →</a>
+                </div>
+            </div>
+
+            <!-- Current News Card -->
+            <div class="bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl p-6 shadow-xl transition group flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center border-b border-brand-border pb-3 mb-4">
+                        <h2 class="text-xl font-black uppercase text-white group-hover:text-brand-blue transition font-serif italic">Current News</h2>
+                        <span class="text-[9px] font-black uppercase text-brand-blue bg-brand-blue/10 px-2 py-0.5 rounded border border-brand-blue/30">Announcements</span>
+                    </div>
+                    <div class="space-y-3 mb-4">
+                        <div class="bg-brand-bg border border-brand-border p-3 rounded-lg">
+                            <span class="text-[9px] text-brand-blue font-bold uppercase block">Sept 25, 2026</span>
+                            <h4 class="text-xs font-black text-white uppercase">Patch v1.02: Telemetry Sync Optimized</h4>
+                        </div>
+                        <div class="bg-brand-bg border border-brand-border p-3 rounded-lg">
+                            <span class="text-[9px] text-brand-blue font-bold uppercase block">Sept 20, 2026</span>
+                            <h4 class="text-xs font-black text-white uppercase">Pro Plus Story Campaign Launch Date Announced</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 pt-3 border-t border-brand-border text-right">
+                    <a href="news.html" class="text-xs font-bold uppercase text-brand-blue hover:text-white transition">View News Desk →</a>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ROW 2: SPONSORS BANNER -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 text-center shadow-xl">
+            <h3 class="text-sm font-black uppercase text-brand-gold tracking-[0.3em] mb-2 font-serif italic text-lg">Sponsors</h3>
+            <div class="flex flex-wrap justify-center items-center gap-8 py-2 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest">
+                <span>[ Second Life Motors ]</span>
+                <span>[ Linden Fuel Co. ]</span>
+                <span>[ StormTech HUDs ]</span>
+            </div>
+        </section>
+
+        <!-- ROW 3: DUAL CONTENT BOXES -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 shadow-xl transition group flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center border-b border-brand-border pb-3 mb-4">
+                        <h3 class="text-lg font-black uppercase text-white group-hover:text-brand-red transition">GSR Video Archives</h3>
+                        <span class="text-[9px] font-black uppercase text-brand-red">Replays & Hotlaps</span>
+                    </div>
+                    <div class="aspect-video bg-[#111] rounded-lg flex items-center justify-center border border-brand-border mb-4">
+                        <span class="text-xs text-gray-500 font-bold uppercase tracking-widest">[ FEATURED VIDEO PREVIEW ]</span>
+                    </div>
+                </div>
+                <div class="pt-3 border-t border-brand-border text-right">
+                    <a href="videos.html" class="text-xs font-bold uppercase text-brand-red hover:text-white transition">Watch Videos →</a>
+                </div>
+            </div>
+
+            <div class="bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl p-6 shadow-xl transition group flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center border-b border-brand-border pb-3 mb-4">
+                        <h3 class="text-lg font-black uppercase text-white group-hover:text-brand-blue transition">GSR Photo Gallery</h3>
+                        <span class="text-[9px] font-black uppercase text-brand-blue">Captures & Liveries</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mb-4">
+                        <div class="aspect-video bg-[#111] rounded border border-brand-border flex items-center justify-center text-[9px] text-gray-600 font-bold uppercase">[ PHOTO 1 ]</div>
+                        <div class="aspect-video bg-[#111] rounded border border-brand-border flex items-center justify-center text-[9px] text-gray-600 font-bold uppercase">[ PHOTO 2 ]</div>
+                    </div>
+                </div>
+                <div class="pt-3 border-t border-brand-border text-right">
+                    <a href="photos.html" class="text-xs font-bold uppercase text-brand-blue hover:text-white transition">View Galleries →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROW 4: GSR CHATS BANNER -->
+        <section class="bg-brand-card border border-brand-gold rounded-xl p-6 shadow-xl gold-border-glow">
+            <div class="flex justify-between items-center border-b border-brand-border pb-3 mb-4">
+                <h3 class="text-lg font-black uppercase text-white tracking-wide font-serif italic text-xl text-brand-gold">GSR Chats</h3>
+                <a href="chats.html" class="text-[10px] text-brand-gold hover:underline font-bold uppercase">Open Full Social Feed →</a>
+            </div>
+            <div class="bg-brand-bg border border-brand-border rounded-lg p-4 space-y-2">
+                <div class="text-xs text-gray-300"><span class="font-bold text-brand-gold">Deathstalker Paine:</span> Just finalized the new telemetry scripts for Ancient Rome. Lap records are going to shatter!</div>
+                <div class="text-xs text-gray-300"><span class="font-bold text-brand-blue">Vortex_SL:</span> Can't wait to test the drift physics on the new straightaway.</div>
+            </div>
+        </section>
+
+        <!-- ROW 5: 3-COLUMN BOTTOM GRID -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 text-center shadow-lg">
+                <h4 class="text-xs font-black uppercase text-white mb-2">Live Events Calendar</h4>
+                <p class="text-[11px] text-gray-400 mb-4">Check upcoming tournament schedules and practice sessions.</p>
+                <a href="events.html" class="text-xs font-bold text-brand-gold hover:underline uppercase">View Schedule →</a>
+            </div>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 text-center shadow-lg">
+                <h4 class="text-xs font-black uppercase text-white mb-2">Community Submissions</h4>
+                <p class="text-[11px] text-gray-400 mb-4">Submit your own track screenshots and video highlights.</p>
+                <a href="contact.html" class="text-xs font-bold text-brand-blue hover:underline uppercase">Submit Media →</a>
+            </div>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 text-center shadow-lg">
+                <h4 class="text-xs font-black uppercase text-white mb-2">Broadcast Support</h4>
+                <p class="text-[11px] text-gray-400 mb-4">Need help syncing your HUD or streaming replays? Read our guides.</p>
+                <a href="faq.html" class="text-xs font-bold text-brand-red hover:underline uppercase">Get Support →</a>
+            </div>
+        </section>
+
+        <!-- ROW 6: DUAL BOTTOM PILLS -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center">
+                <a href="store.html" class="text-xs font-black uppercase text-white hover:text-brand-gold transition">🛒 Visit GSRacing Store</a>
+            </div>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center">
+                <a href="pro_plus.html" class="text-xs font-black uppercase text-white hover:text-brand-gold transition">⭐ Explore Pro Plus Hub</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
