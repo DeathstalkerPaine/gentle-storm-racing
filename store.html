@@ -43,15 +43,15 @@
         </div>
     </header>
 
-    <!-- SUB-NAVBAR CATEGORIES -->
+    <!-- SUB-NAVBAR CATEGORIES (Correctly wired to filter functions) -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <button onclick="filterMainCategory('car', this)" class="nav-tab text-brand-gold transition cursor-pointer font-black underline">Racing Cars</button>
-            <button onclick="filterMainCategory('car_part', this)" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer">Car Parts</button>
-            <button onclick="filterMainCategory('bike', this)" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer">Race Bikes</button>
-            <button onclick="filterMainCategory('bike_part', this)" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer">Bike Parts</button>
-            <button onclick="filterMainCategory('gentle_storm', this)" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer">Gentle Storm Products</button>
+            <button onclick="filterMainCategory('car', this)" class="nav-tab text-brand-gold transition cursor-pointer font-black underline bg-transparent border-none uppercase text-xs">Racing Cars</button>
+            <button onclick="filterMainCategory('car_part', this)" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer bg-transparent border-none uppercase text-xs">Car Parts</button>
+            <button onclick="filterMainCategory('bike', this)" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer bg-transparent border-none uppercase text-xs">Race Bikes</button>
+            <button onclick="filterMainCategory('bike_part', this)" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer bg-transparent border-none uppercase text-xs">Bike Parts</button>
+            <button onclick="filterMainCategory('gentle_storm', this)" class="nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer bg-transparent border-none uppercase text-xs">Gentle Storm Products</button>
         </div>
     </nav>
 
@@ -208,9 +208,9 @@
 
             // Update tab styles
             document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.className = "nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer";
+                tab.className = "nav-tab text-gray-300 hover:text-brand-gold transition cursor-pointer bg-transparent border-none uppercase text-xs";
             });
-            btnElement.className = "nav-tab text-brand-gold transition cursor-pointer font-black underline";
+            btnElement.className = "nav-tab text-brand-gold transition cursor-pointer font-black underline bg-transparent border-none uppercase text-xs";
 
             // Reset search and sub-filter when switching categories
             document.getElementById('searchInput').value = '';
