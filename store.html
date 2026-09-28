@@ -43,7 +43,7 @@
         </div>
     </header>
 
-    <!-- SUB-NAVBAR CATEGORIES (Correctly wired to filter functions) -->
+    <!-- SUB-NAVBAR CATEGORIES -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
@@ -116,11 +116,10 @@
         <!-- ROW 3: CATALOG DIRECTORY WITH SEARCH & SUB-FILTERS -->
         <section id="catalog" class="space-y-6">
             
-            <!-- Controls Bar: Search & Sub-Category Dropdown -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-4 flex flex-col md:flex-row justify-between items-center gap-4 shadow-lg">
                 <div>
                     <h2 class="text-lg font-black uppercase text-white font-serif italic">Catalog Directory</h2>
-                    <p class="text-[11px] text-gray-400">Search through vehicles, parts, and custom modifications instantly.</p>
+                    <p class="text-[11px] text-gray-400">Click any item card below to inspect photos, details, and in-world purchasing.</p>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
@@ -149,6 +148,40 @@
 
     </main>
 
+    <!-- ITEM INSPECTION POPUP MODAL -->
+    <div id="itemModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-brand-card border border-brand-gold rounded-xl max-w-2xl w-full p-6 shadow-2xl relative gold-border-glow space-y-4">
+            
+            <button onclick="closeItemModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg font-black uppercase">✕</button>
+
+            <div>
+                <span id="modalPriceTag" class="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-brand-gold text-black font-bold">L$000</span>
+                <h2 id="modalTitle" class="text-xl font-black uppercase text-white mt-2">Item Title</h2>
+            </div>
+
+            <!-- Larger Image Inspection Box -->
+            <div class="aspect-video bg-black border border-brand-border rounded-lg overflow-hidden flex items-center justify-center relative">
+                <span id="modalImagePreview" class="text-xs text-gray-500 font-mono uppercase text-center p-4">[ HIGHER RESOLUTION ITEM PHOTO PREVIEW ]</span>
+            </div>
+
+            <div>
+                <p id="modalDescription" class="text-xs text-gray-300 leading-relaxed">Detailed description and specifications load here.</p>
+            </div>
+
+            <div class="flex justify-between items-center pt-3 border-t border-brand-border">
+                <span class="text-[10px] text-gray-500 font-mono">In-World SLURL Directory</span>
+                <div class="flex gap-3">
+                    <button onclick="closeItemModal()" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-xs font-bold uppercase text-gray-300 px-4 py-2 rounded transition">
+                        Close
+                    </button>
+                    <a id="modalBuyBtn" href="#" target="_blank" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-5 py-2 rounded transition shadow">
+                        Buy in Second Life ↗
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- UNIVERSAL FOOTER -->
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
@@ -163,7 +196,7 @@
         </div>
     </footer>
 
-    <!-- STORE SEARCH & FILTER ENGINE SCRIPT -->
+    <!-- STORE SEARCH, FILTER & MODAL ENGINE SCRIPT -->
     <script>
         const storeDatabase = [
             // CARS (5 Cars)
@@ -241,14 +274,16 @@
 
             filtered.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 shadow-xl flex flex-col justify-between transition group";
+                card.className = "bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 shadow-xl flex flex-col justify-between transition group cursor-pointer";
+                card.onclick = () => openItemModal(item);
+
                 card.innerHTML = `
                     <div>
                         <div class="flex justify-between items-center mb-3">
                             <span class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">${item.price}</span>
-                            <span class="text-[9px] font-bold text-gray-500 uppercase">In-World Directory</span>
+                            <span class="text-[9px] font-bold text-gray-500 uppercase">Click to Inspect</span>
                         </div>
-                        <div class="aspect-video bg-[#111] rounded-lg my-3 flex items-center justify-center border border-brand-border">
+                        <div class="aspect-video bg-[#111] rounded-lg my-3 flex items-center justify-center border border-brand-border group-hover:border-brand-gold transition">
                             <span class="text-[10px] text-gray-600 font-bold uppercase">[ ITEM PREVIEW IMAGE ]</span>
                         </div>
                         <h3 class="text-base font-black uppercase text-white group-hover:text-brand-gold transition">${item.name}</h3>
@@ -256,13 +291,28 @@
                     </div>
                     <div class="mt-6 pt-3 border-t border-brand-border flex justify-between items-center">
                         <span class="text-[10px] text-gray-500 font-mono">SLURL Active</span>
-                        <a href="${item.link}" target="_blank" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2 rounded transition shadow">
-                            Buy in Second Life ↗
-                        </a>
+                        <span class="text-xs font-bold uppercase text-brand-gold group-hover:underline">Inspect Item →</span>
                     </div>
                 `;
                 gridEl.appendChild(card);
             });
+        }
+
+        function openItemModal(item) {
+            document.getElementById('modalPriceTag').innerText = item.price;
+            document.getElementById('modalTitle').innerText = item.name;
+            document.getElementById('modalDescription').innerText = item.desc;
+            document.getElementById('modalBuyBtn.href') = item.link;
+
+            const modal = document.getElementById('itemModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeItemModal() {
+            const modal = document.getElementById('itemModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
 
         // Initialize on load
