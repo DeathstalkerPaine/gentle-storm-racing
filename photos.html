@@ -28,13 +28,13 @@
             </div>
 
             <div class="w-full md:absolute md:inset-x-0 text-center pointer-events-none md:px-40 py-1">
-                <span class="block text-[9px] font-black uppercase tracking-[0.3em] text-brand-blue">Screenshots & Artwork</span>
+                <span class="block text-[9px] font-black uppercase tracking-[0.3em] text-brand-blue">Track, Race & Custom Captures</span>
                 <h1 class="text-xl sm:text-2xl font-black uppercase text-white tracking-wider">PHOTO GALLERY</h1>
             </div>
 
             <div class="flex items-center gap-3 z-10 w-full md:w-auto justify-center">
                 <label for="monthSelect" class="text-[9px] font-bold uppercase text-gray-400 tracking-widest whitespace-nowrap hidden sm:inline">Month:</label>
-                <select id="monthSelect" onchange="filterPhotos(this.value)" class="bg-brand-bg border border-brand-blue text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer">
+                <select id="monthSelect" onchange="filterByMonth(this.value)" class="bg-brand-bg border border-brand-blue text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer">
                     <option value="oct_2026">October 2026</option>
                     <option value="sep_2026">September 2026</option>
                 </select>
@@ -60,55 +60,26 @@
     <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
         
-        <!-- GALLERY GRID -->
+        <!-- GALLERY SECTION WITH INTERACTIVE FILTER BUTTONS -->
         <section class="space-y-6">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-brand-border pb-3 gap-2">
-                <h2 class="text-lg font-black uppercase text-white">Captured Moments & Liveries</h2>
-                <div class="flex gap-2 text-[10px] font-bold uppercase">
-                    <span class="bg-brand-blue text-white px-3 py-1 rounded cursor-pointer">All Captures</span>
-                    <span class="bg-brand-card border border-brand-border hover:border-brand-blue px-3 py-1 rounded cursor-pointer transition">Circuits</span>
-                    <span class="bg-brand-card border border-brand-border hover:border-brand-blue px-3 py-1 rounded cursor-pointer transition">Custom Liveries</span>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-brand-border pb-3 gap-3">
+                <div>
+                    <h2 class="text-lg font-black uppercase text-white">Visual Archives</h2>
+                    <p class="text-[10px] text-gray-400 uppercase font-bold mt-0.5">Click category tabs below to sort captures instantly</p>
+                </div>
+                
+                <!-- Category Filter Buttons (Connected to JS Engine) -->
+                <div id="filterButtons" class="flex flex-wrap gap-2 text-[10px] font-black uppercase">
+                    <button onclick="filterCategory('all', this)" class="filter-btn bg-brand-blue text-white px-3 py-1.5 rounded transition shadow">All Captures</button>
+                    <button onclick="filterCategory('track', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-blue text-gray-300 px-3 py-1.5 rounded transition">Track Photos</button>
+                    <button onclick="filterCategory('race', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-blue text-gray-300 px-3 py-1.5 rounded transition">Race Photos</button>
+                    <button onclick="filterCategory('featured', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-blue text-gray-300 px-3 py-1.5 rounded transition">Featured / Other</button>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                
-                <!-- Photo Card 1 -->
-                <div class="aspect-video sm:aspect-square bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl overflow-hidden shadow-lg transition group relative cursor-pointer flex items-center justify-center">
-                    <span class="text-[10px] font-black text-gray-600 uppercase">[ IMAGE PLACEHOLDER ]</span>
-                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-4">
-                        <span class="text-[9px] font-black uppercase text-brand-blue tracking-widest">Circuit Capture</span>
-                        <span class="text-white text-xs font-black uppercase tracking-wider">Las Vegas Turn 1 Sunset</span>
-                    </div>
-                </div>
-
-                <!-- Photo Card 2 -->
-                <div class="aspect-video sm:aspect-square bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl overflow-hidden shadow-lg transition group relative cursor-pointer flex items-center justify-center">
-                    <span class="text-[10px] font-black text-gray-600 uppercase">[ IMAGE PLACEHOLDER ]</span>
-                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-4">
-                        <span class="text-[9px] font-black uppercase text-brand-blue tracking-widest">Livery Showcase</span>
-                        <span class="text-white text-xs font-black uppercase tracking-wider">Storm Riders Pro Plus Wrap</span>
-                    </div>
-                </div>
-
-                <!-- Photo Card 3 -->
-                <div class="aspect-video sm:aspect-square bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl overflow-hidden shadow-lg transition group relative cursor-pointer flex items-center justify-center">
-                    <span class="text-[10px] font-black text-gray-600 uppercase">[ IMAGE PLACEHOLDER ]</span>
-                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-4">
-                        <span class="text-[9px] font-black uppercase text-brand-blue tracking-widest">Podium</span>
-                        <span class="text-white text-xs font-black uppercase tracking-wider">Ancient Rome Championship</span>
-                    </div>
-                </div>
-
-                <!-- Photo Card 4 -->
-                <div class="aspect-video sm:aspect-square bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl overflow-hidden shadow-lg transition group relative cursor-pointer flex items-center justify-center">
-                    <span class="text-[10px] font-black text-gray-600 uppercase">[ IMAGE PLACEHOLDER ]</span>
-                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-4">
-                        <span class="text-[9px] font-black uppercase text-brand-blue tracking-widest">Action Shot</span>
-                        <span class="text-white text-xs font-black uppercase tracking-wider">Back to Future Loop</span>
-                    </div>
-                </div>
-
+            <!-- DYNAMIC PHOTO GRID INJECTED VIA JAVASCRIPT -->
+            <div id="photoGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Items populate dynamically -->
             </div>
         </section>
 
@@ -119,11 +90,117 @@
         &copy; 2026 Gentle Storm Racing. Built for Second Life.
     </footer>
 
+    <!-- INTERACTIVE GALLERY ENGINE SCRIPT -->
     <script>
-        function filterPhotos(month) {
-            // Admin-ready filter hook for future month sorting
-            console.log("Filtering photo gallery for: " + month);
+        /*
+          ADMIN-READY DATA REPOSITORY:
+          Easily add new photos here with their category ('track', 'race', or 'featured') 
+          and month tag ('oct_2026', etc.).
+        */
+        const galleryData = [
+            {
+                id: 1,
+                category: 'track',
+                month: 'oct_2026',
+                title: 'Las Vegas Strip Turn 1 Sunset',
+                image: '', // Insert direct image URL later
+                aspect: 'aspect-video'
+            },
+            {
+                id: 2,
+                category: 'race',
+                month: 'oct_2026',
+                title: 'Ancient Rome Championship Podium',
+                image: '',
+                aspect: 'aspect-square'
+            },
+            {
+                id: 3,
+                category: 'track',
+                month: 'oct_2026',
+                title: 'Back to Future Neon Loop Section',
+                image: '',
+                aspect: 'aspect-square'
+            },
+            {
+                id: 4,
+                category: 'race',
+                month: 'oct_2026',
+                title: 'Intense Drafting Battle Down the Main Straight',
+                image: '',
+                aspect: 'aspect-video'
+            },
+            {
+                id: 5,
+                category: 'featured',
+                month: 'oct_2026',
+                title: 'Pro Plus Launch Promotional Artwork',
+                image: '',
+                aspect: 'aspect-square'
+            },
+            {
+                id: 6,
+                category: 'race',
+                month: 'oct_2026',
+                title: 'Abandoned City Overpass Leap',
+                image: '',
+                aspect: 'aspect-video'
+            }
+        ];
+
+        let activeCategory = 'all';
+        let activeMonth = 'oct_2026';
+
+        function renderGallery() {
+            const gridEl = document.getElementById('photoGrid');
+            gridEl.innerHTML = '';
+
+            const filtered = galleryData.filter(item => {
+                const matchCategory = activeCategory === 'all' || item.category === activeCategory;
+                const matchMonth = item.month === activeMonth;
+                return matchCategory && matchMonth;
+            });
+
+            if (filtered.length === 0) {
+                gridEl.innerHTML = `<div class="col-span-full py-12 text-center text-xs text-gray-500 uppercase font-bold">[ No photos found for this selection ]</div>`;
+                return;
+            }
+
+            filtered.forEach(photo => {
+                const card = document.createElement('div');
+                card.className = `${photo.aspect} bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl overflow-hidden shadow-lg transition group relative cursor-pointer flex items-center justify-center`;
+                card.innerHTML = `
+                    <span class="text-[10px] font-black text-gray-600 uppercase">[ IMAGE PLACEHOLDER ]</span>
+                    <div class="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-4">
+                        <span class="text-[9px] font-black uppercase text-brand-blue tracking-widest">${photo.category.toUpperCase()} PHOTO</span>
+                        <span class="text-white text-xs font-black uppercase tracking-wider mt-0.5">${photo.title}</span>
+                    </div>
+                `;
+                gridEl.appendChild(card);
+            });
         }
+
+        function filterCategory(category, btnElement) {
+            activeCategory = category;
+
+            // Highlight active button state
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.className = "filter-btn bg-brand-card border border-brand-border hover:border-brand-blue text-gray-300 px-3 py-1.5 rounded transition";
+            });
+            btnElement.className = "filter-btn bg-brand-blue text-white px-3 py-1.5 rounded transition shadow";
+
+            renderGallery();
+        }
+
+        function filterByMonth(month) {
+            activeMonth = month;
+            renderGallery();
+        }
+
+        // Initialize gallery on load
+        window.onload = () => {
+            renderGallery();
+        };
     </script>
 </body>
 </html>
