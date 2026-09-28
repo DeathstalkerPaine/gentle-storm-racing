@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSRing Daily Gazette | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
+    </script>
+    <style>
+        .newspaper-paper { background: #161619; border: 2px solid #333; }
+        .newspaper-headline { font-family: serif; letter-spacing: -0.025em; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER: LOGO LEFT, TITLE CENTER, NAV RIGHT -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-8 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <!-- Left Logo -->
+            <div class="flex items-center justify-center md:justify-start w-full md:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-14 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
+            </div>
+
+            <!-- Centered Title (Newspaper Header Style) -->
+            <div class="w-full md:absolute md:inset-x-0 text-center pointer-events-none md:px-40 py-1">
+                <span class="block text-[9px] font-black uppercase tracking-[0.4em] text-brand-gold">The Official Daily Chronicle</span>
+                <h1 class="text-2xl sm:text-4xl font-black uppercase text-white tracking-widest font-serif">THE GSRING GAZETTE</h1>
+            </div>
+
+            <!-- Right Controls -->
+            <div class="flex items-center gap-3 z-10 w-full md:w-auto justify-center">
+                <label for="editionSelect" class="text-[9px] font-bold uppercase text-gray-400 tracking-widest whitespace-nowrap hidden sm:inline">Edition:</label>
+                <select id="editionSelect" onchange="switchEdition(this.value)" class="bg-brand-bg border border-brand-gold text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer">
+                    <option value="oct_2026">October 2026 (Current)</option>
+                    <option value="sep_2026" disabled>September 2026 (Archived)</option>
+                </select>
+                <a href="multimedia.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-white font-bold uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap">
+                    Hub →
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-2.5">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-6 text-xs font-bold uppercase tracking-wider">
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Media Hub</a>
+            <a href="magazine.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Magazine</a>
+            <a href="news.html" class="text-brand-gold transition">GSR News (Gazette)</a>
+            <a href="videos.html" class="text-gray-300 hover:text-gray-300 transition">Video Archives</a>
+            <a href="photos.html" class="text-gray-300 hover:text-gray-300 transition">Photo Gallery</a>
+        </div>
+    </nav>
+
+    <!-- NEWSPAPER WRAPPER -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 space-y-8">
+
+        <!-- GAZETTE METADATA BAR -->
+        <div class="border-y-2 border-brand-gold py-2 flex justify-between items-center text-[11px] font-black uppercase tracking-widest text-gray-400">
+            <span>Volume I, No. 4</span>
+            <span id="editionDateLabel">October 2026 Daily Publication Feed</span>
+            <span>Price: Free for Subscribers</span>
+        </div>
+
+        <!-- DYNAMIC ARTICLES CONTAINER (Ongoing daily/weekly updates feed) -->
+        <div id="newspaperFeed" class="space-y-12">
+            <!-- Articles injected via JavaScript engine below -->
+        </div>
+
+    </main>
+
+    <!-- NEWSPAPER ENGINE SCRIPT -->
+    <script>
+        /* 
+          ADMIN-READY ONGOING FEED:
+          You can add items to this array day-by-day or week-by-week.
+          At the end of the month, you can move this array into an archive object 
+          and start a fresh array for the new month!
+        */
+        const newspaperEditions = {
+            oct_2026: [
+                {
+                    tag: "Breaking News • Sept 27",
+                    headline: "Telemetry Script v1.02 Deployed Successfully Across All Second Life Regions",
+                    author: "By Staff Reporter",
+                    image: "", // Insert image URL here later
+                    video: "", // Optional video embed code placeholder
+                    layout: "full", // 'full' width or 'split' columns
+                    content: `
+                        Engineers have completed the rollout of the updated LSL telemetry package. Vehicle polling latency has been reduced significantly, ensuring that the live global interactive maps and digital leaderboards update in real-time without skipping a beat. Drivers are reporting smoother drifting telemetry and more responsive HUD indicators across all four primary circuits.
+                    `
+                },
+                {
+                    tag: "Pro Plus Update • Sept 24",
+                    headline: "Chapter 1 Story Campaign Details Leaked: What to Expect Next Month",
+                    author: "By Lead Contributor",
+                    image: "",
+                    video: "",
+                    layout: "split",
+                    content: `
+                        As the launch window approaches, insider details suggest that Chapter 1 will introduce branching narrative paths based on whether a driver maintains a Good, Neutral, or Bad alignment during qualifier matches. Early testers note that moral choices will directly influence pit crew availability and unlock exclusive garage liveries.
+                    `
+                },
+                {
+                    tag: "Community Spotlight • Sept 21",
+                    headline: "Storm Riders Syndicate Breaks 12,500 Point Championship Barrier",
+                    author: "By Racing Desk",
+                    image: "",
+                    video: "",
+                    layout: "split",
+                    content: `
+                        In a stunning display of team coordination, the Storm Riders have pulled ahead in the Pro Plus syndicate standings. Lead driver Deathstalker Paine clocked a blistering lap time that has left competing syndicates scrambling to re-tune their vehicles ahead of the weekend time trials.
+                    `
+                }
+            ]
+        };
+
+        function renderNewspaper() {
+            const editionKey = document.getElementById('editionSelect').value;
+            const articles = newspaperEditions[editionKey];
+            const feedEl = document.getElementById('newspaperFeed');
+            
+            feedEl.innerHTML = '';
+
+            articles.forEach((art, index) => {
+                const articleBlock = document.createElement('article');
+                articleBlock.className = "newspaper-paper p-6 sm:p-8 rounded-lg shadow-xl space-y-4 relative overflow-hidden";
+                
+                let mediaHTML = '';
+                if (art.image) {
+                    mediaHTML += `<div class="w-full aspect-video bg-black/50 rounded mb-4 overflow-hidden"><img src="${art.image}" class="w-full h-full object-cover"></div>`;
+                }
+                if (art.video) {
+                    mediaHTML += `<div class="w-full aspect-video bg-black rounded mb-4 flex items-center justify-center text-xs text-gray-500 font-mono">[ EMBEDDED VIDEO PLAYER ]</div>`;
+                }
+
+                if (art.layout === 'full' || index === 0) {
+                    // Lead / Full-width Headline Style
+                    articleBlock.innerHTML = `
+                        <div class="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-brand-gold border-b border-brand-border pb-2">
+                            <span>${art.tag}</span>
+                            <span>${art.author}</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-black uppercase text-white newspaper-headline">${art.headline}</h2>
+                        ${mediaHTML}
+                        <p class="text-xs sm:text-sm text-gray-300 leading-relaxed font-serif column-count-1 md:column-count-2 gap-6">
+                            ${art.content}
+                        </p>
+                    `;
+                } else {
+                    // Split Multi-Column News Style
+                    articleBlock.innerHTML = `
+                        <div class="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-brand-blue border-b border-brand-border pb-2">
+                            <span>${art.tag}</span>
+                            <span>${art.author}</span>
+                        </div>
+                        <h3 class="text-xl font-black uppercase text-white newspaper-headline">${art.headline}</h3>
+                        ${mediaHTML}
+                        <p class="text-xs text-gray-300 leading-relaxed font-serif">
+                            ${art.content}
+                        </p>
+                    `;
+                }
+
+                feedEl.appendChild(articleBlock);
+            });
+        }
+
+        function switchEdition(editionKey) {
+            renderNewspaper();
+        }
+
+        window.onload = () => {
+            renderNewspaper();
+        };
+    </script>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">
+        &copy; 2026 Gentle Storm Racing Gazette. Built for Second Life.
+    </footer>
+</body>
+</html>
