@@ -133,35 +133,47 @@
 
         </section>
 
-        <!-- GSR COMMS READ-ONLY WIDGET WITH DROPDOWN -->
-<div class="bg-[#0a0a0a] border border-brand-border rounded-xl shadow-xl flex flex-col w-full max-w-sm h-80">
-    
-    <!-- Widget Header & Dropdown -->
-    <div class="border-b border-brand-border p-3 bg-brand-bg flex flex-col gap-2 rounded-t-xl">
-        <span class="text-[10px] font-black uppercase text-white tracking-widest flex items-center gap-2">
-            💬 GSR Comms
-        </span>
-        <select id="chatWidgetSelector" onchange="switchWidgetChannel(this.value)" class="bg-[#111] border border-brand-border text-[9px] text-brand-gold uppercase font-bold px-2 py-1.5 rounded outline-none w-full cursor-pointer">
-            <option value="global">🌐 Global Feed</option>
-            <option value="team">🛡️ Team (Storm Riders)</option>
-            <option value="pro_plus">⭐ Pro Plus Chat</option>
-            <option value="following">👥 Following</option>
-        </select>
-    </div>
+              <!-- WIDE GSR CHATS PREVIEW (Matches Original Layout) -->
+        <section class="w-full">
+            <div class="bg-brand-card border border-brand-border hover:border-brand-gold transition rounded-xl p-6 shadow-xl flex flex-col relative group">
+                
+                <!-- Header Row -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 border-b border-brand-border pb-4 gap-4">
+                    <div class="flex items-center gap-3">
+                        <span class="text-lg font-black uppercase text-white flex items-center gap-2">
+                            💬 GSR Chats Thread
+                        </span>
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    </div>
+                    
+                    <!-- Dropdown + Instructions & Badge -->
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <span class="text-[9px] text-gray-400 uppercase tracking-widest italic">
+                            (Click menu to change feed)
+                        </span>
+                        <select id="wideChatSelector" onchange="switchWideWidgetChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-[10px] text-brand-gold uppercase font-bold px-3 py-2 rounded outline-none cursor-pointer flex-grow sm:flex-grow-0">
+                            <option value="pro_plus">⭐ Pro Plus Chat</option>
+                            <option value="global">🌐 Global Feed</option>
+                            <option value="team">🛡️️ Team Chat</option>
+                            <option value="following">👥 Following</option>
+                        </select>
+                        <span class="text-[9px] font-black uppercase bg-brand-red/20 text-brand-red px-2 py-1 rounded hidden sm:block">Live Discussion</span>
+                    </div>
+                </div>
 
-    <!-- Messages Display (Read-Only) -->
-    <div id="miniChatFeed" class="flex-grow p-3 overflow-hidden space-y-3 flex flex-col justify-end bg-[#111]">
-        <!-- JavaScript will inject chats here -->
-    </div>
+                <!-- Messages Area (Wide & Short) -->
+                <div id="wideChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-lg p-4 space-y-2 h-28 overflow-hidden flex flex-col justify-end">
+                    <!-- JavaScript injects chats here -->
+                </div>
 
-    <!-- Click-to-Chat Redirect Button -->
-    <div class="p-3 border-t border-brand-border bg-brand-card rounded-b-xl">
-        <a href="chats.html" class="block w-full bg-[#1a1a1a] border border-brand-border hover:border-brand-gold transition text-center py-2.5 rounded text-[9px] font-bold text-gray-500 hover:text-brand-gold uppercase tracking-widest">
-            Chat disabled in preview. Open Hub ↗
-        </a>
-    </div>
-</div>
-        </section>
+                <!-- Footer Link -->
+                <div class="mt-4 pt-4 border-t border-brand-border text-right">
+                    <a href="chats.html" class="text-xs font-bold uppercase text-brand-gold hover:underline">
+                        Open GSR Chats →
+                    </a>
+                </div>
+            </div>
+          </section>
 
         <!-- ROW 3: 2-COLUMN (Magazine & Top Racers Standings) -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
