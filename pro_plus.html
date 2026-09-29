@@ -133,18 +133,34 @@
 
         </section>
 
-        <!-- ROW 2: GSR CHATS THREAD BANNER -->
-        <section class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 shadow-xl transition group">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-brand-border pb-3 mb-3 gap-2">
-                <h3 class="text-lg font-black uppercase text-white tracking-wide group-hover:text-brand-gold transition">💬 GSR Chats Thread</h3>
-                <span class="bg-amber-950 text-brand-gold border border-brand-gold/30 text-[9px] font-black uppercase px-2.5 py-1 rounded">Live Discussion</span>
-            </div>
-            <p class="text-xs text-gray-300 leading-relaxed">
-                This is where you can see latest global chat. Clicking here takes to GSR Chats which is a social media type chat system. This area will show the current chats entered on site.
-            </p>
-            <div class="mt-4 pt-3 border-t border-brand-border text-right">
-                <a href="chats.html" class="text-xs font-bold uppercase text-brand-gold hover:text-white transition">Open Community Feed →</a>
-            </div>
+        <!-- GSR COMMS READ-ONLY WIDGET WITH DROPDOWN -->
+<div class="bg-[#0a0a0a] border border-brand-border rounded-xl shadow-xl flex flex-col w-full max-w-sm h-80">
+    
+    <!-- Widget Header & Dropdown -->
+    <div class="border-b border-brand-border p-3 bg-brand-bg flex flex-col gap-2 rounded-t-xl">
+        <span class="text-[10px] font-black uppercase text-white tracking-widest flex items-center gap-2">
+            💬 GSR Comms
+        </span>
+        <select id="chatWidgetSelector" onchange="switchWidgetChannel(this.value)" class="bg-[#111] border border-brand-border text-[9px] text-brand-gold uppercase font-bold px-2 py-1.5 rounded outline-none w-full cursor-pointer">
+            <option value="global">🌐 Global Feed</option>
+            <option value="team">🛡️ Team (Storm Riders)</option>
+            <option value="pro_plus">⭐ Pro Plus Chat</option>
+            <option value="following">👥 Following</option>
+        </select>
+    </div>
+
+    <!-- Messages Display (Read-Only) -->
+    <div id="miniChatFeed" class="flex-grow p-3 overflow-hidden space-y-3 flex flex-col justify-end bg-[#111]">
+        <!-- JavaScript will inject chats here -->
+    </div>
+
+    <!-- Click-to-Chat Redirect Button -->
+    <div class="p-3 border-t border-brand-border bg-brand-card rounded-b-xl">
+        <a href="chats.html" class="block w-full bg-[#1a1a1a] border border-brand-border hover:border-brand-gold transition text-center py-2.5 rounded text-[9px] font-bold text-gray-500 hover:text-brand-gold uppercase tracking-widest">
+            Chat disabled in preview. Open Hub ↗
+        </a>
+    </div>
+</div>
         </section>
 
         <!-- ROW 3: 2-COLUMN (Magazine & Top Racers Standings) -->
