@@ -191,9 +191,26 @@
 
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing.</footer>
 
-    <!-- WIDGET BRAIN (Loads the chats from local memory) -->
+     <!-- WIDGET BRAIN (Loads Global and Team Syndicate chats) -->
     <script>
-        function loadMiniChatWidget() {
+        let currentTeamTab = 'global';
+
+        function switchTeamWidgetTab(tab) {
+            currentTeamTab = tab;
+            const globalTab = document.getElementById('tabGlobal');
+            const teamTab = document.getElementById('tabTeam');
+
+            if(tab === 'global') {
+                globalTab.className = "w-1/2 text-brand-blue py-2 border-b-2 border-brand-blue transition";
+                teamTab.className = "w-1/2 text-gray-500 py-2 hover:text-gray-300 transition";
+            } else {
+                teamTab.className = "w-1/2 text-brand-blue py-2 border-b-2 border-brand-blue transition";
+                globalTab.className = "w-1/2 text-gray-500 py-2 hover:text-gray-300 transition";
+            }
+            loadTeamChatWidget();
+        }
+
+        function loadTeamChatWidget() {
             const feedContainer = document.getElementById('miniChatFeed');
             if (!feedContainer) return; 
 
@@ -201,44 +218,34 @@
             
             if (rawData) {
                 const chatData = JSON.parse(rawData);
-                const globalMessages = chatData.global || [];
-                
-                // Grab only the last 3 messages so it doesn't overflow the box
-                const latestMessages = globalMessages.slice(-3);
+                const messages = chatData[currentTeamTab] || [];
+                const latestMessages = messages.slice(-3);
                 
                 feedContainer.innerHTML = ''; 
                 
                 if (latestMessages.length === 0) {
-                    feedContainer.innerHTML = `<span class="text-[10px] text-gray-500 text-center block w-full">[ No recent comms ]</span>`;
+                    feedContainer.innerHTML = `<span class="text-[10px] text-gray-500 text-center block w-full">[ No comms in ${currentTeamTab} ]</span>`;
                     return;
                 }
 
                 latestMessages.forEach(msg => {
                     feedContainer.innerHTML += `
                         <div class="text-[10px] leading-relaxed">
-                            <span class="font-black text-brand-blue uppercase hover:underline cursor-pointer">[Global] ${msg.racer}:</span> 
+                            <a href="racer_profile.html?user=${msg.racer.toLowerCase()}" class="font-black text-brand-blue uppercase hover:underline">[${currentTeamTab}] ${msg.racer}:</a> 
                             <span class="text-gray-400">${msg.text}</span>
                         </div>
                     `;
                 });
             } else {
-                // Mockup backup data
-                feedContainer.innerHTML = `
-                    <div class="text-[10px] leading-relaxed">
-                        <span class="font-black text-brand-blue uppercase">[Global] Vortex_SL:</span> <span class="text-gray-400">Any Storm Riders online?</span>
-                    </div>
-                    <div class="text-[10px] leading-relaxed">
-                        <span class="font-black text-brand-red uppercase">[Global] Paine:</span> <span class="text-gray-400">We're holding the lobby. Join up.</span>
-                    </div>
-                `;
+                feedContainer.innerHTML = `<span class="text-[10px] text-gray-500 text-center block w-full">[ No recent comms ]</span>`;
             }
         }
 
-        window.onload = loadMiniChatWidget;
+        window.onload = loadTeamChatWidget;
 
         window.addEventListener('storage', (e) => {
             if(e.key === 'gsr_chat_network') {
-                loadMiniChatWidget();
+                loadTeamChatWidget();
             }
         });
     </script>
