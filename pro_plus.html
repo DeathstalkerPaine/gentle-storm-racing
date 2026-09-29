@@ -294,6 +294,49 @@
             <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
         </div>
     </footer>
+    <!-- WIDE WIDGET SCRIPT ENGINE -->
+    <script>
+        let currentWideChannel = 'pro_plus'; // Defaults to Pro Plus for this page
+
+        function switchWideWidgetChannel(channel) {
+            currentWideChannel = channel;
+            loadWideChatWidget();
+        }
+
+        function loadWideChatWidget() {
+            const feedContainer = document.getElementById('wideChatFeed');
+            if (!feedContainer) return; 
+
+            const rawData = localStorage.getItem('gsr_chat_network');
+            
+            if (rawData) {
+                const chatData = JSON.parse(rawData);
+                const messages = chatData[currentWideChannel] || [];
+                const latestMessages = messages.slice(-3); // Grab last 3 chats
+                
+                feedContainer.innerHTML = ''; 
+                
+                if (latestMessages.length === 0) {
+                    feedContainer.innerHTML = `<span class="text-[10px] text-gray-500 text-center block w-full mt-2">[ No comms in this feed ]</span>`;
+                    return;
+                }
+
+                latestMessages.forEach(msg => {
+                    feedContainer.innerHTML += `
+                        <div class="text-xs leading-relaxed truncate">
+                            <span class="font-black text-brand-blue uppercase">[${currentWideChannel.replace('_', ' ')}] ${msg.racer}:</span> 
+                            <span class="text-gray-300">${msg.text}</span>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        window.onload = loadWideChatWidget;
+        window.addEventListener('storage', (e) => {
+            if(e.key === 'gsr_chat_network') loadWideChatWidget();
+        });
+    </script>
 
 </body>
 </html>
