@@ -25,15 +25,15 @@
                 <a href="index.html"><img src="logo.png" alt="GSR Logo" class="h-10 w-auto object-contain"></a>
                 <div class="hidden sm:block border-l border-brand-border pl-4">
                     <h1 class="text-lg font-black uppercase text-brand-gold tracking-wider font-serif italic">GSR Comms Network</h1>
-                    <span class="text-[9px] text-gray-400 uppercase tracking-widest">Verified Drivers Only</span>
+                    <span id="userStatusBanner" class="text-[9px] text-gray-400 uppercase tracking-widest">Checking Network Status...</span>
                 </div>
             </div>
             <div class="flex items-center gap-4">
                 <div class="text-right hidden md:block">
-                    <span class="block text-xs font-black text-white">Deathstalker Paine</span>
-                    <span class="text-[9px] text-brand-green uppercase font-mono">Status: Cleared to Race</span>
+                    <span id="headerProfileName" class="block text-xs font-black text-white">Loading...</span>
+                    <span class="text-[9px] text-brand-green uppercase font-mono">Status: Secure Comms</span>
                 </div>
-                <a href="admin.html" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[10px] uppercase font-black px-4 py-2 rounded transition">Sign Out</a>
+                <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[10px] uppercase font-black px-4 py-2 rounded transition">Sign In</a>
             </div>
         </div>
     </header>
@@ -56,7 +56,7 @@
             <div class="bg-brand-card border border-brand-green/30 rounded-lg p-3 flex-shrink-0">
                 <div class="flex items-center gap-2 mb-1">
                     <div class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></div>
-                    <span class="text-[10px] font-black uppercase text-brand-green tracking-widest">Access Granted</span>
+                    <span id="sidebarStatus" class="text-[10px] font-black uppercase text-brand-green tracking-widest">Live Database Sync</span>
                 </div>
             </div>
 
@@ -88,7 +88,7 @@
             </div>
 
             <div id="messagesArea" class="flex-grow p-4 overflow-y-auto scroll-touch space-y-4 font-sans flex flex-col">
-                <!-- Messages JS Injected Here -->
+                <div class="m-auto text-center text-gray-500 font-bold uppercase text-[10px]">Connecting to secure frequency...</div>
             </div>
 
             <div class="bg-[#151515] border-t border-brand-border p-3 sm:p-4 flex flex-col gap-2 flex-shrink-0">
@@ -97,30 +97,57 @@
                 </div>
                 <div class="flex gap-2">
                     <input type="text" id="chatInput" placeholder="Type your message here..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition placeholder-gray-600">
-                    <button onclick="sendMessage()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-5 sm:px-8 py-3 rounded transition shadow shrink-0">Send ↵</button>
+                    <button onclick="sendMessage()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-5 sm:px-8 py-3 rounded transition shadow shrink-0 cursor-pointer">Send ↵</button>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- PERSISTENT CHAT SCRIPT ENGINE -->
+    <!-- SUPABASE LIBRARY & CONFIG -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="gsr_db.js"></script>
+
+    <!-- CHAT ENGINE LOGIC -->
     <script>
-        const defaultChatData = {
-            global: [{ id: 1, racer: "Vortex_SL", isMe: false, time: "14:02", text: "Lobby is open for Rome." }],
-            following: [],
-            team: [],
-            pro_plus: [{ id: 2, racer: "Admin", isMe: false, time: "09:00", text: "Welcome to the Pro Plus exclusive chat." }]
+        let activeChannel = 'global';
+        let currentUser = null;
+        let currentProfile = null;
+
+        const channelHeaders = {
+            global: { title: "🌐 Global Chat", desc: "Public broadcast for all verified racers." },
+            following: { title: "👥 Following", desc: "Feed from racers and teams you follow." },
+            team: { title: "🛡️ Team Chat", desc: "Encrypted channel visible ONLY to your team." },
+            pro_plus: { title: "⭐ Pro Plus Lounge", desc: "Exclusive channel for GSR Pro Plus subscribers." }
         };
 
-        let chatData = JSON.parse(localStorage.getItem('gsr_chat_network')) || defaultChatData;
-        let activeChannel = 'global';
+        async function initChatSystem() {
+            // Check active Supabase session
+            const { data: { session } } = await supabase.auth.getSession();
 
-        window.addEventListener('storage', (e) => {
-            if(e.key === 'gsr_chat_network') {
-                chatData = JSON.parse(e.newValue);
-                renderMessages();
+            if (!session) {
+                currentUser = null;
+                document.getElementById('headerProfileName').innerText = "Guest User";
+                document.getElementById('userStatusBanner').innerText = "Sign in to transmit messages";
+                document.getElementById('chatInput').placeholder = "Sign in required to chat...";
+                document.getElementById('chatInput').disabled = true;
+            } else {
+                currentUser = session.user;
+                // Fetch profile name
+                const { data: profile } = await supabase
+                    .from('gsr_profiles')
+                    .select('sl_legacy_name, role')
+                    .eq('id', currentUser.id)
+                    .single();
+
+                currentProfile = profile;
+                const name = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+                document.getElementById('headerProfileName').innerText = name;
+                document.getElementById('userStatusBanner').innerText = "Verified Driver Online";
             }
-        });
+
+            fetchMessages();
+            subscribeToRealtime();
+        }
 
         function switchChannel(channel, btn) {
             activeChannel = channel;
@@ -129,73 +156,115 @@
                 b.className = "channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase text-gray-400 hover:bg-brand-bg transition flex justify-between items-center mb-1";
             });
             btn.className = "channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase bg-brand-gold text-black transition flex justify-between items-center mb-1 font-black shadow";
-
-            const headers = {
-                global: { title: "🌐 Global Chat", desc: "Public broadcast for all verified racers." },
-                following: { title: "👥 Following", desc: "Feed from racers and teams you follow." },
-                team: { title: "🛡️ Team Chat", desc: "Encrypted channel visible ONLY to your team." },
-                pro_plus: { title: "⭐ Pro Plus Lounge", desc: "Exclusive channel for GSR Pro Plus subscribers." }
-            };
             
-            document.getElementById('channelTitle').innerText = headers[channel].title;
-            document.getElementById('channelDesc').innerText = headers[channel].desc;
-            renderMessages();
+            document.getElementById('channelTitle').innerText = channelHeaders[channel].title;
+            document.getElementById('channelDesc').innerText = channelHeaders[channel].desc;
+            
+            fetchMessages();
         }
 
-        function renderMessages() {
+        async function fetchMessages() {
             const container = document.getElementById('messagesArea');
-            container.innerHTML = '';
-            const messages = chatData[activeChannel] || [];
+            container.innerHTML = '<div class="m-auto text-center text-gray-500 font-bold uppercase text-[10px]">Loading transmission logs...</div>';
 
-            if(messages.length === 0) {
+            const { data, error } = await supabase
+                .from('gsr_chats')
+                .select('*')
+                .eq('channel', activeChannel)
+                .order('created_at', { ascending: true })
+                .limit(50);
+
+            if (error) {
+                container.innerHTML = `<div class="m-auto text-center text-brand-red font-bold text-xs">Error loading messages: ${error.message}</div>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            if (!data || data.length === 0) {
                 container.innerHTML = `<div class="m-auto text-center text-gray-500 font-bold uppercase text-[10px]">[ Channel is quiet ]</div>`;
                 return;
             }
 
-            messages.forEach(msg => {
-                const alignClass = msg.isMe ? "self-end items-end" : "self-start items-start";
-                const bgClass = msg.isMe ? "bg-brand-gold/10 border border-brand-gold text-white" : "bg-[#1f1f1f] border border-brand-border text-gray-200";
-                
-                container.innerHTML += `
-                    <div class="flex flex-col ${alignClass} chat-bubble">
-                        <div class="flex items-center gap-2 mb-1 text-[10px]">
-                            <a href="racers_profiles.html?user=${msg.racer.toLowerCase()}" class="font-black ${msg.isMe ? 'text-brand-gold' : 'text-brand-blue'} hover:underline uppercase tracking-wider">${msg.racer}</a>
-                        </div>
-                        <div class="${bgClass} px-3 py-2 rounded-lg text-xs leading-relaxed break-words shadow-sm">
-                            <span class="msg-content">${msg.text}</span>
-                        </div>
-                    </div>
-                `;
-            });
+            data.forEach(msg => appendMessageToUI(msg));
             container.scrollTop = container.scrollHeight;
         }
 
-        function sendMessage() {
-            const input = document.getElementById('chatInput');
-            const val = input.value.trim();
-            if(!val) return;
+        function appendMessageToUI(msg) {
+            const container = document.getElementById('messagesArea');
+            // Remove quiet notice if present
+            if (container.innerText.includes("[ Channel is quiet ]") || container.innerText.includes("Loading transmission logs...")) {
+                container.innerHTML = '';
+            }
 
-            if(!chatData[activeChannel]) chatData[activeChannel] = [];
-            
-            chatData[activeChannel].push({
-                id: Date.now(),
-                racer: "Deathstalker Paine",
-                isMe: true,
-                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-                text: val,
-                lang: "en"
-            });
+            const isMe = currentUser && msg.user_id === currentUser.id;
+            const alignClass = isMe ? "self-end items-end" : "self-start items-start";
+            const bgClass = isMe ? "bg-brand-gold/10 border border-brand-gold text-white" : "bg-[#1f1f1f] border border-brand-border text-gray-200";
+            const time = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-            localStorage.setItem('gsr_chat_network', JSON.stringify(chatData));
-            input.value = '';
-            renderMessages();
+            const div = document.createElement('div');
+            div.className = `flex flex-col ${alignClass} chat-bubble`;
+            div.innerHTML = `
+                <div class="flex items-center gap-2 mb-1 text-[10px]">
+                    <span class="font-black ${isMe ? 'text-brand-gold' : 'text-brand-blue'} uppercase tracking-wider">${escapeHtml(msg.display_name)}</span>
+                    <span class="text-[8px] text-gray-600">${time}</span>
+                </div>
+                <div class="${bgClass} px-3 py-2 rounded-lg text-xs leading-relaxed break-words shadow-sm">
+                    <span class="msg-content">${escapeHtml(msg.message)}</span>
+                </div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
         }
 
+        async function sendMessage() {
+            if (!currentUser) {
+                alert("You must be signed in to transmit messages.");
+                window.location.href = "sign_in.html";
+                return;
+            }
+
+            const input = document.getElementById('chatInput');
+            const val = input.value.trim();
+            if (!val) return;
+
+            const displayName = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+            const { error } = await supabase.from('gsr_chats').insert([{
+                user_id: currentUser.id,
+                display_name: displayName,
+                message: val,
+                channel: activeChannel
+            }]);
+
+            if (error) {
+                alert("Transmission failed: " + error.message);
+            } else {
+                input.value = '';
+            }
+        }
+
+        function subscribeToRealtime() {
+            supabase
+                .channel('public:gsr_chats')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
+                    if (payload.new.channel === activeChannel) {
+                        appendMessageToUI(payload.new);
+                    }
+                })
+                .subscribe();
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        // Enter key listener
         document.getElementById('chatInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') sendMessage();
         });
 
-        window.onload = () => renderMessages();
+        // Initialize on page load
+        window.onload = () => initChatSystem();
     </script>
 </body>
 </html>
