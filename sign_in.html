@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a' } } } } }
+    </script>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col items-center justify-center p-4" style="background-image: radial-gradient(circle at 50% -20%, #1a1a1a, #121212);">
+
+    <div class="max-w-sm w-full">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <a href="index.html"><img src="logo.png" alt="GSR Logo" class="h-16 mx-auto mb-4 object-contain"></a>
+            <h1 class="text-2xl font-black uppercase tracking-widest text-white">Network Login</h1>
+        </div>
+
+        <div class="bg-brand-card border border-brand-border rounded-xl shadow-2xl p-6 sm:p-8">
+            <form action="index.html" class="space-y-5">
+                
+                <div>
+                    <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">Email Address</label>
+                    <input type="email" required class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
+                </div>
+                
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="block text-[9px] font-black uppercase text-gray-500">Password</label>
+                        <a href="#" class="text-[9px] text-brand-gold hover:underline uppercase font-bold">Forgot?</a>
+                    </div>
+                    <input type="password" required class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
+                </div>
+
+                <button type="submit" class="w-full bg-white hover:bg-gray-200 text-black font-black uppercase text-xs py-4 rounded transition shadow-lg mt-2">
+                    Sign In →
+                </button>
+            </form>
+        </div>
+
+        <div class="mt-6 text-center space-y-3">
+            <p class="text-[10px] text-gray-500 uppercase font-bold">Don't have an account? <a href="sign_up.html" class="text-brand-gold hover:underline">Register Here</a></p>
+            <p class="text-[9px] text-gray-600 uppercase font-black tracking-widest pt-4 border-t border-brand-border/50">Admin Portal: <a href="admin.html" class="text-brand-red hover:underline">Strict Access Only</a></p>
+        </div>
+    </div>
+</body>
+</html>
