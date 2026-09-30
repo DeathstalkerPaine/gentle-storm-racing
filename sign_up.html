@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
+    </script>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="max-w-md w-full">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <a href="index.html"><img src="logo.png" alt="GSR Logo" class="h-16 mx-auto mb-4 object-contain"></a>
+            <h1 class="text-2xl font-black uppercase tracking-widest text-white">Network Registration</h1>
+            <p class="text-[10px] text-gray-400 uppercase mt-1">Select your account type below.</p>
+        </div>
+
+        <div id="registrationCard" class="bg-brand-card border border-brand-border rounded-xl shadow-2xl overflow-hidden">
+            
+            <!-- Type Selector Tabs -->
+            <div class="flex text-[10px] font-black uppercase border-b border-brand-border">
+                <button id="tabRacer" class="flex-1 py-4 bg-brand-bg text-brand-gold border-r border-brand-border transition" onclick="switchForm('racer')">
+                    🏁 I am an SL Racer
+                </button>
+                <button id="tabFan" class="flex-1 py-4 bg-[#111] text-gray-500 hover:text-white transition" onclick="switchForm('fan')">
+                    🎟️ I am a Fan / Viewer
+                </button>
+            </div>
+
+            <div class="p-6 sm:p-8">
+                <form id="signupForm" onsubmit="handleSignUp(event)" class="space-y-4">
+                    
+                    <!-- Common Fields -->
+                    <div>
+                        <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">Email Address</label>
+                        <input type="email" required class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">Password</label>
+                        <input type="password" required class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
+                    </div>
+
+                    <!-- RACER SPECIFIC FIELDS -->
+                    <div id="racerFields" class="space-y-4 pt-2 border-t border-brand-border">
+                        <div class="bg-brand-blue/10 border border-brand-blue/30 p-3 rounded text-[10px] text-brand-blue leading-relaxed">
+                            <strong>VERIFICATION REQUIRED:</strong> To access chat and racer tools, you must verify your SL Avatar. Generate a 6-digit PIN using the GSR Verification HUD in-game.
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="col-span-2 sm:col-span-1">
+                                <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">SL Legacy Name</label>
+                                <input type="text" placeholder="e.g. ResidentName" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
+                            </div>
+                            <div class="col-span-2 sm:col-span-1">
+                                <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">In-Game PIN</label>
+                                <input type="text" placeholder="123456" maxlength="6" class="w-full bg-[#0a0a0a] border border-brand-border text-brand-gold font-mono tracking-widest text-center text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAN SPECIFIC FIELDS -->
+                    <div id="fanFields" class="space-y-4 pt-2 border-t border-brand-border hidden">
+                        <div>
+                            <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">Where did you find out about us?</label>
+                            <select id="sourceSelect" onchange="checkOther('source')" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-4 py-3 rounded outline-none focus:border-brand-gold transition cursor-pointer">
+                                <option value="" disabled selected>Select an option...</option>
+                                <option value="sl_search">Second Life Search</option>
+                                <option value="friend">A Friend / Word of Mouth</option>
+                                <option value="youtube">YouTube</option>
+                                <option value="twitch">Twitch</option>
+                                <option value="other">Other (Please specify)</option>
+                            </select>
+                            <input type="text" id="sourceOther" placeholder="Please specify..." class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition mt-2 hidden">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">What brought you to the site?</label>
+                            <select id="reasonSelect" onchange="checkOther('reason')" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-4 py-3 rounded outline-none focus:border-brand-gold transition cursor-pointer">
+                                <option value="" disabled selected>Select an option...</option>
+                                <option value="events">To watch Live Events</option>
+                                <option value="videos">To view Videos / Photos</option>
+                                <option value="following">Following a specific Racer</option>
+                                <option value="other">Other (Please specify)</option>
+                            </select>
+                            <input type="text" id="reasonOther" placeholder="Please specify..." class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition mt-2 hidden">
+                        </div>
+                    </div>
+
+                    <!-- TOS Agreement -->
+                    <div class="pt-4 flex items-start gap-3">
+                        <input type="checkbox" required id="tos" class="mt-1 accent-brand-gold w-4 h-4 cursor-pointer">
+                        <label for="tos" class="text-[10px] text-gray-400 leading-relaxed cursor-pointer">
+                            I agree to the <a href="tos.html" target="_blank" class="text-brand-gold hover:underline">Terms of Service</a> and acknowledge the Privacy Policy.
+                        </label>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" class="w-full bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs py-4 rounded transition shadow-lg mt-4">
+                        Create Account
+                    </button>
+                </form>
+
+                <!-- Success State (Hidden by default) -->
+                <div id="successState" class="hidden text-center py-8">
+                    <div class="w-16 h-16 bg-brand-gold/20 text-brand-gold rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">✉️</div>
+                    <h3 class="text-lg font-black uppercase text-white mb-2">Check Your Email</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed mb-6">A confirmation link has been sent to your email address. You must click the link to activate your account before signing in.</p>
+                    <a href="sign_in.html" class="inline-block bg-[#111] border border-brand-border hover:border-brand-gold text-white text-[10px] font-black uppercase px-6 py-3 rounded transition">Return to Sign In</a>
+                </div>
+
+            </div>
+            
+            <div class="p-4 border-t border-brand-border bg-[#0a0a0a] text-center">
+                <p class="text-[10px] text-gray-500 uppercase font-bold">Already have an account? <a href="sign_in.html" class="text-brand-gold hover:underline">Sign In Here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchForm(type) {
+            const racerTab = document.getElementById('tabRacer');
+            const fanTab = document.getElementById('tabFan');
+            const racerFields = document.getElementById('racerFields');
+            const fanFields = document.getElementById('fanFields');
+
+            if (type === 'racer') {
+                racerTab.className = "flex-1 py-4 bg-brand-bg text-brand-gold border-r border-brand-border transition shadow-inner";
+                fanTab.className = "flex-1 py-4 bg-[#111] text-gray-500 hover:text-white transition";
+                racerFields.classList.remove('hidden');
+                fanFields.classList.add('hidden');
+            } else {
+                fanTab.className = "flex-1 py-4 bg-brand-bg text-brand-gold transition shadow-inner";
+                racerTab.className = "flex-1 py-4 bg-[#111] text-gray-500 hover:text-white border-r border-brand-border transition";
+                fanFields.classList.remove('hidden');
+                racerFields.classList.add('hidden');
+            }
+        }
+
+        function checkOther(field) {
+            const select = document.getElementById(`${field}Select`);
+            const input = document.getElementById(`${field}Other`);
+            if (select.value === 'other') {
+                input.classList.remove('hidden');
+                input.required = true;
+            } else {
+                input.classList.add('hidden');
+                input.required = false;
+            }
+        }
+
+        function handleSignUp(e) {
+            e.preventDefault();
+            // In production, this pushes data to your database
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('successState').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
