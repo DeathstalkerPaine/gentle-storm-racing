@@ -1,66 +1,27 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In | Gentle Storm Racing</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a' } } } } }
-    </script>
-    <!-- Supabase JS Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head>
-<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col items-center justify-center p-4" style="background-image: radial-gradient(circle at 50% -20%, #1a1a1a, #121212);">
-
-    <div class="max-w-sm w-full">
-        <!-- Logo -->
-        <div class="text-center mb-8">
-            <a href="index.html"><img src="logo.png" alt="GSR Logo" class="h-16 mx-auto mb-4 object-contain"></a>
-            <h1 class="text-2xl font-black uppercase tracking-widest text-white">Network Login</h1>
-        </div>
-
-        <div class="bg-brand-card border border-brand-border rounded-xl shadow-2xl p-6 sm:p-8">
-            <form id="signinForm" onsubmit="handleSignIn(event)" class="space-y-5">
-                
-                <div>
-                    <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">Email Address</label>
-                    <input type="email" id="loginEmail" required class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
-                </div>
-                
-                <div>
-                    <div class="flex justify-between items-center mb-1">
-                        <label class="block text-[9px] font-black uppercase text-gray-500">Password</label>
-                        <a href="#" class="text-[9px] text-brand-gold hover:underline uppercase font-bold">Forgot?</a>
-                    </div>
-                    <input type="password" id="loginPassword" required class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
-                </div>
-
-                <button type="submit" id="loginBtn" class="w-full bg-white hover:bg-gray-200 text-black font-black uppercase text-xs py-4 rounded transition shadow-lg mt-2 cursor-pointer">
-                    Sign In →
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // Initialize Supabase Client directly
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
         async function handleSignIn(e) {
+            // 1. Immediately stop the page from refreshing
             e.preventDefault();
             
+            const loginBtn = document.getElementById('loginBtn');
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
-            const loginBtn = document.getElementById('loginBtn');
             
             loginBtn.innerHTML = "Authenticating...";
             loginBtn.disabled = true;
 
             try {
-                // 1. Sign in with Supabase Auth
+                // 2. Check if Safari loaded the library yet
+                if (!window.supabase) {
+                    throw new Error("Network connection still loading. Please try again in 2 seconds.");
+                }
+
+                // 3. Initialize connection ONLY when button is clicked
+                const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+                const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+                const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+                // 4. Sign in
                 const { data, error } = await supabase.auth.signInWithPassword({
                     email: email,
                     password: password,
@@ -70,7 +31,7 @@
                     throw new Error(error.message);
                 }
 
-                // 2. Success! Route directly to the Chats page
+                // 5. Success! Route directly to the Chats page
                 alert("Access Granted! Routing to GSR Comms Network...");
                 window.location.href = "chats.html";
 
@@ -81,5 +42,3 @@
             }
         }
     </script>
-</body>
-</html>
