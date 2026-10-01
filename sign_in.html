@@ -8,10 +8,6 @@
     <script>
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', green: '#10B981' } } } } }
     </script>
-    <!-- 1. Load Supabase Library First -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- 2. Load Your Database Connection (creates window.db) -->
-    <script src="gsr_db.js"></script>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col items-center justify-center p-4" style="background-image: radial-gradient(circle at 50% -20%, #1a1a1a, #121212);">
 
@@ -23,7 +19,6 @@
         </div>
 
         <div class="bg-brand-card border border-brand-border rounded-xl shadow-2xl p-6 sm:p-8">
-            
             <div class="space-y-5">
                 <div>
                     <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">Email Address</label>
@@ -34,7 +29,6 @@
                     <div class="flex justify-between items-center mb-1">
                         <label class="block text-[9px] font-black uppercase text-gray-500">Password</label>
                     </div>
-                    <!-- Enter key triggers executeLogin() -->
                     <input type="password" id="loginPassword" onkeypress="if(event.key === 'Enter') executeLogin()" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
                 </div>
 
@@ -42,11 +36,15 @@
                     Sign In →
                 </button>
 
-                <!-- Feedback Message Container -->
                 <p id="statusMsg" class="text-center text-xs font-bold mt-2"></p>
             </div>
         </div>
     </div>
+
+    <!-- 1. Load Supabase Library at the bottom -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- 2. The Cache Buster: Forces the browser to download the NEW file -->
+    <script src="gsr_db.js?v=2"></script>
 
     <!-- The Auth Script -->
     <script>
@@ -68,12 +66,13 @@
             statusMsg.className = "text-center text-xs font-bold mt-2 text-brand-gold";
 
             try {
-                // Failsafe to ensure the library loaded properly
-                if (!window.db) {
-                    throw new Error("Database link missing. Please refresh the page.");
+                // FAILSAFE: If the browser is still being stubborn with the cache, build it right here
+                if (!window.db && window.supabase) {
+                    window.db = window.supabase.createClient('https://xwrfreokngnknftgzglg.supabase.co', 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw');
+                } else if (!window.db) {
+                    throw new Error("Critical network error. Supabase library failed to load.");
                 }
 
-                // Use the safe 'db' connection
                 const { data, error } = await window.db.auth.signInWithPassword({
                     email: email,
                     password: password,
