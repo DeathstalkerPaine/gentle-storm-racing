@@ -265,17 +265,16 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="gsr_db.js"></script>
 
-    <script>
-        // 1. Check if user is logged in and swap the header buttons
+        <script>
         async function initMainMenu() {
-            if (!window.supabase) return;
+            if (!window.db) return;
 
-            const { data: { session } } = await supabase.auth.getSession();
+            // Use 'window.db' to check login status
+            const { data: { session } } = await window.db.auth.getSession();
             const userNav = document.getElementById('userNav');
 
             if (session) {
-                // Fetch the SL Name from the database
-                const { data: profile } = await supabase
+                const { data: profile } = await window.db
                     .from('gsr_profiles')
                     .select('sl_legacy_name')
                     .eq('id', session.user.id)
@@ -283,7 +282,6 @@
 
                 const displayName = profile?.sl_legacy_name || session.user.email.split('@')[0];
 
-                // Replace buttons with Profile Name and Sign Out button
                 userNav.innerHTML = `
                     <div class="text-right hidden sm:block">
                         <span class="block text-xs font-black text-white uppercase">${displayName}</span>
@@ -295,21 +293,18 @@
                 `;
             }
 
-            // 2. Load live Chat Feed into the widget
             loadLiveChatWidget();
         }
 
-        // 3. The Sign Out Function
         async function executeSignOut() {
-            await supabase.auth.signOut();
-            window.location.reload(); // Refreshes page to show the "Sign In" buttons again
+            await window.db.auth.signOut();
+            window.location.reload(); 
         }
 
-        // 4. Fetch the actual last 3 messages from the database for the widget
         async function loadLiveChatWidget() {
             const feed = document.getElementById('mainMenuChatFeed');
             
-            const { data, error } = await supabase
+            const { data, error } = await window.db
                 .from('gsr_chats')
                 .select('*')
                 .eq('channel', 'global')
@@ -321,7 +316,6 @@
                 return;
             }
 
-            // We fetched newest first, so we reverse them to display top-down correctly
             const latest = data.reverse(); 
             
             feed.innerHTML = '';
@@ -335,7 +329,6 @@
             });
         }
 
-        // Run instantly on load
         window.onload = initMainMenu;
     </script>
 </body>
