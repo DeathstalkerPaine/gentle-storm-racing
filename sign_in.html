@@ -8,6 +8,8 @@
     <script>
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a' } } } } }
     </script>
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col items-center justify-center p-4" style="background-image: radial-gradient(circle at 50% -20%, #1a1a1a, #121212);">
 
@@ -46,11 +48,12 @@
         </div>
     </div>
 
-       <!-- Supabase JS Library & DB Config -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="gsr_db.js"></script>
-
     <script>
+        // Initialize Supabase Client directly
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
         async function handleSignIn(e) {
             e.preventDefault();
             
