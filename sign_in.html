@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <!-- Supabase JS Library & DB Config -->
+       <!-- Supabase JS Library & DB Config -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="gsr_db.js"></script>
 
@@ -61,18 +61,19 @@
             loginBtn.innerHTML = "Authenticating...";
             loginBtn.disabled = true;
 
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password,
-            });
+            try {
+                // 1. Sign in with Supabase Auth
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password,
+                });
 
-            if (error) {
-                alert("Login Failed: " + error.message);
-                loginBtn.innerHTML = "Sign In →";
-                loginBtn.disabled = false;
-            } else {
-                // Check user role from gsr_profiles to direct properly
-                const { data: profile } = await supabase
+                if (error) {
+                    throw new Error(error.message);
+                }
+
+                // 2. Fetch user role from gsr_profiles
+                const { data: profile, error: profileError } = await supabase
                     .from('gsr_profiles')
                     .select('role')
                     .eq('id', data.user.id)
@@ -83,6 +84,11 @@
                 } else {
                     window.location.href = "index.html"; 
                 }
+
+            } catch (err) {
+                alert("Login Error: " + err.message);
+                loginBtn.innerHTML = "Sign In →";
+                loginBtn.disabled = false;
             }
         }
     </script>
