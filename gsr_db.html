@@ -1,4 +1,6 @@
 // gsr_db.js - Global Supabase Initialization
-const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co'; 
-const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw'; 
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+
+// Initialize and overwrite the global variable with the active client instance
+window.supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
