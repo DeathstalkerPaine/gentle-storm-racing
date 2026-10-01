@@ -107,8 +107,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="gsr_db.js"></script>
 
-    <!-- CHAT ENGINE LOGIC -->
-    <script>
+      <script>
         let activeChannel = 'global';
         let currentUser = null;
         let currentProfile = null;
@@ -121,8 +120,9 @@
         };
 
         async function initChatSystem() {
-            // Check active Supabase session
-            const { data: { session } } = await supabase.auth.getSession();
+            if (!window.db) return;
+
+            const { data: { session } } = await window.db.auth.getSession();
 
             if (!session) {
                 currentUser = null;
@@ -132,8 +132,7 @@
                 document.getElementById('chatInput').disabled = true;
             } else {
                 currentUser = session.user;
-                // Fetch profile name
-                const { data: profile } = await supabase
+                const { data: profile } = await window.db
                     .from('gsr_profiles')
                     .select('sl_legacy_name, role')
                     .eq('id', currentUser.id)
@@ -167,7 +166,7 @@
             const container = document.getElementById('messagesArea');
             container.innerHTML = '<div class="m-auto text-center text-gray-500 font-bold uppercase text-[10px]">Loading transmission logs...</div>';
 
-            const { data, error } = await supabase
+            const { data, error } = await window.db
                 .from('gsr_chats')
                 .select('*')
                 .eq('channel', activeChannel)
@@ -191,7 +190,6 @@
 
         function appendMessageToUI(msg) {
             const container = document.getElementById('messagesArea');
-            // Remove quiet notice if present
             if (container.innerText.includes("[ Channel is quiet ]") || container.innerText.includes("Loading transmission logs...")) {
                 container.innerHTML = '';
             }
@@ -229,7 +227,7 @@
 
             const displayName = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
 
-            const { error } = await supabase.from('gsr_chats').insert([{
+            const { error } = await window.db.from('gsr_chats').insert([{
                 user_id: currentUser.id,
                 display_name: displayName,
                 message: val,
@@ -244,7 +242,7 @@
         }
 
         function subscribeToRealtime() {
-            supabase
+            window.db
                 .channel('public:gsr_chats')
                 .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
                     if (payload.new.channel === activeChannel) {
@@ -258,12 +256,10 @@
             return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
 
-        // Enter key listener
         document.getElementById('chatInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') sendMessage();
         });
 
-        // Initialize on page load
         window.onload = () => initChatSystem();
     </script>
 </body>
