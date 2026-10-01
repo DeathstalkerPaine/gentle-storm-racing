@@ -80,9 +80,17 @@
                 if (error) throw error;
 
                 // Figure out where to send them back to
-                let returnPage = 'index.html'; // Default fallback
-                if (document.referrer && !document.referrer.includes('sign_')) {
-                    returnPage = document.referrer; // Sends them back to the exact page they clicked from
+let returnPage = 'index.html'; // Default fallback
+if (document.referrer && !document.referrer.includes('sign_')) {
+    returnPage = document.referrer; // Sends them back to the exact page they clicked from
+}
+
+statusMsg.innerText = "Access Granted! Routing...";
+statusMsg.className = "text-center text-xs font-bold mt-2 text-brand-green";
+
+setTimeout(() => {
+    window.location.href = returnPage;
+}, 1000);
                 }
 
                 // Success! Show message and route after 1 second
