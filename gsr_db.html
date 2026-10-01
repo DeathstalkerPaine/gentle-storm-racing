@@ -1,17 +1,6 @@
-// gsr_db.js - Global Supabase Initialization
+// gsr_db.js - Global Supabase Connection
 const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
 const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
 
-// Create a persistent global client instance without destroying the Supabase library
-if (!window.supabaseClient) {
-    window.supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey, {
-        auth: {
-            persistSession: true,
-            autoRefreshToken: true,
-            detectSessionInUrl: true
-        }
-    });
-}
-
-// Global shortcut for all page scripts
-var supabase = window.supabaseClient;
+// Create the client and save it to 'window.db' to prevent naming collisions
+window.db = window.supabase.createClient(supabaseUrl, supabaseKey);
