@@ -41,11 +41,6 @@
                 </button>
             </form>
         </div>
-
-        <div class="mt-6 text-center space-y-3">
-            <p class="text-[10px] text-gray-500 uppercase font-bold">Don't have an account? <a href="sign_up.html" class="text-brand-gold hover:underline">Register Here</a></p>
-            <p class="text-[9px] text-gray-600 uppercase font-black tracking-widest pt-4 border-t border-brand-border/50">Admin Portal: <a href="admin.html" class="text-brand-red hover:underline">Strict Access Only</a></p>
-        </div>
     </div>
 
     <script>
@@ -75,18 +70,9 @@
                     throw new Error(error.message);
                 }
 
-                // 2. Fetch user role from gsr_profiles
-                const { data: profile, error: profileError } = await supabase
-                    .from('gsr_profiles')
-                    .select('role')
-                    .eq('id', data.user.id)
-                    .single();
-
-                if (profile && profile.role === 'admin') {
-                    window.location.href = "admin.html";
-                } else {
-                    window.location.href = "index.html"; 
-                }
+                // 2. Success! Route directly to the Chats page
+                alert("Access Granted! Routing to GSR Comms Network...");
+                window.location.href = "chats.html";
 
             } catch (err) {
                 alert("Login Error: " + err.message);
