@@ -8,7 +8,7 @@
     <script>
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', green: '#10B981' } } } } }
     </script>
-    <!-- Load Supabase -->
+    <!-- Load Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col items-center justify-center p-4" style="background-image: radial-gradient(circle at 50% -20%, #1a1a1a, #121212);">
@@ -22,7 +22,6 @@
 
         <div class="bg-brand-card border border-brand-border rounded-xl shadow-2xl p-6 sm:p-8">
             
-            <!-- CHANGED: No longer a <form> to prevent Safari white-screen crashes -->
             <div class="space-y-5">
                 <div>
                     <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">Email Address</label>
@@ -33,7 +32,7 @@
                     <div class="flex justify-between items-center mb-1">
                         <label class="block text-[9px] font-black uppercase text-gray-500">Password</label>
                     </div>
-                    <!-- Enter key press logic mapped manually -->
+                    <!-- Enter key triggers executeLogin() -->
                     <input type="password" id="loginPassword" onkeypress="if(event.key === 'Enter') executeLogin()" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
                 </div>
 
@@ -41,59 +40,61 @@
                     Sign In →
                 </button>
 
-                <!-- On-screen status text instead of popups -->
+                <!-- Feedback Message Container -->
                 <p id="statusMsg" class="text-center text-xs font-bold mt-2"></p>
             </div>
         </div>
     </div>
 
+    <!-- The Auth Script -->
     <script>
         async function executeLogin() {
             const loginBtn = document.getElementById('loginBtn');
             const statusMsg = document.getElementById('statusMsg');
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+            const emailInput = document.getElementById('loginEmail');
+            const passwordInput = document.getElementById('loginPassword');
 
-            if(!email || !password) {
-                statusMsg.innerText = "Please enter email and password.";
-                statusMsg.className = "text-center text-xs font-bold mt-2 text-brand-red";
-                return;
-            }
-            
+            // 1. Immediately provide visual feedback so we know the button click worked
             loginBtn.innerHTML = "Authenticating...";
             loginBtn.disabled = true;
             statusMsg.innerText = "Connecting to network...";
             statusMsg.className = "text-center text-xs font-bold mt-2 text-brand-gold";
 
-                        try {
-                // Initialize Supabase
+            try {
+                const email = emailInput.value.trim();
+                const password = passwordInput.value;
+
+                if (!email || !password) {
+                    throw new Error("Please enter both your email and password.");
+                }
+
+                if (!window.supabase) {
+                    throw new Error("Network library still loading. Please try again in 2 seconds.");
+                }
+
+                // 2. Initialize connection
                 const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
                 const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
                 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-                // Sign in
+                // 3. Attempt to Sign In
                 const { data, error } = await supabase.auth.signInWithPassword({
                     email: email,
                     password: password,
                 });
 
-                if (error) throw error;
-
-                // Figure out where to send them back to
-let returnPage = 'index.html'; // Default fallback
-if (document.referrer && !document.referrer.includes('sign_')) {
-    returnPage = document.referrer; // Sends them back to the exact page they clicked from
-}
-
-statusMsg.innerText = "Access Granted! Routing...";
-statusMsg.className = "text-center text-xs font-bold mt-2 text-brand-green";
-
-setTimeout(() => {
-    window.location.href = returnPage;
-}, 1000);
+                // If Supabase rejects it (wrong password, etc.), jump to the catch block
+                if (error) {
+                    throw error; 
                 }
 
-                // Success! Show message and route after 1 second
+                // 4. Figure out where to send the user back to
+                let returnPage = 'index.html'; 
+                if (document.referrer && !document.referrer.includes('sign_')) {
+                    returnPage = document.referrer; 
+                }
+
+                // 5. Success! Show green message and route back
                 statusMsg.innerText = "Access Granted! Routing back...";
                 statusMsg.className = "text-center text-xs font-bold mt-2 text-brand-green";
                 
@@ -102,7 +103,7 @@ setTimeout(() => {
                 }, 1000);
 
             } catch (err) {
-
+                // If anything fails, show the exact error in red text
                 statusMsg.innerText = "Error: " + err.message;
                 statusMsg.className = "text-center text-xs font-bold mt-2 text-brand-red";
                 loginBtn.innerHTML = "Sign In →";
