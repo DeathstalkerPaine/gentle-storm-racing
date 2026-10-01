@@ -65,7 +65,7 @@
             statusMsg.innerText = "Connecting to network...";
             statusMsg.className = "text-center text-xs font-bold mt-2 text-brand-gold";
 
-            try {
+                        try {
                 // Initialize Supabase
                 const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
                 const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
@@ -79,15 +79,22 @@
 
                 if (error) throw error;
 
+                // Figure out where to send them back to
+                let returnPage = 'index.html'; // Default fallback
+                if (document.referrer && !document.referrer.includes('sign_')) {
+                    returnPage = document.referrer; // Sends them back to the exact page they clicked from
+                }
+
                 // Success! Show message and route after 1 second
-                statusMsg.innerText = "Access Granted! Routing...";
+                statusMsg.innerText = "Access Granted! Routing back...";
                 statusMsg.className = "text-center text-xs font-bold mt-2 text-brand-green";
                 
                 setTimeout(() => {
-                    window.location.href = "chats.html";
+                    window.location.href = returnPage;
                 }, 1000);
 
             } catch (err) {
+
                 statusMsg.innerText = "Error: " + err.message;
                 statusMsg.className = "text-center text-xs font-bold mt-2 text-brand-red";
                 loginBtn.innerHTML = "Sign In →";
