@@ -84,139 +84,196 @@
         </section>
     </main>
 
-    <!-- Embedded Database Logic (No Cache Bugs) -->
-    <script>
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+   <!-- SUPABASE NATIVE ENGINE FOR CHATS HUB -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        let activeChannel = 'global';
-        let currentUser = null;
-        let currentProfile = null;
+<script>
+    const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+    const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+    const db = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        const channelHeaders = {
-            global: { title: "🌐 Global Chat", desc: "Public broadcast for all verified racers." },
-            following: { title: "👥 Following", desc: "Feed from racers and teams you follow." },
-            team: { title: "🛡️ Team Chat", desc: "Encrypted channel visible ONLY to your team." },
-            pro_plus: { title: "⭐ Pro Plus Lounge", desc: "Exclusive channel for GSR Pro Plus subscribers." }
-        };
+    let activeChannel = 'global';
+    let currentUser = null;
+    let currentProfile = null;
 
-        async function initChatSystem() {
-            const { data: { session } } = await db.auth.getSession();
+    const channelHeaders = {
+        global: { title: "🌐 Global Chat", desc: "Public broadcast for all verified racers." },
+        following: { title: "👥 Following", desc: "Feed from racers and teams you follow." },
+        team: { title: "🛡️ Team Chat", desc: "Encrypted channel visible ONLY to your team." },
+        pro_plus: { title: "⭐ Pro Plus Lounge", desc: "Exclusive channel for GSR Pro Plus subscribers." }
+    };
 
-            if (!session) {
-                // Not logged in
-                currentUser = null;
-                document.getElementById('headerProfileName').innerText = "Guest User";
-                document.getElementById('userStatusBanner').innerText = "Read-Only Mode";
-                document.getElementById('headerProfileStatus').innerText = "Not Cleared to Race";
-                
-                const input = document.getElementById('chatInput');
-                input.placeholder = "Sign in at Main Menu to chat...";
-                input.disabled = true;
-            } else {
-                // Logged in
-                currentUser = session.user;
-                const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, role').eq('id', currentUser.id).single();
+    async function initChatSystem() {
+        // 1. Sync User Session
+        const { data: { session } } = await db.auth.getSession();
 
-                currentProfile = profile;
-                const name = profile?.sl_legacy_name || currentUser.email.split('@')[0];
-                document.getElementById('headerProfileName').innerText = name;
-                document.getElementById('userStatusBanner').innerText = "Verified Driver Online";
-                
-                const statusSpan = document.getElementById('headerProfileStatus');
-                statusSpan.innerHTML = "Status: Cleared to Race";
-                statusSpan.className = "text-[9px] text-brand-green uppercase font-mono";
-                
-                document.getElementById('chatInput').placeholder = "Type your message here...";
+        const nameDisplay = document.getElementById('headerProfileName');
+        const statusBanner = document.getElementById('userStatusBanner');
+        const statusTag = document.getElementById('headerProfileStatus');
+        const chatInput = document.getElementById('chatInput');
+
+        if (!session) {
+            // Guest Mode
+            currentUser = null;
+            if (nameDisplay) nameDisplay.innerText = "Guest User";
+            if (statusBanner) statusBanner.innerText = "Read-Only Mode";
+            if (statusTag) {
+                statusTag.innerText = "Not Cleared to Race";
+                statusTag.className = "text-[9px] text-gray-500 uppercase font-mono";
             }
+            if (chatInput) {
+                chatInput.placeholder = "Sign in at Main Menu to chat...";
+                chatInput.disabled = true;
+            }
+        } else {
+            // Authenticated Driver
+            currentUser = session.user;
+            const { data: profile } = await db
+                .from('gsr_profiles')
+                .select('sl_legacy_name, role')
+                .eq('id', currentUser.id)
+                .single();
 
-            fetchMessages();
-            subscribeToRealtime();
+            currentProfile = profile;
+            const name = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+            if (nameDisplay) nameDisplay.innerText = name;
+            if (statusBanner) statusBanner.innerText = "Verified Driver Online";
+            if (statusTag) {
+                statusTag.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse inline-block mr-1"></span> Cleared to Race`;
+                statusTag.className = "text-[9px] text-brand-green uppercase font-mono font-bold flex items-center justify-end";
+            }
+            if (chatInput) {
+                chatInput.placeholder = "Type your message here...";
+                chatInput.disabled = false;
+            }
         }
 
-        function switchChannel(channel, btn) {
-            activeChannel = channel;
-            document.querySelectorAll('.channel-btn').forEach(b => {
-                b.className = "channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase text-gray-400 hover:bg-brand-bg transition flex justify-between items-center mb-1";
-            });
-            btn.className = "channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase bg-brand-gold text-black transition flex justify-between items-center mb-1 font-black shadow";
-            document.getElementById('channelTitle').innerText = channelHeaders[channel].title;
-            document.getElementById('channelDesc').innerText = channelHeaders[channel].desc;
-            fetchMessages();
+        // 2. Fetch history and start real-time listener
+        fetchMessages();
+        subscribeToRealtime();
+    }
+
+    function switchChannel(channel, btn) {
+        activeChannel = channel;
+
+        // Reset button active states if sidebar buttons exist
+        document.querySelectorAll('.channel-btn').forEach(b => {
+            b.className = "channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase text-gray-400 hover:bg-brand-bg transition flex justify-between items-center mb-1 cursor-pointer";
+        });
+        if (btn) {
+            btn.className = "channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase bg-brand-gold text-black transition flex justify-between items-center mb-1 font-black shadow cursor-pointer";
         }
 
-        async function fetchMessages() {
-            const container = document.getElementById('messagesArea');
-            container.innerHTML = '<div class="m-auto text-center text-gray-500 font-bold uppercase text-[10px]">Loading transmission logs...</div>';
+        const titleEl = document.getElementById('channelTitle');
+        const descEl = document.getElementById('channelDesc');
+        if (titleEl) titleEl.innerText = channelHeaders[channel]?.title || channel;
+        if (descEl) descEl.innerText = channelHeaders[channel]?.desc || '';
 
-            const { data, error } = await db.from('gsr_chats').select('*').eq('channel', activeChannel).order('created_at', { ascending: true }).limit(50);
+        fetchMessages();
+    }
 
+    async function fetchMessages() {
+        const container = document.getElementById('messagesArea');
+        if (!container) return;
+
+        container.innerHTML = '<div class="m-auto text-center text-gray-500 font-bold uppercase text-[10px]">[ Fetching frequency logs... ]</div>';
+
+        const { data, error } = await db
+            .from('gsr_chats')
+            .select('*')
+            .eq('channel', activeChannel)
+            .order('created_at', { ascending: true })
+            .limit(50);
+
+        container.innerHTML = '';
+        if (error || !data || data.length === 0) {
+            container.innerHTML = `<div class="m-auto text-center text-gray-500 font-bold uppercase text-[10px]">[ Channel is quiet ]</div>`;
+            return;
+        }
+
+        data.forEach(msg => appendMessageToUI(msg));
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function appendMessageToUI(msg) {
+        const container = document.getElementById('messagesArea');
+        if (!container) return;
+
+        if (container.innerText.includes("[ Channel is quiet ]") || container.innerText.includes("[ Fetching frequency logs... ]")) {
             container.innerHTML = '';
-            if (error || !data || data.length === 0) {
-                container.innerHTML = `<div class="m-auto text-center text-gray-500 font-bold uppercase text-[10px]">[ Channel is quiet ]</div>`;
-                return;
-            }
-
-            data.forEach(msg => appendMessageToUI(msg));
-            container.scrollTop = container.scrollHeight;
         }
 
-        function appendMessageToUI(msg) {
-            const container = document.getElementById('messagesArea');
-            if (container.innerText.includes("[ Channel is quiet ]")) container.innerHTML = '';
+        const isMe = currentUser && msg.user_id === currentUser.id;
+        const alignClass = isMe ? "self-end items-end" : "self-start items-start";
+        const bgClass = isMe ? "bg-brand-gold/10 border border-brand-gold text-white" : "bg-[#1f1f1f] border border-brand-border text-gray-200";
+        const time = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-            const isMe = currentUser && msg.user_id === currentUser.id;
-            const alignClass = isMe ? "self-end items-end" : "self-start items-start";
-            const bgClass = isMe ? "bg-brand-gold/10 border border-brand-gold text-white" : "bg-[#1f1f1f] border border-brand-border text-gray-200";
-            const time = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const div = document.createElement('div');
+        div.className = `flex flex-col ${alignClass} chat-bubble max-w-[85%]`;
+        div.innerHTML = `
+            <div class="flex items-center gap-2 mb-1 text-[10px]">
+                <span class="font-black ${isMe ? 'text-brand-gold' : 'text-brand-blue'} uppercase tracking-wider">${escapeHtml(msg.display_name)}</span>
+                <span class="text-[8px] text-gray-600">${time}</span>
+            </div>
+            <div class="${bgClass} px-3 py-2 rounded-lg text-xs leading-relaxed break-words shadow-sm">
+                <span>${escapeHtml(msg.message)}</span>
+            </div>
+        `;
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+    }
 
-            const div = document.createElement('div');
-            div.className = `flex flex-col ${alignClass} chat-bubble`;
-            div.innerHTML = `
-                <div class="flex items-center gap-2 mb-1 text-[10px]">
-                    <span class="font-black ${isMe ? 'text-brand-gold' : 'text-brand-blue'} uppercase tracking-wider">${escapeHtml(msg.display_name)}</span>
-                    <span class="text-[8px] text-gray-600">${time}</span>
-                </div>
-                <div class="${bgClass} px-3 py-2 rounded-lg text-xs leading-relaxed break-words shadow-sm">
-                    <span class="msg-content">${escapeHtml(msg.message)}</span>
-                </div>
-            `;
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
+    async function sendMessage() {
+        if (!currentUser) {
+            alert("You are in Guest Mode. Please return to the Main Menu to sign in.");
+            return;
         }
 
-        async function sendMessage() {
-            if (!currentUser) {
-                alert("You are in Guest Mode. Please return to the Main Menu to sign in.");
-                return;
-            }
+        const input = document.getElementById('chatInput');
+        if (!input) return;
 
-            const input = document.getElementById('chatInput');
-            const val = input.value.trim();
-            if (!val) return;
+        const val = input.value.trim();
+        if (!val) return;
 
-            const displayName = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
+        const displayName = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
 
-            await db.from('gsr_chats').insert([{
-                user_id: currentUser.id,
-                display_name: displayName,
-                message: val,
-                channel: activeChannel
-            }]);
+        const { error } = await db.from('gsr_chats').insert([{
+            user_id: currentUser.id,
+            display_name: displayName,
+            message: val,
+            channel: activeChannel
+        }]);
+
+        if (error) {
+            alert("Transmission failed: " + error.message);
+        } else {
             input.value = '';
         }
+    }
 
-        function subscribeToRealtime() {
-            db.channel('public:gsr_chats').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
-                if (payload.new.channel === activeChannel) appendMessageToUI(payload.new);
-            }).subscribe();
-        }
+    function subscribeToRealtime() {
+        db.channel('public:gsr_chats_hub')
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
+                if (payload.new.channel === activeChannel) {
+                    appendMessageToUI(payload.new);
+                }
+            })
+            .subscribe();
+    }
 
-        function escapeHtml(str) { return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
-        document.getElementById('chatInput').addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
-        
-        window.onload = initChatSystem;
-    </script>
+    function escapeHtml(str) {
+        return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+    }
+
+    const inputField = document.getElementById('chatInput');
+    if (inputField) {
+        inputField.addEventListener('keypress', e => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    }
+
+    window.onload = initChatSystem;
+</script>
 </body>
 </html>
