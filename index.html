@@ -261,20 +261,22 @@
         </div>
     </footer>
 
-    <!-- SUPABASE & DYNAMIC USER/CHAT WIDGET SCRIPT ENGINE -->
+           <!-- 1. Load Supabase Natively -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="gsr_db.js"></script>
+    
+    <!-- Embedded Database Logic (No Cache Bugs) -->
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        <script>
         async function initMainMenu() {
-            if (!window.db) return;
-
-            // Use 'window.db' to check login status
-            const { data: { session } } = await window.db.auth.getSession();
+            const { data: { session } } = await db.auth.getSession();
             const userNav = document.getElementById('userNav');
 
             if (session) {
-                const { data: profile } = await window.db
+                // Fetch the SL Name from the database
+                const { data: profile } = await db
                     .from('gsr_profiles')
                     .select('sl_legacy_name')
                     .eq('id', session.user.id)
@@ -282,6 +284,7 @@
 
                 const displayName = profile?.sl_legacy_name || session.user.email.split('@')[0];
 
+                // Replace buttons with Profile Name and Sign Out button
                 userNav.innerHTML = `
                     <div class="text-right hidden sm:block">
                         <span class="block text-xs font-black text-white uppercase">${displayName}</span>
@@ -297,14 +300,14 @@
         }
 
         async function executeSignOut() {
-            await window.db.auth.signOut();
+            await db.auth.signOut();
             window.location.reload(); 
         }
 
         async function loadLiveChatWidget() {
             const feed = document.getElementById('mainMenuChatFeed');
             
-            const { data, error } = await window.db
+            const { data, error } = await db
                 .from('gsr_chats')
                 .select('*')
                 .eq('channel', 'global')
