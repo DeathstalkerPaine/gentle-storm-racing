@@ -261,82 +261,114 @@
         </div>
     </footer>
 
-    <!-- SUPABASE & DYNAMIC USER/CHAT WIDGET SCRIPT ENGINE -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="gsr_db.js"></script>
+   <!-- SUPABASE NATIVE ENGINE FOR INDEX -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <script>
-        // 1. Check if user is logged in and swap the header buttons
-        async function initMainMenu() {
-            if (!window.supabase) return;
+<script>
+    const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+    const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+    const db = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-            const { data: { session } } = await supabase.auth.getSession();
-            const userNav = document.getElementById('userNav');
+    let currentIndexChannel = 'global';
 
-            if (session) {
-                // Fetch the SL Name from the database
-                const { data: profile } = await supabase
-                    .from('gsr_profiles')
-                    .select('sl_legacy_name')
-                    .eq('id', session.user.id)
-                    .single();
+    async function initMainMenu() {
+        // 1. Sync user session in top header
+        const { data: { session } } = await db.auth.getSession();
+        const userNav = document.getElementById('userNav');
 
-                const displayName = profile?.sl_legacy_name || session.user.email.split('@')[0];
+        if (session && userNav) {
+            const { data: profile } = await db
+                .from('gsr_profiles')
+                .select('sl_legacy_name')
+                .eq('id', session.user.id)
+                .single();
 
-                // Replace buttons with Profile Name and Sign Out button
-                userNav.innerHTML = `
-                    <div class="text-right hidden sm:block">
-                        <span class="block text-xs font-black text-white uppercase">${displayName}</span>
-                        <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
-                        </span>
-                    </div>
-                    <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
-                `;
-            }
+            const displayName = profile?.sl_legacy_name || session.user.email.split('@')[0];
 
-            // 2. Load live Chat Feed into the widget
-            loadLiveChatWidget();
+            userNav.innerHTML = `
+                <div class="text-right hidden sm:block">
+                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                    <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
+                    </span>
+                </div>
+                <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
+            `;
         }
 
-        // 3. The Sign Out Function
-        async function executeSignOut() {
-            await supabase.auth.signOut();
-            window.location.reload(); // Refreshes page to show the "Sign In" buttons again
+        // 2. Load default read-only Global chat feed
+        loadIndexChatWidget();
+
+        // 3. Listen for live transmissions in real-time
+        subscribeToIndexRealtime();
+    }
+
+    async function switchIndexChannel(channel) {
+        currentIndexChannel = channel;
+        const label = document.getElementById('indexChannelLabel');
+        const channelNames = {
+            global: '🌐 Global',
+            following: '👥 Following',
+            team: '🛡️ Teams',
+            pro_plus: '⭐ Pro Plus'
+        };
+        
+        if (label) label.innerText = `Active: ${channelNames[channel] || channel}`;
+        loadIndexChatWidget();
+    }
+
+    async function loadIndexChatWidget() {
+        const feed = document.getElementById('mainMenuChatFeed');
+        if (!feed) return;
+
+        // Fetch last 3 messages for the selected dropdown channel
+        const { data, error } = await db
+            .from('gsr_chats')
+            .select('*')
+            .eq('channel', currentIndexChannel)
+            .order('created_at', { ascending: false })
+            .limit(3);
+
+        if (error || !data || data.length === 0) {
+            feed.innerHTML = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No active transmissions on this channel ]</div>`;
+            return;
         }
 
-        // 4. Fetch the actual last 3 messages from the database for the widget
-        async function loadLiveChatWidget() {
-            const feed = document.getElementById('mainMenuChatFeed');
-            
-            const { data, error } = await supabase
-                .from('gsr_chats')
-                .select('*')
-                .eq('channel', 'global')
-                .order('created_at', { ascending: false })
-                .limit(3);
+        const latest = data.reverse(); 
+        feed.innerHTML = '';
+        
+        latest.forEach(msg => {
+            feed.innerHTML += `
+                <div class="text-[10px] leading-snug truncate">
+                    <span class="font-black text-brand-gold uppercase">[${escapeHtml(msg.display_name)}]:</span> 
+                    <span class="text-gray-300">${escapeHtml(msg.message)}</span>
+                </div>
+            `;
+        });
+    }
 
-            if (error || !data || data.length === 0) {
-                feed.innerHTML = `<span class="text-[10px] text-gray-500 text-center block mt-8">[ No active comms ]</span>`;
-                return;
-            }
+    // REALTIME LISTENER
+    function subscribeToIndexRealtime() {
+        db.channel('public:gsr_chats_index')
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
+                // Instantly update if a new message arrives on the active channel
+                if (payload.new.channel === currentIndexChannel) {
+                    loadIndexChatWidget();
+                }
+            })
+            .subscribe();
+    }
 
-            // We fetched newest first, so we reverse them to display top-down correctly
-            const latest = data.reverse(); 
-            
-            feed.innerHTML = '';
-            latest.forEach(msg => {
-                feed.innerHTML += `
-                    <div class="text-[10px] leading-snug truncate">
-                        <span class="font-black text-brand-blue uppercase">[Global] ${msg.display_name}:</span> 
-                        <span class="text-gray-300">${msg.message}</span>
-                    </div>
-                `;
-            });
-        }
+    async function executeSignOut() {
+        await db.auth.signOut();
+        window.location.reload(); 
+    }
 
-        // Run instantly on load
-        window.onload = initMainMenu;
-    </script>
+    function escapeHtml(str) {
+        return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+    }
+
+    window.onload = initMainMenu;
+</script>
 </body>
 </html>
