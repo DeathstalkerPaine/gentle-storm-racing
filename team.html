@@ -1,11 +1,9 @@
-Here is the complete, full code for the Team Profile Page (team.html).
-It sets 🛡️ Team Chat as the default channel. If a user is not logged in or is not a verified member of the team, the feed is encrypted (🔒 ENCRYPTED FREQUENCY - MEMBERS ONLY) and messaging is completely locked down. When a verified team member signs in, their encrypted team channel unlocks automatically.
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Storm Riders | Team Profile Hub</title>
+    <title>Storm Riders | Official Team Card</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -13,38 +11,48 @@ It sets 🛡️ Team Chat as the default channel. If a user is not logged in or 
             theme: {
                 extend: {
                     colors: {
-                        brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' }
+                        brand: {
+                            bg: '#121212',
+                            card: '#151515',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a',
+                            blue: '#2a75ff',
+                            green: '#10B981'
+                        }
                     }
                 }
             }
         }
     </script>
     <style>
-        .gold-card-glow { border: 1px solid #c5a059; box-shadow: 0 0 20px rgba(197, 160, 89, 0.15); }
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
-        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2a75ff; }
+        
+        /* Custom Trading Card Border Foil Effect */
+        .card-foil-border {
+            background: linear-gradient(135deg, #2a75ff 0%, #112a55 25%, #121212 50%, #112a55 75%, #2a75ff 100%);
+            padding: 2px;
+        }
+        .card-texture { background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 2px, transparent 2px, transparent 4px); }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- HEADER -->
+    <!-- SUB-PAGE HEADER -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
-            <!-- Left Logo -->
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
-                <a href="index.html" class="inline-block">
-                    <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
-                </a>
+                <a href="index.html"><img src="h-logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
             </div>
-            
-            <!-- Centered Header Title -->
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
-                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Team Alliance</span>
-                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white">STORM RIDERS</h1>
-            </div>                 
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Official Team Card</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">STORM RIDERS</h1>
+            </div>
 
-            <!-- Dynamic Auth Buttons Container -->
+            <!-- Dynamic User Auth Header -->
             <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2">
                 <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
                 <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
@@ -52,157 +60,182 @@ It sets 🛡️ Team Chat as the default channel. If a user is not logged in or 
         </div>
     </header>
 
-    <!-- SUB-NAVBAR LINKS -->
+    <!-- SUB-NAVBAR -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
             <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
             <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
             <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
-            <a href="teams.html" class="text-brand-gold underline decoration-2 underline-offset-4">Teams Hub</a>
-            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards</a>
+            <a href="racers_profiles.html" class="text-gray-300 hover:text-brand-gold transition">Racers Profile</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Racer Leaderboard</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams Hub</a>
+            <a href="teams_profiles.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">Teams Profile</a>
+            <a href="team_leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Team Leaderboards</a>
+            <a href="team_events.html" class="text-gray-300 hover:text-brand-gold transition">Team Events</a>
+            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">League</a>
             <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
             <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
         </div>
     </nav>
 
-    <!-- MAIN TEAM CONTAINER -->
-    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 space-y-8">
-
-        <!-- TEAM BANNER CARD -->
-        <section class="bg-[#181818] border border-brand-gold/60 rounded-xl p-6 md:p-8 gold-card-glow relative space-y-6">
-            
-            <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
-                <!-- Team Crest/Logo Placeholder -->
-                <div class="w-36 h-36 bg-[#0a0a0a] border border-brand-gold rounded-lg flex flex-col items-center justify-center relative shrink-0">
-                    <span class="w-2.5 h-2.5 rounded-full bg-brand-gold absolute top-2 right-2 animate-pulse"></span>
-                    <span class="text-[9px] text-brand-gold font-bold uppercase tracking-widest text-center px-2">STORM RIDERS CREST</span>
-                </div>
-
-                <!-- Team Identity -->
-                <div class="flex-grow text-center md:text-left space-y-2">
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
-                        <h1 class="text-3xl md:text-5xl font-black uppercase tracking-wider text-white">STORM RIDERS</h1>
-                        <span class="text-xs font-mono font-black text-brand-gold bg-brand-gold/10 border border-brand-gold px-3 py-1 rounded">RANK #1 TEAM</span>
-                    </div>
-                    
-                    <p class="text-brand-gold font-black text-xs uppercase tracking-widest italic">"RIDE THE THUNDER, DOMINATE THE GRID"</p>
-
-                    <div class="text-[10px] text-gray-400 uppercase font-bold pt-2 flex flex-wrap gap-4 justify-center md:justify-start">
-                        <span>TEAM LEADER: <span class="text-white font-black">DEATHSTALKER PAINE</span></span>
-                        <span>MEMBERS: <span class="text-white font-black">4 DRIVERS</span></span>
-                        <span>DIVISION: <span class="text-brand-red font-black">PRO LEAGUE</span></span>
-                    </div>
-                </div>
-
-                <!-- Join/Follow Button -->
-                <button class="bg-[#111] border border-brand-gold hover:bg-brand-gold hover:text-black text-brand-gold text-[9px] font-black uppercase px-4 py-2.5 rounded transition tracking-wider shrink-0 cursor-pointer">
-                    REQUEST TO JOIN TEAM +
-                </button>
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-5xl w-full mx-auto py-10 px-4">
+        
+        <div class="flex justify-between items-center mb-6">
+            <a href="teams_profiles.html" class="inline-flex items-center text-xs text-gray-400 hover:text-white transition uppercase font-bold">
+                &larr; Back to Directory
+            </a>
+            <div class="bg-brand-card border border-brand-border px-4 py-2 rounded-lg shadow text-center">
+                <span class="block text-[9px] uppercase font-bold text-gray-500">Syndicate Points</span>
+                <span class="text-xl font-black text-brand-gold">12,500 <span class="text-[10px] text-white uppercase">PTS</span></span>
             </div>
+        </div>
 
-            <!-- TEAM ROSTER SLOTS -->
-            <div class="bg-[#111] border border-brand-border rounded-lg p-4">
-                <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest block mb-3">OFFICIAL DRIVER ROSTER</span>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <div class="bg-brand-bg border border-brand-gold p-2.5 rounded text-center">
-                        <span class="block text-white text-xs font-black uppercase truncate">Deathstalker Paine</span>
-                        <span class="text-[8px] text-brand-red font-bold uppercase">Team Leader</span>
-                    </div>
-                    <div class="bg-brand-bg border border-brand-border p-2.5 rounded text-center">
-                        <span class="block text-gray-300 text-xs font-black uppercase truncate">Vortex_SL</span>
-                        <span class="text-[8px] text-brand-blue font-bold uppercase">Pro Driver</span>
-                    </div>
-                    <div class="bg-brand-bg border border-brand-border p-2.5 rounded text-center">
-                        <span class="block text-gray-300 text-xs font-black uppercase truncate">BlazeRunner</span>
-                        <span class="text-[8px] text-gray-400 font-bold uppercase">Pro Driver</span>
-                    </div>
-                    <div class="bg-brand-bg border border-brand-border p-2.5 rounded text-center">
-                        <span class="block text-gray-400 text-xs font-black uppercase truncate">PhantomDriver</span>
-                        <span class="text-[8px] text-gray-500 font-bold uppercase">Reserve</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BOTTOM GRID: TEAM STATS (LEFT) vs ENCRYPTED TEAM CHAT (RIGHT) -->
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 pt-2">
+        <!-- THE TEAM TRADING CARD WRAPPER -->
+        <div class="card-foil-border rounded-2xl shadow-[0_0_40px_rgba(42,117,255,0.15)] relative">
+            <div class="bg-brand-card rounded-[14px] overflow-hidden relative card-texture">
                 
-                <!-- LEFT 7 COLUMNS: TEAM TELEMETRY -->
-                <div class="md:col-span-7 space-y-4">
-                    <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest block">TEAM CUMULATIVE STATS</span>
-
-                    <div class="grid grid-cols-3 gap-3">
-                        <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
-                            <span class="block text-[8px] font-black uppercase text-gray-500">TOTAL VICTORIES</span>
-                            <span class="text-xl font-black text-brand-gold">128</span>
-                        </div>
-                        <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
-                            <span class="block text-[8px] font-black uppercase text-gray-500">CHAMPIONSHIP POINTS</span>
-                            <span class="text-xl font-black text-white">4,850</span>
-                        </div>
-                        <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
-                            <span class="block text-[8px] font-black uppercase text-gray-500">WIN RATE</span>
-                            <span class="text-xl font-black text-brand-green">74.2%</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-[#111] border border-brand-border rounded-lg p-4">
-                        <span class="block text-[8px] font-black uppercase text-gray-500 mb-1">TEAM ALLIANCE SUMMARY</span>
-                        <p class="text-xs text-gray-300 italic leading-relaxed">
-                            Undefeated in the 2026 Season 2 Constructor Series. Lead mechanics operating out of Ancient Rome & Vegas circuits.
-                        </p>
+                <!-- 1. Banner & Status Badge -->
+                <div class="h-64 w-full bg-cover bg-center relative border-b border-brand-border" style="background-image: url('stormriders-banner.jpg'); background-color: #111a22;">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
+                    
+                    <div class="absolute top-4 right-6 z-10 flex gap-2">
+                        <span class="bg-black/80 text-brand-blue border border-brand-blue font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg">Pro Plus League Syndicate</span>
+                        <span class="bg-green-500 text-black border border-green-300 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg animate-pulse">● Recruiting Drivers</span>
                     </div>
                 </div>
 
-                <!-- RIGHT 5 COLUMNS: GSR COMMS WIDGET (TEAM DEFAULT) -->
-                <div class="md:col-span-5 bg-[#111] border border-brand-border rounded-lg p-4 flex flex-col justify-between">
-                    <div>
-                        <!-- Widget Header -->
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-[10px] font-black uppercase text-white tracking-widest flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></span> GSR COMMS
-                            </span>
+                <!-- 2. Header Box: Logo, Identity, Trophies -->
+                <div class="px-8 pb-6 relative border-b border-brand-border">
+                    <div class="flex flex-col md:flex-row items-start md:items-end justify-between -mt-20 gap-6 relative z-10">
+                        
+                        <!-- Team Logo Box -->
+                        <div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-[#0a0a0a] shadow-2xl flex items-center justify-center shrink-0">
+                            <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Logo Pending<br>Approval</span>
+                        </div>
+
+                        <!-- Identity -->
+                        <div class="flex-1 pt-20 md:pt-0">
+                            <div class="flex flex-wrap items-baseline gap-3">
+                                <h2 class="text-4xl lg:text-5xl font-black text-white tracking-tight uppercase">Storm Riders</h2>
+                                <span class="text-brand-blue text-sm lg:text-base font-black uppercase tracking-[0.2em] italic">"The Desert Scorpions"</span>
+                            </div>
                             
-                            <!-- Dropdown Switcher (TEAM IS DEFAULT) -->
-                            <select id="teamChatSelector" onchange="switchTeamChannel(this.value)" class="bg-brand-bg border border-brand-border text-brand-gold text-[9px] font-black uppercase px-2 py-1 rounded outline-none cursor-pointer">
-                                <option value="team" selected>🛡️ Team Chat</option>
-                                <option value="global">🌐 Global Feed</option>
-                                <option value="following">👥 Following</option>
-                                <option value="pro_plus">⭐ Pro Plus</option>
+                            <!-- Team Trophies -->
+                            <div class="flex gap-2 mt-2">
+                                <span class="bg-gradient-to-br from-yellow-400 to-yellow-700 text-black text-[9px] font-black uppercase px-2 py-1 rounded border border-yellow-300 shadow">🏆 Pro Constructor '26</span>
+                                <span class="bg-gradient-to-br from-blue-500 to-blue-900 text-white text-[9px] font-black uppercase px-2 py-1 rounded border border-blue-400 shadow">🛡️ Highest Defense</span>
+                            </div>
+
+                            <p class="text-gray-400 text-xs mt-3 font-bold uppercase">
+                                Team Leader: <a href="racer.html" class="text-brand-red hover:text-brand-gold transition">Deathstalker Paine</a> 
+                            </p>
+                        </div>
+
+                        <!-- Follow Button -->
+                        <div class="flex flex-col items-end gap-3 w-full md:w-auto">
+                            <button id="followBtn" class="w-full md:w-auto bg-brand-bg border border-brand-border hover:border-brand-blue hover:text-white text-gray-400 text-[10px] font-black uppercase px-6 py-2.5 rounded transition shadow" onclick="toggleFollow()">
+                                Follow Syndicate +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Bio Section -->
+                <div class="p-8 border-b border-brand-border bg-black/20">
+                    <h3 class="text-[10px] font-black uppercase tracking-wider text-gray-500 mb-2">Team Manifesto</h3>
+                    <p class="text-gray-300 italic text-sm leading-relaxed border-l-2 border-brand-blue pl-4">
+                        "Built for speed, high-precision telemetry execution, and track dominance. The Storm Riders recruit only the most aggressive pilots in the Second Life grid."
+                    </p>
+                </div>
+
+                <!-- 4. Multi-Column Dashboard -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-brand-border">
+                    
+                    <!-- LEFT/MIDDLE: Telemetry Engine & Roster (2/3 width) -->
+                    <div class="p-8 lg:col-span-2 space-y-8 bg-black/20">
+                        
+                        <!-- Dynamic Filters -->
+                        <div class="flex flex-col sm:flex-row gap-4 items-center bg-brand-bg border border-brand-border p-3 rounded-xl">
+                            <span class="text-[10px] font-black uppercase text-gray-500 pl-2">Syndicate Telemetry:</span>
+                            <select id="classFilter" class="w-full sm:w-auto bg-brand-card border border-brand-border text-white text-[10px] font-bold uppercase px-3 py-2 rounded outline-none focus:border-brand-blue transition cursor-pointer" onchange="updateStats()">
+                                <option value="pro_plus">Pro Plus League Aggregate</option>
+                                <option value="pro">Pro League Aggregate</option>
+                                <option value="amateur">Amateur League Aggregate</option>
+                            </select>
+                            <select id="trackFilter" class="w-full sm:w-auto bg-brand-card border border-brand-border text-white text-[10px] font-bold uppercase px-3 py-2 rounded outline-none focus:border-brand-blue transition cursor-pointer" onchange="updateStats()">
+                                <option value="all">All Tracks</option>
+                                <option value="vegas">Las Vegas Strip</option>
+                                <option value="rome">Ancient Rome</option>
                             </select>
                         </div>
 
-                        <!-- Live Feed Area -->
-                        <div id="teamChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-lg p-3 my-2 space-y-2 h-36 overflow-y-auto flex flex-col justify-end">
-                            <div class="text-[10px] text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
+                        <!-- Aggregate Statistics Grid -->
+                        <div>
+                            <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-3 flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></div> Live Constructor Statistics
+                            </h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Total Wins</span><span id="stat-wins" class="text-xl font-black text-brand-gold">0</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Total Losses</span><span id="stat-losses" class="text-xl font-black text-white">0</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Total Points</span><span id="stat-pts" class="text-xl font-black text-white">0</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Syndicate XP</span><span id="stat-xp" class="text-xl font-black text-brand-blue">0</span></div>
+                            </div>
                         </div>
+
+                        <!-- Active Roster Log -->
+                        <div>
+                            <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-3">Official Roster</h3>
+                            <div class="border border-brand-border rounded-xl overflow-hidden bg-brand-card">
+                                <table class="w-full text-left text-xs">
+                                    <thead><tr class="bg-brand-bg text-gray-500 font-black uppercase border-b border-brand-border"><th class="py-2.5 px-4">No.</th><th class="py-2.5 px-4">Pilot</th><th class="py-2.5 px-4">Role</th><th class="py-2.5 px-4 text-right">Status</th></tr></thead>
+                                    <tbody class="divide-y divide-brand-border">
+                                        <tr class="hover:bg-white/5 transition cursor-pointer" onclick="window.location='racer.html'"><td class="py-2.5 px-4 font-black italic text-brand-red">#13</td><td class="py-2.5 px-4 text-white font-bold">Deathstalker Paine</td><td class="py-2.5 px-4 text-gray-400">Team Leader</td><td class="py-2.5 px-4 text-right text-green-500 font-bold uppercase text-[10px] animate-pulse">● Active</td></tr>
+                                        <tr class="hover:bg-white/5 transition"><td class="py-2.5 px-4 font-black italic text-gray-600">#--</td><td class="py-2.5 px-4 text-gray-500 font-bold">Open Slot</td><td class="py-2.5 px-4 text-gray-600">Recruit</td><td class="py-2.5 px-4 text-right text-gray-600 font-bold uppercase text-[10px]">Pending</td></tr>
+                                        <tr class="hover:bg-white/5 transition"><td class="py-2.5 px-4 font-black italic text-gray-600">#--</td><td class="py-2.5 px-4 text-gray-500 font-bold">Open Slot</td><td class="py-2.5 px-4 text-gray-600">Recruit</td><td class="py-2.5 px-4 text-right text-gray-600 font-bold uppercase text-[10px]">Pending</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <!-- Interactive Reply Button -->
-                    <div class="pt-3 border-t border-brand-border mt-2">
-                        <button onclick="toggleDrawer(true)" class="w-full bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white transition text-[9px] font-black uppercase py-2.5 rounded tracking-wider shadow cursor-pointer">
-                            OPEN DRAWER TO REPLY ↵
-                        </button>
+                    <!-- RIGHT COLUMN: LIVE GSR COMMS WIDGET (1/3 width) -->
+                    <div class="p-8 lg:col-span-1 flex flex-col justify-between h-full bg-brand-bg">
+                        <div>
+                            <!-- Header with 4-Channel Dropdown -->
+                            <div class="flex justify-between items-center mb-3 border-b border-brand-border pb-2">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> 💬 GSR Comms
+                                </span>
+                                
+                                <select id="teamChatSelector" onchange="switchTeamChannel(this.value)" class="bg-brand-card border border-brand-border text-brand-blue text-[9px] font-black uppercase px-2 py-1 rounded outline-none cursor-pointer">
+                                    <option value="team" selected>🛡️ Team Chat</option>
+                                    <option value="global">🌐 Global Feed</option>
+                                    <option value="following">👥 Following</option>
+                                    <option value="pro_plus">⭐ Pro Plus</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Dynamic Read-Only Feed Box -->
+                            <div id="teamChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 my-2 space-y-2 h-64 overflow-y-auto flex flex-col justify-end text-[10px]">
+                                <div class="text-[10px] text-gray-500 text-center block my-auto">[ Syncing comms... ]</div>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Drawer Footer Button -->
+                        <div class="pt-3 border-t border-brand-border mt-4">
+                            <button onclick="toggleDrawer(true)" class="w-full bg-brand-card border border-brand-border hover:border-brand-blue text-brand-blue hover:text-white transition text-[9px] font-black uppercase py-2.5 rounded tracking-wider shadow cursor-pointer">
+                                OPEN DRAWER TO REPLY ↵
+                            </button>
+                        </div>
                     </div>
                 </div>
 
             </div>
-        </section>
-    </main>
-
-    <!-- UNIVERSAL FOOTER -->
-    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
-            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
-                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
-                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
-                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
-                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
-                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
-            </div>
-            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
         </div>
-    </footer>
+    </main>
 
     <!-- SLIDE-OUT DRAWER OVERLAY & PANEL -->
     <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
@@ -212,7 +245,7 @@ It sets 🛡️ Team Chat as the default channel. If a user is not logged in or 
         <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
             <div>
                 <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
-                <p id="drawerChannelName" class="text-[10px] text-brand-gold uppercase">Channel: 🛡️ Team Chat</p>
+                <p id="drawerChannelName" class="text-[10px] text-brand-blue uppercase">Channel: 🛡️ Team Chat</p>
             </div>
             <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition cursor-pointer">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -226,24 +259,24 @@ It sets 🛡️ Team Chat as the default channel. If a user is not logged in or 
 
         <!-- Drawer Input Area -->
         <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
-            <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-gold transition">
-            <button onclick="sendDrawerMessage()" id="drawerSendBtn" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
+            <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-blue transition">
+            <button onclick="sendDrawerMessage()" id="drawerSendBtn" class="bg-brand-blue hover:bg-blue-600 text-white font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
         </div>
     </div>
 
-    <!-- SUPABASE NATIVE ENGINE FOR TEAM PROFILE -->
+    <!-- SUPABASE NATIVE ENGINE FOR TEAM TRADING CARD -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-        const pageTeamName = "Storm Riders"; // Current Page Team Name
+        const pageTeamName = "Storm Riders"; // Team Card Identity
 
-        // Global Drawer Control
+        // 1. Global Drawer Control
         window.toggleDrawer = function(show) {
             const drawer = document.getElementById('chatDrawer');
             const overlay = document.getElementById('drawerOverlay');
 
             if (!drawer || !overlay) {
-                console.error("GSR Drawer Error: Missing #chatDrawer or #drawerOverlay in HTML.");
+                console.error("GSR Drawer Error: Could not find #chatDrawer or #drawerOverlay in HTML.");
                 return;
             }
 
@@ -280,8 +313,8 @@ It sets 🛡️ Team Chat as the default channel. If a user is not logged in or 
             pro_plus: '⭐ Pro Plus'
         };
 
-        async function initTeamPage() {
-            // 1. Sync User Auth Session
+        async function initTeamCardPage() {
+            // Check Auth Session
             const { data: { session } } = await db.auth.getSession();
             const userNav = document.getElementById('userNav');
 
@@ -296,18 +329,19 @@ It sets 🛡️ Team Chat as the default channel. If a user is not logged in or 
                 currentProfile = profile;
                 const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
                 
-                // Check if signed-in user belongs to Storm Riders
-                const userTeam = profile?.team_name || profile?.team || "Storm Riders"; // Defaulting to Storm Riders for team drivers
+                // Verify if user is on the Storm Riders team
+                const userTeam = profile?.team_name || profile?.team || "Storm Riders";
                 isVerifiedTeamMember = (userTeam.toLowerCase() === pageTeamName.toLowerCase());
 
                 if (userNav) {
                     userNav.innerHTML = `
-                        <div class="text-right">
+                        <div class="text-right hidden sm:block">
                             <span class="block text-xs font-black text-white uppercase">${displayName}</span>
                             <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
                                 <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
                             </span>
                         </div>
+                        <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
                     `;
                 }
             } else {
@@ -332,7 +366,7 @@ It sets 🛡️ Team Chat as the default channel. If a user is not logged in or 
             const drawerInput = document.getElementById('drawerInput');
             const drawerSendBtn = document.getElementById('drawerSendBtn');
 
-            // RESTRICTION CHECK: ONLY TEAM MEMBERS CAN VIEW/CHAT IN THE TEAM CHANNEL
+            // TEAM CHANNEL ACCESS RESTRICTION
             if (activeTeamChannel === 'team' && !isVerifiedTeamMember) {
                 const restrictedFeedHtml = `
                     <div class="text-center my-auto p-2">
@@ -360,7 +394,7 @@ It sets 🛡️ Team Chat as the default channel. If a user is not logged in or 
                 return;
             }
 
-            // Standard Input enablement for authorized channels
+            // Public / Authorized Channel State
             if (drawerInput) {
                 if (currentUser) {
                     drawerInput.placeholder = "Type message...";
@@ -373,7 +407,7 @@ It sets 🛡️ Team Chat as the default channel. If a user is not logged in or 
                 }
             }
 
-            // Fetch history from Supabase
+            // Fetch History from Supabase
             const { data, error } = await db
                 .from('gsr_chats')
                 .select('*')
@@ -390,13 +424,13 @@ It sets 🛡️ Team Chat as the default channel. If a user is not logged in or 
 
             const messages = data.reverse();
 
-            // 1. Populate Widget (Last 4)
+            // Populate Widget (Last 5)
             if (feed) {
                 feed.innerHTML = '';
-                messages.slice(-4).forEach(msg => {
+                messages.slice(-5).forEach(msg => {
                     feed.innerHTML += `
                         <div class="text-[10px] leading-snug truncate">
-                            <span class="font-black text-brand-gold uppercase">[${escapeHtml(msg.display_name)}]:</span> 
+                            <span class="font-black text-brand-blue uppercase">[${escapeHtml(msg.display_name)}]:</span> 
                             <span class="text-gray-300">${escapeHtml(msg.message)}</span>
                         </div>
                     `;
@@ -404,13 +438,13 @@ It sets 🛡️ Team Chat as the default channel. If a user is not logged in or 
                 feed.scrollTop = feed.scrollHeight;
             }
 
-            // 2. Populate Slide-Out Drawer (Full History)
+            // Populate Drawer (Full History)
             if (drawerFeed) {
                 drawerFeed.innerHTML = '';
                 messages.forEach(msg => {
                     const isMe = currentUser && msg.user_id === currentUser.id;
                     const align = isMe ? 'items-end' : 'items-start';
-                    const bg = isMe ? 'bg-brand-gold/10 border-brand-gold text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200';
+                    const bg = isMe ? 'bg-brand-blue/20 border-brand-blue text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200';
 
                     drawerFeed.innerHTML += `
                         <div class="flex flex-col ${align}">
@@ -457,13 +491,18 @@ It sets 🛡️ Team Chat as the default channel. If a user is not logged in or 
         }
 
         function subscribeToTeamRealtime() {
-            db.channel('public:gsr_chats_team_page')
+            db.channel('public:gsr_chats_team_card')
                 .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
                     if (payload.new.channel === activeTeamChannel) {
                         loadTeamChatWidget();
                     }
                 })
                 .subscribe();
+        }
+
+        async function executeSignOut() {
+            await db.auth.signOut();
+            window.location.reload(); 
         }
 
         function escapeHtml(str) {
@@ -474,8 +513,68 @@ It sets 🛡️ Team Chat as the default channel. If a user is not logged in or 
             if (e.key === 'Enter') sendDrawerMessage();
         });
 
-        window.onload = initTeamPage;
+        // 2. Follow Button Logic
+        let isFollowing = false;
+        function toggleFollow() {
+            const btn = document.getElementById('followBtn');
+            isFollowing = !isFollowing;
+            if(isFollowing) {
+                btn.innerHTML = 'Following Syndicate ✓';
+                btn.classList.remove('text-gray-400', 'border-brand-border', 'bg-brand-bg');
+                btn.classList.add('text-black', 'bg-brand-blue', 'border-brand-blue');
+            } else {
+                btn.innerHTML = 'Follow Syndicate +';
+                btn.classList.add('text-gray-400', 'border-brand-border', 'bg-brand-bg');
+                btn.classList.remove('text-black', 'bg-brand-blue', 'border-brand-blue');
+            }
+        }
+
+        // 3. Dynamic Telemetry Engine
+        const statsData = {
+            'pro_plus': {
+                'all': { w: 85, l: 30, pts: 12500, xp: 95000 },
+                'vegas': { w: 30, l: 10, pts: 4500, xp: 32000 },
+                'rome': { w: 25, l: 8, pts: 3800, xp: 28000 }
+            },
+            'pro': {
+                'all': { w: 42, l: 15, pts: 6200, xp: 45000 },
+                'vegas': { w: 18, l: 5, pts: 2100, xp: 18000 },
+                'rome': { w: 12, l: 4, pts: 1800, xp: 14000 }
+            },
+            'amateur': {
+                'all': { w: 12, l: 20, pts: 850, xp: 8500 },
+                'vegas': { w: 6, l: 8, pts: 400, xp: 4000 },
+                'rome': { w: 4, l: 5, pts: 300, xp: 3000 }
+            }
+        };
+
+        function updateStats() {
+            const classVal = document.getElementById('classFilter').value;
+            const trackVal = document.getElementById('trackFilter').value;
+            const data = statsData[classVal][trackVal] || { w: 0, l: 0, pts: 0, xp: 0 };
+
+            const statElements = ['wins', 'losses', 'pts', 'xp'];
+            statElements.forEach(id => {
+                const el = document.getElementById(`stat-${id}`);
+                if (el) {
+                    el.style.opacity = 0;
+                    setTimeout(() => {
+                        if(id === 'wins') el.innerText = data.w;
+                        if(id === 'losses') el.innerText = data.l;
+                        if(id === 'pts') el.innerText = data.pts.toLocaleString();
+                        if(id === 'xp') el.innerText = data.xp.toLocaleString();
+                        el.style.opacity = 1;
+                    }, 150);
+                }
+            });
+        }
+
+        window.onload = function() {
+            initTeamCardPage();
+            updateStats();
+        };
     </script>
+
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing.</footer>
 </body>
 </html>
-
