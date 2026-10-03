@@ -6,45 +6,20 @@
     <title>Racer Profiles | Gentle Storm Racing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { 
-            darkMode: 'class', 
-            theme: { 
-                extend: { 
-                    colors: { 
-                        brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } 
-                    } 
-                } 
-            } 
-        }
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
     </script>
-    <style>
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #121212; }
-        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
-    </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
     <!-- HEADER -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
-            
-            <!-- Logo -->
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
-                <a href="index.html"><img src="logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform"></a>
+                <a href="index.html"><img src="logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
             </div>
-
-            <!-- Header Title -->
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Grid Directory</span>
                 <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white">Racer Profiles</h1>
-            </div>
-
-            <!-- Dynamic Auth Buttons Container -->
-            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2">
-                <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
-                <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
             </div>
         </div>
     </header>
@@ -101,12 +76,7 @@
                 </div>
                 <h3 class="text-sm font-black uppercase text-white tracking-wider">DEATHSTALKER PAINE</h3>
                 <span class="text-[9px] text-gray-500 uppercase mt-1 block tracking-wider">Team: <span class="text-gray-300">Storm Riders</span></span>
-                
-                <!-- Card Action Buttons -->
-                <div class="mt-4 grid grid-cols-2 gap-2">
-                    <a href="racer.html" class="block w-full text-center bg-[#111] border border-brand-border text-gray-300 hover:border-brand-gold hover:text-white transition text-[8px] font-black uppercase py-2.5 rounded tracking-wider">PROFILE →</a>
-                    <button onclick="openRacerChat('Deathstalker Paine', 'racer_paine')" class="block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[8px] font-black uppercase py-2.5 rounded tracking-wider cursor-pointer">COMMS 💬</button>
-                </div>
+                <a href="racer.html" class="mt-4 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[9px] font-black uppercase py-2.5 rounded tracking-widest">VIEW FULL PROFILE →</a>
             </div>
 
             <!-- Cards 2 through 16: Pending Slots -->
@@ -129,226 +99,5 @@
             </script>
         </div>
     </main>
-
-    <!-- UNIVERSAL FOOTER -->
-    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
-            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
-                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
-                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
-                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
-                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
-                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
-            </div>
-            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
-        </div>
-    </footer>
-
-    <!-- SLIDE-OUT DRAWER OVERLAY & PANEL -->
-    <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
-
-    <div id="chatDrawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-brand-card border-l border-brand-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-        <!-- Drawer Header -->
-        <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
-            <div>
-                <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
-                <p id="drawerChannelName" class="text-[10px] text-brand-gold uppercase">Channel: 🌐 Global</p>
-            </div>
-            <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition cursor-pointer">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-
-        <!-- Drawer Chat Messages Area -->
-        <div id="drawerMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-[#111]">
-             <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching logs... ]</div>
-        </div>
-
-        <!-- Drawer Input Area -->
-        <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
-            <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-gold transition">
-            <button onclick="sendDrawerMessage()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
-        </div>
-    </div>
-
-    <!-- SUPABASE NATIVE ENGINE FOR RACER PROFILES -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <script>
-        // Global Drawer Control
-        window.toggleDrawer = function(show) {
-            const drawer = document.getElementById('chatDrawer');
-            const overlay = document.getElementById('drawerOverlay');
-
-            if (!drawer || !overlay) {
-                console.error("GSR Drawer Error: Could not find #chatDrawer or #drawerOverlay in the HTML.");
-                alert("Drawer HTML elements are missing from the page.");
-                return;
-            }
-
-            if (show) {
-                overlay.classList.remove('hidden');
-                void overlay.offsetWidth;
-                overlay.classList.remove('opacity-0');
-                drawer.classList.remove('translate-x-full');
-
-                const msgBox = document.getElementById('drawerMessages');
-                if (msgBox) msgBox.scrollTop = msgBox.scrollHeight;
-            } else {
-                overlay.classList.add('opacity-0');
-                drawer.classList.add('translate-x-full');
-                setTimeout(() => {
-                    overlay.classList.add('hidden');
-                }, 300);
-            }
-        };
-
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        let activeDrawerChannel = 'global';
-        let currentUser = null;
-        let currentProfile = null;
-
-        async function initRacerProfilesPage() {
-            // 1. Sync User Session
-            const { data: { session } } = await db.auth.getSession();
-            const userNav = document.getElementById('userNav');
-            const drawerInput = document.getElementById('drawerInput');
-
-            if (session) {
-                currentUser = session.user;
-                const { data: profile } = await db
-                    .from('gsr_profiles')
-                    .select('sl_legacy_name')
-                    .eq('id', currentUser.id)
-                    .single();
-
-                currentProfile = profile;
-                const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
-
-                if (userNav) {
-                    userNav.innerHTML = `
-                        <div class="text-right hidden sm:block">
-                            <span class="block text-xs font-black text-white uppercase">${displayName}</span>
-                            <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
-                            </span>
-                        </div>
-                        <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
-                    `;
-                }
-                if (drawerInput) {
-                    drawerInput.placeholder = "Type message...";
-                    drawerInput.disabled = false;
-                }
-            } else {
-                if (drawerInput) {
-                    drawerInput.placeholder = "Sign in at Main Menu to chat...";
-                    drawerInput.disabled = true;
-                }
-            }
-
-            subscribeToDrawerRealtime();
-        }
-
-        // Open chat for a specific racer card
-        window.openRacerChat = function(racerName, channelId) {
-            activeDrawerChannel = channelId;
-            const titleEl = document.getElementById('drawerChannelName');
-            if (titleEl) titleEl.innerText = `Racer Feed: ${racerName}`;
-            
-            fetchDrawerMessages();
-            toggleDrawer(true);
-        };
-
-        async function fetchDrawerMessages() {
-            const drawerFeed = document.getElementById('drawerMessages');
-            if (!drawerFeed) return;
-
-            drawerFeed.innerHTML = '<div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching comms... ]</div>';
-
-            const { data, error } = await db
-                .from('gsr_chats')
-                .select('*')
-                .eq('channel', activeDrawerChannel)
-                .order('created_at', { ascending: true })
-                .limit(30);
-
-            if (error || !data || data.length === 0) {
-                drawerFeed.innerHTML = `<div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ No transmissions on this channel ]</div>`;
-                return;
-            }
-
-            drawerFeed.innerHTML = '';
-            data.forEach(msg => {
-                const isMe = currentUser && msg.user_id === currentUser.id;
-                const align = isMe ? 'items-end' : 'items-start';
-                const bg = isMe ? 'bg-brand-gold/10 border-brand-gold text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200';
-
-                drawerFeed.innerHTML += `
-                    <div class="flex flex-col ${align}">
-                        <span class="text-[9px] font-black uppercase text-gray-500 mb-0.5">${escapeHtml(msg.display_name)}</span>
-                        <div class="${bg} border px-3 py-2 rounded-lg text-xs max-w-[85%] break-words">
-                            ${escapeHtml(msg.message)}
-                        </div>
-                    </div>
-                `;
-            });
-            drawerFeed.scrollTop = drawerFeed.scrollHeight;
-        }
-
-        async function sendDrawerMessage() {
-            if (!currentUser) {
-                alert("Sign in required to transmit messages.");
-                return;
-            }
-
-            const input = document.getElementById('drawerInput');
-            const val = input.value.trim();
-            if (!val) return;
-
-            const name = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
-
-            const { error } = await db.from('gsr_chats').insert([{
-                user_id: currentUser.id,
-                display_name: name,
-                message: val,
-                channel: activeDrawerChannel
-            }]);
-
-            if (error) {
-                alert("Transmission failed: " + error.message);
-            } else {
-                input.value = '';
-            }
-        }
-
-        function subscribeToDrawerRealtime() {
-            db.channel('public:gsr_chats_racer_profiles')
-                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
-                    if (payload.new.channel === activeDrawerChannel) {
-                        fetchDrawerMessages();
-                    }
-                })
-                .subscribe();
-        }
-
-        async function executeSignOut() {
-            await db.auth.signOut();
-            window.location.reload(); 
-        }
-
-        function escapeHtml(str) {
-            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
-        }
-
-        document.getElementById('drawerInput')?.addEventListener('keypress', e => {
-            if (e.key === 'Enter') sendDrawerMessage();
-        });
-
-        window.onload = initRacerProfilesPage;
-    </script>
 </body>
 </html>
