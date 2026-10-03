@@ -1,31 +1,342 @@
-<!-- GSR CHATS THREADS (LIVE CONNECTED WIDGET WITH DROPDOWN) -->
-<div class="bg-brand-card border border-brand-border rounded-xl p-6 transition flex flex-col justify-between group">
-    <div>
-        <div class="flex justify-between items-center gap-2">
-            <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Live Discussion</span>
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gentle Storm Racing | Main Menu Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#121212',
+                            card: '#1e1e1e',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a',
+                            blue: '#2a75ff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 10px rgba(197, 160, 89, 0.2); }
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 10px rgba(255, 42, 42, 0.2); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- TOP HEADER: CENTERED LOGO WITH TOP-RIGHT SIGN IN BUTTON -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-3 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex items-center justify-center min-h-[110px] sm:min-h-[140px]">
             
-            <div class="flex items-center gap-2">
-                <!-- Channel Selector Dropdown -->
-                <select id="indexChatSelect" onchange="switchIndexChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-brand-gold text-[10px] font-black uppercase px-2 py-1 rounded outline-none focus:border-brand-gold cursor-pointer">
-                    <option value="global" selected>🌐 Global</option>
-                    <option value="following">👥 Following</option>
-                    <option value="team">🛡️ Team Chat</option>
-                    <option value="pro_plus">⭐ Pro Plus</option>
-                </select>
-                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"></span>
+            <!-- Centered Logo -->
+            <div class="text-center py-1">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-28 sm:h-36 md:h-44 w-auto max-w-full object-contain mx-auto drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] transition-transform duration-300">
+                </a>
+            </div>
+
+            <!-- Dynamic Auth Buttons Container -->
+            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2">
+                <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
+                <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
             </div>
         </div>
-        
-        <h3 class="text-lg font-black uppercase text-white mt-2">GSR Chats Threads</h3>
-        
-        <!-- Dynamic Read-Only Feed Box -->
-        <div id="mainMenuChatFeed" class="bg-brand-bg border border-brand-border rounded-lg p-3 my-3 space-y-2 h-28 overflow-hidden flex flex-col justify-end">
-            <div class="text-[10px] text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
+    </header>
+
+    <!-- SUB-NAVBAR LINKS -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Pro Plus</a>
+            <a href="store.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Store</a>
+            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
+            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams</a>
+            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">Leagues</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards</a>
+            <a href="sponsors.html" class="text-gray-300 hover:text-brand-gold transition">Sponsors</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="upcoming_events.html" class="text-gray-300 hover:text-brand-gold transition">Upcoming Events</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
         </div>
-    </div>
-    
-    <div class="pt-3 border-t border-brand-border flex justify-between items-center text-xs">
-        <span id="indexChannelLabel" class="text-[9px] text-gray-500 font-mono uppercase">Active: 🌐 Global</span>
-        <a href="chats.html" class="font-bold uppercase text-brand-gold hover:underline">Open Comms Hub →</a>
-    </div>
-</div>
+    </nav>
+
+    <!-- MAIN MENU GRID LAYOUT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
+
+        <!-- ROW 1: 3-COLUMN WEEKLY SPOTLIGHTS -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Team of the Week -->
+            <a href="teams.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Spotlight</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Team of the Week</h3>
+                    <p class="text-xs text-gray-400 mt-2">Shows an image of the Teams card. Click to open the full Teams Hub.</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Open Teams →</span>
+                </div>
+            </a>
+
+            <!-- Racer of the Week -->
+            <a href="racers.html" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Spotlight</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Racer of the Week</h3>
+                    <p class="text-xs text-gray-400 mt-2">Shows an image of the Racers card. Click to open the full Racers Hub.</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <span class="text-xs font-bold uppercase text-brand-red">Open Racers →</span>
+                </div>
+            </a>
+
+            <!-- Track of the Week -->
+            <a href="racetracks.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-widest bg-gray-800 border border-brand-gold text-brand-gold px-2 py-0.5 rounded">Spotlight</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Track of the Week</h3>
+                    <p class="text-xs text-gray-400 mt-2">Shows an image of the Track card. Click to open the full Racetracks Hub.</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Open Racetracks →</span>
+                </div>
+            </a>
+        </section>
+
+        <!-- ROW 2: 2-COLUMN NEWS & LIVE CHAT PREVIEW WIDGET -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Current News -->
+            <a href="multimedia.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Latest Announcement</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Current News</h3>
+                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                        Short news excerpt and announcement summary. Click to read full news articles and official updates.
+                    </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border text-right">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Read News →</span>
+                </div>
+            </a>
+
+            <!-- GSR Chats Threads (Live Connected Widget) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 transition flex flex-col justify-between group">
+                <div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Live Discussion</span>
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    </div>
+                    <h3 class="text-lg font-black uppercase text-white mt-2">GSR Chats Threads</h3>
+                    
+                    <!-- Dynamic Feed Box -->
+                    <div id="mainMenuChatFeed" class="bg-brand-bg border border-brand-border rounded-lg p-3 my-3 space-y-2 h-24 overflow-hidden flex flex-col justify-end">
+                        <div class="text-[10px] text-gray-500 text-center block mt-8">Loading live network feeds...</div>
+                    </div>
+                </div>
+                
+                <div class="pt-3 border-t border-brand-border text-right">
+                    <a href="chats.html" class="text-xs font-bold uppercase text-brand-gold hover:underline">Open Community Chats Hub →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROW 3: MAGAZINE & SPONSORS -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Gentle Storm Racing Magazine -->
+            <a href="multimedia.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Publication</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Gentle Storm Racing Magazine</h3>
+                    <p class="text-xs text-gray-400 mt-2">Cover image preview. Click to open the digital magazine reader.</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border text-right">
+                    <span class="text-xs font-bold uppercase text-brand-gold">View Issue →</span>
+                </div>
+            </a>
+
+            <!-- Sponsors Banner -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-center items-center text-center">
+                <h3 class="text-xl font-black uppercase tracking-wider text-brand-gold mb-2">Sponsors</h3>
+                <p class="text-xs text-gray-400">Official Partners & League Sponsors</p>
+            </div>
+        </section>
+
+        <!-- ROW 4: 3-COLUMN STATS, EVENTS & HIGHLIGHTS -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Top 3 Racers Block -->
+            <a href="leaderboard_view.html?category=racer" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 flex flex-col justify-between transition group">
+                <div>
+                    <h3 class="text-base font-black uppercase text-white mb-3 group-hover:text-brand-gold transition">Top 3 Racers</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-gold"><span class="text-brand-gold font-black italic text-[10px] w-3">1</span><span class="text-white text-[10px] font-bold uppercase">Deathstalker Paine</span></div>
+                        <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-border"><span class="text-gray-400 font-black italic text-[10px] w-3">2</span><span class="text-gray-300 text-[10px] font-bold uppercase">Vortex_SL</span></div>
+                        <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-border"><span class="text-gray-500 font-black italic text-[10px] w-3">3</span><span class="text-gray-400 text-[10px] font-bold uppercase">BlazeRunner</span></div>
+                    </div>
+                </div>
+                <div class="mt-4 text-[10px] font-bold uppercase text-brand-gold group-hover:text-white transition">
+                    View Full Leaderboards →
+                </div>
+            </a>
+
+            <!-- Next Event -->
+            <a href="upcoming_events.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-brand-red tracking-wider">Schedule</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Next Event</h3>
+                    <p class="text-xs font-black text-brand-gold mt-1">Pro Plus Grand Prix Round 1</p>
+                    <p class="text-[11px] text-gray-400 mt-1">Oct 5, 2026 • 8:00 PM SLT • Ancient Rome</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border text-right">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Event Details →</span>
+                </div>
+            </a>
+
+            <!-- Race Highlights -->
+            <a href="multimedia.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Media</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Race Highlights</h3>
+                    <p class="text-xs text-gray-400 mt-2">Featured video reels, text summaries, and photo galleries.</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border text-right">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Watch Replays →</span>
+                </div>
+            </a>
+        </section>
+
+        <!-- ROW 5: LEAGUES OVERVIEW & SYSTEM STATUS -->
+        <section class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- GSR Leagues (Spans 3 Columns) -->
+            <a href="leagues.html" class="lg:col-span-3 bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-8 transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Championships</span>
+                    <h2 class="text-2xl font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">GSR Leagues</h2>
+                    <p class="text-xs text-gray-300 mt-2">
+                        Compare Pro League vs. Amateur League standings, team statistics, and active season schedules.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Explore Leagues →</span>
+                </div>
+            </a>
+
+            <!-- GSR System Status (1 Column) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Infrastructure</span>
+                    <h3 class="text-base font-black uppercase text-white mt-2">GSR System Status</h3>
+                    <div class="mt-3 flex items-center space-x-2">
+                        <span class="h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="text-xs font-bold text-green-400 uppercase">All Systems Operational</span>
+                    </div>
+                </div>
+                <p class="text-[10px] text-gray-500 mt-4">Supabase DB & Cloudflare Workers Active</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
+    <!-- SUPABASE & DYNAMIC USER/CHAT WIDGET SCRIPT ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="gsr_db.js"></script>
+
+    <script>
+        // 1. Check if user is logged in and swap the header buttons
+        async function initMainMenu() {
+            if (!window.supabase) return;
+
+            const { data: { session } } = await supabase.auth.getSession();
+            const userNav = document.getElementById('userNav');
+
+            if (session) {
+                // Fetch the SL Name from the database
+                const { data: profile } = await supabase
+                    .from('gsr_profiles')
+                    .select('sl_legacy_name')
+                    .eq('id', session.user.id)
+                    .single();
+
+                const displayName = profile?.sl_legacy_name || session.user.email.split('@')[0];
+
+                // Replace buttons with Profile Name and Sign Out button
+                userNav.innerHTML = `
+                    <div class="text-right hidden sm:block">
+                        <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                        <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
+                        </span>
+                    </div>
+                    <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
+                `;
+            }
+
+            // 2. Load live Chat Feed into the widget
+            loadLiveChatWidget();
+        }
+
+        // 3. The Sign Out Function
+        async function executeSignOut() {
+            await supabase.auth.signOut();
+            window.location.reload(); // Refreshes page to show the "Sign In" buttons again
+        }
+
+        // 4. Fetch the actual last 3 messages from the database for the widget
+        async function loadLiveChatWidget() {
+            const feed = document.getElementById('mainMenuChatFeed');
+            
+            const { data, error } = await supabase
+                .from('gsr_chats')
+                .select('*')
+                .eq('channel', 'global')
+                .order('created_at', { ascending: false })
+                .limit(3);
+
+            if (error || !data || data.length === 0) {
+                feed.innerHTML = `<span class="text-[10px] text-gray-500 text-center block mt-8">[ No active comms ]</span>`;
+                return;
+            }
+
+            // We fetched newest first, so we reverse them to display top-down correctly
+            const latest = data.reverse(); 
+            
+            feed.innerHTML = '';
+            latest.forEach(msg => {
+                feed.innerHTML += `
+                    <div class="text-[10px] leading-snug truncate">
+                        <span class="font-black text-brand-blue uppercase">[Global] ${msg.display_name}:</span> 
+                        <span class="text-gray-300">${msg.message}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // Run instantly on load
+        window.onload = initMainMenu;
+    </script>
+</body>
+</html>
