@@ -17,7 +17,8 @@
                             border: '#333333',
                             gold: '#c5a059',
                             red: '#ff2a2a',
-                            blue: '#2a75ff'
+                            blue: '#2a75ff',
+                            green: '#10B981'
                         }
                     }
                 }
@@ -35,7 +36,7 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- TOP HEADER: CENTERED LOGO WITH TOP-RIGHT SIGN IN BUTTON -->
+    <!-- TOP HEADER: CENTERED LOGO WITH DYNAMIC AUTH BUTTONS -->
     <header class="bg-brand-card border-b border-brand-gold relative py-3 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex items-center justify-center min-h-[110px] sm:min-h-[140px]">
             
@@ -129,40 +130,40 @@
                 </div>
             </a>
 
-           <!-- GSR CHATS THREADS (LIVE CONNECTED WIDGET WITH DROPDOWN & DRAWER TRIGGER) -->
-<div class="bg-brand-card border border-brand-border rounded-xl p-6 transition flex flex-col justify-between group">
-    <div>
-        <div class="flex justify-between items-center gap-2">
-            <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Live Discussion</span>
-            
-            <div class="flex items-center gap-2">
-                <!-- Channel Selector Dropdown -->
-                <select id="indexChatSelect" onchange="switchIndexChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-brand-gold text-[10px] font-black uppercase px-2 py-1 rounded outline-none focus:border-brand-gold cursor-pointer">
-                    <option value="global" selected>🌐 Global</option>
-                    <option value="following">👥 Following</option>
-                    <option value="team">🛡️ Teams</option>
-                    <option value="pro_plus">⭐ Pro Plus</option>
-                </select>
-                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"></span>
-            </div>
-        </div>
-        
-        <h3 class="text-lg font-black uppercase text-white mt-2">GSR Chats Threads</h3>
-        
-        <!-- Dynamic Read-Only Feed Box -->
-        <div id="mainMenuChatFeed" class="bg-brand-bg border border-brand-border rounded-lg p-3 my-3 space-y-2 h-28 overflow-hidden flex flex-col justify-end">
-            <div class="text-[10px] text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
-        </div>
-    </div>
-    
-    <div class="pt-3 border-t border-brand-border flex justify-between items-center text-xs">
-        <a href="chats.html" class="font-bold uppercase text-brand-gold hover:underline text-[10px]">Open Comms Hub →</a>
-        
-        <!-- Drawer Trigger Button -->
-        <button onclick="toggleDrawer(true)" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">
-            Open Drawer to Reply ↵
-        </button>
-    </div>
+            <!-- GSR CHATS THREADS (LIVE CONNECTED WIDGET WITH DROPDOWN & DRAWER TRIGGER) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 transition flex flex-col justify-between group">
+                <div>
+                    <div class="flex justify-between items-center gap-2">
+                        <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Live Discussion</span>
+                        
+                        <div class="flex items-center gap-2">
+                            <!-- Channel Selector Dropdown -->
+                            <select id="indexChatSelect" onchange="switchIndexChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-brand-gold text-[10px] font-black uppercase px-2 py-1 rounded outline-none focus:border-brand-gold cursor-pointer">
+                                <option value="global" selected>🌐 Global</option>
+                                <option value="following">👥 Following</option>
+                                <option value="team">🛡️ Teams</option>
+                                <option value="pro_plus">⭐ Pro Plus</option>
+                            </select>
+                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"></span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-lg font-black uppercase text-white mt-2">GSR Chats Threads</h3>
+                    
+                    <!-- Dynamic Read-Only Feed Box -->
+                    <div id="mainMenuChatFeed" class="bg-brand-bg border border-brand-border rounded-lg p-3 my-3 space-y-2 h-28 overflow-hidden flex flex-col justify-end">
+                        <div class="text-[10px] text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
+                    </div>
+                </div>
+                
+                <div class="pt-3 border-t border-brand-border flex justify-between items-center text-xs">
+                    <a href="chats.html" class="font-bold uppercase text-brand-gold hover:underline text-[10px]">Open Comms Hub →</a>
+                    
+                    <!-- Drawer Trigger Button -->
+                    <button onclick="toggleDrawer(true)" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">
+                        Open Drawer to Reply ↵
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -277,114 +278,235 @@
         </div>
     </footer>
 
-   <!-- SUPABASE NATIVE ENGINE FOR INDEX -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- SLIDE-OUT DRAWER OVERLAY & PANEL -->
+    <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
 
-<script>
-    const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-    const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-    const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+    <div id="chatDrawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-brand-card border-l border-brand-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- Drawer Header -->
+        <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
+            <div>
+                <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
+                <p id="drawerChannelName" class="text-[10px] text-brand-gold uppercase">Channel: 🌐 Global</p>
+            </div>
+            <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
 
-    let currentIndexChannel = 'global';
+        <!-- Drawer Chat Messages Area -->
+        <div id="drawerMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-[#111]">
+             <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching logs... ]</div>
+        </div>
 
-    async function initMainMenu() {
-        // 1. Sync user session in top header
-        const { data: { session } } = await db.auth.getSession();
-        const userNav = document.getElementById('userNav');
+        <!-- Drawer Input Area -->
+        <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
+            <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-gold transition">
+            <button onclick="sendDrawerMessage()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
+        </div>
+    </div>
 
-        if (session && userNav) {
-            const { data: profile } = await db
-                .from('gsr_profiles')
-                .select('sl_legacy_name')
-                .eq('id', session.user.id)
-                .single();
+    <!-- SUPABASE NATIVE ENGINE FOR INDEX WITH BULLETPROOF DRAWER -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-            const displayName = profile?.sl_legacy_name || session.user.email.split('@')[0];
+    <script>
+        // Global Drawer Control (Exposed immediately to window)
+        window.toggleDrawer = function(show) {
+            const drawer = document.getElementById('chatDrawer');
+            const overlay = document.getElementById('drawerOverlay');
 
-            userNav.innerHTML = `
-                <div class="text-right hidden sm:block">
-                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
-                    <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
-                    </span>
-                </div>
-                <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
-            `;
-        }
+            if (!drawer || !overlay) {
+                console.error("GSR Drawer Error: Could not find #chatDrawer or #drawerOverlay in the HTML.");
+                alert("Drawer HTML elements are missing from the page.");
+                return;
+            }
 
-        // 2. Load default read-only Global chat feed
-        loadIndexChatWidget();
+            if (show) {
+                overlay.classList.remove('hidden');
+                void overlay.offsetWidth; // Force CSS reflow for smooth fade transition
+                overlay.classList.remove('opacity-0');
+                drawer.classList.remove('translate-x-full');
 
-        // 3. Listen for live transmissions in real-time
-        subscribeToIndexRealtime();
-    }
+                const msgBox = document.getElementById('drawerMessages');
+                if (msgBox) msgBox.scrollTop = msgBox.scrollHeight;
+            } else {
+                overlay.classList.add('opacity-0');
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                }, 300);
+            }
+        };
 
-    async function switchIndexChannel(channel) {
-        currentIndexChannel = channel;
-        const label = document.getElementById('indexChannelLabel');
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let currentIndexChannel = 'global';
+        let currentUser = null;
+        let currentProfile = null;
+
         const channelNames = {
             global: '🌐 Global',
             following: '👥 Following',
             team: '🛡️ Teams',
             pro_plus: '⭐ Pro Plus'
         };
-        
-        if (label) label.innerText = `Active: ${channelNames[channel] || channel}`;
-        loadIndexChatWidget();
-    }
 
-    async function loadIndexChatWidget() {
-        const feed = document.getElementById('mainMenuChatFeed');
-        if (!feed) return;
+        async function initMainMenu() {
+            const { data: { session } } = await db.auth.getSession();
+            const userNav = document.getElementById('userNav');
+            const drawerInput = document.getElementById('drawerInput');
 
-        // Fetch last 3 messages for the selected dropdown channel
-        const { data, error } = await db
-            .from('gsr_chats')
-            .select('*')
-            .eq('channel', currentIndexChannel)
-            .order('created_at', { ascending: false })
-            .limit(3);
+            if (session) {
+                currentUser = session.user;
+                const { data: profile } = await db
+                    .from('gsr_profiles')
+                    .select('sl_legacy_name')
+                    .eq('id', currentUser.id)
+                    .single();
 
-        if (error || !data || data.length === 0) {
-            feed.innerHTML = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No active transmissions on this channel ]</div>`;
-            return;
+                currentProfile = profile;
+                const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+                if (userNav) {
+                    userNav.innerHTML = `
+                        <div class="text-right hidden sm:block">
+                            <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                            <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
+                            </span>
+                        </div>
+                        <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
+                    `;
+                }
+                if (drawerInput) {
+                    drawerInput.placeholder = "Type message...";
+                    drawerInput.disabled = false;
+                }
+            } else {
+                if (drawerInput) {
+                    drawerInput.placeholder = "Sign in at Main Menu to chat...";
+                    drawerInput.disabled = true;
+                }
+            }
+
+            loadIndexChatWidget();
+            subscribeToIndexRealtime();
         }
 
-        const latest = data.reverse(); 
-        feed.innerHTML = '';
-        
-        latest.forEach(msg => {
-            feed.innerHTML += `
-                <div class="text-[10px] leading-snug truncate">
-                    <span class="font-black text-brand-gold uppercase">[${escapeHtml(msg.display_name)}]:</span> 
-                    <span class="text-gray-300">${escapeHtml(msg.message)}</span>
-                </div>
-            `;
+        async function switchIndexChannel(channel) {
+            currentIndexChannel = channel;
+            const drawerTitle = document.getElementById('drawerChannelName');
+            if (drawerTitle) drawerTitle.innerText = `Channel: ${channelNames[channel] || channel}`;
+            
+            loadIndexChatWidget();
+        }
+
+        async function loadIndexChatWidget() {
+            const feed = document.getElementById('mainMenuChatFeed');
+            const drawerFeed = document.getElementById('drawerMessages');
+
+            const { data, error } = await db
+                .from('gsr_chats')
+                .select('*')
+                .eq('channel', currentIndexChannel)
+                .order('created_at', { ascending: false })
+                .limit(20);
+
+            if (error || !data || data.length === 0) {
+                const emptyMsg = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No active transmissions ]</div>`;
+                if (feed) feed.innerHTML = emptyMsg;
+                if (drawerFeed) drawerFeed.innerHTML = emptyMsg;
+                return;
+            }
+
+            const messages = data.reverse();
+
+            // 1. Populate Homepage Widget (Last 3)
+            if (feed) {
+                feed.innerHTML = '';
+                messages.slice(-3).forEach(msg => {
+                    feed.innerHTML += `
+                        <div class="text-[10px] leading-snug truncate">
+                            <span class="font-black text-brand-gold uppercase">[${escapeHtml(msg.display_name)}]:</span> 
+                            <span class="text-gray-300">${escapeHtml(msg.message)}</span>
+                        </div>
+                    `;
+                });
+                feed.scrollTop = feed.scrollHeight;
+            }
+
+            // 2. Populate Slide-Out Drawer (Full History)
+            if (drawerFeed) {
+                drawerFeed.innerHTML = '';
+                messages.forEach(msg => {
+                    const isMe = currentUser && msg.user_id === currentUser.id;
+                    const align = isMe ? 'items-end' : 'items-start';
+                    const bg = isMe ? 'bg-brand-gold/10 border-brand-gold text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200';
+
+                    drawerFeed.innerHTML += `
+                        <div class="flex flex-col ${align}">
+                            <span class="text-[9px] font-black uppercase text-gray-500 mb-0.5">${escapeHtml(msg.display_name)}</span>
+                            <div class="${bg} border px-3 py-2 rounded-lg text-xs max-w-[85%] break-words">
+                                ${escapeHtml(msg.message)}
+                            </div>
+                        </div>
+                    `;
+                });
+                drawerFeed.scrollTop = drawerFeed.scrollHeight;
+            }
+        }
+
+        async function sendDrawerMessage() {
+            if (!currentUser) {
+                alert("Sign in required to transmit messages.");
+                return;
+            }
+
+            const input = document.getElementById('drawerInput');
+            const val = input.value.trim();
+            if (!val) return;
+
+            const name = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+            const { error } = await db.from('gsr_chats').insert([{
+                user_id: currentUser.id,
+                display_name: name,
+                message: val,
+                channel: currentIndexChannel
+            }]);
+
+            if (error) {
+                alert("Transmission failed: " + error.message);
+            } else {
+                input.value = '';
+            }
+        }
+
+        function subscribeToIndexRealtime() {
+            db.channel('public:gsr_chats_index')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
+                    if (payload.new.channel === currentIndexChannel) {
+                        loadIndexChatWidget();
+                    }
+                })
+                .subscribe();
+        }
+
+        async function executeSignOut() {
+            await db.auth.signOut();
+            window.location.reload(); 
+        }
+
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+
+        document.getElementById('drawerInput')?.addEventListener('keypress', e => {
+            if (e.key === 'Enter') sendDrawerMessage();
         });
-    }
 
-    // REALTIME LISTENER
-    function subscribeToIndexRealtime() {
-        db.channel('public:gsr_chats_index')
-            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
-                // Instantly update if a new message arrives on the active channel
-                if (payload.new.channel === currentIndexChannel) {
-                    loadIndexChatWidget();
-                }
-            })
-            .subscribe();
-    }
-
-    async function executeSignOut() {
-        await db.auth.signOut();
-        window.location.reload(); 
-    }
-
-    function escapeHtml(str) {
-        return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
-    }
-
-    window.onload = initMainMenu;
-</script>
+        window.onload = initMainMenu;
+    </script>
 </body>
 </html>
