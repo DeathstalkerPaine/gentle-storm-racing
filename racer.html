@@ -148,11 +148,12 @@
                             <span class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></span> GSR COMMS
                         </span>
                         
-                        <!-- Dropdown Feed Switcher -->
+                        <!-- 4-Channel Dropdown Switcher -->
                         <select id="profileChatSelector" onchange="switchProfileChannel(this.value)" class="bg-brand-bg border border-brand-border text-brand-gold text-[9px] font-black uppercase px-2 py-1 rounded outline-none cursor-pointer">
                             <option value="global" selected>🌐 Global Feed</option>
                             <option value="following">👥 Following</option>
-                            <option value="racer_paine">🏎️ Driver Feed</option>
+                            <option value="team">🛡️ Team Chat</option>
+                            <option value="pro_plus">⭐ Pro Plus</option>
                         </select>
                     </div>
 
@@ -162,7 +163,7 @@
                     </div>
                 </div>
 
-                <!-- Interactive Drawer Footer (Replaces 'Chat disabled') -->
+                <!-- Interactive Drawer Footer -->
                 <div class="pt-3 border-t border-brand-border mt-2">
                     <button onclick="toggleDrawer(true)" class="w-full bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white transition text-[9px] font-black uppercase py-2.5 rounded tracking-wider shadow cursor-pointer">
                         OPEN DRAWER TO REPLY ↵
@@ -242,7 +243,8 @@
         const channelNames = {
             global: '🌐 Global Feed',
             following: '👥 Following',
-            racer_paine: '🏎️ Deathstalker Paine'
+            team: '🛡️ Team Chat',
+            pro_plus: '⭐ Pro Plus'
         };
 
         async function initRacerPage() {
