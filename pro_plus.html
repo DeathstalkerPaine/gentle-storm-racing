@@ -11,7 +11,7 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' }
+                        brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' }
                     }
                 }
             }
@@ -29,7 +29,7 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- HEADER: LOGO LEFT, TEXT CENTER, BUTTON RIGHT -->
+    <!-- HEADER: LOGO LEFT, TEXT CENTER, AUTH BUTTONS RIGHT -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
             
@@ -47,6 +47,12 @@
                     PRO PLUS
                 </h1>
             </div>                 
+
+            <!-- Dynamic Auth Buttons Container -->
+            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2">
+                <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
+                <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
+            </div>
         </div>
     </header>
 
@@ -54,7 +60,7 @@
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="pro_plus.html" class="text-brand-gold underline decoration-2 underline-offset-4">Pro Plus Hub</a>
             <a href="story_campaign.html" class="text-gray-300 hover:text-brand-gold transition">Story Campaign</a>
             <a href="skill_tree.html" class="text-gray-300 hover:text-brand-gold transition">Skill Tree</a>
             <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Top Racers</a>
@@ -65,6 +71,7 @@
             <a href="trophies.html" class="text-gray-300 hover:text-brand-gold transition">Trophies/Titles</a>
         </div>
     </nav>
+
     <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
 
@@ -121,7 +128,7 @@
 
         </section>
 
-              <!-- WIDE GSR CHATS PREVIEW (Matches Original Layout) -->
+        <!-- WIDE GSR CHATS PREVIEW (LIVE CONNECTED WIDGET) -->
         <section class="w-full">
             <div class="bg-brand-card border border-brand-border hover:border-brand-gold transition rounded-xl p-6 shadow-xl flex flex-col relative group">
                 
@@ -134,34 +141,38 @@
                         <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                     </div>
                     
-                    <!-- Dropdown + Instructions & Badge -->
+                    <!-- Dropdown Selector -->
                     <div class="flex items-center gap-3 w-full sm:w-auto">
-                        <span class="text-[9px] text-gray-400 uppercase tracking-widest italic">
+                        <span class="text-[9px] text-gray-400 uppercase tracking-widest italic hidden md:inline">
                             (Click menu to change feed)
                         </span>
                         <select id="wideChatSelector" onchange="switchWideWidgetChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-[10px] text-brand-gold uppercase font-bold px-3 py-2 rounded outline-none cursor-pointer flex-grow sm:flex-grow-0">
-                            <option value="pro_plus">⭐ Pro Plus Chat</option>
+                            <option value="pro_plus" selected>⭐ Pro Plus Chat</option>
                             <option value="global">🌐 Global Feed</option>
-                            <option value="team">🛡️️ Team Chat</option>
+                            <option value="team">🛡️ Team Chat</option>
                             <option value="following">👥 Following</option>
                         </select>
-                        <span class="text-[9px] font-black uppercase bg-brand-red/20 text-brand-red px-2 py-1 rounded hidden sm:block">Live Discussion</span>
+                        <span class="text-[9px] font-black uppercase bg-brand-gold/20 text-brand-gold px-2 py-1 rounded hidden sm:block">Live Discussion</span>
                     </div>
                 </div>
 
-                <!-- Messages Area (Wide & Short) -->
+                <!-- Messages Area -->
                 <div id="wideChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-lg p-4 space-y-2 h-28 overflow-hidden flex flex-col justify-end">
-                    <!-- JavaScript injects chats here -->
+                    <div class="text-[10px] text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
                 </div>
 
-                <!-- Footer Link -->
-                <div class="mt-4 pt-4 border-t border-brand-border text-right">
+                <!-- Footer Links & Drawer Button -->
+                <div class="mt-4 pt-4 border-t border-brand-border flex justify-between items-center text-xs">
                     <a href="chats.html" class="text-xs font-bold uppercase text-brand-gold hover:underline">
                         Open GSR Chats →
                     </a>
+                    
+                    <button onclick="toggleDrawer(true)" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">
+                        Open Drawer to Reply ↵
+                    </button>
                 </div>
             </div>
-          </section>
+        </section>
 
         <!-- ROW 3: 2-COLUMN (Magazine & Top Racers Standings) -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -180,8 +191,8 @@
                 </div>
             </div>
 
-                      <!-- STANDINGS: TOP 5 PRO PLUS RACERS -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between h-full relative group">
+            <!-- STANDINGS: TOP 5 PRO PLUS RACERS -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between h-full relative group shadow-xl">
                 <div>
                     <!-- Header -->
                     <div class="flex justify-between items-end mb-3 border-b border-brand-border pb-3">
@@ -193,7 +204,7 @@
                     </div>
                     
                     <p class="text-[10px] text-gray-400 mb-4 italic leading-relaxed">
-                        This shows the top five racers based on how far along the story campaign, coins, XP earned, and if went Good, Bad, or Neutral.
+                        Top racers based on story campaign progression, XP earned, and alignment status.
                     </p>
 
                     <!-- Top 5 List -->
@@ -203,8 +214,8 @@
                             <div class="flex items-center gap-3">
                                 <span class="bg-brand-gold text-black font-black text-[10px] w-5 h-5 flex items-center justify-center rounded-full">1</span>
                                 <div>
-                                    <span class="text-white text-[10px] font-black uppercase flex items-center gap-1.5">Deathstalker Paine <span class="w-1.5 h-1.5 rounded-full bg-brand-red inline-block shadow-[0_0_5px_#ff2a2a]"></span></span>
-                                    <span class="text-gray-500 text-[8px] uppercase font-mono block mt-0.5">Chapter 7</span>
+                                    <span class="text-white text-[10px] font-black uppercase flex items-center gap-1.5">Deathstalker Paine <span class="w-1.5 h-1.5 rounded-full bg-brand-red inline-block shadow-[0_0_5px_#ff2a2a]" title="Bad Alignment"></span></span>
+                                    <span class="text-gray-500 text-[8px] uppercase font-mono block mt-0.5">Chapter 7 • 🪙 4,500</span>
                                 </div>
                             </div>
                             <span class="text-brand-gold text-[10px] font-black">12,500 XP</span>
@@ -215,8 +226,8 @@
                             <div class="flex items-center gap-3">
                                 <span class="bg-gray-300 text-black font-black text-[10px] w-5 h-5 flex items-center justify-center rounded-full">2</span>
                                 <div>
-                                    <span class="text-gray-300 text-[10px] font-black uppercase flex items-center gap-1.5">Vortex_SL <span class="w-1.5 h-1.5 rounded-full bg-brand-blue inline-block shadow-[0_0_5px_#2a75ff]"></span></span>
-                                    <span class="text-gray-500 text-[8px] uppercase font-mono block mt-0.5">Chapter 6</span>
+                                    <span class="text-gray-300 text-[10px] font-black uppercase flex items-center gap-1.5">Vortex_SL <span class="w-1.5 h-1.5 rounded-full bg-brand-blue inline-block shadow-[0_0_5px_#2a75ff]" title="Good Alignment"></span></span>
+                                    <span class="text-gray-500 text-[8px] uppercase font-mono block mt-0.5">Chapter 6 • 🪙 3,800</span>
                                 </div>
                             </div>
                             <span class="text-white text-[10px] font-black">10,200 XP</span>
@@ -227,11 +238,11 @@
                             <div class="flex items-center gap-3">
                                 <span class="bg-amber-700 text-white font-black text-[10px] w-5 h-5 flex items-center justify-center rounded-full">3</span>
                                 <div>
-                                    <span class="text-gray-400 text-[10px] font-black uppercase flex items-center gap-1.5">BlazeRunner <span class="w-1.5 h-1.5 rounded-full bg-gray-500 inline-block"></span></span>
-                                    <span class="text-gray-500 text-[8px] uppercase font-mono block mt-0.5">Chapter 5</span>
+                                    <span class="text-gray-400 text-[10px] font-black uppercase flex items-center gap-1.5">BlazeRunner <span class="w-1.5 h-1.5 rounded-full bg-brand-gold inline-block" title="Neutral Alignment"></span></span>
+                                    <span class="text-gray-500 text-[8px] uppercase font-mono block mt-0.5">Chapter 6 • 🪙 3,100</span>
                                 </div>
                             </div>
-                            <span class="text-gray-400 text-[10px] font-black">8,400 XP</span>
+                            <span class="text-gray-400 text-[10px] font-black">9,400 XP</span>
                         </div>
 
                         <!-- Rank 4 -->
@@ -262,49 +273,9 @@
                 
                 <!-- Bottom Link -->
                 <div class="mt-5 pt-3 border-t border-brand-border text-right">
-                    <a href="leaderboards.html?category=pro_plus" class="text-xs font-bold uppercase text-brand-gold hover:underline">
+                    <a href="leaderboard_view.html?category=racer&class=pro_plus" class="text-xs font-bold uppercase text-brand-gold hover:underline">
                         Open Pro Plus Leaderboards →
                     </a>
-                </div>
-            </div>
-
-
-                        <div class="bg-brand-bg border border-brand-blue/60 p-3 rounded-lg flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <span class="w-6 h-6 rounded-full bg-gray-400 text-black font-black text-xs flex items-center justify-center shrink-0">2</span>
-                                <div>
-                                    <div class="flex items-center gap-2">
-                                        <span class="text-white text-xs font-black uppercase">Vortex_SL</span>
-                                        <span class="bg-brand-blue text-white text-[9px] font-black px-1.5 py-0.2 rounded" title="Good Alignment">G</span>
-                                    </div>
-                                    <p class="text-[9px] text-gray-400 uppercase font-bold">Chapter 6 • 10,200 XP</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <span class="text-xs font-black text-brand-gold">🪙 3,800</span>
-                            </div>
-                        </div>
-
-                        <div class="bg-brand-bg border border-brand-gold/60 p-3 rounded-lg flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <span class="w-6 h-6 rounded-full bg-amber-700 text-white font-black text-xs flex items-center justify-center shrink-0">3</span>
-                                <div>
-                                    <div class="flex items-center gap-2">
-                                        <span class="text-white text-xs font-black uppercase">BlazeRunner</span>
-                                        <span class="bg-brand-gold text-black text-[9px] font-black px-1.5 py-0.2 rounded" title="Neutral Alignment">N</span>
-                                    </div>
-                                    <p class="text-[9px] text-gray-400 uppercase font-bold">Chapter 6 • 9,400 XP</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <span class="text-xs font-black text-brand-gold">🪙 3,100</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-6 pt-4 border-t border-brand-border text-right">
-                    <a href="leaderboard_view.html?category=racer&class=pro_plus" class="text-xs font-bold uppercase text-brand-gold hover:text-white transition">View Full Standings →</a>
                 </div>
             </div>
 
@@ -339,48 +310,238 @@
             <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
         </div>
     </footer>
-    <!-- WIDE WIDGET SCRIPT ENGINE -->
-    <script>
-        let currentWideChannel = 'pro_plus'; // Defaults to Pro Plus for this page
 
-        function switchWideWidgetChannel(channel) {
+    <!-- SLIDE-OUT DRAWER OVERLAY & PANEL -->
+    <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <div id="chatDrawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-brand-card border-l border-brand-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- Drawer Header -->
+        <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
+            <div>
+                <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
+                <p id="drawerChannelName" class="text-[10px] text-brand-gold uppercase">Channel: ⭐ Pro Plus</p>
+            </div>
+            <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Drawer Chat Messages Area -->
+        <div id="drawerMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-[#111]">
+             <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching logs... ]</div>
+        </div>
+
+        <!-- Drawer Input Area -->
+        <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
+            <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-gold transition">
+            <button onclick="sendDrawerMessage()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
+        </div>
+    </div>
+
+    <!-- SUPABASE NATIVE ENGINE FOR PRO PLUS WITH DRAWER -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // Global Drawer Control
+        window.toggleDrawer = function(show) {
+            const drawer = document.getElementById('chatDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+
+            if (!drawer || !overlay) {
+                console.error("GSR Drawer Error: Could not find #chatDrawer or #drawerOverlay in the HTML.");
+                alert("Drawer HTML elements are missing from the page.");
+                return;
+            }
+
+            if (show) {
+                overlay.classList.remove('hidden');
+                void overlay.offsetWidth;
+                overlay.classList.remove('opacity-0');
+                drawer.classList.remove('translate-x-full');
+
+                const msgBox = document.getElementById('drawerMessages');
+                if (msgBox) msgBox.scrollTop = msgBox.scrollHeight;
+            } else {
+                overlay.classList.add('opacity-0');
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                }, 300);
+            }
+        };
+
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let currentWideChannel = 'pro_plus';
+        let currentUser = null;
+        let currentProfile = null;
+
+        const channelNames = {
+            pro_plus: '⭐ Pro Plus',
+            global: '🌐 Global',
+            team: '🛡️ Team Chat',
+            following: '👥 Following'
+        };
+
+        async function initProPlusPage() {
+            // 1. Check Auth Session
+            const { data: { session } } = await db.auth.getSession();
+            const userNav = document.getElementById('userNav');
+            const drawerInput = document.getElementById('drawerInput');
+
+            if (session) {
+                currentUser = session.user;
+                const { data: profile } = await db
+                    .from('gsr_profiles')
+                    .select('sl_legacy_name')
+                    .eq('id', currentUser.id)
+                    .single();
+
+                currentProfile = profile;
+                const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+                if (userNav) {
+                    userNav.innerHTML = `
+                        <div class="text-right hidden sm:block">
+                            <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                            <span class="text-[9px] text-brand-gold uppercase font-mono tracking-widest flex items-center justify-end gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse"></span> Pro Member
+                            </span>
+                        </div>
+                        <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
+                    `;
+                }
+                if (drawerInput) {
+                    drawerInput.placeholder = "Type message...";
+                    drawerInput.disabled = false;
+                }
+            } else {
+                if (drawerInput) {
+                    drawerInput.placeholder = "Sign in at Main Menu to chat...";
+                    drawerInput.disabled = true;
+                }
+            }
+
+            // 2. Load Chat & Start Realtime
+            loadWideChatWidget();
+            subscribeToProPlusRealtime();
+        }
+
+        async function switchWideWidgetChannel(channel) {
             currentWideChannel = channel;
+            const drawerTitle = document.getElementById('drawerChannelName');
+            if (drawerTitle) drawerTitle.innerText = `Channel: ${channelNames[channel] || channel}`;
+            
             loadWideChatWidget();
         }
 
-        function loadWideChatWidget() {
+        async function loadWideChatWidget() {
             const feedContainer = document.getElementById('wideChatFeed');
-            if (!feedContainer) return; 
+            const drawerFeed = document.getElementById('drawerMessages');
 
-            const rawData = localStorage.getItem('gsr_chat_network');
-            
-            if (rawData) {
-                const chatData = JSON.parse(rawData);
-                const messages = chatData[currentWideChannel] || [];
-                const latestMessages = messages.slice(-3); // Grab last 3 chats
-                
-                feedContainer.innerHTML = ''; 
-                
-                if (latestMessages.length === 0) {
-                    feedContainer.innerHTML = `<span class="text-[10px] text-gray-500 text-center block w-full mt-2">[ No comms in this feed ]</span>`;
-                    return;
-                }
+            const { data, error } = await db
+                .from('gsr_chats')
+                .select('*')
+                .eq('channel', currentWideChannel)
+                .order('created_at', { ascending: false })
+                .limit(20);
 
-                latestMessages.forEach(msg => {
+            if (error || !data || data.length === 0) {
+                const emptyMsg = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No active comms in this feed ]</div>`;
+                if (feedContainer) feedContainer.innerHTML = emptyMsg;
+                if (drawerFeed) drawerFeed.innerHTML = emptyMsg;
+                return;
+            }
+
+            const messages = data.reverse();
+
+            // Populate Widget (Last 3)
+            if (feedContainer) {
+                feedContainer.innerHTML = '';
+                messages.slice(-3).forEach(msg => {
                     feedContainer.innerHTML += `
                         <div class="text-xs leading-relaxed truncate">
-                            <span class="font-black text-brand-blue uppercase">[${currentWideChannel.replace('_', ' ')}] ${msg.racer}:</span> 
-                            <span class="text-gray-300">${msg.text}</span>
+                            <span class="font-black text-brand-gold uppercase">[${escapeHtml(msg.display_name)}]:</span> 
+                            <span class="text-gray-300">${escapeHtml(msg.message)}</span>
                         </div>
                     `;
                 });
+                feedContainer.scrollTop = feedContainer.scrollHeight;
+            }
+
+            // Populate Drawer (Full History)
+            if (drawerFeed) {
+                drawerFeed.innerHTML = '';
+                messages.forEach(msg => {
+                    const isMe = currentUser && msg.user_id === currentUser.id;
+                    const align = isMe ? 'items-end' : 'items-start';
+                    const bg = isMe ? 'bg-brand-gold/10 border-brand-gold text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200';
+
+                    drawerFeed.innerHTML += `
+                        <div class="flex flex-col ${align}">
+                            <span class="text-[9px] font-black uppercase text-gray-500 mb-0.5">${escapeHtml(msg.display_name)}</span>
+                            <div class="${bg} border px-3 py-2 rounded-lg text-xs max-w-[85%] break-words">
+                                ${escapeHtml(msg.message)}
+                            </div>
+                        </div>
+                    `;
+                });
+                drawerFeed.scrollTop = drawerFeed.scrollHeight;
             }
         }
 
-        window.onload = loadWideChatWidget;
-        window.addEventListener('storage', (e) => {
-            if(e.key === 'gsr_chat_network') loadWideChatWidget();
+        async function sendDrawerMessage() {
+            if (!currentUser) {
+                alert("Sign in required to transmit messages.");
+                return;
+            }
+
+            const input = document.getElementById('drawerInput');
+            const val = input.value.trim();
+            if (!val) return;
+
+            const name = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+            const { error } = await db.from('gsr_chats').insert([{
+                user_id: currentUser.id,
+                display_name: name,
+                message: val,
+                channel: currentWideChannel
+            }]);
+
+            if (error) {
+                alert("Transmission failed: " + error.message);
+            } else {
+                input.value = '';
+            }
+        }
+
+        function subscribeToProPlusRealtime() {
+            db.channel('public:gsr_chats_pro_plus')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
+                    if (payload.new.channel === currentWideChannel) {
+                        loadWideChatWidget();
+                    }
+                })
+                .subscribe();
+        }
+
+        async function executeSignOut() {
+            await db.auth.signOut();
+            window.location.reload(); 
+        }
+
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+
+        document.getElementById('drawerInput')?.addEventListener('keypress', e => {
+            if (e.key === 'Enter') sendDrawerMessage();
         });
+
+        window.onload = initProPlusPage;
     </script>
 
 </body>
