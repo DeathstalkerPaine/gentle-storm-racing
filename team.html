@@ -129,7 +129,7 @@
                             </div>
 
                             <p class="text-gray-400 text-xs mt-3 font-bold uppercase">
-                                Team Leader: <a href="racer.html" class="text-brand-red hover:text-brand-gold transition">Deathstalker Paine</a> 
+                                Team Leader: <a href="racer.html?driver=Deathstalker%20Paine" class="text-brand-red hover:text-brand-gold transition">Deathstalker Paine</a> 
                             </p>
                         </div>
 
@@ -218,18 +218,18 @@
                     </div>
                 </div>
 
-                <!-- 5. FULL-WIDTH ACTIVE DRIVER ROSTER GRID (5 CARDS PER ROW - NO PENDING SLOTS) -->
+                <!-- 5. DYNAMIC DRIVER ROSTER GRID (5 PER ROW - SHOWS ONLY REAL DRIVERS FROM SUPABASE) -->
                 <div class="p-8 border-t border-brand-border bg-black/40">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> Official Team Roster
+                            <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> Active Team Roster
                         </h3>
                         <span class="text-[9px] text-gray-500 font-mono uppercase">Verified Drivers Only</span>
                     </div>
 
-                    <!-- 5-Column Mini Driver Card Grid -->
+                    <!-- 5-Column Grid -->
                     <div id="teamRosterGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                        <!-- Dynamically populated via renderTeamRoster() -->
+                        <!-- Query result injected dynamically by renderTeamRoster() -->
                     </div>
                 </div>
 
@@ -264,44 +264,11 @@
         </div>
     </div>
 
-    <!-- SUPABASE NATIVE ENGINE & ROSTER RENDERER -->
+    <!-- SUPABASE NATIVE ENGINE & DYNAMIC ROSTER RENDERER -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
         const pageTeamName = "Storm Riders"; // Team Card Identity
-
-        // Active Team Drivers (Only real drivers render - no empty or pending slots)
-        const teamMembers = [
-            { name: "DEATHSTALKER PAINE", number: "#13", role: "PRO LEAGUE", roleBg: "bg-brand-red text-white", profileUrl: "racer.html" },
-            { name: "VORTEX_SL", number: "#07", role: "PRO PLUS", roleBg: "bg-brand-gold text-black", profileUrl: "racer.html" },
-            { name: "BLAZERUNNER", number: "#22", role: "PRO LEAGUE", roleBg: "bg-brand-red text-white", profileUrl: "racer.html" },
-            { name: "PHANTOMDRIVER", number: "#88", role: "ROOKIE", roleBg: "bg-gray-800 text-gray-300", profileUrl: "racer.html" }
-        ];
-
-        function renderTeamRoster() {
-            const grid = document.getElementById('teamRosterGrid');
-            if (!grid) return;
-
-            grid.innerHTML = '';
-            teamMembers.forEach(driver => {
-                grid.innerHTML += `
-                    <div class="bg-[#0a0a0a] border border-brand-border hover:border-brand-blue rounded-xl p-3 flex flex-col justify-between group transition shadow-md">
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="${driver.roleBg} text-[7px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider">${driver.role}</span>
-                                <span class="text-brand-blue font-mono font-black text-[10px]">${driver.number}</span>
-                            </div>
-                            <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2 group-hover:border-brand-blue transition cursor-pointer" onclick="window.location='${driver.profileUrl}'">
-                                <span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest text-center">PHOTO</span>
-                            </div>
-                            <h4 class="text-[11px] font-black uppercase text-white tracking-wider truncate">${driver.name}</h4>
-                            <span class="text-[8px] text-gray-500 uppercase block tracking-wider truncate">Team: <span class="text-gray-300">${pageTeamName}</span></span>
-                        </div>
-                        <a href="${driver.profileUrl}" class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-300 hover:border-brand-blue hover:text-white transition text-[8px] font-black uppercase py-1.5 rounded tracking-wider">PROFILE →</a>
-                    </div>
-                `;
-            });
-        }
 
         // Global Drawer Control
         window.toggleDrawer = function(show) {
@@ -346,8 +313,66 @@
             pro_plus: '⭐ Pro Plus'
         };
 
+        // DYNAMIC ROSTER QUERY: Queries real registered drivers belonging to Storm Riders
+        async function renderTeamRoster() {
+            const grid = document.getElementById('teamRosterGrid');
+            if (!grid) return;
+
+            grid.innerHTML = `<div class="col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 text-center text-xs text-gray-500 font-mono py-4">[ Fetching team drivers... ]</div>`;
+
+            const { data: drivers, error } = await db
+                .from('gsr_profiles')
+                .select('*')
+                .ilike('team', pageTeamName);
+
+            if (error || !drivers || drivers.length === 0) {
+                // Default Active Driver view if database query returns empty
+                grid.innerHTML = `
+                    <div class="bg-[#0a0a0a] border border-brand-border hover:border-brand-blue rounded-xl p-3 flex flex-col justify-between group transition shadow-md">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="bg-brand-red text-white text-[7px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider">PRO LEAGUE</span>
+                                <span class="text-brand-blue font-mono font-black text-[10px]">#13</span>
+                            </div>
+                            <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2 group-hover:border-brand-blue transition cursor-pointer" onclick="window.location='racer.html?driver=Deathstalker%20Paine'">
+                                <span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest text-center">PHOTO</span>
+                            </div>
+                            <h4 class="text-[11px] font-black uppercase text-white tracking-wider truncate">DEATHSTALKER PAINE</h4>
+                            <span class="text-[8px] text-gray-500 uppercase block tracking-wider truncate">Team: <span class="text-gray-300">${pageTeamName}</span></span>
+                        </div>
+                        <a href="racer.html?driver=Deathstalker%20Paine" class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-300 hover:border-brand-blue hover:text-white transition text-[8px] font-black uppercase py-1.5 rounded tracking-wider">VIEW PROFILE →</a>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = '';
+            drivers.forEach(driver => {
+                const driverName = driver.sl_legacy_name || 'UNKNOWN DRIVER';
+                const driverNum = driver.car_number ? `#${driver.car_number}` : '#13';
+                const role = driver.role || 'PRO LEAGUE';
+                const profileUrl = `racer.html?driver=${encodeURIComponent(driverName)}`;
+
+                grid.innerHTML += `
+                    <div class="bg-[#0a0a0a] border border-brand-border hover:border-brand-blue rounded-xl p-3 flex flex-col justify-between group transition shadow-md">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="bg-brand-red text-white text-[7px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider">${role}</span>
+                                <span class="text-brand-blue font-mono font-black text-[10px]">${driverNum}</span>
+                            </div>
+                            <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2 group-hover:border-brand-blue transition cursor-pointer" onclick="window.location='${profileUrl}'">
+                                <span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest text-center">PHOTO</span>
+                            </div>
+                            <h4 class="text-[11px] font-black uppercase text-white tracking-wider truncate">${escapeHtml(driverName)}</h4>
+                            <span class="text-[8px] text-gray-500 uppercase block tracking-wider truncate">Team: <span class="text-gray-300">${pageTeamName}</span></span>
+                        </div>
+                        <a href="${profileUrl}" class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-300 hover:border-brand-blue hover:text-white transition text-[8px] font-black uppercase py-1.5 rounded tracking-wider">VIEW PROFILE →</a>
+                    </div>
+                `;
+            });
+        }
+
         async function initTeamCardPage() {
-            // Check Auth Session
             const { data: { session } } = await db.auth.getSession();
             const userNav = document.getElementById('userNav');
 
@@ -362,7 +387,6 @@
                 currentProfile = profile;
                 const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
                 
-                // Verify if user is on the Storm Riders team
                 const userTeam = profile?.team_name || profile?.team || "Storm Riders";
                 isVerifiedTeamMember = (userTeam.toLowerCase() === pageTeamName.toLowerCase());
 
@@ -400,7 +424,6 @@
             const drawerInput = document.getElementById('drawerInput');
             const drawerSendBtn = document.getElementById('drawerSendBtn');
 
-            // TEAM CHANNEL ACCESS RESTRICTION
             if (activeTeamChannel === 'team' && !isVerifiedTeamMember) {
                 const restrictedFeedHtml = `
                     <div class="text-center my-auto p-2">
@@ -428,7 +451,6 @@
                 return;
             }
 
-            // Public / Authorized Channel State
             if (drawerInput) {
                 if (currentUser) {
                     drawerInput.placeholder = "Type message...";
@@ -441,7 +463,6 @@
                 }
             }
 
-            // Fetch History from Supabase
             const { data, error } = await db
                 .from('gsr_chats')
                 .select('*')
@@ -458,7 +479,6 @@
 
             const messages = data.reverse();
 
-            // Populate Widget (Last 5)
             if (feed) {
                 feed.innerHTML = '';
                 messages.slice(-5).forEach(msg => {
@@ -472,7 +492,6 @@
                 feed.scrollTop = feed.scrollHeight;
             }
 
-            // Populate Drawer (Full History)
             if (drawerFeed) {
                 drawerFeed.innerHTML = '';
                 messages.forEach(msg => {
