@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deathstalker Paine | Official Racer Card</title>
+    <title>Deathstalker Paine | Racer Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,330 +11,390 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            bg: '#121212',
-                            card: '#151515',
-                            border: '#333333',
-                            gold: '#c5a059',
-                            red: '#ff2a2a',
-                            blue: '#2a75ff'
-                        }
+                        brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' }
                     }
                 }
             }
         }
     </script>
     <style>
-        ::-webkit-scrollbar { width: 8px; }
+        .red-card-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 20px rgba(255, 42, 42, 0.15); }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #121212; }
-        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
-        
-        /* ALIGNMENT BORDERS: Change these classes on the card wrapper to swap alignments */
-        .alignment-bad { border: 2px solid #ff2a2a; box-shadow: 0 0 20px rgba(255, 42, 42, 0.2); }
-        .alignment-good { border: 2px solid #2a75ff; box-shadow: 0 0 20px rgba(42, 117, 255, 0.2); }
-        .alignment-neutral { border: 2px solid #c5a059; box-shadow: 0 0 20px rgba(197, 160, 89, 0.2); }
-
-        .card-texture { background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 2px, transparent 2px, transparent 4px); }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 3px; }
     </style>
 </head>
-<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col p-4 sm:p-8">
 
-    <!-- SUB-PAGE HEADER -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
-            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
-                <a href="index.html"><img src="h-logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
-            </div>
-            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
-                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Official Racer Card</span>
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">DEATHSTALKER PAINE</h1>
-            </div>              
-        </div>
-    </header>
-
-    <!-- SUB-NAVBAR -->
-    <nav class="bg-brand-bg border-b border-brand-border py-3">
-        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
-            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
-            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
-            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
-            <a href="racers_profiles.html" class="text-brand-gold transition">Racers Profile</a>
-            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Racer Leaderboard</a>
-            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams</a>
-            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
-            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
-        </div>
-    </nav>
-
-    <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-5xl w-full mx-auto py-10 px-4">
+    <!-- RACER PROFILE CARD CONTAINER -->
+    <main class="max-w-5xl w-full mx-auto bg-[#181818] border border-red-900/60 rounded-xl p-6 md:p-8 red-card-glow relative space-y-6">
         
-        <div class="flex justify-between items-center mb-6">
-            <a href="racers_profiles.html" class="inline-flex items-center text-xs text-gray-400 hover:text-white transition uppercase font-bold">
-                &larr; Back to Directory
-            </a>
-            <!-- Live Points Rating -->
-            <div class="bg-brand-card border border-brand-border px-4 py-2 rounded-lg shadow text-center">
-                <span class="block text-[9px] uppercase font-bold text-gray-500">Current Points Rating</span>
-                <span class="text-xl font-black text-white">1,250 <span class="text-[10px] text-brand-red uppercase">PTS</span></span>
+        <!-- TOP SUBSCRIBER BADGE -->
+        <div class="flex justify-between items-center">
+            <span class="bg-red-950/80 border border-brand-red text-brand-red text-[9px] font-black uppercase px-2.5 py-1 rounded">
+                PRO PLUS SUBSCRIBER <span class="bg-brand-red text-black rounded-full px-1.5 ml-1">S</span>
+            </span>
+            <div id="userNav" class="flex items-center gap-2">
+                <a href="sign_in.html" class="bg-brand-bg border border-brand-border text-gray-300 hover:text-white font-black uppercase text-[9px] px-3 py-1.5 rounded transition">Sign In</a>
             </div>
         </div>
 
-        <!-- THE RACER TRADING CARD WRAPPER -->
-        <!-- Note: "alignment-bad" sets the Red border. Swap to "alignment-good" (Blue) or "alignment-neutral" (Gold) -->
-        <div class="bg-brand-card rounded-[14px] overflow-hidden relative card-texture alignment-bad">
+        <!-- RACER HEADER: PHOTO, NAME & BADGES -->
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-6 pt-2">
+            <!-- Driver Photo Placeholder -->
+            <div class="w-36 h-36 bg-[#0a0a0a] border border-brand-border rounded-lg flex flex-col items-center justify-center relative shrink-0">
+                <span class="w-2 h-2 rounded-full bg-brand-green absolute top-2 right-2 animate-pulse"></span>
+                <span class="text-[9px] text-gray-600 font-bold uppercase tracking-widest">PHOTO PENDING</span>
+            </div>
+
+            <!-- Driver Identity -->
+            <div class="flex-grow text-center md:text-left space-y-2">
+                <div class="flex flex-col md:flex-row md:items-baseline justify-between gap-2">
+                    <h1 class="text-3xl md:text-5xl font-black uppercase tracking-wider text-white">DEATHSTALKER PAINE</h1>
+                    <span class="text-3xl md:text-5xl font-black font-mono text-gray-800">#13</span>
+                </div>
+                
+                <p class="text-brand-red font-black text-xs uppercase tracking-widest italic">"THE DESERT SCORPION"</p>
+                
+                <!-- Accolade Badges -->
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 pt-1">
+                    <span class="bg-brand-gold text-black font-black text-[9px] uppercase px-2 py-0.5 rounded shadow">🏆 PRO CHAMPION '26</span>
+                    <span class="bg-gray-800 border border-gray-600 text-gray-300 font-bold text-[9px] uppercase px-2 py-0.5 rounded">⏱️ VEGAS RECORD</span>
+                    <span class="bg-red-950/60 border border-brand-red text-brand-red font-bold text-[9px] uppercase px-2 py-0.5 rounded">⚔️ MAX AGGRESSION</span>
+                </div>
+
+                <div class="text-[10px] text-gray-400 uppercase font-bold pt-2">
+                    TEAM ALLIANCE: <span class="text-white font-black">STORM RIDERS</span> 
+                    <span class="bg-gray-800 text-gray-300 text-[8px] font-black px-1.5 py-0.5 rounded ml-2">TEAM LEADER</span>
+                </div>
+            </div>
+
+            <!-- Follow Button -->
+            <button class="bg-[#111] border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white text-[9px] font-black uppercase px-4 py-2 rounded transition tracking-wider shrink-0">
+                FOLLOW FAN UPDATES +
+            </button>
+        </div>
+
+        <!-- DRIVER BIO SECTION -->
+        <div class="bg-[#111] border-l-2 border-brand-red p-4 rounded-r-lg">
+            <span class="text-[9px] font-black uppercase text-brand-red tracking-widest block mb-1">DRIVER BIO</span>
+            <p class="text-xs text-gray-300 italic font-serif">
+                "Founder and lead driver for the Storm Riders. Competing in the Second Life Pro League series."
+            </p>
+        </div>
+
+        <!-- BOTTOM GRID: STATS (LEFT) vs GSR COMMS CHAT WIDGET (RIGHT) -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 pt-2">
             
-            <!-- 1. Banner & Pro Plus Badge -->
-            <div class="h-64 w-full bg-cover bg-center relative border-b border-brand-border" style="background-image: url('paine-banner.jpg'); background-color: #222;">
-                <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
-                
-                <!-- PRO PLUS SUBSCRIBER BADGE (Shows only if subbed) -->
-                <!-- The "B" inside the red span stands for Bad. (Change colors and letter for G or N) -->
-                <div class="absolute top-4 left-6 z-10 flex gap-2">
-                    <span class="bg-black/80 text-brand-red border border-brand-red font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg flex items-center gap-2">
-                        Pro Plus Subscriber 
-                        <span class="bg-brand-red text-white px-1.5 py-0.5 rounded text-[10px] leading-none">B</span>
-                    </span>
-                </div>
-                
-                <span class="absolute -bottom-4 right-4 text-9xl font-black text-white/5 italic select-none pointer-events-none">#13</span>
-            </div>
-
-            <!-- 2. Header Box: Avatar, Identity, Trophies -->
-            <div class="px-8 pb-6 relative border-b border-brand-border">
-                <div class="flex flex-col md:flex-row items-start md:items-end justify-between -mt-20 gap-6 relative z-10">
-                    
-                    <!-- Inside the Avatar div in racer.html -->
-<div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-[#111] shadow-2xl flex items-center justify-center shrink-0 relative">
-    <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Photo Pending</span>
-    <!-- HUD Online Status Indicator -->
-    <div class="absolute -top-2 -right-2 bg-green-500 border-2 border-[#111] w-4 h-4 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]" title="Active on Track HUD"></div>
-</div>
-
-
-                    <!-- Identity -->
-                    <div class="flex-1 pt-20 md:pt-0">
-                        <div class="flex flex-wrap items-baseline gap-3">
-                            <h2 class="text-4xl lg:text-5xl font-black text-white tracking-tight uppercase">Deathstalker Paine</h2>
-                            <span class="text-brand-red text-sm lg:text-base font-black uppercase tracking-[0.2em] italic">"The Desert Scorpion"</span>
-                        </div>
-                        
-                        <!-- Top 3 Trophies -->
-                        <div class="flex gap-2 mt-2">
-                            <span class="bg-gradient-to-br from-yellow-400 to-yellow-700 text-black text-[9px] font-black uppercase px-2 py-1 rounded border border-yellow-300 shadow">🏆 Pro Champion '26</span>
-                            <span class="bg-gradient-to-br from-gray-300 to-gray-600 text-black text-[9px] font-black uppercase px-2 py-1 rounded border border-gray-100 shadow">⏱️ Vegas Record</span>
-                            <span class="bg-gradient-to-br from-red-500 to-red-900 text-white text-[9px] font-black uppercase px-2 py-1 rounded border border-red-400 shadow">⚔️ Max Aggression</span>
-                        </div>
-
-                        <p class="text-gray-400 text-xs mt-3 font-bold uppercase">
-                            Team Alliance: <a href="teams.html" class="text-white hover:text-brand-red transition">Storm Riders</a> 
-                            <span class="text-[9px] bg-white/10 text-white border border-white/20 px-2 py-0.5 rounded ml-2">Team Leader</span>
-                        </p>
-                    </div>
-
-                    <!-- Follow Button -->
-                    <div class="flex flex-col items-end gap-3 w-full md:w-auto">
-                        <button id="followBtn" class="w-full md:w-auto bg-brand-bg border border-brand-border hover:border-brand-red hover:text-white text-gray-400 text-[10px] font-black uppercase px-6 py-2.5 rounded transition shadow" onclick="toggleFollow()">
-                            Follow Fan Updates +
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3. Bio Section -->
-            <div class="p-8 border-b border-brand-border bg-black/20">
-                <h3 class="text-[10px] font-black uppercase tracking-wider text-gray-500 mb-2">Driver Bio</h3>
-                <p class="text-gray-300 italic text-sm leading-relaxed border-l-2 border-brand-red pl-4">
-                    "Founder and lead driver for the Storm Riders. Competing in the Second Life Pro League series."
-                </p>
-            </div>
-
-            <!-- 4. Two-Column Layout: Stats & Chats -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-brand-border">
-                
-                <!-- LEFT COLUMN: Telemetry Engine (2/3 width) -->
-                <div class="p-8 lg:col-span-2 space-y-8 bg-black/20">
-                    
-                    <!-- Dynamic Filters -->
-                    <div class="flex flex-col sm:flex-row gap-4 items-center bg-brand-bg border border-brand-border p-3 rounded-xl">
-                        <span class="text-[10px] font-black uppercase text-gray-500 pl-2">Filter Telemetry:</span>
-                        <select id="classFilter" class="w-full sm:w-auto bg-brand-card border border-brand-border text-white text-[10px] font-bold uppercase px-3 py-2 rounded outline-none focus:border-brand-red transition cursor-pointer" onchange="updateStats()">
-                            <option value="pro_plus">Pro Plus Class</option>
-                            <option value="pro">Pro Class</option>
-                            <option value="amateur">Amateur Class</option>
-                            <option value="league_pro">League: Pro</option>
-                            <option value="league_amateur">League: Amateur</option>
+            <!-- LEFT 7 COLUMNS: FILTERED ANALYTICS -->
+            <div class="md:col-span-7 space-y-4">
+                <!-- Telemetry Filters -->
+                <div class="bg-[#111] border border-brand-border rounded-lg p-3 flex gap-3">
+                    <div class="flex-grow">
+                        <label class="block text-[8px] font-black uppercase text-gray-500 mb-1">FILTER TELEMETRY:</label>
+                        <select class="w-full bg-brand-bg border border-brand-border text-xs text-white uppercase font-bold px-3 py-1.5 rounded outline-none">
+                            <option>PRO PLUS CLASS</option>
                         </select>
-                        <select id="trackFilter" class="w-full sm:w-auto bg-brand-card border border-brand-border text-white text-[10px] font-bold uppercase px-3 py-2 rounded outline-none focus:border-brand-red transition cursor-pointer" onchange="updateStats()">
-                            <option value="all">All Tracks</option>
-                            <option value="vegas">Las Vegas Strip</option>
-                            <option value="future">Back to Future</option>
-                            <option value="rome">Ancient Rome</option>
-                            <option value="city">Abandoned City</option>
+                    </div>
+                    <div class="flex-grow">
+                        <label class="block text-[8px] font-black uppercase text-gray-500 mb-1">&nbsp;</label>
+                        <select class="w-full bg-brand-bg border border-brand-border text-xs text-white uppercase font-bold px-3 py-1.5 rounded outline-none">
+                            <option>ALL TRACKS</option>
+                        </select>
+                    </div>
+                </div>
+
+                <span class="text-[9px] font-black uppercase text-brand-red tracking-widest block">FILTERED ANALYTICS</span>
+
+                <!-- 4 Stat Boxes -->
+                <div class="grid grid-cols-4 gap-2">
+                    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
+                        <span class="block text-[8px] font-black uppercase text-gray-500">WINS</span>
+                        <span class="text-lg font-black text-brand-gold">45</span>
+                    </div>
+                    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
+                        <span class="block text-[8px] font-black uppercase text-gray-500">LOSSES</span>
+                        <span class="text-lg font-black text-gray-300">12</span>
+                    </div>
+                    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
+                        <span class="block text-[8px] font-black uppercase text-gray-500">POINTS</span>
+                        <span class="text-lg font-black text-white">1,250</span>
+                    </div>
+                    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
+                        <span class="block text-[8px] font-black uppercase text-gray-500">DISQUALIFICATIONS</span>
+                        <span class="text-lg font-black text-brand-red">1</span>
+                    </div>
+                </div>
+
+                <!-- 2 Damage Stat Boxes -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
+                        <span class="block text-[8px] font-black uppercase text-gray-500">DAMAGE DEALT (PLAYERS)</span>
+                        <span class="text-base font-black text-white mt-1 block">18,500</span>
+                    </div>
+                    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
+                        <span class="block text-[8px] font-black uppercase text-gray-500">DAMAGE TAKEN</span>
+                        <span class="text-base font-black text-white mt-1 block">9,200</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT 5 COLUMNS: LIVE CONNECTED GSR COMMS WIDGET -->
+            <div class="md:col-span-5 bg-[#111] border border-brand-border rounded-lg p-4 flex flex-col justify-between">
+                <div>
+                    <!-- Widget Header -->
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-[10px] font-black uppercase text-white tracking-widest flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></span> GSR COMMS
+                        </span>
+                        
+                        <!-- Dropdown Feed Switcher -->
+                        <select id="profileChatSelector" onchange="switchProfileChannel(this.value)" class="bg-brand-bg border border-brand-border text-brand-gold text-[9px] font-black uppercase px-2 py-1 rounded outline-none cursor-pointer">
+                            <option value="global" selected>🌐 Global Feed</option>
+                            <option value="following">👥 Following</option>
+                            <option value="racer_paine">🏎️ Driver Feed</option>
                         </select>
                     </div>
 
-                    <!-- Statistics Grid -->
-                    <div>
-                        <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-3 flex items-center gap-2">
-                            <div class="w-2 h-2 rounded-full bg-brand-red animate-pulse"></div> Filtered Analytics
-                        </h3>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                            <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Wins</span><span id="stat-wins" class="text-xl font-black text-brand-gold">0</span></div>
-                            <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Losses</span><span id="stat-losses" class="text-xl font-black text-white">0</span></div>
-                            <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Points</span><span id="stat-pts" class="text-xl font-black text-white">0</span></div>
-                            <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Disqualifications</span><span id="stat-dsq" class="text-xl font-black text-brand-red">0</span></div>
-                            
-                            <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center md:col-span-2"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Damage Dealt (Players)</span><span id="stat-dmg-out" class="text-xl font-black text-white">0</span></div>
-                            <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center md:col-span-2"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Damage Taken</span><span id="stat-dmg-in" class="text-xl font-black text-gray-400">0</span></div>
-                        </div>
+                    <!-- Live Message Box -->
+                    <div id="profileChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-lg p-3 my-2 space-y-2 h-36 overflow-y-auto flex flex-col justify-end">
+                        <div class="text-[10px] text-gray-500 text-center block my-auto">[ Syncing comms... ]</div>
                     </div>
                 </div>
 
-                <!-- RIGHT COLUMN: GSR Chats Integration (1/3 width) -->
-                <div class="p-8 lg:col-span-1 flex flex-col h-full bg-brand-bg">
-                    <h3 class="text-[10px] font-black uppercase tracking-widest text-white mb-3 text-center border-b border-brand-border pb-2">💬 GSR Comms</h3>
-                    
-                    <div class="bg-[#0a0a0a] border border-brand-border rounded-xl flex-grow flex flex-col overflow-hidden relative shadow-inner min-h-[300px]">
-                        
-                        <!-- Chat Filter Tabs -->
-                        <div class="flex text-[9px] font-black uppercase border-b border-brand-border">
-                            <button id="tabGlobal" class="flex-1 py-3 bg-brand-card text-brand-red border-r border-brand-border transition" onclick="switchChat('global')">Global Feed</button>
-                            <button id="tabFollowing" class="flex-1 py-3 bg-[#0a0a0a] text-gray-600 hover:text-white transition" onclick="switchChat('following')">Following</button>
-                        </div>
-                        
-                        <!-- Chat Feed Box -->
-                        <div id="chatFeed" class="p-3 space-y-3 overflow-y-auto flex-grow text-[10px]">
-                            <!-- Mock Chat Data -->
-                            <div class="text-gray-400"><span class="text-brand-blue font-bold">[Global] Vortex_SL:</span> Lobby is open for Rome.</div>
-                            <div class="text-gray-400"><span class="text-brand-red font-bold">[Global] Paine:</span> Joining now. Bring armor.</div>
-                            <div class="text-gray-400"><span class="text-gray-500 font-bold">[Global] Rookie99:</span> Can I spectate?</div>
-                        </div>
-                        
-                        <!-- Chat Input Disabled State -->
-                        <div class="p-2 border-t border-brand-border bg-brand-card">
-                            <div class="bg-brand-bg border border-brand-border rounded px-3 py-2 text-gray-600 text-[9px] italic text-center">Chat disabled in profile view.</div>
-                        </div>
-                    </div>
+                <!-- Interactive Drawer Footer (Replaces 'Chat disabled') -->
+                <div class="pt-3 border-t border-brand-border mt-2">
+                    <button onclick="toggleDrawer(true)" class="w-full bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white transition text-[9px] font-black uppercase py-2.5 rounded tracking-wider shadow cursor-pointer">
+                        OPEN DRAWER TO REPLY ↵
+                    </button>
                 </div>
             </div>
 
         </div>
     </main>
 
-    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <!-- SLIDE-OUT DRAWER OVERLAY & PANEL -->
+    <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <div id="chatDrawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-brand-card border-l border-brand-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- Drawer Header -->
+        <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
+            <div>
+                <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
+                <p id="drawerChannelName" class="text-[10px] text-brand-gold uppercase">Channel: 🌐 Global Feed</p>
+            </div>
+            <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Drawer Messages Area -->
+        <div id="drawerMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-[#111]">
+             <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching logs... ]</div>
+        </div>
+
+        <!-- Drawer Input Area -->
+        <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
+            <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-gold transition">
+            <button onclick="sendDrawerMessage()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
+        </div>
+    </div>
+
+    <!-- SUPABASE NATIVE ENGINE FOR INDIVIDUAL RACER CARD -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
-        // 1. Follow Button Logic
-        let isFollowing = false;
-        function toggleFollow() {
-            const btn = document.getElementById('followBtn');
-            isFollowing = !isFollowing;
-            if(isFollowing) {
-                btn.innerHTML = 'Following ✓';
-                btn.classList.remove('text-gray-400', 'border-brand-border', 'bg-brand-bg');
-                btn.classList.add('text-black', 'bg-white', 'border-white', 'shadow-[0_0_15px_rgba(255,255,255,0.4)]');
-            } else {
-                btn.innerHTML = 'Follow Fan Updates +';
-                btn.classList.add('text-gray-400', 'border-brand-border', 'bg-brand-bg');
-                btn.classList.remove('text-black', 'bg-white', 'border-white', 'shadow-[0_0_15px_rgba(255,255,255,0.4)]');
+        // Global Drawer Control
+        window.toggleDrawer = function(show) {
+            const drawer = document.getElementById('chatDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+
+            if (!drawer || !overlay) {
+                console.error("GSR Drawer Error: Missing #chatDrawer or #drawerOverlay in HTML.");
+                return;
             }
-        }
 
-        // 2. Chat Tab Switcher Logic
-        function switchChat(tab) {
-            const globalBtn = document.getElementById('tabGlobal');
-            const followingBtn = document.getElementById('tabFollowing');
-            const feed = document.getElementById('chatFeed');
+            if (show) {
+                overlay.classList.remove('hidden');
+                void overlay.offsetWidth;
+                overlay.classList.remove('opacity-0');
+                drawer.classList.remove('translate-x-full');
 
-            if(tab === 'global') {
-                globalBtn.classList.replace('bg-[#0a0a0a]', 'bg-brand-card');
-                globalBtn.classList.replace('text-gray-600', 'text-brand-red');
-                followingBtn.classList.replace('bg-brand-card', 'bg-[#0a0a0a]');
-                followingBtn.classList.replace('text-brand-red', 'text-gray-600');
-                feed.innerHTML = `
-                    <div class="text-gray-400"><span class="text-brand-blue font-bold">[Global] Vortex_SL:</span> Lobby is open for Rome.</div>
-                    <div class="text-gray-400"><span class="text-brand-red font-bold">[Global] Paine:</span> Joining now. Bring armor.</div>
-                    <div class="text-gray-400"><span class="text-gray-500 font-bold">[Global] Rookie99:</span> Can I spectate?</div>
-                `;
+                const msgBox = document.getElementById('drawerMessages');
+                if (msgBox) msgBox.scrollTop = msgBox.scrollHeight;
             } else {
-                followingBtn.classList.replace('bg-[#0a0a0a]', 'bg-brand-card');
-                followingBtn.classList.replace('text-gray-600', 'text-brand-red');
-                globalBtn.classList.replace('bg-brand-card', 'bg-[#0a0a0a]');
-                globalBtn.classList.replace('text-brand-red', 'text-gray-600');
-                
-                if(isFollowing) {
-                    feed.innerHTML = `<div class="text-brand-red"><span class="font-bold">[Paine Update]:</span> Live on Las Vegas circuit! Come watch.</div>`;
-                } else {
-                    feed.innerHTML = `<div class="text-gray-600 italic text-center mt-10">You are not following anyone.</div>`;
-                }
-            }
-        }
-
-        // 3. Dynamic Telemetry Engine Data Map
-        const statsData = {
-            'pro_plus': {
-                'all': { w: 45, l: 12, pts: 1250, dsq: 1, dmgOut: 18500, dmgIn: 9200 },
-                'vegas': { w: 15, l: 3, pts: 400, dsq: 0, dmgOut: 4000, dmgIn: 1500 },
-                'future': { w: 10, l: 4, pts: 250, dsq: 0, dmgOut: 3500, dmgIn: 2000 },
-                'rome': { w: 12, l: 2, pts: 350, dsq: 0, dmgOut: 6000, dmgIn: 3000 },
-                'city': { w: 8, l: 3, pts: 250, dsq: 1, dmgOut: 5000, dmgIn: 2700 }
-            },
-            'pro': {
-                'all': { w: 22, l: 5, pts: 600, dsq: 0, dmgOut: 8000, dmgIn: 4000 },
-                'vegas': { w: 8, l: 1, pts: 200, dsq: 0, dmgOut: 2000, dmgIn: 1000 },
-                'future': { w: 5, l: 2, pts: 100, dsq: 0, dmgOut: 1500, dmgIn: 800 },
-                'rome': { w: 6, l: 1, pts: 150, dsq: 0, dmgOut: 2500, dmgIn: 1200 },
-                'city': { w: 3, l: 1, pts: 150, dsq: 0, dmgOut: 2000, dmgIn: 1000 }
-            },
-            'amateur': {
-                'all': { w: 10, l: 8, pts: 150, dsq: 3, dmgOut: 1500, dmgIn: 8000 },
-                'vegas': { w: 4, l: 2, pts: 50, dsq: 1, dmgOut: 500, dmgIn: 2000 },
-                'future': { w: 2, l: 3, pts: 30, dsq: 1, dmgOut: 300, dmgIn: 2500 },
-                'rome': { w: 3, l: 1, pts: 40, dsq: 0, dmgOut: 400, dmgIn: 1500 },
-                'city': { w: 1, l: 2, pts: 30, dsq: 1, dmgOut: 300, dmgIn: 2000 }
-            },
-            'league_pro': {
-                'all': { w: 5, l: 1, pts: 500, dsq: 0, dmgOut: 9000, dmgIn: 4000 },
-                'vegas': { w: 2, l: 0, pts: 200, dsq: 0, dmgOut: 3000, dmgIn: 1000 },
-                'future': { w: 1, l: 1, pts: 50, dsq: 0, dmgOut: 1500, dmgIn: 1500 },
-                'rome': { w: 1, l: 0, pts: 150, dsq: 0, dmgOut: 2500, dmgIn: 500 },
-                'city': { w: 1, l: 0, pts: 100, dsq: 0, dmgOut: 2000, dmgIn: 1000 }
-            },
-            'league_amateur': {
-                'all': { w: 2, l: 4, pts: 80, dsq: 1, dmgOut: 1000, dmgIn: 3000 },
-                'vegas': { w: 1, l: 1, pts: 40, dsq: 0, dmgOut: 400, dmgIn: 800 },
-                'future': { w: 0, l: 1, pts: 0, dsq: 0, dmgOut: 100, dmgIn: 700 },
-                'rome': { w: 1, l: 1, pts: 40, dsq: 0, dmgOut: 300, dmgIn: 900 },
-                'city': { w: 0, l: 1, pts: 0, dsq: 1, dmgOut: 200, dmgIn: 600 }
+                overlay.classList.add('opacity-0');
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                }, 300);
             }
         };
 
-        function updateStats() {
-            const classVal = document.getElementById('classFilter').value;
-            const trackVal = document.getElementById('trackFilter').value;
-            
-            const data = statsData[classVal][trackVal] || { w: 0, l: 0, pts: 0, dsq: 0, dmgOut: 0, dmgIn: 0 };
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-            const statElements = ['wins', 'losses', 'pts', 'dsq', 'dmg-out', 'dmg-in'];
-            statElements.forEach(id => {
-                const el = document.getElementById(`stat-${id}`);
-                el.style.opacity = 0;
-                setTimeout(() => {
-                    if(id === 'wins') el.innerText = data.w;
-                    if(id === 'losses') el.innerText = data.l;
-                    if(id === 'pts') el.innerText = data.pts.toLocaleString();
-                    if(id === 'dsq') el.innerText = data.dsq;
-                    if(id === 'dmg-out') el.innerText = data.dmgOut.toLocaleString();
-                    if(id === 'dmg-in') el.innerText = data.dmgIn.toLocaleString();
-                    el.style.opacity = 1;
-                }, 150);
-            });
+        let activeProfileChannel = 'global';
+        let currentUser = null;
+        let currentProfile = null;
+
+        const channelNames = {
+            global: '🌐 Global Feed',
+            following: '👥 Following',
+            racer_paine: '🏎️ Deathstalker Paine'
+        };
+
+        async function initRacerPage() {
+            // 1. Sync User Auth Session
+            const { data: { session } } = await db.auth.getSession();
+            const userNav = document.getElementById('userNav');
+            const drawerInput = document.getElementById('drawerInput');
+
+            if (session) {
+                currentUser = session.user;
+                const { data: profile } = await db
+                    .from('gsr_profiles')
+                    .select('sl_legacy_name')
+                    .eq('id', currentUser.id)
+                    .single();
+
+                currentProfile = profile;
+                const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+                if (userNav) {
+                    userNav.innerHTML = `
+                        <div class="text-right">
+                            <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                            <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
+                            </span>
+                        </div>
+                    `;
+                }
+                if (drawerInput) {
+                    drawerInput.placeholder = "Type message...";
+                    drawerInput.disabled = false;
+                }
+            } else {
+                if (drawerInput) {
+                    drawerInput.placeholder = "Sign in at Main Menu to chat...";
+                    drawerInput.disabled = true;
+                }
+            }
+
+            loadProfileChatWidget();
+            subscribeToProfileRealtime();
         }
 
-        window.onload = updateStats;
-    </script>
+        async function switchProfileChannel(channel) {
+            activeProfileChannel = channel;
+            const drawerTitle = document.getElementById('drawerChannelName');
+            if (drawerTitle) drawerTitle.innerText = `Channel: ${channelNames[channel] || channel}`;
+            
+            loadProfileChatWidget();
+        }
 
-    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing.</footer>
+        async function loadProfileChatWidget() {
+            const feed = document.getElementById('profileChatFeed');
+            const drawerFeed = document.getElementById('drawerMessages');
+
+            const { data, error } = await db
+                .from('gsr_chats')
+                .select('*')
+                .eq('channel', activeProfileChannel)
+                .order('created_at', { ascending: false })
+                .limit(20);
+
+            if (error || !data || data.length === 0) {
+                const emptyMsg = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No transmissions on this feed ]</div>`;
+                if (feed) feed.innerHTML = emptyMsg;
+                if (drawerFeed) drawerFeed.innerHTML = emptyMsg;
+                return;
+            }
+
+            const messages = data.reverse();
+
+            // 1. Populate Widget (Last 4)
+            if (feed) {
+                feed.innerHTML = '';
+                messages.slice(-4).forEach(msg => {
+                    feed.innerHTML += `
+                        <div class="text-[10px] leading-snug truncate">
+                            <span class="font-black text-brand-blue uppercase">[${escapeHtml(msg.display_name)}]:</span> 
+                            <span class="text-gray-300">${escapeHtml(msg.message)}</span>
+                        </div>
+                    `;
+                });
+                feed.scrollTop = feed.scrollHeight;
+            }
+
+            // 2. Populate Slide-Out Drawer (Full History)
+            if (drawerFeed) {
+                drawerFeed.innerHTML = '';
+                messages.forEach(msg => {
+                    const isMe = currentUser && msg.user_id === currentUser.id;
+                    const align = isMe ? 'items-end' : 'items-start';
+                    const bg = isMe ? 'bg-brand-gold/10 border-brand-gold text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200';
+
+                    drawerFeed.innerHTML += `
+                        <div class="flex flex-col ${align}">
+                            <span class="text-[9px] font-black uppercase text-gray-500 mb-0.5">${escapeHtml(msg.display_name)}</span>
+                            <div class="${bg} border px-3 py-2 rounded-lg text-xs max-w-[85%] break-words">
+                                ${escapeHtml(msg.message)}
+                            </div>
+                        </div>
+                    `;
+                });
+                drawerFeed.scrollTop = drawerFeed.scrollHeight;
+            }
+        }
+
+        async function sendDrawerMessage() {
+            if (!currentUser) {
+                alert("Sign in required to transmit messages.");
+                return;
+            }
+
+            const input = document.getElementById('drawerInput');
+            const val = input.value.trim();
+            if (!val) return;
+
+            const name = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+            const { error } = await db.from('gsr_chats').insert([{
+                user_id: currentUser.id,
+                display_name: name,
+                message: val,
+                channel: activeProfileChannel
+            }]);
+
+            if (error) {
+                alert("Transmission failed: " + error.message);
+            } else {
+                input.value = '';
+            }
+        }
+
+        function subscribeToProfileRealtime() {
+            db.channel('public:gsr_chats_racer_card')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
+                    if (payload.new.channel === activeProfileChannel) {
+                        loadProfileChatWidget();
+                    }
+                })
+                .subscribe();
+        }
+
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+
+        document.getElementById('drawerInput')?.addEventListener('keypress', e => {
+            if (e.key === 'Enter') sendDrawerMessage();
+        });
+
+        window.onload = initRacerPage;
+    </script>
 </body>
 </html>
