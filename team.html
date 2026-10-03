@@ -153,7 +153,7 @@
                 <!-- 4. Multi-Column Dashboard -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-brand-border">
                     
-                    <!-- LEFT/MIDDLE: Telemetry Engine & Roster (2/3 width) -->
+                    <!-- LEFT/MIDDLE: Telemetry Engine (2/3 width) -->
                     <div class="p-8 lg:col-span-2 space-y-8 bg-black/20">
                         
                         <!-- Dynamic Filters -->
@@ -184,21 +184,6 @@
                             </div>
                         </div>
 
-                        <!-- Active Roster Log -->
-                        <div>
-                            <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-3">Official Roster</h3>
-                            <div class="border border-brand-border rounded-xl overflow-hidden bg-brand-card">
-                                <table class="w-full text-left text-xs">
-                                    <thead><tr class="bg-brand-bg text-gray-500 font-black uppercase border-b border-brand-border"><th class="py-2.5 px-4">No.</th><th class="py-2.5 px-4">Pilot</th><th class="py-2.5 px-4">Role</th><th class="py-2.5 px-4 text-right">Status</th></tr></thead>
-                                    <tbody class="divide-y divide-brand-border">
-                                        <tr class="hover:bg-white/5 transition cursor-pointer" onclick="window.location='racer.html'"><td class="py-2.5 px-4 font-black italic text-brand-red">#13</td><td class="py-2.5 px-4 text-white font-bold">Deathstalker Paine</td><td class="py-2.5 px-4 text-gray-400">Team Leader</td><td class="py-2.5 px-4 text-right text-green-500 font-bold uppercase text-[10px] animate-pulse">● Active</td></tr>
-                                        <tr class="hover:bg-white/5 transition"><td class="py-2.5 px-4 font-black italic text-gray-600">#--</td><td class="py-2.5 px-4 text-gray-500 font-bold">Open Slot</td><td class="py-2.5 px-4 text-gray-600">Recruit</td><td class="py-2.5 px-4 text-right text-gray-600 font-bold uppercase text-[10px]">Pending</td></tr>
-                                        <tr class="hover:bg-white/5 transition"><td class="py-2.5 px-4 font-black italic text-gray-600">#--</td><td class="py-2.5 px-4 text-gray-500 font-bold">Open Slot</td><td class="py-2.5 px-4 text-gray-600">Recruit</td><td class="py-2.5 px-4 text-right text-gray-600 font-bold uppercase text-[10px]">Pending</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
                     </div>
 
                     <!-- RIGHT COLUMN: LIVE GSR COMMS WIDGET (1/3 width) -->
@@ -219,7 +204,7 @@
                             </div>
                             
                             <!-- Dynamic Read-Only Feed Box -->
-                            <div id="teamChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 my-2 space-y-2 h-64 overflow-y-auto flex flex-col justify-end text-[10px]">
+                            <div id="teamChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 my-2 space-y-2 h-44 overflow-y-auto flex flex-col justify-end text-[10px]">
                                 <div class="text-[10px] text-gray-500 text-center block my-auto">[ Syncing comms... ]</div>
                             </div>
                         </div>
@@ -230,6 +215,21 @@
                                 OPEN DRAWER TO REPLY ↵
                             </button>
                         </div>
+                    </div>
+                </div>
+
+                <!-- 5. FULL-WIDTH ACTIVE DRIVER ROSTER GRID (5 CARDS PER ROW - NO PENDING SLOTS) -->
+                <div class="p-8 border-t border-brand-border bg-black/40">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> Official Team Roster
+                        </h3>
+                        <span class="text-[9px] text-gray-500 font-mono uppercase">Verified Drivers Only</span>
+                    </div>
+
+                    <!-- 5-Column Mini Driver Card Grid -->
+                    <div id="teamRosterGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                        <!-- Dynamically populated via renderTeamRoster() -->
                     </div>
                 </div>
 
@@ -264,13 +264,46 @@
         </div>
     </div>
 
-    <!-- SUPABASE NATIVE ENGINE FOR TEAM TRADING CARD -->
+    <!-- SUPABASE NATIVE ENGINE & ROSTER RENDERER -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
         const pageTeamName = "Storm Riders"; // Team Card Identity
 
-        // 1. Global Drawer Control
+        // Active Team Drivers (Only real drivers render - no empty or pending slots)
+        const teamMembers = [
+            { name: "DEATHSTALKER PAINE", number: "#13", role: "PRO LEAGUE", roleBg: "bg-brand-red text-white", profileUrl: "racer.html" },
+            { name: "VORTEX_SL", number: "#07", role: "PRO PLUS", roleBg: "bg-brand-gold text-black", profileUrl: "racer.html" },
+            { name: "BLAZERUNNER", number: "#22", role: "PRO LEAGUE", roleBg: "bg-brand-red text-white", profileUrl: "racer.html" },
+            { name: "PHANTOMDRIVER", number: "#88", role: "ROOKIE", roleBg: "bg-gray-800 text-gray-300", profileUrl: "racer.html" }
+        ];
+
+        function renderTeamRoster() {
+            const grid = document.getElementById('teamRosterGrid');
+            if (!grid) return;
+
+            grid.innerHTML = '';
+            teamMembers.forEach(driver => {
+                grid.innerHTML += `
+                    <div class="bg-[#0a0a0a] border border-brand-border hover:border-brand-blue rounded-xl p-3 flex flex-col justify-between group transition shadow-md">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="${driver.roleBg} text-[7px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider">${driver.role}</span>
+                                <span class="text-brand-blue font-mono font-black text-[10px]">${driver.number}</span>
+                            </div>
+                            <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2 group-hover:border-brand-blue transition cursor-pointer" onclick="window.location='${driver.profileUrl}'">
+                                <span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest text-center">PHOTO</span>
+                            </div>
+                            <h4 class="text-[11px] font-black uppercase text-white tracking-wider truncate">${driver.name}</h4>
+                            <span class="text-[8px] text-gray-500 uppercase block tracking-wider truncate">Team: <span class="text-gray-300">${pageTeamName}</span></span>
+                        </div>
+                        <a href="${driver.profileUrl}" class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-300 hover:border-brand-blue hover:text-white transition text-[8px] font-black uppercase py-1.5 rounded tracking-wider">PROFILE →</a>
+                    </div>
+                `;
+            });
+        }
+
+        // Global Drawer Control
         window.toggleDrawer = function(show) {
             const drawer = document.getElementById('chatDrawer');
             const overlay = document.getElementById('drawerOverlay');
@@ -348,6 +381,7 @@
                 isVerifiedTeamMember = false;
             }
 
+            renderTeamRoster();
             loadTeamChatWidget();
             subscribeToTeamRealtime();
         }
@@ -513,7 +547,6 @@
             if (e.key === 'Enter') sendDrawerMessage();
         });
 
-        // 2. Follow Button Logic
         let isFollowing = false;
         function toggleFollow() {
             const btn = document.getElementById('followBtn');
@@ -529,7 +562,6 @@
             }
         }
 
-        // 3. Dynamic Telemetry Engine
         const statsData = {
             'pro_plus': {
                 'all': { w: 85, l: 30, pts: 12500, xp: 95000 },
