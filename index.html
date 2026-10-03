@@ -129,24 +129,40 @@
                 </div>
             </a>
 
-            <!-- GSR Chats Threads (Live Connected Widget) -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 transition flex flex-col justify-between group">
-                <div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Live Discussion</span>
-                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                    </div>
-                    <h3 class="text-lg font-black uppercase text-white mt-2">GSR Chats Threads</h3>
-                    
-                    <!-- Dynamic Feed Box -->
-                    <div id="mainMenuChatFeed" class="bg-brand-bg border border-brand-border rounded-lg p-3 my-3 space-y-2 h-24 overflow-hidden flex flex-col justify-end">
-                        <div class="text-[10px] text-gray-500 text-center block mt-8">Loading live network feeds...</div>
-                    </div>
-                </div>
-                
-                <div class="pt-3 border-t border-brand-border text-right">
-                    <a href="chats.html" class="text-xs font-bold uppercase text-brand-gold hover:underline">Open Community Chats Hub →</a>
-                </div>
+           <!-- GSR CHATS THREADS (LIVE CONNECTED WIDGET WITH DROPDOWN & DRAWER TRIGGER) -->
+<div class="bg-brand-card border border-brand-border rounded-xl p-6 transition flex flex-col justify-between group">
+    <div>
+        <div class="flex justify-between items-center gap-2">
+            <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Live Discussion</span>
+            
+            <div class="flex items-center gap-2">
+                <!-- Channel Selector Dropdown -->
+                <select id="indexChatSelect" onchange="switchIndexChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-brand-gold text-[10px] font-black uppercase px-2 py-1 rounded outline-none focus:border-brand-gold cursor-pointer">
+                    <option value="global" selected>🌐 Global</option>
+                    <option value="following">👥 Following</option>
+                    <option value="team">🛡️ Teams</option>
+                    <option value="pro_plus">⭐ Pro Plus</option>
+                </select>
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"></span>
+            </div>
+        </div>
+        
+        <h3 class="text-lg font-black uppercase text-white mt-2">GSR Chats Threads</h3>
+        
+        <!-- Dynamic Read-Only Feed Box -->
+        <div id="mainMenuChatFeed" class="bg-brand-bg border border-brand-border rounded-lg p-3 my-3 space-y-2 h-28 overflow-hidden flex flex-col justify-end">
+            <div class="text-[10px] text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
+        </div>
+    </div>
+    
+    <div class="pt-3 border-t border-brand-border flex justify-between items-center text-xs">
+        <a href="chats.html" class="font-bold uppercase text-brand-gold hover:underline text-[10px]">Open Comms Hub →</a>
+        
+        <!-- Drawer Trigger Button -->
+        <button onclick="toggleDrawer(true)" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">
+            Open Drawer to Reply ↵
+        </button>
+    </div>
             </div>
         </section>
 
