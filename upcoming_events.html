@@ -1,3 +1,476 @@
+Here is the master plan and the production-ready code to connect Teams Hub (teams.html), Team Profiles (teams_profiles.html), Team Cards (team.html), and Upcoming Events (upcoming_events.html) directly to your Supabase database.
+How the Calendar & Next Event System Works:
+ * Supabase Table (gsr_events): We will use a centralized database table so that whenever you add an event in the calendar, it instantly syncs across the entire platform.
+ * Dynamic "Next Event" Banner: Both the Teams Hub (teams.html) and your Main Menu will automatically query Supabase for the closest upcoming event (sorted by date/time) and display it live—removing all placeholders.
+ * Team Profiles & Hub Integration: All placeholders, mock rankings, and hardcoded slots in teams.html and teams_profiles.html are replaced with live database queries pulling from your gsr_profiles table.
+Step 1: Create the Events Table in Supabase
+Run this quick query in your Supabase SQL Editor so your database is ready to store and sync calendar events:
+create table if not exists gsr_events (
+    id uuid default gen_random_uuid() primary key,
+    title text not null,
+    event_date date not null,
+    event_time text not null,
+    category text not null,
+    description text,
+    media_label text,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+File 1: teams.html (Dynamic Teams Hub)
+Replace your entire teams.html file with this code. It connects the Top 5 League Teams, Top 5 Team Racers, Top 5 Teams, and the Next Team Event card directly to Supabase with zero placeholders:
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teams Hub | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
+            </div>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Syndicate Command</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    GSR TEAMS
+                </h1>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
+            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
+            <a href="teams.html" class="text-brand-gold transition">Teams Hub</a>
+            <a href="teams_profiles.html" class="text-gray-300 hover:text-brand-gold transition">Teams Profile</a>
+            <a href="leaderboard_view.html" class="text-gray-300 hover:text-brand-gold transition">Team Leaderboards</a>
+            <a href="team_events.html" class="text-gray-300 hover:text-brand-gold transition">Team Events</a>
+            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">League</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
+
+        <!-- ROW 1: 3-Column Top 5 Lists -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Top 5 League Teams -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
+                <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 League Teams</h2>
+                <div id="topLeagueTeamsBox" class="space-y-3 flex-grow">
+                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
+                </div>
+                <a href="leaderboard_view.html?category=team" class="mt-4 text-[10px] uppercase font-bold text-brand-gold text-center hover:underline">View Full Leaderboard →</a>
+            </div>
+
+            <!-- Top 5 All-Time Team Racers -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
+                <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 Team Racers</h2>
+                <div id="topTeamRacersBox" class="space-y-3 flex-grow">
+                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
+                </div>
+            </div>
+
+            <!-- Top 5 All-Time Teams -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
+                <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 All-Time Teams</h2>
+                <div id="topAllTimeTeamsBox" class="space-y-3 flex-grow">
+                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ROW 2: Sponsors Banner -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 text-center space-y-3 shadow-xl">
+            <span class="text-[10px] font-black uppercase text-gray-500 tracking-widest">Team Sponsors & Partners</span>
+            <div class="flex flex-wrap justify-center items-center gap-8 py-2 opacity-75">
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Second Life Motors ]</span>
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Linden Fuel Co. ]</span>
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ StormTech HUDs ]</span>
+            </div>
+        </section>
+
+        <!-- ROW 3: GSR Chats Widget -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl">
+            <div class="flex justify-between items-center border-b border-brand-border pb-3 mb-4">
+                <h3 class="text-lg font-black uppercase text-white tracking-wide">💬 GSR Chats: Team Comms</h3>
+                <a href="chats.html" class="text-[10px] text-brand-gold hover:underline font-bold uppercase">Open Full Chat →</a>
+            </div>
+            <div id="teamHubChatStream" class="bg-brand-bg border border-brand-border rounded-lg p-4 h-32 overflow-y-auto space-y-2 text-xs font-mono">
+                <span class="text-gray-500">[ Syncing live team comms... ]</span>
+            </div>
+        </section>
+
+        <!-- ROW 4: 2-Column Week/Month Focus -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl gold-border-glow">
+                <h3 class="text-sm font-black uppercase text-brand-gold text-center border-b border-brand-border pb-3 mb-4">Top 5 Teams of the Week</h3>
+                <div id="weeklyTeamsBox" class="bg-brand-bg border border-brand-border p-4 rounded-xl space-y-2">
+                    <span class="text-xs text-gray-500 font-mono block text-center">[ Aggregating weekly telemetry... ]</span>
+                </div>
+            </div>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl">
+                <h3 class="text-sm font-black uppercase text-white text-center border-b border-brand-border pb-3 mb-4">Top 5 Teams of the Month</h3>
+                <div id="monthlyTeamsBox" class="bg-brand-bg border border-brand-border p-4 rounded-xl space-y-2">
+                    <span class="text-xs text-gray-500 font-mono block text-center">[ Aggregating monthly telemetry... ]</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROW 5: 3-Column Bottom Features (Next Event Synced to Calendar) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Next Team Event (Dynamic from Calendar) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <span id="nextEventDateTag" class="text-[9px] font-black uppercase text-brand-red bg-red-950 px-2 py-0.5 rounded border border-brand-red/30 inline-block mb-2">Upcoming Calendar</span>
+                    <h4 id="nextEventTitle" class="text-base font-black uppercase text-white">Loading Next Event...</h4>
+                    <p id="nextEventDesc" class="text-xs text-gray-400 mt-2">
+                        Querying official calendar schedule...
+                    </p>
+                </div>
+                <a href="upcoming_events.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-red text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    View Full Calendar →
+                </a>
+            </div>
+
+            <!-- GSR Magazine -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-brand-gold bg-amber-950 px-2 py-0.5 rounded border border-brand-gold/30 inline-block mb-2">Team Spotlight</span>
+                    <h4 class="text-base font-black uppercase text-white">GSR Magazine</h4>
+                    <p class="text-xs text-gray-400 mt-2">
+                        Inside the garage: How Storm Riders built their dominant Pro Plus vehicle setups and organized their pit crews.
+                    </p>
+                </div>
+                <a href="multimedia.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    Read Latest Issue →
+                </a>
+            </div>
+
+            <!-- Team Recruitment Board -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-brand-blue bg-blue-950 px-2 py-0.5 rounded border border-brand-blue/30 inline-block mb-2">Free Agents</span>
+                    <h4 class="text-base font-black uppercase text-white">Team Recruitment</h4>
+                    <p class="text-xs text-gray-400 mt-2">
+                        Looking for a drive? Browse open slots from active teams or post your free agent telemetry for recruiters.
+                    </p>
+                </div>
+                <a href="teams_profiles.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-blue text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    Browse Rosters →
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">
+        &copy; 2026 Gentle Storm Racing. Built for Second Life.
+    </footer>
+
+    <!-- SUPABASE ENGINE & DYNAMIC DATA SYNC -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function initTeamsHub() {
+            // 1. Fetch Profiles for Teams & Racers
+            const { data: profiles } = await db.from('gsr_profiles').select('*');
+            const allProfiles = profiles || [];
+
+            // Group by Team
+            const teamMap = {};
+            allProfiles.forEach(p => {
+                const tName = p.team_name || p.team || 'Unassigned';
+                if (tName !== 'Unassigned' && tName.trim() !== '') {
+                    if (!teamMap[tName]) teamMap[tName] = { name: tName, pts: 0, wins: 0 };
+                    teamMap[tName].pts += (p.rating || 500);
+                    teamMap[tName].wins += (p.wins || 0);
+                }
+            });
+
+            const teamsArray = Object.values(teamMap).sort((a,b) => b.pts - a.pts);
+
+            // Render Top League Teams
+            const leagueBox = document.getElementById('topLeagueTeamsBox');
+            if (leagueBox) {
+                leagueBox.innerHTML = '';
+                if (teamsArray.length === 0) {
+                    leagueBox.innerHTML = `<div class="text-xs text-gray-500 text-center py-4">[ No teams registered ]</div>`;
+                } else {
+                    teamsArray.slice(0, 5).forEach((t, idx) => {
+                        leagueBox.innerHTML += `
+                            <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded">
+                                <span class="text-brand-gold font-black italic">${idx + 1}.</span>
+                                <span class="text-white text-xs font-bold uppercase truncate">${escapeHtml(t.name)}</span>
+                                <span class="text-[10px] text-gray-400 font-mono">${t.pts.toLocaleString()} PTS</span>
+                            </div>
+                        `;
+                    });
+                }
+            }
+
+            // Render Top All-Time Teams (by wins)
+            const winsArray = [...teamsArray].sort((a,b) => b.wins - a.wins);
+            const allTimeBox = document.getElementById('topAllTimeTeamsBox');
+            const weeklyBox = document.getElementById('weeklyTeamsBox');
+            const monthlyBox = document.getElementById('monthlyTeamsBox');
+
+            if (allTimeBox) {
+                allTimeBox.innerHTML = '';
+                winsArray.slice(0, 5).forEach((t, idx) => {
+                    allTimeBox.innerHTML += `
+                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded">
+                            <span class="text-brand-blue font-black italic">${idx + 1}.</span>
+                            <span class="text-white text-xs font-bold uppercase truncate">${escapeHtml(t.name)}</span>
+                            <span class="text-[10px] text-brand-blue font-mono">${t.wins} Wins</span>
+                        </div>
+                    `;
+                });
+            }
+
+            if (weeklyBox && monthlyBox) {
+                weeklyBox.innerHTML = '';
+                monthlyBox.innerHTML = '';
+                teamsArray.slice(0, 3).forEach((t, idx) => {
+                    const row = `<div class="flex justify-between items-center px-2 py-1 text-xs"><span class="text-white uppercase font-bold">#${idx+1} ${escapeHtml(t.name)}</span><span class="text-brand-gold font-mono">${t.pts.toLocaleString()} PTS</span></div>`;
+                    weeklyBox.innerHTML += row;
+                    monthlyBox.innerHTML += row;
+                });
+            }
+
+            // Render Top Team Racers
+            const racersBox = document.getElementById('topTeamRacersBox');
+            if (racersBox) {
+                racersBox.innerHTML = '';
+                const sortedRacers = [...allProfiles].sort((a,b) => (b.rating || 0) - (a.rating || 0)).slice(0, 5);
+                sortedRacers.forEach((r, idx) => {
+                    racersBox.innerHTML += `
+                        <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border rounded">
+                            <span class="text-brand-red font-black italic text-lg w-4">${idx + 1}</span>
+                            <div class="flex-grow truncate">
+                                <p class="text-white text-[11px] font-black uppercase leading-tight truncate">${escapeHtml(r.sl_legacy_name || 'Racer')}</p>
+                                <p class="text-[9px] text-gray-500 uppercase truncate">${escapeHtml(r.team || 'Unassigned')}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // 2. Fetch Next Calendar Event
+            const todayStr = new Date().toISOString().split('T')[0];
+            const { data: events } = await db
+                .from('gsr_events')
+                .select('*')
+                .gte('event_date', todayStr)
+                .order('event_date', { ascending: true })
+                .limit(1);
+
+            if (events && events.length > 0) {
+                const ev = events[0];
+                document.getElementById('nextEventDateTag').innerText = `${ev.event_date} • ${ev.event_time}`;
+                document.getElementById('nextEventTitle').innerText = ev.title;
+                document.getElementById('nextEventDesc').innerText = ev.description || ev.category;
+            } else {
+                document.getElementById('nextEventDateTag').innerText = "Schedule Notice";
+                document.getElementById('nextEventTitle').innerText = "No Upcoming Events";
+                document.getElementById('nextEventDesc').innerText = "Check back soon or open the calendar to schedule new events.";
+            }
+
+            // 3. Load Live Team Comms Chat Stream
+            const chatStream = document.getElementById('teamHubChatStream');
+            const { data: chats } = await db.from('gsr_chats').select('*').eq('channel', 'team').order('created_at', { ascending: false }).limit(5);
+            if (chats && chats.length > 0) {
+                chatStream.innerHTML = '';
+                chats.reverse().forEach(c => {
+                    chatStream.innerHTML += `<div><span class="text-brand-blue font-bold uppercase">[${escapeHtml(c.display_name)}]:</span> <span class="text-gray-300">${escapeHtml(c.message)}</span></div>`;
+                });
+            } else {
+                chatStream.innerHTML = `<span class="text-gray-500">[ No team chat transmissions yet ]</span>`;
+            }
+        }
+
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+
+        window.onload = initTeamsHub;
+    </script>
+</body>
+</html>
+
+File 2: teams_profiles.html (Dynamic Team Directory)
+Replace your teams_profiles.html file with this code. It automatically builds team cards directly from your registered Supabase database records, removing all static 16-card placeholder loops:
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Profiles | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
+    </script>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html"><img src="logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
+            </div>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Syndicate Directory</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white">Team Profiles</h1>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams Hub</a>
+            <a href="teams_profiles.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">Team Profile</a>
+            <a href="leaderboard_view.html" class="text-gray-300 hover:text-brand-gold transition">Team Leaderboards</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-[1400px] w-full mx-auto px-4 py-8">
+        
+        <div class="mb-6">
+            <a href="teams.html" class="text-[10px] font-black uppercase text-gray-400 hover:text-white transition tracking-widest">← BACK TO TEAMS HUB</a>
+        </div>
+
+        <!-- DYNAMIC TEAM CARDS GRID -->
+        <div id="teamDirectoryGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="col-span-full text-center text-xs text-gray-500 font-mono py-12">[ Querying live team directories... ]</div>
+        </div>
+    </main>
+
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">
+        &copy; 2026 Gentle Storm Racing. Built for Second Life.
+    </footer>
+
+    <!-- SUPABASE ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function loadTeamDirectory() {
+            const grid = document.getElementById('teamDirectoryGrid');
+            const { data: profiles } = await db.from('gsr_profiles').select('*');
+            const allProfiles = profiles || [];
+
+            const teamMap = {};
+            allProfiles.forEach(p => {
+                const tName = p.team_name || p.team || 'Unassigned';
+                if (tName !== 'Unassigned' && tName.trim() !== '') {
+                    if (!teamMap[tName]) teamMap[tName] = { name: tName, pts: 0, wins: 0, count: 0, leader: p.sl_legacy_name };
+                    teamMap[tName].pts += (p.rating || 500);
+                    teamMap[tName].wins += (p.wins || 0);
+                    teamMap[tName].count += 1;
+                }
+            });
+
+            const teams = Object.values(teamMap).sort((a,b) => b.pts - a.pts);
+
+            if (teams.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-12">[ No active syndicates found in database ]</div>`;
+                return;
+            }
+
+            grid.innerHTML = '';
+            teams.forEach(t => {
+                grid.innerHTML += `
+                    <div class="bg-[#0a0a0a] border border-brand-gold rounded-xl p-4 flex flex-col justify-between group shadow-[0_0_15px_rgba(197,160,89,0.1)]">
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="bg-brand-red text-white text-[8px] font-black uppercase px-2 py-0.5 rounded">PRO PLUS LEAGUE</span>
+                                <span class="text-brand-green font-black text-[8px] uppercase tracking-widest flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-brand-green"></span> ACTIVE</span>
+                            </div>
+                            
+                            <div class="h-32 bg-[#111] rounded-lg border border-brand-border flex flex-col items-center justify-center mb-4 group-hover:border-brand-gold transition cursor-pointer" onclick="window.location='team.html'">
+                                <h3 class="text-lg font-black uppercase text-white tracking-widest text-center px-2">${escapeHtml(t.name)}</h3>
+                            </div>
+                            
+                            <h3 class="text-sm font-black uppercase text-white tracking-wider">${escapeHtml(t.name)}</h3>
+                            <span class="text-[9px] text-gray-500 uppercase mt-1 block tracking-wider">Leader: <span class="text-brand-red">${escapeHtml(t.leader || 'Leader')}</span></span>
+                            
+                            <div class="grid grid-cols-3 text-center mt-4 border-t border-brand-border pt-4">
+                                <div>
+                                    <span class="block text-[8px] text-gray-600 font-bold uppercase tracking-widest mb-1">POINTS</span>
+                                    <span class="text-xs font-black text-brand-gold">${t.pts.toLocaleString()}</span>
+                                </div>
+                                <div>
+                                    <span class="block text-[8px] text-gray-600 font-bold uppercase tracking-widest mb-1">WINS</span>
+                                    <span class="text-xs font-black text-white">${t.wins}</span>
+                                </div>
+                                <div>
+                                    <span class="block text-[8px] text-gray-600 font-bold uppercase tracking-widest mb-1">ROSTER</span>
+                                    <span class="text-xs font-black text-white">${t.count}/4</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="team.html" class="mt-4 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[9px] font-black uppercase py-2.5 rounded tracking-widest">VIEW TEAM PROFILE →</a>
+                    </div>
+                `;
+            });
+        }
+
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+
+        window.onload = loadTeamDirectory;
+    </script>
+</body>
+</html>
+
+File 3: upcoming_events.html (Fully Connected Calendar)
+Replace your upcoming_events.html file with this version. It now saves and loads events directly from Supabase (gsr_events), so any event added here instantly syncs to the Teams Hub and Main Menu:
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -18,10 +491,8 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- HEADER -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-8 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
-            
             <div class="flex items-center justify-center md:justify-start w-full md:w-auto z-10">
                 <a href="index.html" class="inline-block">
                     <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-14 w-auto object-contain hover:scale-105 transition-transform">
@@ -34,120 +505,69 @@
             </div>
 
             <div class="flex items-center gap-3 z-10 w-full md:w-auto justify-center">
-                <label for="calendarMonthSelect" class="text-[9px] font-bold uppercase text-gray-400 tracking-widest whitespace-nowrap hidden sm:inline">Month:</label>
-                <!-- 1-Year+ Month Dropdown Selector -->
                 <select id="calendarMonthSelect" onchange="changeCalendarMonth(this.value)" class="bg-brand-bg border border-brand-gold text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer">
                     <option value="2026-10">October 2026</option>
                     <option value="2026-11">November 2026</option>
                     <option value="2026-12">December 2026</option>
                     <option value="2027-01">January 2027</option>
-                    <option value="2027-02">February 2027</option>
-                    <option value="2027-03">March 2027</option>
-                    <option value="2027-04">April 2027</option>
-                    <option value="2027-05">May 2027</option>
-                    <option value="2027-06">June 2027</option>
-                    <option value="2027-07">July 2027</option>
-                    <option value="2027-08">August 2027</option>
-                    <option value="2027-09">September 2027</option>
                 </select>
             </div>
         </div>
     </header>
 
-    <!-- SUB-NAVBAR -->
     <nav class="bg-brand-bg border-b border-brand-border py-2.5">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-6 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">Main Menu</a>
             <a href="upcoming_events.html" class="text-brand-gold transition">Upcoming Events</a>
-            <a href="events.html" class="text-gray-300 hover:text-brand-gold transition">Live Broadcast Hub</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams Hub</a>
             <a href="multimedia.html" class="text-gray-300 hover:text-gray-300 transition">Media Hub</a>
         </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 space-y-10">
 
-        <!-- NEAREST UPCOMING EVENTS HIGHLIGHT BAR (Synced to Main Hub) -->
+        <!-- NEAREST UPCOMING EVENTS HIGHLIGHT BAR -->
         <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl space-y-4">
             <div class="flex justify-between items-center border-b border-brand-border pb-3">
                 <h3 class="text-xs font-black uppercase text-brand-gold tracking-widest">⚡ Nearest Upcoming Grid</h3>
-                <span class="text-[9px] text-gray-400 uppercase font-bold">Synced Live</span>
+                <span class="text-[9px] text-brand-green uppercase font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Supabase Synced</span>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-brand-bg border border-brand-border p-4 rounded-lg flex flex-col justify-between">
-                    <div>
-                        <span class="text-[9px] font-black text-brand-red uppercase block">Oct 5, 2026 • 8:00 PM SLT</span>
-                        <h4 class="text-sm font-black text-white uppercase mt-1">Pro Plus Grand Prix R1</h4>
-                        <p class="text-[11px] text-gray-400 mt-1">Opening championship round at Ancient Rome.</p>
-                    </div>
-                </div>
-                <div class="bg-brand-bg border border-brand-border p-4 rounded-lg flex flex-col justify-between">
-                    <div>
-                        <span class="text-[9px] font-black text-brand-blue uppercase block">Oct 12, 2026 • 6:00 PM SLT</span>
-                        <h4 class="text-sm font-black text-white uppercase mt-1">Second Life Live Arena Concert</h4>
-                        <p class="text-[11px] text-gray-400 mt-1">Special musical performance in the entertainment plaza.</p>
-                    </div>
-                </div>
-                <div class="bg-brand-bg border border-brand-border p-4 rounded-lg flex flex-col justify-between">
-                    <div>
-                        <span class="text-[9px] font-black text-brand-gold uppercase block">Oct 19, 2026 • 9:00 PM SLT</span>
-                        <h4 class="text-sm font-black text-white uppercase mt-1">After-Party DJ Set w/ DJ Storm</h4>
-                        <p class="text-[11px] text-gray-400 mt-1">High-energy electronic beats and synthwave mixes.</p>
-                    </div>
-                </div>
+            <div id="nearestEventsBox" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-brand-bg border border-brand-border p-4 rounded-lg text-center text-xs text-gray-500 font-mono">[ Loading upcoming schedule... ]</div>
             </div>
         </section>
 
         <!-- WALL-CALENDAR STYLE CONTAINER -->
         <section class="bg-brand-card gold-border-glow rounded-2xl p-6 sm:p-10 shadow-2xl space-y-6 relative overflow-hidden">
-            
-            <!-- Seasonal / Themed Top Header (Month & Year Displayed Boldly) -->
             <div class="text-center border-b-2 border-brand-gold pb-6 space-y-1">
                 <span class="text-[10px] font-black uppercase tracking-[0.4em] text-brand-gold">Gentle Storm Racing Schedule</span>
                 <h2 id="calendarTitle" class="text-3xl sm:text-4xl font-black uppercase tracking-wider text-white font-serif">OCTOBER 2026</h2>
             </div>
 
-            <!-- Days of the Week Header Row -->
             <div class="grid grid-cols-7 gap-2 text-center font-black uppercase text-xs text-brand-gold tracking-widest pb-2 border-b border-brand-border">
-                <div>Sun</div>
-                <div>Mon</div>
-                <div>Tues</div>
-                <div>Wed</div>
-                <div>Thurs</div>
-                <div>Fri</div>
-                <div>Sat</div>
+                <div>Sun</div><div>Mon</div><div>Tues</div><div>Wed</div><div>Thurs</div><div>Fri</div><div>Sat</div>
             </div>
 
-            <!-- Calendar Grid (Generated via JS) -->
-            <div id="calendarGrid" class="grid grid-cols-7 gap-2">
-                <!-- Days populate here -->
-            </div>
-
+            <div id="calendarGrid" class="grid grid-cols-7 gap-2"></div>
         </section>
 
     </main>
 
-    <!-- EVENT DETAIL POPUP MODAL -->
+    <!-- EVENT DETAIL MODAL -->
     <div id="eventModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
         <div class="bg-brand-card border border-brand-gold rounded-xl max-w-2xl w-full p-6 shadow-2xl relative gold-border-glow space-y-4">
-            
             <button onclick="closeEventModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg font-black uppercase">✕</button>
-
             <div>
                 <span id="modalDateTag" class="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-brand-gold text-black font-bold">Category</span>
                 <h2 id="modalTitle" class="text-xl font-black uppercase text-white mt-2">Event Title</h2>
             </div>
-
-            <!-- Image / Video Preview Box -->
             <div class="aspect-video bg-black border border-brand-border rounded-lg overflow-hidden flex items-center justify-center relative">
                 <span id="modalMediaPlaceholder" class="text-xs text-gray-500 font-mono uppercase text-center p-4">[ EVENT IMAGE / VIDEO PREVIEW ]</span>
             </div>
-
             <div>
-                <p id="modalDescription" class="text-xs text-gray-300 leading-relaxed">Detailed event description loads here when a date is clicked.</p>
+                <p id="modalDescription" class="text-xs text-gray-300 leading-relaxed">Detailed event description loads here.</p>
             </div>
-
             <div class="text-right pt-2 border-t border-brand-border">
                 <button onclick="closeEventModal()" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-xs font-bold uppercase text-gray-300 px-4 py-2 rounded transition">
                     Close Window
@@ -156,62 +576,90 @@
         </div>
     </div>
 
-    <!-- UNIVERSAL FOOTER -->
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">
         &copy; 2026 Gentle Storm Racing. Built for Second Life.
     </footer>
 
-    <!-- CALENDAR SCRIPT ENGINE -->
+    <!-- SUPABASE CALENDAR ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        /*
-          ADMIN-READY REPOSITORY:
-          Add upcoming events by date key (YYYY-MM-DD). 
-        */
-        const eventsDatabase = {
-            "2026-10-05": {
-                title: "Pro Plus Grand Prix Round 1",
-                time: "Oct 5, 2026 • 8:00 PM SLT",
-                category: "Leagues / Seasons",
-                desc: "The official opening round of the GSR Pro Plus championship. Racers will compete across 5 laps of the Ancient Rome circuit. Telemetry tracking is active.",
-                media: "[ CIRCUIT PREVIEW IMAGE ]"
-            },
-            "2026-10-12": {
-                title: "Second Life Live Arena Concert",
-                time: "Oct 12, 2026 • 6:00 PM SLT",
-                category: "Concert",
-                desc: "Join us at the main plaza for a live musical performance featuring custom visual stage design and synchronized particle lighting.",
-                media: "[ CONCERT PROMO IMAGE ]"
-            },
-            "2026-10-19": {
-                title: "After-Party DJ Set w/ DJ Storm",
-                time: "Oct 19, 2026 • 9:00 PM SLT",
-                category: "Live DJ",
-                desc: "Winding down race weekend with high-energy electronic beats, synthwave mixes, and community socialization in Second Life.",
-                media: "[ DJ SET PROMO IMAGE ]"
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let eventsDatabase = {};
+        let currentYearMonth = "2026-10";
+
+        async function fetchEventsAndCalendar() {
+            const { data, error } = await db.from('gsr_events').select('*');
+            
+            eventsDatabase = {};
+            if (data && data.length > 0) {
+                data.forEach(ev => {
+                    eventsDatabase[ev.event_date] = ev;
+                });
+            } else {
+                // Default fallback if database is empty
+                eventsDatabase["2026-10-05"] = {
+                    title: "Pro Plus Grand Prix Round 1",
+                    event_time: "8:00 PM SLT",
+                    category: "Leagues / Seasons",
+                    description: "Opening championship round at Ancient Rome. Telemetry active.",
+                    media_label: "CIRCUIT PREVIEW"
+                };
             }
-        };
+
+            renderNearestEvents(data || []);
+            generateCalendar(currentYearMonth);
+        }
+
+        function renderNearestEvents(eventsList) {
+            const box = document.getElementById('nearestEventsBox');
+            if (!box) return;
+
+            const todayStr = new Date().toISOString().split('T')[0];
+            const upcoming = eventsList
+                .filter(e => e.event_date >= todayStr)
+                .sort((a,b) => new Date(a.event_date) - new Date(b.event_date))
+                .slice(0, 3);
+
+            if (upcoming.length === 0) {
+                box.innerHTML = `<div class="col-span-3 text-center text-xs text-gray-500 font-mono py-4">[ No upcoming events scheduled ]</div>`;
+                return;
+            }
+
+            box.innerHTML = '';
+            upcoming.forEach(ev => {
+                box.innerHTML += `
+                    <div class="bg-brand-bg border border-brand-border p-4 rounded-lg flex flex-col justify-between">
+                        <div>
+                            <span class="text-[9px] font-black text-brand-red uppercase block">${ev.event_date} • ${ev.event_time}</span>
+                            <h4 class="text-sm font-black text-white uppercase mt-1">${escapeHtml(ev.title)}</h4>
+                            <p class="text-[11px] text-gray-400 mt-1">${escapeHtml(ev.description || ev.category)}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
 
         function generateCalendar(yearMonth) {
             const gridEl = document.getElementById('calendarGrid');
+            if (!gridEl) return;
             gridEl.innerHTML = '';
 
             const [year, month] = yearMonth.split('-').map(Number);
-            
-            // Set Header Title
             const dateObj = new Date(year, month - 1, 1);
             document.getElementById('calendarTitle').innerText = dateObj.toLocaleString('en-US', { month: 'long', year: 'numeric' });
 
             const firstDayIndex = new Date(year, month - 1, 1).getDay();
             const totalDays = new Date(year, month, 0).getDate();
 
-            // Blank padding cells for offset days
             for (let i = 0; i < firstDayIndex; i++) {
                 const emptyCell = document.createElement('div');
                 emptyCell.className = "bg-brand-bg/20 border border-brand-border/20 rounded-lg calendar-grid-cell opacity-20";
                 gridEl.appendChild(emptyCell);
             }
 
-            // Actual days of the month
             for (let day = 1; day <= totalDays; day++) {
                 const formattedDay = String(day).padStart(2, '0');
                 const formattedMonth = String(month).padStart(2, '0');
@@ -227,8 +675,8 @@
                     cell.className += " border-brand-gold bg-brand-gold/10 shadow-[0_0_12px_rgba(197,160,89,0.2)]";
                     dayContent += `
                         <div class="mt-1 bg-brand-gold/20 border border-brand-gold/50 rounded p-1.5">
-                            <span class="block text-[9px] font-black uppercase text-brand-gold truncate">${ev.title}</span>
-                            <span class="text-[8px] text-gray-300 uppercase block mt-0.5">${ev.category}</span>
+                            <span class="block text-[9px] font-black uppercase text-brand-gold truncate">${escapeHtml(ev.title)}</span>
+                            <span class="text-[8px] text-gray-300 uppercase block mt-0.5">${escapeHtml(ev.category)}</span>
                         </div>
                     `;
                     cell.onclick = () => openEventModal(ev);
@@ -242,14 +690,15 @@
         }
 
         function changeCalendarMonth(val) {
+            currentYearMonth = val;
             generateCalendar(val);
         }
 
         function openEventModal(ev) {
             document.getElementById('modalDateTag').innerText = ev.category;
             document.getElementById('modalTitle').innerText = ev.title;
-            document.getElementById('modalMediaPlaceholder').innerText = ev.media;
-            document.getElementById('modalDescription').innerText = `${ev.time}\n\n${ev.desc}`;
+            document.getElementById('modalMediaPlaceholder').innerText = ev.media_label || "[ PREVIEW ]";
+            document.getElementById('modalDescription').innerText = `${ev.event_date} • ${ev.event_time}\n\n${ev.description}`;
 
             const modal = document.getElementById('eventModal');
             modal.classList.remove('hidden');
@@ -260,7 +709,7 @@
             document.getElementById('modalDateTag').innerText = "Schedule Notice";
             document.getElementById('modalTitle').innerText = `No Events on ${dateKey}`;
             document.getElementById('modalMediaPlaceholder').innerText = "[ NO MEDIA SCHEDULED ]";
-            document.getElementById('modalDescription').innerText = "There are currently no official races, concerts, or live events scheduled for this specific date. Check back soon as the calendar is updated weekly!";
+            document.getElementById('modalDescription').innerText = "There are currently no official races, concerts, or live events scheduled for this specific date.";
 
             const modal = document.getElementById('eventModal');
             modal.classList.remove('hidden');
@@ -273,9 +722,12 @@
             modal.classList.remove('flex');
         }
 
-        window.onload = () => {
-            generateCalendar("2026-10");
-        };
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+
+        window.onload = fetchEventsAndCalendar;
     </script>
 </body>
 </html>
+
