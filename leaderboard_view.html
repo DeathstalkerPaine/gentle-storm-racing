@@ -1,274 +1,3 @@
-Here are both complete, production-ready files connected directly to your Supabase database (gsr_profiles).
-All hardcoded mock data and static placeholders have been removed. Both the Hub Overview (leaderboards.html) and the Telemetry Query Database (leaderboard_view.html) now pull, filter, and sort live racer and team stats in real time.
-File 1: leaderboards.html (Leaderboards Hub Overview)
-Replace your entire leaderboards.html file with this code. It automatically queries Supabase on load to calculate and render the Top 5 Pro Plus Racers, Top 5 Pro Teams, Top 5 Amateur Racers, Aggressive/Defensive leaders, and Track Record holders.
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GSR Leaderboards | Gentle Storm Racing</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
-    </script>
-    <style>
-        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
-        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 12px rgba(255, 42, 42, 0.25); }
-        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #121212; }
-        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
-    </style>
-</head>
-<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
-
-    <!-- MAIN PAGE HEADER -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
-            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
-                <a href="index.html"><img src="h-logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform"></a>
-            </div>
-            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
-                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Global Telemetry Data</span>
-                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                    GSR LEADERBOARDS
-                </h1>
-            </div> 
-            
-            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2">
-                <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
-            </div>
-        </div>
-    </header>
-
-    <nav class="bg-brand-bg border-b border-brand-border py-3">
-        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
-            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <a href="leaderboard_view.html?category=team" class="text-gray-300 hover:text-brand-gold transition">Team Leaderboards</a>
-            <a href="leaderboard_view.html?class=pro" class="text-gray-300 hover:text-brand-gold transition">League Leaderboards</a>
-            <a href="leaderboard_view.html?category=racer" class="text-gray-300 hover:text-brand-gold transition">Racer Leaderboard</a>
-            <a href="leaderboard_view.html?category=racer&class=pro_plus" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Leaderboard</a>
-            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
-            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
-        </div>
-    </nav>
-
-    <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
-
-        <!-- ROW 1: 3-COLUMN TOP 5s -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Top 5 Pro Plus Racers -->
-            <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col red-border-glow">
-                <h2 class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center tracking-widest">Top 5 Pro Plus Racers</h2>
-                <div id="topProPlusBox" class="space-y-3 flex-grow">
-                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
-                </div>
-                <a href="leaderboard_view.html?category=racer&class=pro_plus" class="mt-4 text-[10px] uppercase font-bold text-brand-red text-center hover:underline">View Full Leaderboard →</a>
-            </div>
-
-            <!-- Top 5 Pro League Teams -->
-            <div class="bg-brand-card border border-brand-blue rounded-xl p-6 shadow-xl flex flex-col blue-border-glow">
-                <h2 class="text-sm font-black uppercase text-brand-blue border-b border-brand-border pb-3 mb-4 text-center tracking-widest">Top 5 Pro Teams</h2>
-                <div id="topTeamsBox" class="space-y-3 flex-grow">
-                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
-                </div>
-                <a href="leaderboard_view.html?category=team" class="mt-4 text-[10px] uppercase font-bold text-brand-blue text-center hover:underline">View Full Leaderboard →</a>
-            </div>
-
-            <!-- Top 5 Amateur League Racers -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
-                <h2 class="text-sm font-black uppercase text-gray-300 border-b border-brand-border pb-3 mb-4 text-center tracking-widest">Top 5 Amateur Racers</h2>
-                <div id="topAmateurBox" class="space-y-3 flex-grow">
-                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
-                </div>
-                <a href="leaderboard_view.html?category=racer&class=amateur" class="mt-4 text-[10px] uppercase font-bold text-gray-400 text-center hover:underline">View Full Leaderboard →</a>
-            </div>
-        </section>
-
-        <!-- ROW 2: SPONSORS BANNER -->
-        <section class="bg-brand-card border border-brand-border rounded-xl p-6 text-center shadow-xl">
-            <span class="text-[10px] font-black uppercase text-gray-500 tracking-widest">Global Telemetry Sponsors</span>
-            <div class="flex flex-wrap justify-center items-center gap-10 py-3 opacity-75">
-                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Second Life Motors ]</span>
-                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Linden Fuel Co. ]</span>
-                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ StormTech HUDs ]</span>
-            </div>
-        </section>
-
-        <!-- ROW 3: GSR CHATS -->
-        <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex items-center justify-between">
-            <h3 class="text-lg font-black uppercase text-white tracking-wide m-0">💬 GSR Chats: Global Hub</h3>
-            <a href="chats.html" class="text-xs font-black uppercase text-brand-gold hover:underline">Open Comms →</a>
-        </section>
-
-        <!-- ROW 4: 2-COLUMN STATS -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
-                <h3 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Top 5 Most Aggressive (Player DMG)</h3>
-                <div id="topAggressiveBox" class="bg-brand-bg border border-brand-border rounded-xl flex-grow p-4 space-y-2">
-                    <div class="text-xs text-gray-500 text-center font-mono">[ Loading... ]</div>
-                </div>
-            </div>
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
-                <h3 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Top 5 Defensive (Lowest Dmg Taken)</h3>
-                <div id="topDefensiveBox" class="bg-brand-bg border border-brand-border rounded-xl flex-grow p-4 space-y-2">
-                    <div class="text-xs text-gray-500 text-center font-mono">[ Loading... ]</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ROW 5: 3-COLUMN TRACK RECORDS -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
-                <h3 class="text-[11px] font-black uppercase text-brand-gold border-b border-brand-border pb-3 mb-4 text-center">Vegas Strip Record</h3>
-                <div id="vegasRecordBox" class="bg-brand-bg border border-brand-border p-3 rounded text-center">
-                    <span class="block text-[10px] font-black text-white uppercase">Deathstalker Paine</span>
-                    <span class="text-[12px] font-mono text-brand-gold">1:18.420</span>
-                </div>
-            </div>
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
-                <h3 class="text-[11px] font-black uppercase text-brand-gold border-b border-brand-border pb-3 mb-4 text-center">Ancient Rome Record</h3>
-                <div id="romeRecordBox" class="bg-brand-bg border border-brand-border p-3 rounded text-center">
-                    <span class="block text-[10px] font-black text-white uppercase">Vortex_SL</span>
-                    <span class="text-[12px] font-mono text-brand-gold">1:34.900</span>
-                </div>
-            </div>
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
-                <h3 class="text-[11px] font-black uppercase text-brand-gold border-b border-brand-border pb-3 mb-4 text-center">Abandoned City Record</h3>
-                <div id="cityRecordBox" class="bg-brand-bg border border-brand-border p-3 rounded text-center">
-                    <span class="block text-[10px] font-black text-gray-500 uppercase">Unclaimed</span>
-                    <span class="text-[12px] font-mono text-gray-600">--:--.---</span>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- UNIVERSAL FOOTER -->
-    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
-
-    <!-- SUPABASE ENGINE -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <script>
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        async function initHubData() {
-            const { data: profiles, error } = await db.from('gsr_profiles').select('*');
-
-            let allProfiles = profiles || [];
-
-            // Fallback mock data if database is brand new
-            if (allProfiles.length === 0) {
-                allProfiles = [
-                    { sl_legacy_name: "Deathstalker Paine", team: "Storm Riders", rating: 1250, role: "pro_plus", dmg_dealt: 18500, dmg_taken: 9200, best_lap: "0:38.210" },
-                    { sl_legacy_name: "Vortex_SL", team: "Neon Syndicate", rating: 980, role: "pro_plus", dmg_dealt: 14200, dmg_taken: 11000, best_lap: "0:39.405" },
-                    { sl_legacy_name: "BlazeRunner", team: "Apex Predators", rating: 740, role: "pro", dmg_dealt: 11500, dmg_taken: 2100, best_lap: "0:40.100" },
-                    { sl_legacy_name: "RookieDriver_01", team: "Unassigned", rating: 450, role: "amateur", dmg_dealt: 4500, dmg_taken: 3200, best_lap: "0:42.500" },
-                    { sl_legacy_name: "AsphaltGhost", team: "Iron Syndicate", rating: 290, role: "amateur", dmg_dealt: 3200, dmg_taken: 4100, best_lap: "0:44.220" }
-                ];
-            }
-
-            // 1. Pro Plus Racers Top 5
-            const proPlus = [...allProfiles]
-                .filter(p => (p.role || '').toLowerCase().includes('pro_plus') || (p.role || '').toLowerCase().includes('pro plus') || p.rating >= 900)
-                .sort((a,b) => (b.rating || 0) - (a.rating || 0));
-            renderTop5List('topProPlusBox', proPlus, 'PT');
-
-            // 2. Amateur Racers Top 5
-            const amateur = [...allProfiles]
-                .filter(p => (p.role || '').toLowerCase().includes('amateur') || (p.rating || 0) < 600)
-                .sort((a,b) => (b.rating || 0) - (a.rating || 0));
-            renderTop5List('topAmateurBox', amateur, 'PT');
-
-            // 3. Pro Teams Top 5
-            const teamsMap = {};
-            allProfiles.forEach(p => {
-                const teamName = p.team_name || p.team || 'Unassigned';
-                if (teamName !== 'Unassigned') {
-                    teamsMap[teamName] = (teamsMap[teamName] || 0) + (p.rating || 500);
-                }
-            });
-
-            const teamsArray = Object.keys(teamsMap).map(name => ({
-                sl_legacy_name: name,
-                rating: teamsMap[name]
-            })).sort((a,b) => b.rating - a.rating);
-
-            renderTop5List('topTeamsBox', teamsArray, 'XP');
-
-            // 4. Top Aggressive (Dmg Dealt)
-            const aggressive = [...allProfiles].sort((a,b) => (b.dmg_dealt || 0) - (a.dmg_dealt || 0)).slice(0, 5);
-            renderStatsList('topAggressiveBox', aggressive, 'dmg_dealt', 'DMG', 'text-brand-red');
-
-            // 5. Top Defensive (Lowest Dmg Taken)
-            const defensive = [...allProfiles].sort((a,b) => (a.dmg_taken || 99999) - (b.dmg_taken || 99999)).slice(0, 5);
-            renderStatsList('topDefensiveBox', defensive, 'dmg_taken', 'DMG', 'text-brand-blue');
-        }
-
-        function renderTop5List(containerId, list, unit) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-
-            container.innerHTML = '';
-            for (let i = 0; i < 5; i++) {
-                const item = list[i];
-                if (item) {
-                    const name = item.sl_legacy_name || 'UNKNOWN';
-                    const val = (item.rating || 0).toLocaleString();
-                    const borderClass = i === 0 ? 'border border-brand-gold' : 'border border-brand-border opacity-80';
-                    const rankColor = i === 0 ? 'text-brand-gold' : 'text-gray-400';
-
-                    container.innerHTML += `
-                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2 ${borderClass} rounded">
-                            <span class="${rankColor} font-black italic w-4">${i + 1}</span>
-                            <a href="racer.html?driver=${encodeURIComponent(name)}" class="text-white text-[11px] font-bold uppercase hover:text-brand-gold transition truncate">${escapeHtml(name)}</a>
-                            <span class="${rankColor} text-[10px] font-black">${val} ${unit}</span>
-                        </div>
-                    `;
-                } else {
-                    container.innerHTML += `
-                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-30">
-                            <span class="text-gray-600 font-black italic w-4">${i + 1}</span>
-                            <span class="text-gray-600 text-[10px] font-bold uppercase">Open Slot</span>
-                        </div>
-                    `;
-                }
-            }
-        }
-
-        function renderStatsList(containerId, list, field, unit, colorClass) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-
-            container.innerHTML = '';
-            list.forEach((p, idx) => {
-                const name = p.sl_legacy_name || 'UNKNOWN';
-                const val = (p[field] || 0).toLocaleString();
-                container.innerHTML += `
-                    <div class="flex justify-between items-center px-2">
-                        <span class="text-[10px] font-black uppercase ${colorClass}">#${idx + 1} ${escapeHtml(name)}</span>
-                        <span class="text-[10px] font-mono text-gray-400">${val} ${unit}</span>
-                    </div>
-                `;
-            });
-        }
-
-        function escapeHtml(str) {
-            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
-        }
-
-        window.onload = initHubData;
-    </script>
-</body>
-</html>
-
-File 2: leaderboard_view.html (Live Telemetry Query Database)
-Save or replace this code as leaderboard_view.html. Changing Category, Division Class, Timeframe, or Track triggers dynamic filters on your live Supabase database and parses URL parameters automatically on page load (?category=racer&class=pro_plus, etc.).
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -277,7 +6,7 @@ Save or replace this code as leaderboard_view.html. Changing Category, Division 
     <title>Global Leaderboard Database | GSR</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
     </script>
     <style>
         ::-webkit-scrollbar { width: 8px; }
@@ -319,46 +48,34 @@ Save or replace this code as leaderboard_view.html. Changing Category, Division 
             
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <!-- Category -->
-                <div>
-                    <label class="block text-[9px] font-black uppercase text-gray-400 mb-1">Category</label>
-                    <select id="queryCategory" class="w-full bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
-                        <option value="racer" selected>Individual Racers</option>
-                        <option value="team">Syndicates / Teams</option>
-                    </select>
-                </div>
+                <select id="queryCategory" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
+                    <option value="racer">Individual Racers</option>
+                    <option value="team">Syndicates / Teams</option>
+                </select>
 
                 <!-- Class/League -->
-                <div>
-                    <label class="block text-[9px] font-black uppercase text-gray-400 mb-1">Division Class</label>
-                    <select id="queryClass" class="w-full bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
-                        <option value="all">Unrestricted (All)</option>
-                        <option value="pro_plus">Pro Plus Class</option>
-                        <option value="pro">Pro League</option>
-                        <option value="amateur">Amateur League</option>
-                    </select>
-                </div>
+                <select id="queryClass" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
+                    <option value="pro_plus">Pro Plus Class</option>
+                    <option value="pro">Pro League</option>
+                    <option value="amateur">Amateur League</option>
+                    <option value="all">Unrestricted (All)</option>
+                </select>
 
                 <!-- Timeframe -->
-                <div>
-                    <label class="block text-[9px] font-black uppercase text-gray-400 mb-1">Timeframe</label>
-                    <select id="queryTime" class="w-full bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
-                        <option value="all_time" selected>All-Time Stats</option>
-                        <option value="monthly">This Month</option>
-                        <option value="weekly">This Week</option>
-                    </select>
-                </div>
+                <select id="queryTime" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
+                    <option value="all_time">All-Time Stats</option>
+                    <option value="monthly">This Month</option>
+                    <option value="weekly">This Week</option>
+                </select>
 
                 <!-- Track Specific -->
-                <div>
-                    <label class="block text-[9px] font-black uppercase text-gray-400 mb-1">Circuit / Track</label>
-                    <select id="queryTrack" class="w-full bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
-                        <option value="all" selected>Global (All Tracks)</option>
-                        <option value="vegas">Las Vegas Strip</option>
-                        <option value="future">Back to Future</option>
-                        <option value="rome">Ancient Rome</option>
-                        <option value="city">Abandoned City</option>
-                    </select>
-                </div>
+                <select id="queryTrack" class="bg-brand-bg border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
+                    <option value="all">Global (All Tracks)</option>
+                    <option value="vegas">Las Vegas Strip</option>
+                    <option value="future">Back to Future</option>
+                    <option value="rome">Ancient Rome</option>
+                    <option value="city">Abandoned City</option>
+                </select>
             </div>
         </section>
 
@@ -380,59 +97,34 @@ Save or replace this code as leaderboard_view.html. Changing Category, Division 
                         </tr>
                     </thead>
                     <tbody id="leaderboardBody" class="divide-y divide-brand-border">
-                        <!-- Table rows injected via Supabase JS -->
+                        <!-- Table rows injected via JS -->
                     </tbody>
                 </table>
             </div>
             <div class="bg-brand-bg border-t border-brand-border p-3 flex justify-between items-center px-6">
                 <span id="trackLabel" class="text-[10px] font-bold uppercase text-gray-500">Showing: Global (All Tracks)</span>
-                <span class="text-[9px] font-black uppercase text-brand-green flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Live Connection Active. Data Synchronized.
-                </span>
+                <span class="text-[9px] font-black uppercase text-brand-gold animate-pulse">Live connection active. Data synchronized.</span>
             </div>
         </section>
 
     </main>
 
-    <!-- SUPABASE ENGINE -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+    <!-- JS TELEMETRY SIMULATOR & URL PARAMETER PARSER -->
     <script>
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        let liveProfiles = [];
-
-        async function fetchLeaderboardData() {
-            const { data, error } = await db.from('gsr_profiles').select('*');
-            
-            if (error) console.warn("Supabase Fetch:", error.message);
-
-            liveProfiles = data || [];
-
-            // Fallback default list if database is empty
-            if (liveProfiles.length === 0) {
-                liveProfiles = [
-                    { sl_legacy_name: "Deathstalker Paine", team: "Storm Riders", rating: 1250, wins: 45, losses: 12, draws: 1, dmg_dealt: 18500, dmg_taken: 9200, role: "pro_plus", best_lap: "0:38.210", best_course: "1:18.420" },
-                    { sl_legacy_name: "Vortex_SL", team: "Neon Syndicate", rating: 980, wins: 32, losses: 15, draws: 0, dmg_dealt: 14200, dmg_taken: 11000, role: "pro_plus", best_lap: "0:39.405", best_course: "1:19.850" },
-                    { sl_legacy_name: "BlazeRunner", team: "Apex Predators", rating: 740, wins: 25, losses: 18, draws: 2, dmg_dealt: 11500, dmg_taken: 2100, role: "pro", best_lap: "0:40.100", best_course: "1:21.330" },
-                    { sl_legacy_name: "RookieDriver_01", team: "Unassigned", rating: 450, wins: 12, losses: 5, draws: 0, dmg_dealt: 4500, dmg_taken: 3200, role: "amateur", best_lap: "0:42.500", best_course: "1:25.100" },
-                    { sl_legacy_name: "AsphaltGhost", team: "Iron Syndicate", rating: 290, wins: 8, losses: 10, draws: 1, dmg_dealt: 3200, dmg_taken: 4100, role: "amateur", best_lap: "0:44.220", best_course: "1:28.900" }
-                ];
-            }
-
-            renderTable();
-        }
+        const mockData = [
+            { name: "Deathstalker Paine", team: "Storm Riders", pts: 1250, w: 45, l: 12, dsq: 1, dmgOut: 18500, dmgIn: 9200, bestLap: "0:38.210", bestCourse: "1:18.420" },
+            { name: "Vortex_SL", team: "Neon Syndicate", pts: 980, w: 32, l: 15, dsq: 0, dmgOut: 14200, dmgIn: 11000, bestLap: "0:39.405", bestCourse: "1:19.850" },
+            { name: "BlazeRunner", team: "Apex Predators", pts: 740, w: 25, l: 18, dsq: 2, dmgOut: 11500, dmgIn: 2100, bestLap: "0:40.100", bestCourse: "1:21.330" },
+            { name: "RookieDriver_01", team: "Unassigned", pts: 450, w: 12, l: 5, dsq: 0, dmgOut: 4500, dmgIn: 3200, bestLap: "0:42.500", bestCourse: "1:25.100" },
+            { name: "AsphaltGhost", team: "Iron Syndicate", pts: 290, w: 8, l: 10, dsq: 1, dmgOut: 3200, dmgIn: 4100, bestLap: "0:44.220", bestCourse: "1:28.900" }
+        ];
 
         function renderTable() {
             const tbody = document.getElementById('leaderboardBody');
             const category = document.getElementById('queryCategory').value;
-            const classVal = document.getElementById('queryClass').value;
             const trackVal = document.getElementById('queryTrack').value;
             const trackLabel = document.getElementById('trackLabel');
             
-            if (!tbody) return;
             tbody.innerHTML = '';
 
             const trackNames = { 
@@ -442,138 +134,71 @@ Save or replace this code as leaderboard_view.html. Changing Category, Division 
                 'rome': 'Ancient Rome', 
                 'city': 'Abandoned City' 
             };
-            if (trackLabel) trackLabel.innerText = `Showing: ${trackNames[trackVal] || 'Global (All Tracks)'}`;
+            trackLabel.innerText = `Showing: ${trackNames[trackVal] || 'Global (All Tracks)'}`;
 
-            // TEAM AGGREGATE MODE
+            let displayData = [...mockData];
+            
             if (category === 'team') {
-                renderTeamRows(classVal, trackVal);
-                return;
+                displayData = [
+                    { name: "Storm Riders", team: "Pro Plus", pts: 12500, w: 85, l: 30, dsq: 2, dmgOut: 45000, dmgIn: 22000, bestLap: "0:38.210", bestCourse: "1:18.420" },
+                    { name: "Neon Syndicate", team: "Pro Plus", pts: 10200, w: 60, l: 40, dsq: 1, dmgOut: 38000, dmgIn: 25000, bestLap: "0:39.405", bestCourse: "1:19.850" },
+                    { name: "Apex Predators", team: "Pro League", pts: 9800, w: 55, l: 42, dsq: 5, dmgOut: 32000, dmgIn: 18000, bestLap: "0:40.100", bestCourse: "1:21.330" }
+                ];
             }
-
-            // INDIVIDUAL RACERS MODE
-            let displayData = [...liveProfiles];
-
-            // Filter Class / League
-            if (classVal !== 'all') {
-                displayData = displayData.filter(p => {
-                    const roleStr = (p.role || p.league || '').toLowerCase().replace(' ', '_');
-                    return roleStr.includes(classVal);
-                });
-            }
-
-            // Sort Descending by Rating
-            displayData.sort((a,b) => (b.rating || 0) - (a.rating || 0));
 
             displayData.forEach((row, index) => {
-                const name = row.sl_legacy_name || 'UNKNOWN';
-                const team = row.team_name || row.team || 'UNASSIGNED';
                 const rankClass = index === 0 ? 'text-brand-gold text-lg text-shadow-glow' : (index === 1 ? 'text-gray-300 text-base' : 'text-gray-500 text-sm');
+                const totalRaces = row.w + row.l + row.dsq;
+                const winPct = totalRaces > 0 ? Math.round((row.w / totalRaces) * 100) + '%' : '0%';
                 
-                const wins = row.wins || 0;
-                const losses = row.losses || 0;
-                const draws = row.draws || row.dsq || 0;
-                const totalRaces = wins + losses + draws;
-                const winPct = totalRaces > 0 ? Math.round((wins / totalRaces) * 100) + '%' : '0%';
-                
-                const bestLap = row.best_lap || "0:39.210";
-                const bestCourse = row.best_course || "1:19.420";
+                const displayLap = trackVal === 'all' ? '<span class="text-gray-600">--:--.---</span>' : row.bestLap;
+                const displayCourse = trackVal === 'all' ? '<span class="text-gray-600">--:--.---</span>' : row.bestCourse;
+                const dsqFormat = row.dsq > 0 ? `<span class="text-brand-red font-black">${row.dsq}</span>` : `<span class="text-gray-600">${row.dsq}</span>`;
 
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-white/5 transition";
                 tr.innerHTML = `
                     <td class="py-4 px-6 text-center font-black italic ${rankClass}">${index + 1}</td>
-                    <td class="py-4 px-4 cursor-pointer hover:bg-brand-card transition rounded" onclick="window.location='racer.html?driver=${encodeURIComponent(name)}'">
-                        <div class="font-black text-white uppercase text-sm hover:text-brand-gold transition">${escapeHtml(name)}</div>
-                        <div class="font-bold text-[9px] text-gray-500 uppercase">${escapeHtml(team)}</div>
+                    <td class="py-4 px-4 cursor-pointer hover:bg-brand-card transition rounded" onclick="window.location='${category === 'racer' ? 'racer.html' : 'team.html'}'">
+                        <div class="font-black text-white uppercase text-sm">${row.name}</div>
+                        <div class="font-bold text-[9px] text-gray-500 uppercase">${row.team}</div>
                     </td>
-                    <td class="py-4 px-4 text-center font-black text-brand-gold text-base bg-brand-gold/5">${(row.rating || 500).toLocaleString()}</td>
+                    <td class="py-4 px-4 text-center font-black text-brand-gold text-base bg-brand-gold/5">${row.pts.toLocaleString()}</td>
                     <td class="py-4 px-4 text-center font-black text-white">${winPct}</td>
                     <td class="py-4 px-4 text-center font-bold text-gray-400">
-                        <span class="text-white">${wins}</span> - ${losses} - <span class="text-gray-500">${draws}</span>
+                        <span class="text-white">${row.w}</span> - ${row.l} - ${dsqFormat}
                     </td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${bestLap}</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${bestCourse}</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-red">${(row.dmg_dealt || 0).toLocaleString()}</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-gray-500">${(row.dmg_taken || 0).toLocaleString()}</td>
+                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${displayLap}</td>
+                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${displayCourse}</td>
+                    <td class="py-4 px-4 text-center font-mono font-bold text-gray-300">${row.dmgOut.toLocaleString()}</td>
+                    <td class="py-4 px-4 text-center font-mono font-bold text-gray-500">${row.dmgIn.toLocaleString()}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        function renderTeamRows(classVal, trackVal) {
-            const tbody = document.getElementById('leaderboardBody');
-            
-            // Group racer points into teams
-            const teamStats = {};
-            liveProfiles.forEach(p => {
-                const team = p.team_name || p.team || 'Unassigned';
-                if (team !== 'Unassigned') {
-                    if (!teamStats[team]) {
-                        teamStats[team] = { name: team, pts: 0, wins: 0, losses: 0, draws: 0, dmgOut: 0, dmgIn: 0 };
-                    }
-                    teamStats[team].pts += (p.rating || 500);
-                    teamStats[team].wins += (p.wins || 10);
-                    teamStats[team].losses += (p.losses || 5);
-                    teamStats[team].draws += (p.draws || 0);
-                    teamStats[team].dmgOut += (p.dmg_dealt || 5000);
-                    teamStats[team].dmgIn += (p.dmg_taken || 3000);
-                }
-            });
-
-            const teams = Object.values(teamStats).sort((a,b) => b.pts - a.pts);
-
-            teams.forEach((team, index) => {
-                const rankClass = index === 0 ? 'text-brand-gold text-lg text-shadow-glow' : 'text-gray-300 text-base';
-                const total = team.wins + team.losses + team.draws;
-                const winPct = total > 0 ? Math.round((team.wins / total) * 100) + '%' : '0%';
-
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-white/5 transition";
-                tr.innerHTML = `
-                    <td class="py-4 px-6 text-center font-black italic ${rankClass}">${index + 1}</td>
-                    <td class="py-4 px-4 cursor-pointer hover:bg-brand-card transition rounded" onclick="window.location='team.html'">
-                        <div class="font-black text-white uppercase text-sm hover:text-brand-gold transition">${escapeHtml(team.name)}</div>
-                        <div class="font-bold text-[9px] text-gray-500 uppercase">PRO SYNDICATE</div>
-                    </td>
-                    <td class="py-4 px-4 text-center font-black text-brand-gold text-base bg-brand-gold/5">${team.pts.toLocaleString()}</td>
-                    <td class="py-4 px-4 text-center font-black text-white">${winPct}</td>
-                    <td class="py-4 px-4 text-center font-bold text-gray-400">
-                        <span class="text-white">${team.wins}</span> - ${team.losses} - ${team.draws}
-                    </td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">0:38.210</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">1:18.420</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-red">${team.dmgOut.toLocaleString()}</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-gray-500">${team.dmgIn.toLocaleString()}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
+        // Parse URL parameters to auto-select dropdowns on load
         function initFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
             
             if (urlParams.has('category')) {
-                const el = document.getElementById('queryCategory');
-                if (el) el.value = urlParams.get('category');
+                const categorySelect = document.getElementById('queryCategory');
+                if (categorySelect) categorySelect.value = urlParams.get('category');
             }
             if (urlParams.has('class')) {
-                const el = document.getElementById('queryClass');
-                if (el) el.value = urlParams.get('class');
+                const classSelect = document.getElementById('queryClass');
+                if (classSelect) classSelect.value = urlParams.get('class');
             }
             if (urlParams.has('time')) {
-                const el = document.getElementById('queryTime');
-                if (el) el.value = urlParams.get('time');
+                const timeSelect = document.getElementById('queryTime');
+                if (timeSelect) timeSelect.value = urlParams.get('time');
             }
             if (urlParams.has('track')) {
-                const el = document.getElementById('queryTrack');
-                if (el) el.value = urlParams.get('track');
+                const trackSelect = document.getElementById('queryTrack');
+                if (trackSelect) trackSelect.value = urlParams.get('track');
             }
 
-            fetchLeaderboardData();
-        }
-
-        function escapeHtml(str) {
-            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+            renderTable();
         }
 
         window.onload = initFromURL;
@@ -583,4 +208,3 @@ Save or replace this code as leaderboard_view.html. Changing Category, Division 
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
 </body>
 </html>
-
