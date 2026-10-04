@@ -6,12 +6,12 @@
     <title>Global Leaderboard Database | GSR</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#0c0c0c', card: '#151515', border: '#2a2a2a', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
     </script>
     <style>
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0c0c0c; }
-        ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
         .text-shadow-glow { text-shadow: 0 0 10px rgba(197, 160, 89, 0.5); }
     </style>
 </head>
@@ -24,7 +24,7 @@
                 <a href="index.html" class="inline-block"><img src="h-logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
             </div>
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
-                <span class="block text-[10px] sm:text-xs font-mono font-bold uppercase tracking-[0.3em] text-brand-gold mb-1">Live Telemetry Database</span>
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Live Telemetry Database</span>
                 <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">GSR GLOBAL RANKINGS</h1>
             </div>                    
         </div>
@@ -48,42 +48,34 @@
             
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <!-- Category -->
-                <div>
-                    <select id="queryCategory" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
-                        <option value="racer" selected>Individual Racers</option>
-                        <option value="team">Syndicates / Teams</option>
-                    </select>
-                </div>
+                <select id="queryCategory" class="bg-[#0a0a0a] border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
+                    <option value="racer" selected>Individual Racers</option>
+                    <option value="team">Syndicates / Teams</option>
+                </select>
 
                 <!-- Class/League -->
-                <div>
-                    <select id="queryClass" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
-                        <option value="all">Unrestricted (All)</option>
-                        <option value="pro_plus">Pro Plus Class</option>
-                        <option value="pro">Pro League</option>
-                        <option value="amateur">Amateur League</option>
-                    </select>
-                </div>
+                <select id="queryClass" class="bg-[#0a0a0a] border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
+                    <option value="all">Unrestricted (All)</option>
+                    <option value="pro_plus">Pro Plus Class</option>
+                    <option value="pro">Pro League</option>
+                    <option value="amateur">Amateur League</option>
+                </select>
 
                 <!-- Timeframe -->
-                <div>
-                    <select id="queryTime" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
-                        <option value="all_time" selected>All-Time Stats</option>
-                        <option value="monthly">This Month</option>
-                        <option value="weekly">This Week</option>
-                    </select>
-                </div>
+                <select id="queryTime" class="bg-[#0a0a0a] border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
+                    <option value="all_time" selected>All-Time Stats</option>
+                    <option value="monthly">This Month</option>
+                    <option value="weekly">This Week</option>
+                </select>
 
                 <!-- Track Specific -->
-                <div>
-                    <select id="queryTrack" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
-                        <option value="all" selected>Global (All Tracks)</option>
-                        <option value="vegas">Las Vegas Strip</option>
-                        <option value="future">Back to Future</option>
-                        <option value="rome">Ancient Rome</option>
-                        <option value="city">Abandoned City</option>
-                    </select>
-                </div>
+                <select id="queryTrack" class="bg-[#0a0a0a] border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="renderTable()">
+                    <option value="all" selected>Global (All Tracks)</option>
+                    <option value="vegas">Las Vegas Strip</option>
+                    <option value="future">Back to Future</option>
+                    <option value="rome">Ancient Rome</option>
+                    <option value="city">Abandoned City</option>
+                </select>
             </div>
         </section>
 
@@ -105,7 +97,6 @@
                         </tr>
                     </thead>
                     <tbody id="leaderboardBody" class="divide-y divide-brand-border">
-                        <!-- Table rows injected via Supabase JS -->
                         <tr>
                             <td colspan="9" class="py-12 text-center text-gray-500 font-mono uppercase tracking-widest">
                                 [ Querying live database records... ]
@@ -115,10 +106,11 @@
                 </table>
             </div>
             
-            <!-- TABLE FOOTER -->
-            <div class="bg-[#0a0a0a] border-t border-brand-border p-3 flex justify-between items-center px-6">
+            <div class="bg-brand-bg border-t border-brand-border p-3 flex justify-between items-center px-6">
                 <span id="trackLabel" class="text-[10px] font-bold uppercase text-gray-500">Showing: Global (All Tracks)</span>
-                <span class="text-[9px] font-black uppercase text-brand-gold">Live Connection Active. Data Synchronized.</span>
+                <span class="text-[9px] font-black uppercase text-brand-green flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Live Connection Active
+                </span>
             </div>
         </section>
 
@@ -136,22 +128,10 @@
 
         async function fetchLeaderboardData() {
             const { data, error } = await db.from('gsr_profiles').select('*');
-            
             if (error) console.warn("Supabase Fetch:", error.message);
 
+            // Set purely to database data. NO placeholders.
             liveProfiles = data || [];
-
-            // Fallback default list if database is empty
-            if (liveProfiles.length === 0) {
-                liveProfiles = [
-                    { sl_legacy_name: "Deathstalker Paine", team: "Storm Riders", rating: 1250, wins: 45, losses: 12, draws: 1, dmg_dealt: 18500, dmg_taken: 9200, role: "pro_plus", best_lap: "0:38.210", best_course: "1:18.420" },
-                    { sl_legacy_name: "Vortex_SL", team: "Neon Syndicate", rating: 980, wins: 32, losses: 15, draws: 0, dmg_dealt: 14200, dmg_taken: 11000, role: "pro_plus", best_lap: "0:39.405", best_course: "1:19.850" },
-                    { sl_legacy_name: "BlazeRunner", team: "Apex Predators", rating: 740, wins: 25, losses: 18, draws: 2, dmg_dealt: 11500, dmg_taken: 2100, role: "pro", best_lap: "0:40.100", best_course: "1:21.330" },
-                    { sl_legacy_name: "RookieDriver_01", team: "Unassigned", rating: 450, wins: 12, losses: 5, draws: 0, dmg_dealt: 4500, dmg_taken: 3200, role: "amateur", best_lap: "0:42.500", best_course: "1:25.100" },
-                    { sl_legacy_name: "AsphaltGhost", team: "Iron Syndicate", rating: 290, wins: 8, losses: 10, draws: 1, dmg_dealt: 3200, dmg_taken: 4100, role: "amateur", best_lap: "0:44.220", best_course: "1:28.900" }
-                ];
-            }
-
             renderTable();
         }
 
@@ -174,16 +154,60 @@
             };
             if (trackLabel) trackLabel.innerText = `Showing: ${trackNames[trackVal] || 'Global (All Tracks)'}`;
 
-            // TEAM AGGREGATE MODE
+            // 1. TEAM AGGREGATE MODE
             if (category === 'team') {
-                renderTeamRows(classVal, trackVal);
+                const teamStats = {};
+                
+                liveProfiles.forEach(p => {
+                    const team = p.team_name || p.team || 'Unassigned';
+                    if (team !== 'Unassigned' && team.trim() !== '') {
+                        if (!teamStats[team]) {
+                            teamStats[team] = { name: team, pts: 0, wins: 0, losses: 0, draws: 0, dmgOut: 0, dmgIn: 0 };
+                        }
+                        teamStats[team].pts += (p.rating || 500);
+                        teamStats[team].wins += (p.wins || 0);
+                        teamStats[team].losses += (p.losses || 0);
+                        teamStats[team].draws += (p.draws || p.dsq || 0);
+                        teamStats[team].dmgOut += (p.dmg_dealt || 0);
+                        teamStats[team].dmgIn += (p.dmg_taken || 0);
+                    }
+                });
+
+                const teams = Object.values(teamStats).sort((a,b) => b.pts - a.pts);
+
+                if (teams.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="9" class="py-12 text-center text-gray-500 font-mono uppercase tracking-widest">[ NO SYNDICATE TELEMETRY FOUND FOR THIS QUERY ]</td></tr>`;
+                    return;
+                }
+
+                teams.forEach((team, index) => {
+                    const rankClass = index === 0 ? 'text-brand-gold text-lg text-shadow-glow' : 'text-gray-300 text-base';
+                    const total = team.wins + team.losses + team.draws;
+                    const winPct = total > 0 ? Math.round((team.wins / total) * 100) + '%' : '0%';
+
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="py-4 px-6 text-center font-black italic ${rankClass}">${index + 1}</td>
+                            <td class="py-4 px-4 cursor-pointer hover:bg-brand-card transition rounded" onclick="window.location='team.html'">
+                                <div class="font-black text-white uppercase text-sm hover:text-brand-gold transition">${escapeHtml(team.name)}</div>
+                                <div class="font-bold text-[9px] text-gray-500 uppercase">SYNDICATE</div>
+                            </td>
+                            <td class="py-4 px-4 text-center font-black text-brand-gold text-base bg-brand-gold/5">${team.pts.toLocaleString()}</td>
+                            <td class="py-4 px-4 text-center font-black text-white">${winPct}</td>
+                            <td class="py-4 px-4 text-center font-bold text-gray-400"><span class="text-white">${team.wins}</span> - ${team.losses} - ${team.draws}</td>
+                            <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">--:--.---</td>
+                            <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">--:--.---</td>
+                            <td class="py-4 px-4 text-center font-mono font-bold text-brand-red">${team.dmgOut.toLocaleString()}</td>
+                            <td class="py-4 px-4 text-center font-mono font-bold text-gray-500">${team.dmgIn.toLocaleString()}</td>
+                        </tr>
+                    `;
+                });
                 return;
             }
 
-            // INDIVIDUAL RACERS MODE
+            // 2. INDIVIDUAL RACERS MODE
             let displayData = [...liveProfiles];
 
-            // Filter Class / League
             if (classVal !== 'all') {
                 displayData = displayData.filter(p => {
                     const roleStr = (p.role || p.league || '').toLowerCase().replace(' ', '_');
@@ -191,7 +215,11 @@
                 });
             }
 
-            // Sort Descending by Rating
+            if (displayData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" class="py-12 text-center text-gray-500 font-mono uppercase tracking-widest">[ NO RACER TELEMETRY FOUND FOR THIS QUERY ]</td></tr>`;
+                return;
+            }
+
             displayData.sort((a,b) => (b.rating || 0) - (a.rating || 0));
 
             displayData.forEach((row, index) => {
@@ -205,77 +233,25 @@
                 const totalRaces = wins + losses + draws;
                 const winPct = totalRaces > 0 ? Math.round((wins / totalRaces) * 100) + '%' : '0%';
                 
-                const bestLap = row.best_lap || "0:39.210";
-                const bestCourse = row.best_course || "1:19.420";
+                const bestLap = row.best_lap || "--:--.---";
+                const bestCourse = row.best_course || "--:--.---";
 
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-white/5 transition";
-                tr.innerHTML = `
-                    <td class="py-4 px-6 text-center font-black italic ${rankClass}">${index + 1}</td>
-                    <td class="py-4 px-4 cursor-pointer hover:bg-brand-card transition rounded" onclick="window.location='racer.html?driver=${encodeURIComponent(name)}'">
-                        <div class="font-black text-white uppercase text-sm hover:text-brand-gold transition">${escapeHtml(name)}</div>
-                        <div class="font-bold text-[9px] text-gray-500 uppercase">${escapeHtml(team)}</div>
-                    </td>
-                    <td class="py-4 px-4 text-center font-black text-brand-gold text-base bg-brand-gold/5">${(row.rating || 500).toLocaleString()}</td>
-                    <td class="py-4 px-4 text-center font-black text-white">${winPct}</td>
-                    <td class="py-4 px-4 text-center font-bold text-gray-400">
-                        <span class="text-white">${wins}</span> - ${losses} - <span class="text-gray-500">${draws}</span>
-                    </td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${bestLap}</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${bestCourse}</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-red">${(row.dmg_dealt || 0).toLocaleString()}</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-gray-500">${(row.dmg_taken || 0).toLocaleString()}</td>
+                tbody.innerHTML += `
+                    <tr class="hover:bg-white/5 transition">
+                        <td class="py-4 px-6 text-center font-black italic ${rankClass}">${index + 1}</td>
+                        <td class="py-4 px-4 cursor-pointer hover:bg-brand-card transition rounded" onclick="window.location='racer.html?driver=${encodeURIComponent(name)}'">
+                            <div class="font-black text-white uppercase text-sm hover:text-brand-gold transition">${escapeHtml(name)}</div>
+                            <div class="font-bold text-[9px] text-gray-500 uppercase">${escapeHtml(team)}</div>
+                        </td>
+                        <td class="py-4 px-4 text-center font-black text-brand-gold text-base bg-brand-gold/5">${(row.rating || 500).toLocaleString()}</td>
+                        <td class="py-4 px-4 text-center font-black text-white">${winPct}</td>
+                        <td class="py-4 px-4 text-center font-bold text-gray-400"><span class="text-white">${wins}</span> - ${losses} - <span class="text-gray-500">${draws}</span></td>
+                        <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${bestLap}</td>
+                        <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${bestCourse}</td>
+                        <td class="py-4 px-4 text-center font-mono font-bold text-brand-red">${(row.dmg_dealt || 0).toLocaleString()}</td>
+                        <td class="py-4 px-4 text-center font-mono font-bold text-gray-500">${(row.dmg_taken || 0).toLocaleString()}</td>
+                    </tr>
                 `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function renderTeamRows(classVal, trackVal) {
-            const tbody = document.getElementById('leaderboardBody');
-            
-            // Group racer points into teams
-            const teamStats = {};
-            liveProfiles.forEach(p => {
-                const team = p.team_name || p.team || 'Unassigned';
-                if (team !== 'Unassigned') {
-                    if (!teamStats[team]) {
-                        teamStats[team] = { name: team, pts: 0, wins: 0, losses: 0, draws: 0, dmgOut: 0, dmgIn: 0 };
-                    }
-                    teamStats[team].pts += (p.rating || 500);
-                    teamStats[team].wins += (p.wins || 10);
-                    teamStats[team].losses += (p.losses || 5);
-                    teamStats[team].draws += (p.draws || 0);
-                    teamStats[team].dmgOut += (p.dmg_dealt || 5000);
-                    teamStats[team].dmgIn += (p.dmg_taken || 3000);
-                }
-            });
-
-            const teams = Object.values(teamStats).sort((a,b) => b.pts - a.pts);
-
-            teams.forEach((team, index) => {
-                const rankClass = index === 0 ? 'text-brand-gold text-lg text-shadow-glow' : 'text-gray-300 text-base';
-                const total = team.wins + team.losses + team.draws;
-                const winPct = total > 0 ? Math.round((team.wins / total) * 100) + '%' : '0%';
-
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-white/5 transition";
-                tr.innerHTML = `
-                    <td class="py-4 px-6 text-center font-black italic ${rankClass}">${index + 1}</td>
-                    <td class="py-4 px-4 cursor-pointer hover:bg-brand-card transition rounded" onclick="window.location='team.html'">
-                        <div class="font-black text-white uppercase text-sm hover:text-brand-gold transition">${escapeHtml(team.name)}</div>
-                        <div class="font-bold text-[9px] text-gray-500 uppercase">PRO SYNDICATE</div>
-                    </td>
-                    <td class="py-4 px-4 text-center font-black text-brand-gold text-base bg-brand-gold/5">${team.pts.toLocaleString()}</td>
-                    <td class="py-4 px-4 text-center font-black text-white">${winPct}</td>
-                    <td class="py-4 px-4 text-center font-bold text-gray-400">
-                        <span class="text-white">${team.wins}</span> - ${team.losses} - ${team.draws}
-                    </td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">0:38.210</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">1:18.420</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-brand-red">${team.dmgOut.toLocaleString()}</td>
-                    <td class="py-4 px-4 text-center font-mono font-bold text-gray-500">${team.dmgIn.toLocaleString()}</td>
-                `;
-                tbody.appendChild(tr);
             });
         }
 
