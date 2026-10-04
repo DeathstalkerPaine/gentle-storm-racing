@@ -70,16 +70,16 @@
                     <span class="bg-gray-800 border border-gray-600 text-gray-300 font-bold text-[9px] uppercase px-2 py-0.5 rounded">⏱️ LIVE TELEMETRY</span>
                 </div>
 
-              <div class="text-[10px] text-gray-400 uppercase font-bold pt-2">
-    TEAM ALLIANCE: <a href="team.html" id="driverTeamName" class="text-white font-black hover:text-brand-gold underline transition">STORM RIDERS</a> 
-    <span class="bg-gray-800 text-gray-300 text-[8px] font-black px-1.5 py-0.5 rounded ml-2">TEAM LEADER</span>
-</div>
+                <div class="text-[10px] text-gray-400 uppercase font-bold pt-2">
+                    TEAM ALLIANCE: <a href="team.html" id="driverTeamName" class="text-white font-black hover:text-brand-gold underline transition">STORM RIDERS</a> 
+                    <span class="bg-gray-800 text-gray-300 text-[8px] font-black px-1.5 py-0.5 rounded ml-2">TEAM LEADER</span>
+                </div>
             </div>
 
             <!-- Follow Button -->
-<button id="followBtn" onclick="toggleFollowDriver()" class="bg-[#111] border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white text-[9px] font-black uppercase px-4 py-2 rounded transition tracking-wider shrink-0 cursor-pointer">
-    Follow +
-</button>
+            <button id="followBtn" onclick="toggleFollowDriver()" class="bg-[#111] border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white text-[9px] font-black uppercase px-4 py-2 rounded transition tracking-wider shrink-0 cursor-pointer">
+                Follow +
+            </button>
         </div>
 
         <!-- DRIVER BIO SECTION -->
@@ -90,40 +90,45 @@
             </p>
         </div>
 
-     <!-- STATS GRID: WINS, LOSSES, POINTS, DISQUALIFICATIONS -->
-<div class="grid grid-cols-4 gap-2">
-    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
-        <span class="block text-[8px] font-black uppercase text-gray-500">WINS</span>
-        <span id="statWins" class="text-lg font-black text-brand-gold">0</span>
-    </div>
-    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
-        <span class="block text-[8px] font-black uppercase text-gray-500">LOSSES</span>
-        <span id="statLosses" class="text-lg font-black text-gray-300">0</span>
-    </div>
-    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
-        <span class="block text-[8px] font-black uppercase text-gray-500">POINTS</span>
-        <span id="statPoints" class="text-lg font-black text-white">0</span>
-    </div>
-    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
-        <span class="block text-[8px] font-black uppercase text-gray-500">DSQ</span>
-        <span id="statDraws" class="text-lg font-black text-brand-red">0</span>
-    </div>
-</div>
+        <!-- STATS GRID: WINS, LOSSES, POINTS, DISQUALIFICATIONS -->
+        <div class="grid grid-cols-4 gap-2">
+            <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
+                <span class="block text-[8px] font-black uppercase text-gray-500">WINS</span>
+                <span id="statWins" class="text-lg font-black text-brand-gold">0</span>
+            </div>
+            <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
+                <span class="block text-[8px] font-black uppercase text-gray-500">LOSSES</span>
+                <span id="statLosses" class="text-lg font-black text-gray-300">0</span>
+            </div>
+            <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
+                <span class="block text-[8px] font-black uppercase text-gray-500">POINTS</span>
+                <span id="statPoints" class="text-lg font-black text-white">0</span>
+            </div>
+            <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
+                <span class="block text-[8px] font-black uppercase text-gray-500">DSQ</span>
+                <span id="statDraws" class="text-lg font-black text-brand-red">0</span>
+            </div>
+        </div>
 
-<!-- TELEMETRY METRICS: LIFETIME DAMAGE, BEST LAP, & BEST COURSE TIME -->
-<div class="grid grid-cols-3 gap-3">
-    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
-        <span class="block text-[8px] font-black uppercase text-gray-500">LIFETIME DAMAGE</span>
-        <span id="statDamage" class="text-base font-black text-brand-red mt-1 block">0</span>
-    </div>
-    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
-        <span class="block text-[8px] font-black uppercase text-gray-500">BEST LAP TIME</span>
-        <span id="statBestLap" class="text-base font-black font-mono text-brand-blue mt-1 block">--:--.---</span>
-    </div>
-    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
-        <span class="block text-[8px] font-black uppercase text-gray-500">BEST RACE TIME</span>
-        <span id="statBestCourse" class="text-base font-black font-mono text-brand-gold mt-1 block">--:--.---</span>
-    </div>
+        <!-- TELEMETRY METRICS: LIFETIME DAMAGE, BEST LAP, & BEST COURSE TIME -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 pt-2">
+            
+            <!-- LEFT 7 COLUMNS: TELEMETRY METRICS -->
+            <div class="md:col-span-7 space-y-4">
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
+                        <span class="block text-[8px] font-black uppercase text-gray-500">LIFETIME DAMAGE</span>
+                        <span id="statDamage" class="text-base font-black text-brand-red mt-1 block">0</span>
+                    </div>
+                    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
+                        <span class="block text-[8px] font-black uppercase text-gray-500">BEST LAP TIME</span>
+                        <span id="statBestLap" class="text-base font-black font-mono text-brand-blue mt-1 block">--:--.---</span>
+                    </div>
+                    <div class="bg-[#111] border border-brand-border rounded-lg p-3 text-center">
+                        <span class="block text-[8px] font-black uppercase text-gray-500">BEST RACE TIME</span>
+                        <span id="statBestCourse" class="text-base font-black font-mono text-brand-gold mt-1 block">--:--.---</span>
+                    </div>
+                </div>
             </div>
 
             <!-- RIGHT 5 COLUMNS: LIVE CONNECTED GSR COMMS WIDGET -->
@@ -175,7 +180,7 @@
              <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching logs... ]</div>
         </div>
         <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
-            <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-gold transition">
+            <input type="text" id="drawerInput" placeholder="Sign in to chat..." disabled class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-gold transition">
             <button onclick="sendDrawerMessage()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
         </div>
     </div>
@@ -193,6 +198,8 @@
                 void overlay.offsetWidth;
                 overlay.classList.remove('opacity-0');
                 drawer.classList.remove('translate-x-full');
+                const msgBox = document.getElementById('drawerMessages');
+                if (msgBox) msgBox.scrollTop = msgBox.scrollHeight;
             } else {
                 overlay.classList.add('opacity-0');
                 drawer.classList.add('translate-x-full');
@@ -207,8 +214,49 @@
         let activeProfileChannel = 'global';
         let currentUser = null;
         let currentProfile = null;
+        let isFollowingDriver = false;
 
         const channelNames = { global: '🌐 Global Feed', following: '👥 Following', team: '🛡️ Team Chat', pro_plus: '⭐ Pro Plus' };
+
+        async function checkFollowStatus(driverName, userId) {
+            if (!userId) return;
+            const { data } = await db.from('gsr_follows').select('*').eq('follower_id', userId).eq('target_driver_name', driverName);
+            if (data && data.length > 0) {
+                isFollowingDriver = true;
+                updateFollowButtonUI();
+            }
+        }
+
+        async function toggleFollowDriver() {
+            if (!currentUser) {
+                alert("Please sign in to follow drivers.");
+                window.location.href = 'sign_in.html';
+                return;
+            }
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetDriver = urlParams.get('driver') || "Deathstalker Paine";
+
+            if (isFollowingDriver) {
+                await db.from('gsr_follows').delete().eq('follower_id', currentUser.id).eq('target_driver_name', targetDriver);
+                isFollowingDriver = false;
+            } else {
+                await db.from('gsr_follows').insert([{ follower_id: currentUser.id, target_driver_name: targetDriver }]);
+                isFollowingDriver = true;
+            }
+            updateFollowButtonUI();
+        }
+
+        function updateFollowButtonUI() {
+            const btn = document.getElementById('followBtn');
+            if (!btn) return;
+            if (isFollowingDriver) {
+                btn.innerHTML = 'Following ✓';
+                btn.classList.add('border-brand-gold', 'text-brand-gold');
+            } else {
+                btn.innerHTML = 'Follow +';
+                btn.classList.remove('border-brand-gold', 'text-brand-gold');
+            }
+        }
 
         async function initRacerPage() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -231,12 +279,59 @@
                 document.getElementById('statLosses').innerText = profileData.losses || 0;
                 document.getElementById('statPoints').innerText = (profileData.rating || 0).toLocaleString();
                 document.getElementById('statDraws').innerText = profileData.draws || profileData.dsq || 0;
-                document.getElementById('statDmgDealt').innerText = (profileData.dmg_dealt || 0).toLocaleString();
-                document.getElementById('statDmgTaken').innerText = (profileData.dmg_taken || 0).toLocaleString();
+                document.getElementById('statDamage').innerText = (profileData.damage || profileData.dmg_dealt || 0).toLocaleString();
+                document.getElementById('statBestLap').innerText = profileData.best_lap || '--:--.---';
+                document.getElementById('statBestCourse').innerText = profileData.best_course || '--:--.---';
             }
 
+            // ROBUST AUTH LISTENER (Fixes the sign-in bug)
+            db.auth.onAuthStateChange(async (event, session) => {
+                const userNav = document.getElementById('userNav');
+                const drawerInput = document.getElementById('drawerInput');
+
+                if (session && session.user) {
+                    currentUser = session.user;
+                    
+                    const { data: userProfile } = await db
+                        .from('gsr_profiles')
+                        .select('sl_legacy_name, team_name, team')
+                        .eq('id', currentUser.id)
+                        .single();
+
+                    currentProfile = userProfile;
+                    const displayName = userProfile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+                    if (userNav) {
+                        userNav.innerHTML = `
+                            <div class="text-right hidden sm:block">
+                                <span class="block text-[10px] font-black text-white uppercase">${displayName}</span>
+                                <span class="text-[8px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
+                                </span>
+                            </div>
+                            <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] uppercase font-black px-2.5 py-1 rounded transition cursor-pointer">Sign Out</button>
+                        `;
+                    }
+
+                    if (drawerInput) {
+                        drawerInput.placeholder = "Type message...";
+                        drawerInput.disabled = false;
+                    }
+
+                    checkFollowStatus(targetDriver, currentUser.id);
+                } else {
+                    currentUser = null;
+                    if (drawerInput) {
+                        drawerInput.placeholder = "Sign in to chat...";
+                        drawerInput.disabled = true;
+                    }
+                }
+            });
+
             const { data: { session } } = await db.auth.getSession();
-            if (session) currentUser = session.user;
+            if (session) {
+                db.auth.onAuthStateChange(() => {}); 
+            }
 
             loadProfileChatWidget();
             subscribeToProfileRealtime();
@@ -252,7 +347,23 @@
             const feed = document.getElementById('profileChatFeed');
             const drawerFeed = document.getElementById('drawerMessages');
 
-            const { data } = await db.from('gsr_chats').select('*').eq('channel', activeProfileChannel).order('created_at', { ascending: false }).limit(20);
+            let query = db.from('gsr_chats').select('*').order('created_at', { ascending: false }).limit(20);
+
+            if (activeProfileChannel === 'following' && currentUser) {
+                const { data: follows } = await db.from('gsr_follows').select('target_driver_name').eq('follower_id', currentUser.id);
+                const followedDrivers = follows ? follows.map(f => f.target_driver_name) : [];
+                if (followedDrivers.length > 0) {
+                    query = query.in('display_name', followedDrivers);
+                } else {
+                    if (feed) feed.innerHTML = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ Not following any drivers yet ]</div>`;
+                    if (drawerFeed) drawerFeed.innerHTML = `<div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Not following any drivers yet ]</div>`;
+                    return;
+                }
+            } else {
+                query = query.eq('channel', activeProfileChannel);
+            }
+
+            const { data } = await query;
             if (!data || data.length === 0) {
                 const empty = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No active transmissions ]</div>`;
                 if (feed) feed.innerHTML = empty;
@@ -268,6 +379,22 @@
                 });
                 feed.scrollTop = feed.scrollHeight;
             }
+
+            if (drawerFeed) {
+                drawerFeed.innerHTML = '';
+                msgs.forEach(m => {
+                    const isMe = currentUser && m.user_id === currentUser.id;
+                    const align = isMe ? 'items-end' : 'items-start';
+                    const bg = isMe ? 'bg-brand-gold/10 border-brand-gold text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200';
+                    drawerFeed.innerHTML += `
+                        <div class="flex flex-col ${align}">
+                            <span class="text-[9px] font-black uppercase text-gray-500 mb-0.5">${escapeHtml(m.display_name)}</span>
+                            <div class="${bg} border px-3 py-2 rounded-lg text-xs max-w-[85%] break-words">${escapeHtml(m.message)}</div>
+                        </div>
+                    `;
+                });
+                drawerFeed.scrollTop = drawerFeed.scrollHeight;
+            }
         }
 
         async function sendDrawerMessage() {
@@ -276,19 +403,31 @@
             const val = input.value.trim();
             if (!val) return;
 
-            await db.from('gsr_chats').insert([{ user_id: currentUser.id, display_name: currentUser.email.split('@')[0], message: val, channel: activeProfileChannel }]);
+            const name = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
+            await db.from('gsr_chats').insert([{ user_id: currentUser.id, display_name: name, message: val, channel: activeProfileChannel }]);
             input.value = '';
         }
 
         function subscribeToProfileRealtime() {
-            db.channel('public:chat_racer').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, p => {
-                if (p.new.channel === activeProfileChannel) loadProfileChatWidget();
-            }).subscribe();
+            db.channel('public:chat_racer_profile')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, () => {
+                    loadProfileChatWidget();
+                })
+                .subscribe();
+        }
+
+        async function executeSignOut() {
+            await db.auth.signOut();
+            window.location.reload();
         }
 
         function escapeHtml(str) {
             return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
         }
+
+        document.getElementById('drawerInput')?.addEventListener('keypress', e => {
+            if (e.key === 'Enter') sendDrawerMessage();
+        });
 
         window.onload = initRacerPage;
     </script>
