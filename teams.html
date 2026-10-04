@@ -28,18 +28,15 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- MAIN PAGE HEADER (Uses logo.png) -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
-            
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
                 <a href="index.html" class="inline-block">
                     <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
                 </a>
             </div>
-
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
-                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1"></span>
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Syndicate Command</span>
                 <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
                     GSR TEAMS
                 </h1>
@@ -47,7 +44,6 @@
         </div>
     </header>
 
-    <!-- SUB-NAVBAR (Media and Chats follow all team elements) -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
@@ -64,7 +60,6 @@
         </div>
     </nav>
 
-    <!-- MAIN CONTENT GRID -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
 
         <!-- ROW 1: 3-Column Top 5 Lists -->
@@ -73,37 +68,25 @@
             <!-- Top 5 League Teams -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
                 <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 League Teams</h2>
-                <div class="space-y-3 flex-grow">
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-gold rounded"><span class="text-brand-gold font-black italic">1.</span><span class="text-white text-xs font-bold uppercase">Storm Riders</span><span class="text-[10px] text-gray-500">12,500 PTS</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-400 font-black italic">2.</span><span class="text-gray-300 text-xs font-bold uppercase">Neon Syndicate</span><span class="text-[10px] text-gray-500">10,200 PTS</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-500 font-black italic">3.</span><span class="text-gray-400 text-xs font-bold uppercase">Apex Predators</span><span class="text-[10px] text-gray-500">9,800 PTS</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-600 font-black italic">4.</span><span class="text-gray-500 text-xs font-bold uppercase">---</span><span class="text-[10px] text-gray-600">---</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-600 font-black italic">5.</span><span class="text-gray-500 text-xs font-bold uppercase">---</span><span class="text-[10px] text-gray-600">---</span></div>
+                <div id="topLeagueTeamsBox" class="space-y-3 flex-grow">
+                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
                 </div>
-                <a href="leaderboards.html" class="mt-4 text-[10px] uppercase font-bold text-brand-gold text-center hover:underline">View Full Leaderboard →</a>
+                <a href="leaderboard_view.html?category=team" class="mt-4 text-[10px] uppercase font-bold text-brand-gold text-center hover:underline">View Full Leaderboard →</a>
             </div>
 
             <!-- Top 5 All-Time Team Racers -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
-                <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 All-Time Team Racers</h2>
-                <div class="space-y-3 flex-grow">
-                    <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-red rounded"><span class="text-brand-red font-black italic text-lg w-4">1</span><div class="w-6 h-6 bg-[#111] border border-brand-border rounded-full flex shrink-0 items-center justify-center text-[8px] text-gray-600">Avatar</div><div class="flex-grow"><p class="text-white text-[11px] font-black uppercase leading-tight">Deathstalker Paine</p><p class="text-[9px] text-gray-500 uppercase">Storm Riders</p></div></div>
-                    <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-60"><span class="text-gray-400 font-black italic text-lg w-4">2</span><div class="w-6 h-6 bg-[#111] border border-brand-border rounded-full"></div><div class="flex-grow"><p class="text-gray-300 text-[11px] font-black uppercase leading-tight">Vortex_SL</p><p class="text-[9px] text-gray-500 uppercase">Neon Syndicate</p></div></div>
-                    <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-50"><span class="text-gray-500 font-black italic text-lg w-4">3</span><div class="w-6 h-6 bg-[#111] border border-brand-border rounded-full"></div><div class="flex-grow"><p class="text-gray-400 text-[11px] font-black uppercase leading-tight">BlazeRunner</p><p class="text-[9px] text-gray-500 uppercase">Apex Predators</p></div></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2.5 border border-brand-border rounded"><span class="text-gray-600 font-black italic">4.</span><span class="text-gray-600 text-[10px] font-bold uppercase">Pending</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2.5 border border-brand-border rounded"><span class="text-gray-600 font-black italic">5.</span><span class="text-gray-600 text-[10px] font-bold uppercase">Pending</span></div>
+                <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 Team Racers</h2>
+                <div id="topTeamRacersBox" class="space-y-3 flex-grow">
+                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
                 </div>
             </div>
 
             <!-- Top 5 All-Time Teams -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
                 <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 All-Time Teams</h2>
-                <div class="space-y-3 flex-grow">
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-blue rounded"><span class="text-brand-blue font-black italic">1.</span><span class="text-white text-xs font-bold uppercase">Storm Riders</span><span class="text-[10px] text-brand-blue">45 Wins</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-400 font-black italic">2.</span><span class="text-gray-300 text-xs font-bold uppercase">Neon Syndicate</span><span class="text-[10px] text-gray-500">22 Wins</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-500 font-black italic">3.</span><span class="text-gray-400 text-xs font-bold uppercase">Apex Predators</span><span class="text-[10px] text-gray-500">18 Wins</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-600 font-black italic">4.</span><span class="text-gray-500 text-xs font-bold uppercase">---</span><span class="text-[10px] text-gray-600">---</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-600 font-black italic">5.</span><span class="text-gray-500 text-xs font-bold uppercase">---</span><span class="text-[10px] text-gray-600">---</span></div>
+                <div id="topAllTimeTeamsBox" class="space-y-3 flex-grow">
+                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
                 </div>
             </div>
 
@@ -125,8 +108,8 @@
                 <h3 class="text-lg font-black uppercase text-white tracking-wide">💬 GSR Chats: Team Comms</h3>
                 <a href="chats.html" class="text-[10px] text-brand-gold hover:underline font-bold uppercase">Open Full Chat →</a>
             </div>
-            <div class="bg-brand-bg border border-brand-border rounded-lg h-32 flex items-center justify-center text-gray-500 text-xs uppercase font-bold">
-                [ Live Team Chat Stream Widget Connected ]
+            <div id="teamHubChatStream" class="bg-brand-bg border border-brand-border rounded-lg p-4 h-32 overflow-y-auto space-y-2 text-xs font-mono">
+                <span class="text-gray-500">[ Syncing live team comms... ]</span>
             </div>
         </section>
 
@@ -134,32 +117,32 @@
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl gold-border-glow">
                 <h3 class="text-sm font-black uppercase text-brand-gold text-center border-b border-brand-border pb-3 mb-4">Top 5 Teams of the Week</h3>
-                <div class="bg-brand-bg border border-brand-border p-4 rounded-xl flex items-center justify-center h-32 text-gray-500 text-[10px] uppercase font-bold text-center">
-                    Weekly data aggregating...<br>Check back after current events.
+                <div id="weeklyTeamsBox" class="bg-brand-bg border border-brand-border p-4 rounded-xl space-y-2">
+                    <span class="text-xs text-gray-500 font-mono block text-center">[ Aggregating weekly telemetry... ]</span>
                 </div>
             </div>
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl">
                 <h3 class="text-sm font-black uppercase text-white text-center border-b border-brand-border pb-3 mb-4">Top 5 Teams of the Month</h3>
-                <div class="bg-brand-bg border border-brand-border p-4 rounded-xl flex items-center justify-center h-32 text-gray-500 text-[10px] uppercase font-bold text-center">
-                    Monthly data aggregating...
+                <div id="monthlyTeamsBox" class="bg-brand-bg border border-brand-border p-4 rounded-xl space-y-2">
+                    <span class="text-xs text-gray-500 font-mono block text-center">[ Aggregating monthly telemetry... ]</span>
                 </div>
             </div>
         </section>
 
-        <!-- ROW 5: 3-Column Bottom Features -->
+        <!-- ROW 5: 3-Column Bottom Features (Next Event Synced to Calendar) -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
-            <!-- Next Team Event -->
+            <!-- Next Team Event (Dynamic from Calendar) -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
                 <div>
-                    <span class="text-[9px] font-black uppercase text-brand-red bg-red-950 px-2 py-0.5 rounded border border-brand-red/30 inline-block mb-2">Upcoming Calendar</span>
-                    <h4 class="text-base font-black uppercase text-white">Next Team Event</h4>
-                    <p class="text-xs text-gray-400 mt-2">
-                        The Vegas Strip Relay is approaching. Squads must register their 3-driver rosters before the grid locks.
+                    <span id="nextEventDateTag" class="text-[9px] font-black uppercase text-brand-red bg-red-950 px-2 py-0.5 rounded border border-brand-red/30 inline-block mb-2">Upcoming Calendar</span>
+                    <h4 id="nextEventTitle" class="text-base font-black uppercase text-white">Loading Next Event...</h4>
+                    <p id="nextEventDesc" class="text-xs text-gray-400 mt-2">
+                        Querying official calendar schedule...
                     </p>
                 </div>
                 <a href="upcoming_events.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-red text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
-                    View Event Details →
+                    View Full Calendar →
                 </a>
             </div>
 
@@ -195,19 +178,139 @@
 
     </main>
 
-    <!-- UNIVERSAL FOOTER -->
-    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
-            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
-                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
-                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
-                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
-                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
-                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
-            </div>
-            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
-        </div>
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">
+        &copy; 2026 Gentle Storm Racing. Built for Second Life.
     </footer>
 
+    <!-- SUPABASE ENGINE & DYNAMIC DATA SYNC -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function initTeamsHub() {
+            // 1. Fetch Profiles for Teams & Racers
+            const { data: profiles } = await db.from('gsr_profiles').select('*');
+            const allProfiles = profiles || [];
+
+            // Group by Team
+            const teamMap = {};
+            allProfiles.forEach(p => {
+                const tName = p.team_name || p.team || 'Unassigned';
+                if (tName !== 'Unassigned' && tName.trim() !== '') {
+                    if (!teamMap[tName]) teamMap[tName] = { name: tName, pts: 0, wins: 0 };
+                    teamMap[tName].pts += (p.rating || 500);
+                    teamMap[tName].wins += (p.wins || 0);
+                }
+            });
+
+            const teamsArray = Object.values(teamMap).sort((a,b) => b.pts - a.pts);
+
+            // Render Top League Teams
+            const leagueBox = document.getElementById('topLeagueTeamsBox');
+            if (leagueBox) {
+                leagueBox.innerHTML = '';
+                if (teamsArray.length === 0) {
+                    leagueBox.innerHTML = `<div class="text-xs text-gray-500 text-center py-4">[ No teams registered ]</div>`;
+                } else {
+                    teamsArray.slice(0, 5).forEach((t, idx) => {
+                        leagueBox.innerHTML += `
+                            <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded">
+                                <span class="text-brand-gold font-black italic">${idx + 1}.</span>
+                                <span class="text-white text-xs font-bold uppercase truncate">${escapeHtml(t.name)}</span>
+                                <span class="text-[10px] text-gray-400 font-mono">${t.pts.toLocaleString()} PTS</span>
+                            </div>
+                        `;
+                    });
+                }
+            }
+
+            // Render Top All-Time Teams (by wins)
+            const winsArray = [...teamsArray].sort((a,b) => b.wins - a.wins);
+            const allTimeBox = document.getElementById('topAllTimeTeamsBox');
+            const weeklyBox = document.getElementById('weeklyTeamsBox');
+            const monthlyBox = document.getElementById('monthlyTeamsBox');
+
+            if (allTimeBox) {
+                allTimeBox.innerHTML = '';
+                winsArray.slice(0, 5).forEach((t, idx) => {
+                    allTimeBox.innerHTML += `
+                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded">
+                            <span class="text-brand-blue font-black italic">${idx + 1}.</span>
+                            <span class="text-white text-xs font-bold uppercase truncate">${escapeHtml(t.name)}</span>
+                            <span class="text-[10px] text-brand-blue font-mono">${t.wins} Wins</span>
+                        </div>
+                    `;
+                });
+            }
+
+            if (weeklyBox && monthlyBox) {
+                weeklyBox.innerHTML = '';
+                monthlyBox.innerHTML = '';
+                teamsArray.slice(0, 3).forEach((t, idx) => {
+                    const row = `<div class="flex justify-between items-center px-2 py-1 text-xs"><span class="text-white uppercase font-bold">#${idx+1} ${escapeHtml(t.name)}</span><span class="text-brand-gold font-mono">${t.pts.toLocaleString()} PTS</span></div>`;
+                    weeklyBox.innerHTML += row;
+                    monthlyBox.innerHTML += row;
+                });
+            }
+
+            // Render Top Team Racers
+            const racersBox = document.getElementById('topTeamRacersBox');
+            if (racersBox) {
+                racersBox.innerHTML = '';
+                const sortedRacers = [...allProfiles].sort((a,b) => (b.rating || 0) - (a.rating || 0)).slice(0, 5);
+                sortedRacers.forEach((r, idx) => {
+                    racersBox.innerHTML += `
+                        <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border rounded">
+                            <span class="text-brand-red font-black italic text-lg w-4">${idx + 1}</span>
+                            <div class="flex-grow truncate">
+                                <p class="text-white text-[11px] font-black uppercase leading-tight truncate">${escapeHtml(r.sl_legacy_name || 'Racer')}</p>
+                                <p class="text-[9px] text-gray-500 uppercase truncate">${escapeHtml(r.team || 'Unassigned')}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // 2. Fetch Next Calendar Event
+            const todayStr = new Date().toISOString().split('T')[0];
+            const { data: events } = await db
+                .from('gsr_events')
+                .select('*')
+                .gte('event_date', todayStr)
+                .order('event_date', { ascending: true })
+                .limit(1);
+
+            if (events && events.length > 0) {
+                const ev = events[0];
+                document.getElementById('nextEventDateTag').innerText = `${ev.event_date} • ${ev.event_time}`;
+                document.getElementById('nextEventTitle').innerText = ev.title;
+                document.getElementById('nextEventDesc').innerText = ev.description || ev.category;
+            } else {
+                document.getElementById('nextEventDateTag').innerText = "Schedule Notice";
+                document.getElementById('nextEventTitle').innerText = "No Upcoming Events";
+                document.getElementById('nextEventDesc').innerText = "Check back soon or open the calendar to schedule new events.";
+            }
+
+            // 3. Load Live Team Comms Chat Stream
+            const chatStream = document.getElementById('teamHubChatStream');
+            const { data: chats } = await db.from('gsr_chats').select('*').eq('channel', 'team').order('created_at', { ascending: false }).limit(5);
+            if (chats && chats.length > 0) {
+                chatStream.innerHTML = '';
+                chats.reverse().forEach(c => {
+                    chatStream.innerHTML += `<div><span class="text-brand-blue font-bold uppercase">[${escapeHtml(c.display_name)}]:</span> <span class="text-gray-300">${escapeHtml(c.message)}</span></div>`;
+                });
+            } else {
+                chatStream.innerHTML = `<span class="text-gray-500">[ No team chat transmissions yet ]</span>`;
+            }
+        }
+
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+
+        window.onload = initTeamsHub;
+    </script>
 </body>
 </html>
