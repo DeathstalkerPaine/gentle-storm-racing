@@ -117,7 +117,7 @@
     </main>
 
 
-       <!-- SUPABASE ENGINE -->
+          <!-- SUPABASE ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
@@ -134,27 +134,8 @@
                 console.warn("Supabase Access Blocked or Error:", error.message);
             }
 
+            // Pull strictly from Supabase. No fake fallbacks overriding your zeros.
             liveProfiles = data || [];
-
-            // FALLBACK: If the database is empty or blocked by RLS, load ONLY your profile.
-            if (liveProfiles.length === 0) {
-                liveProfiles = [
-                    { 
-                        sl_legacy_name: "Deathstalker Paine", 
-                        team: "Storm Riders", 
-                        rating: 1250, 
-                        wins: 45, 
-                        losses: 12, 
-                        draws: 1, 
-                        dmg_dealt: 18500, 
-                        dmg_taken: 9200, 
-                        role: "pro_plus", 
-                        best_lap: "0:38.210", 
-                        best_course: "1:18.420" 
-                    }
-                ];
-            }
-
             renderTable();
         }
 
@@ -187,7 +168,7 @@
                         if (!teamStats[team]) {
                             teamStats[team] = { name: team, pts: 0, wins: 0, losses: 0, draws: 0, dmgOut: 0, dmgIn: 0 };
                         }
-                        teamStats[team].pts += (p.rating || 500);
+                        teamStats[team].pts += (p.rating || 0);
                         teamStats[team].wins += (p.wins || 0);
                         teamStats[team].losses += (p.losses || 0);
                         teamStats[team].draws += (p.draws || p.dsq || 0);
@@ -199,7 +180,7 @@
                 const teams = Object.values(teamStats).sort((a,b) => b.pts - a.pts);
 
                 if (teams.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="9" class="py-12 text-center text-gray-500 font-mono uppercase tracking-widest">[ NO SYNDICATE TELEMETRY FOUND FOR THIS QUERY ]</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="9" class="py-12 text-center text-gray-500 font-mono uppercase tracking-widest">[ NO SYNDICATE TELEMETRY FOUND ]</td></tr>`;
                     return;
                 }
 
@@ -239,7 +220,7 @@
             }
 
             if (displayData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" class="py-12 text-center text-gray-500 font-mono uppercase tracking-widest">[ NO RACER TELEMETRY FOUND FOR THIS QUERY ]</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" class="py-12 text-center text-gray-500 font-mono uppercase tracking-widest">[ NO RACER TELEMETRY FOUND ]</td></tr>`;
                 return;
             }
 
@@ -266,7 +247,7 @@
                             <div class="font-black text-white uppercase text-sm hover:text-brand-gold transition">${escapeHtml(name)}</div>
                             <div class="font-bold text-[9px] text-gray-500 uppercase">${escapeHtml(team)}</div>
                         </td>
-                        <td class="py-4 px-4 text-center font-black text-brand-gold text-base bg-brand-gold/5">${(row.rating || 500).toLocaleString()}</td>
+                        <td class="py-4 px-4 text-center font-black text-brand-gold text-base bg-brand-gold/5">${(row.rating || 0).toLocaleString()}</td>
                         <td class="py-4 px-4 text-center font-black text-white">${winPct}</td>
                         <td class="py-4 px-4 text-center font-bold text-gray-400"><span class="text-white">${wins}</span> - ${losses} - <span class="text-gray-500">${draws}</span></td>
                         <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${bestLap}</td>
