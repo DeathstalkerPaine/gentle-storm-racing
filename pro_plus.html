@@ -191,7 +191,7 @@
                 </div>
             </div>
 
-            <!-- STANDINGS: TOP 5 PRO PLUS RACERS -->
+            <!-- STANDINGS: TOP 5 PRO PLUS RACERS (DYNAMIC FROM DATABASE) -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between h-full relative group shadow-xl">
                 <div>
                     <!-- Header -->
@@ -200,74 +200,16 @@
                             <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest">Standings</span>
                             <h3 class="text-lg font-black uppercase text-white mt-1">Top Racers</h3>
                         </div>
-                        <span class="text-[8px] text-gray-500 uppercase tracking-widest text-right">Story & Progression</span>
+                        <span class="text-[8px] text-gray-500 uppercase tracking-widest text-right">Supabase Synced</span>
                     </div>
                     
                     <p class="text-[10px] text-gray-400 mb-4 italic leading-relaxed">
-                        Top racers based on story campaign progression, XP earned, and alignment status.
+                        Top racers based on live driver ratings and active telemetry.
                     </p>
 
-                    <!-- Top 5 List -->
-                    <div class="space-y-2">
-                        <!-- Rank 1 -->
-                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2 rounded border border-brand-gold shadow-md">
-                            <div class="flex items-center gap-3">
-                                <span class="bg-brand-gold text-black font-black text-[10px] w-5 h-5 flex items-center justify-center rounded-full">1</span>
-                                <div>
-                                    <span class="text-white text-[10px] font-black uppercase flex items-center gap-1.5">Deathstalker Paine <span class="w-1.5 h-1.5 rounded-full bg-brand-red inline-block shadow-[0_0_5px_#ff2a2a]" title="Bad Alignment"></span></span>
-                                    <span class="text-gray-500 text-[8px] uppercase font-mono block mt-0.5">Chapter 7 • 🪙 4,500</span>
-                                </div>
-                            </div>
-                            <span class="text-brand-gold text-[10px] font-black">12,500 XP</span>
-                        </div>
-
-                        <!-- Rank 2 -->
-                        <div class="flex justify-between items-center bg-[#111] px-3 py-2 rounded border border-brand-border">
-                            <div class="flex items-center gap-3">
-                                <span class="bg-gray-300 text-black font-black text-[10px] w-5 h-5 flex items-center justify-center rounded-full">2</span>
-                                <div>
-                                    <span class="text-gray-300 text-[10px] font-black uppercase flex items-center gap-1.5">Vortex_SL <span class="w-1.5 h-1.5 rounded-full bg-brand-blue inline-block shadow-[0_0_5px_#2a75ff]" title="Good Alignment"></span></span>
-                                    <span class="text-gray-500 text-[8px] uppercase font-mono block mt-0.5">Chapter 6 • 🪙 3,800</span>
-                                </div>
-                            </div>
-                            <span class="text-white text-[10px] font-black">10,200 XP</span>
-                        </div>
-
-                        <!-- Rank 3 -->
-                        <div class="flex justify-between items-center bg-[#111] px-3 py-2 rounded border border-brand-border">
-                            <div class="flex items-center gap-3">
-                                <span class="bg-amber-700 text-white font-black text-[10px] w-5 h-5 flex items-center justify-center rounded-full">3</span>
-                                <div>
-                                    <span class="text-gray-400 text-[10px] font-black uppercase flex items-center gap-1.5">BlazeRunner <span class="w-1.5 h-1.5 rounded-full bg-brand-gold inline-block" title="Neutral Alignment"></span></span>
-                                    <span class="text-gray-500 text-[8px] uppercase font-mono block mt-0.5">Chapter 6 • 🪙 3,100</span>
-                                </div>
-                            </div>
-                            <span class="text-gray-400 text-[10px] font-black">9,400 XP</span>
-                        </div>
-
-                        <!-- Rank 4 -->
-                        <div class="flex justify-between items-center bg-brand-bg/50 px-3 py-2 rounded border border-brand-border/50">
-                            <div class="flex items-center gap-3">
-                                <span class="text-gray-600 font-black text-[10px] w-5 h-5 flex items-center justify-center">4</span>
-                                <div>
-                                    <span class="text-gray-500 text-[10px] font-black uppercase">PhantomDriver</span>
-                                    <span class="text-gray-600 text-[8px] uppercase font-mono block mt-0.5">Chapter 5</span>
-                                </div>
-                            </div>
-                            <span class="text-gray-500 text-[10px] font-black">7,100 XP</span>
-                        </div>
-
-                        <!-- Rank 5 -->
-                        <div class="flex justify-between items-center bg-brand-bg/50 px-3 py-2 rounded border border-brand-border/50">
-                            <div class="flex items-center gap-3">
-                                <span class="text-gray-600 font-black text-[10px] w-5 h-5 flex items-center justify-center">5</span>
-                                <div>
-                                    <span class="text-gray-500 text-[10px] font-black uppercase">NeonSpectre</span>
-                                    <span class="text-gray-600 text-[8px] uppercase font-mono block mt-0.5">Chapter 4</span>
-                                </div>
-                            </div>
-                            <span class="text-gray-500 text-[10px] font-black">6,800 XP</span>
-                        </div>
+                    <!-- Top 5 List Container -->
+                    <div id="topRacersContainer" class="space-y-2">
+                        <div class="text-xs text-gray-500 text-center font-mono py-6">[ Fetching driver telemetry... ]</div>
                     </div>
                 </div>
                 
@@ -338,7 +280,7 @@
         </div>
     </div>
 
-    <!-- SUPABASE NATIVE ENGINE FOR PRO PLUS WITH DRAWER -->
+    <!-- SUPABASE NATIVE ENGINE FOR PRO PLUS WITH DYNAMIC RACERS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
@@ -424,9 +366,69 @@
                 }
             }
 
-            // 2. Load Chat & Start Realtime
+            // 2. Load Top 5 Racers from Supabase Database
+            loadTopProPlusRacers();
+
+            // 3. Load Chat & Start Realtime
             loadWideChatWidget();
             subscribeToProPlusRealtime();
+        }
+
+        async function loadTopProPlusRacers() {
+            const container = document.getElementById('topRacersContainer');
+            if (!container) return;
+
+            const { data: drivers, error } = await db
+                .from('gsr_profiles')
+                .select('*')
+                .order('rating', { ascending: false })
+                .limit(5);
+
+            if (error || !drivers || drivers.length === 0) {
+                container.innerHTML = `<div class="text-xs text-gray-500 text-center font-mono py-4">[ No registered drivers found ]</div>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            drivers.forEach((driver, idx) => {
+                const rank = idx + 1;
+                const name = driver.sl_legacy_name || 'RATING DRIVER';
+                const rating = driver.rating || 500;
+                const wins = driver.wins || 0;
+                const team = driver.team || driver.team_name || 'Independent';
+                
+                // Color formatting for top 3 badges
+                let rankBadgeBg = "bg-brand-bg/50 text-gray-500 border border-brand-border/50";
+                let rankNumColor = "text-gray-600";
+                let cardStyle = "bg-brand-bg/50 border border-brand-border/50";
+
+                if (rank === 1) {
+                    rankBadgeBg = "bg-brand-gold text-black";
+                    rankNumColor = "text-black";
+                    cardStyle = "bg-brand-bg border border-brand-gold shadow-md";
+                } else if (rank === 2) {
+                    rankBadgeBg = "bg-gray-300 text-black";
+                    rankNumColor = "text-black";
+                    cardStyle = "bg-[#111] border border-brand-border";
+                } else if (rank === 3) {
+                    rankBadgeBg = "bg-amber-700 text-white";
+                    rankNumColor = "text-white";
+                    cardStyle = "bg-[#111] border border-brand-border";
+                }
+
+                container.innerHTML += `
+                    <div class="flex justify-between items-center px-3 py-2 rounded ${cardStyle}">
+                        <div class="flex items-center gap-3 truncate">
+                            <span class="${rankBadgeBg} font-black text-[10px] w-5 h-5 flex items-center justify-center rounded-full shrink-0">${rank}</span>
+                            <div class="truncate">
+                                <a href="racer.html?driver=${encodeURIComponent(name)}" class="text-white text-[10px] font-black uppercase hover:text-brand-gold transition truncate block">${escapeHtml(name)}</a>
+                                <span class="text-gray-500 text-[8px] uppercase font-mono block mt-0.5 truncate">Team: ${escapeHtml(team)} • 🏆 ${wins} Wins</span>
+                            </div>
+                        </div>
+                        <span class="text-brand-gold text-[10px] font-black shrink-0 font-mono">${rating.toLocaleString()} PTS</span>
+                    </div>
+                `;
+            });
         }
 
         async function switchWideWidgetChannel(channel) {
