@@ -97,10 +97,30 @@
             const allProfiles = profiles || [];
 
             const teamMap = {};
+            
+            // Ensure Storm Riders is always present by default with your mockup stats
+            teamMap["Storm Riders"] = { 
+                name: "Storm Riders", 
+                pts: 12500, 
+                wins: 45, 
+                count: 1, 
+                leader: "Deathstalker Paine",
+                isDefault: true 
+            };
+
+            // Aggregate other teams from Supabase profiles
             allProfiles.forEach(p => {
                 const tName = p.team_name || p.team || 'Unassigned';
                 if (tName !== 'Unassigned' && tName.trim() !== '') {
-                    if (!teamMap[tName]) teamMap[tName] = { name: tName, pts: 0, wins: 0, count: 0, leader: p.sl_legacy_name };
+                    if (!teamMap[tName]) {
+                        teamMap[tName] = { name: tName, pts: 0, wins: 0, count: 0, leader: p.sl_legacy_name || 'Leader' };
+                    } else if (teamMap[tName].isDefault) {
+                        // Update default Storm Riders stats with real DB info if available
+                        teamMap[tName].pts += (p.rating || 0);
+                        teamMap[tName].wins += (p.wins || 0);
+                        teamMap[tName].count += 1;
+                        return;
+                    }
                     teamMap[tName].pts += (p.rating || 500);
                     teamMap[tName].wins += (p.wins || 0);
                     teamMap[tName].count += 1;
@@ -136,6 +156,7 @@
             const statusVal = document.getElementById('statusFilter').value;
 
             const filtered = allTeamsCache.filter(t => {
+                if (t.isPlaceholder) return true; // Keep placeholders visible unless searching specifically
                 const matchesSearch = t.name.toLowerCase().includes(searchVal);
                 const matchesLetter = selectedLetter === 'ALL' || t.name.toUpperCase().startsWith(selectedLetter);
                 const isRecruiting = t.count < 4;
@@ -149,53 +170,81 @@
 
         function renderTeams(teams) {
             const grid = document.getElementById('teamDirectoryGrid');
-            if (teams.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-12">[ No matching syndicates found ]</div>`;
-                return;
+            grid.innerHTML = '';
+
+            // Combine active teams + pad out with placeholders until we hit 16 total slots (matching your mockup)
+            let displayList = [...teams];
+            while (displayList.length < 16) {
+                displayList.push({ isPlaceholder: true });
             }
 
-            grid.innerHTML = '';
-            teams.forEach(t => {
-                const encodedName = encodeURIComponent(t.name);
-                const isRecruiting = t.count < 4;
-                const badgeHtml = isRecruiting 
-                    ? `<span class="bg-green-500 text-black font-black text-[8px] uppercase px-2 py-0.5 rounded animate-pulse">● Recruiting</span>`
-                    : `<span class="bg-gray-700 text-gray-300 font-black text-[8px] uppercase px-2 py-0.5 rounded">Roster Full</span>`;
-
-                grid.innerHTML += `
-                    <div class="bg-[#0a0a0a] border border-brand-gold rounded-xl p-4 flex flex-col justify-between group shadow-[0_0_15px_rgba(197,160,89,0.1)]">
-                        <div>
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="bg-brand-red text-white text-[8px] font-black uppercase px-2 py-0.5 rounded">PRO PLUS LEAGUE</span>
-                                ${badgeHtml}
-                            </div>
-                            
-                            <div class="h-32 bg-[#111] rounded-lg border border-brand-border flex flex-col items-center justify-center mb-4 group-hover:border-brand-gold transition cursor-pointer" onclick="window.location='team.html?name=${encodedName}'">
-                                <h3 class="text-lg font-black uppercase text-white tracking-widest text-center px-2">${escapeHtml(t.name)}</h3>
-                            </div>
-                            
-                            <h3 class="text-sm font-black uppercase text-white tracking-wider">${escapeHtml(t.name)}</h3>
-                            <span class="text-[9px] text-gray-500 uppercase mt-1 block tracking-wider">Leader: <span class="text-brand-red">${escapeHtml(t.leader || 'Leader')}</span></span>
-                            
-                            <div class="grid grid-cols-3 text-center mt-4 border-t border-brand-border pt-4">
-                                <div>
-                                    <span class="block text-[8px] text-gray-600 font-bold uppercase tracking-widest mb-1">POINTS</span>
-                                    <span class="text-xs font-black text-brand-gold">${t.pts.toLocaleString()}</span>
+            displayList.forEach(t => {
+                if (t.isPlaceholder) {
+                    // Render Empty / Pending Syndicate Placeholder Card
+                    grid.innerHTML += `
+                        <div class="bg-[#0a0a0a]/50 border border-brand-border/40 rounded-xl p-4 flex flex-col justify-between opacity-50">
+                            <div>
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="bg-gray-800 text-gray-500 text-[8px] font-black uppercase px-2 py-0.5 rounded">UNRANKED</span>
+                                    <span class="text-gray-600 font-black text-[8px] uppercase tracking-widest">CLOSED</span>
                                 </div>
-                                <div>
-                                    <span class="block text-[8px] text-gray-600 font-bold uppercase tracking-widest mb-1">WINS</span>
-                                    <span class="text-xs font-black text-white">${t.wins}</span>
+                                <div class="h-32 bg-[#111]/40 rounded-lg border border-brand-border/30 flex flex-col items-center justify-center mb-4">
+                                    <span class="text-[9px] text-gray-600 font-mono uppercase tracking-widest">REGISTRATION PENDING</span>
                                 </div>
-                                <div>
-                                    <span class="block text-[8px] text-gray-600 font-bold uppercase tracking-widest mb-1">ROSTER</span>
-                                    <span class="text-xs font-black text-white">${t.count}/4</span>
+                                <h3 class="text-sm font-black uppercase text-gray-500 tracking-wider">PENDING SYNDICATE</h3>
+                                <span class="text-[9px] text-gray-600 uppercase mt-1 block tracking-wider">Leader: TBD</span>
+                                <div class="grid grid-cols-3 text-center mt-4 border-t border-brand-border/40 pt-4 text-gray-600">
+                                    <div><span class="block text-[8px] font-bold uppercase mb-1">POINTS</span><span class="text-xs font-black">0</span></div>
+                                    <div><span class="block text-[8px] font-bold uppercase mb-1">WINS</span><span class="text-xs font-black">0</span></div>
+                                    <div><span class="block text-[8px] font-bold uppercase mb-1">ROSTER</span><span class="text-xs font-black">0/4</span></div>
                                 </div>
                             </div>
+                            <div class="mt-4 block w-full text-center bg-[#111]/30 border border-brand-border/30 text-gray-600 text-[9px] font-black uppercase py-2.5 rounded tracking-widest cursor-not-allowed">SLOT AVAILABLE</div>
                         </div>
+                    `;
+                } else {
+                    // Render Active Team Card
+                    const encodedName = encodeURIComponent(t.name);
+                    const isRecruiting = t.count < 4;
+                    const badgeHtml = isRecruiting 
+                        ? `<span class="bg-green-500 text-black font-black text-[8px] uppercase px-2 py-0.5 rounded animate-pulse">● Recruiting</span>`
+                        : `<span class="bg-gray-700 text-gray-300 font-black text-[8px] uppercase px-2 py-0.5 rounded">Roster Full</span>`;
 
-                        <a href="team.html?name=${encodedName}" class="mt-4 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[9px] font-black uppercase py-2.5 rounded tracking-widest">VIEW TEAM PROFILE →</a>
-                    </div>
-                `;
+                    grid.innerHTML += `
+                        <div class="bg-[#0a0a0a] border border-brand-gold rounded-xl p-4 flex flex-col justify-between group shadow-[0_0_15px_rgba(197,160,89,0.1)]">
+                            <div>
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="bg-brand-red text-white text-[8px] font-black uppercase px-2 py-0.5 rounded">PRO PLUS LEAGUE</span>
+                                    ${badgeHtml}
+                                </div>
+                                
+                                <div class="h-32 bg-[#111] rounded-lg border border-brand-border flex flex-col items-center justify-center mb-4 group-hover:border-brand-gold transition cursor-pointer" onclick="window.location='team.html?name=${encodedName}'">
+                                    <h3 class="text-lg font-black uppercase text-white tracking-widest text-center px-2">${escapeHtml(t.name)}</h3>
+                                </div>
+                                
+                                <h3 class="text-sm font-black uppercase text-white tracking-wider">${escapeHtml(t.name)}</h3>
+                                <span class="text-[9px] text-gray-500 uppercase mt-1 block tracking-wider">Leader: <span class="text-brand-red">${escapeHtml(t.leader || 'Leader')}</span></span>
+                                
+                                <div class="grid grid-cols-3 text-center mt-4 border-t border-brand-border pt-4">
+                                    <div>
+                                        <span class="block text-[8px] text-gray-600 font-bold uppercase tracking-widest mb-1">POINTS</span>
+                                        <span class="text-xs font-black text-brand-gold">${t.pts.toLocaleString()}</span>
+                                    </div>
+                                    <div>
+                                        <span class="block text-[8px] text-gray-600 font-bold uppercase tracking-widest mb-1">WINS</span>
+                                        <span class="text-xs font-black text-white">${t.wins}</span>
+                                    </div>
+                                    <div>
+                                        <span class="block text-[8px] text-gray-600 font-bold uppercase tracking-widest mb-1">ROSTER</span>
+                                        <span class="text-xs font-black text-white">${t.count}/4</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="team.html?name=${encodedName}" class="mt-4 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[9px] font-black uppercase py-2.5 rounded tracking-widest">VIEW TEAM PROFILE →</a>
+                        </div>
+                    `;
+                }
             });
         }
 
