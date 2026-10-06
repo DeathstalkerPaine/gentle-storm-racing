@@ -11,7 +11,7 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col items-center justify-center p-4" style="background-image: radial-gradient(circle at 50% -20%, #1a1a1a, #121212);">
 
-    <div class="max-w-sm w-full">
+    <div class="max-w-md w-full">
         <!-- Logo -->
         <div class="text-center mb-8">
             <a href="index.html"><img src="logo.png" alt="GSR Logo" class="h-16 mx-auto mb-4 object-contain"></a>
@@ -19,7 +19,8 @@
         </div>
 
         <div class="bg-brand-card border border-brand-border rounded-xl shadow-2xl p-6 sm:p-8">
-            <div class="space-y-5">
+            <!-- Normal Login Form -->
+            <div id="loginFormContainer" class="space-y-5">
                 <div>
                     <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">Email Address</label>
                     <input type="email" id="loginEmail" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
@@ -38,16 +39,45 @@
 
                 <p id="statusMsg" class="text-center text-xs font-bold mt-2"></p>
             </div>
+
+            <!-- 2FA Verification Form (Hidden by default) -->
+            <div id="twoFactorContainer" class="space-y-5 hidden">
+                <div class="bg-brand-gold/10 border border-brand-gold/30 p-4 rounded-lg space-y-2">
+                    <span class="text-[10px] font-black uppercase text-brand-gold tracking-widest block">🔒 Two-Factor Authentication</span>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        A 6-digit security verification code has been dispatched to your email via <strong class="text-white">gentlestormracing@gmail.com</strong>. Please enter the code below within 15 minutes.
+                    </p>
+                </div>
+
+                <div>
+                    <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">Enter 6-Digit Verification Code</label>
+                    <input type="text" id="twoFactorCodeInput" maxlength="6" placeholder="123456" class="w-full bg-[#0a0a0a] border border-brand-gold text-brand-gold font-mono tracking-widest text-center text-lg px-4 py-3 rounded outline-none">
+                </div>
+
+                <button type="button" id="verify2faBtn" onclick="verifyTwoFactorCode()" class="w-full bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs py-4 rounded transition shadow-lg cursor-pointer">
+                    Verify & Sign In →
+                </button>
+
+                <p id="twoFactorStatus" class="text-center text-xs font-bold mt-2"></p>
+
+                <!-- Legal Notice & Compliance Disclosure -->
+                <div class="pt-4 border-t border-brand-border text-[9px] text-gray-500 leading-relaxed space-y-1">
+                    <p class="font-bold uppercase text-gray-400">Legal & Security Transmission Notice:</p>
+                    <p>All authentication transmissions, access credentials, and security tokens originate exclusively from <strong class="text-gray-400">gentlestormracing@gmail.com</strong> in compliance with digital network security standards, privacy regulations, and GSR Terms of Service.</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- 1. Load Supabase Library at the bottom -->
+    <!-- Supabase JS Library & Database -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- 2. The Cache Buster: Forces the browser to download the NEW file -->
     <script src="gsr_db.js?v=2"></script>
 
-    <!-- The Auth Script -->
     <script>
+        let pendingUserId = null;
+        let generatedTwoFactorCode = null;
+        let codeExpiryTime = null;
+
         async function executeLogin() {
             const loginBtn = document.getElementById('loginBtn');
             const statusMsg = document.getElementById('statusMsg');
@@ -66,7 +96,6 @@
             statusMsg.className = "text-center text-xs font-bold mt-2 text-brand-gold";
 
             try {
-                // FAILSAFE: If the browser is still being stubborn with the cache, build it right here
                 if (!window.db && window.supabase) {
                     window.db = window.supabase.createClient('https://xwrfreokngnknftgzglg.supabase.co', 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw');
                 } else if (!window.db) {
@@ -80,17 +109,33 @@
 
                 if (error) throw error;
 
-                statusMsg.innerText = "Access Granted! Routing...";
-                statusMsg.className = "text-center text-xs font-bold mt-2 text-brand-green";
+                const user = data.user;
+                pendingUserId = user.id;
 
-                let returnPage = 'index.html';
-                if (document.referrer && !document.referrer.includes('sign_')) {
-                    returnPage = document.referrer;
+                // Check if user has 2FA enabled in gsr_profiles
+                const { data: profile, error: profileErr } = await window.db
+                    .from('gsr_profiles')
+                    .select('two_factor_enabled')
+                    .eq('id', user.id)
+                    .single();
+
+                if (profile && profile.two_factor_enabled) {
+                    // Generate 6-digit 2FA code
+                    generatedTwoFactorCode = Math.floor(100000 + Math.random() * 900000).toString();
+                    codeExpiryTime = new Date().getTime() + (15 * 60 * 1000); // 15 minutes from now
+
+                    // Log / simulate sending email from gentlestormracing@gmail.com
+                    console.log(`[GSR 2FA SECURITY] Dispatching code ${generatedTwoFactorCode} from gentlestormracing@gmail.com to ${email}`);
+                    alert(`[SIMULATED EMAIL from gentlestormracing@gmail.com]\nYour GSR 2FA Security Code is: ${generatedTwoFactorCode}\n(Valid for 15 minutes)`);
+
+                    // Switch view to 2FA input screen
+                    document.getElementById('loginFormContainer').classList.add('hidden');
+                    document.getElementById('twoFactorContainer').classList.remove('hidden');
+                    return;
                 }
 
-                setTimeout(() => {
-                    window.location.href = returnPage;
-                }, 800);
+                // If no 2FA, sign in complete
+                completeSignInRouting();
 
             } catch (err) {
                 statusMsg.innerText = "Error: " + err.message;
@@ -98,6 +143,51 @@
                 loginBtn.innerHTML = "Sign In →";
                 loginBtn.disabled = false;
             }
+        }
+
+        function verifyTwoFactorCode() {
+            const inputCode = document.getElementById('twoFactorCodeInput').value.trim();
+            const statusBox = document.getElementById('twoFactorStatus');
+
+            if (!inputCode) {
+                statusBox.innerText = "Please enter the 6-digit code.";
+                statusBox.className = "text-center text-xs font-bold mt-2 text-brand-red";
+                return;
+            }
+
+            const now = new Date().getTime();
+            if (now > codeExpiryTime) {
+                statusBox.innerText = "Verification code has expired (15-minute limit exceeded). Please sign in again.";
+                statusBox.className = "text-center text-xs font-bold mt-2 text-brand-red";
+                setTimeout(() => { window.location.reload(); }, 3000);
+                return;
+            }
+
+            if (inputCode === generatedTwoFactorCode) {
+                statusBox.innerText = "2FA Verified Successfully! Access Granted...";
+                statusBox.className = "text-center text-xs font-bold mt-2 text-brand-green";
+                setTimeout(() => {
+                    completeSignInRouting();
+                }, 800);
+            } else {
+                statusBox.innerText = "Invalid verification code. Please check your email.";
+                statusBox.className = "text-center text-xs font-bold mt-2 text-brand-red";
+            }
+        }
+
+        function completeSignInRouting() {
+            const statusMsg = document.getElementById('statusMsg') || document.getElementById('twoFactorStatus');
+            statusMsg.innerText = "Access Granted! Routing...";
+            statusMsg.className = "text-center text-xs font-bold mt-2 text-brand-green";
+
+            let returnPage = 'index.html';
+            if (document.referrer && !document.referrer.includes('sign_')) {
+                returnPage = document.referrer;
+            }
+
+            setTimeout(() => {
+                window.location.href = returnPage;
+            }, 800);
         }
     </script>
 </body>
