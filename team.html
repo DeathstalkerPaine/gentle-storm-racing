@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Storm Riders | Official Team Card</title>
+    <title>Team Profile | Gentle Storm Racing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,15 +11,7 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            bg: '#121212',
-                            card: '#151515',
-                            border: '#333333',
-                            gold: '#c5a059',
-                            red: '#ff2a2a',
-                            blue: '#2a75ff',
-                            green: '#10B981'
-                        }
+                        brand: { bg: '#121212', card: '#151515', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' }
                     }
                 }
             }
@@ -30,11 +22,7 @@
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #2a75ff; }
-        
-        .card-foil-border {
-            background: linear-gradient(135deg, #2a75ff 0%, #112a55 25%, #121212 50%, #112a55 75%, #2a75ff 100%);
-            padding: 2px;
-        }
+        .card-foil-border { background: linear-gradient(135deg, #2a75ff 0%, #112a55 25%, #121212 50%, #112a55 75%, #2a75ff 100%); padding: 2px; }
         .card-texture { background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 2px, transparent 2px, transparent 4px); }
     </style>
 </head>
@@ -48,7 +36,7 @@
             </div>
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Official Team Card</span>
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">STORM RIDERS</h1>
+                <h1 id="pageTeamTitleHeader" class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">LOADING...</h1>
             </div>
 
             <!-- Dynamic User Auth Header -->
@@ -63,24 +51,14 @@
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
-            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
-            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
-            <a href="racers_profiles.html" class="text-gray-300 hover:text-brand-gold transition">Racers Profile</a>
-            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Racer Leaderboard</a>
             <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams Hub</a>
             <a href="teams_profiles.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">Teams Profile</a>
-            <a href="team_leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Team Leaderboards</a>
-            <a href="team_events.html" class="text-gray-300 hover:text-brand-gold transition">Team Events</a>
-            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">League</a>
-            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
             <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
         </div>
     </nav>
 
     <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-5xl w-full mx-auto py-10 px-4">
-        
         <div class="flex justify-between items-center mb-6">
             <a href="teams_profiles.html" class="inline-flex items-center text-xs text-gray-400 hover:text-white transition uppercase font-bold">
                 &larr; Back to Directory
@@ -102,13 +80,10 @@
                     <div class="absolute top-4 right-6 z-10 flex flex-col items-end gap-2">
                         <div class="flex gap-2">
                             <span class="bg-black/80 text-brand-blue border border-brand-blue font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg">Pro Plus League Syndicate</span>
-                            <!-- Interactive Badge for Leader -->
-                            <button id="recruitmentBadge" onclick="toggleRecruitmentStatus()" class="bg-green-500 text-black border border-green-300 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg animate-pulse transition cursor-default">
-                                ● Recruiting Drivers
+                            <button id="recruitmentBadge" onclick="toggleRecruitmentStatus()" class="bg-gray-700 text-gray-300 border border-gray-500 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg transition cursor-default">
+                                ✖ Checking Status
                             </button>
                         </div>
-                        
-                        <!-- APPLY BUTTON PLACED RIGHT UNDER RECRUITING BADGE (Top-Right Area) -->
                         <div id="bannerApplyContainer"></div>
                     </div>
                 </div>
@@ -116,7 +91,6 @@
                 <!-- 2. Header Box: Logo, Identity, Trophies -->
                 <div class="px-8 pb-6 relative border-b border-brand-border">
                     <div class="flex flex-col md:flex-row items-start md:items-end justify-between -mt-20 gap-6 relative z-10">
-                        
                         <!-- Team Logo Box -->
                         <div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-[#0a0a0a] shadow-2xl flex items-center justify-center shrink-0">
                             <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Logo Pending<br>Approval</span>
@@ -125,18 +99,16 @@
                         <!-- Identity -->
                         <div class="flex-1 pt-20 md:pt-0">
                             <div class="flex flex-wrap items-baseline gap-3">
-                                <h2 class="text-4xl lg:text-5xl font-black text-white tracking-tight uppercase">Storm Riders</h2>
+                                <h2 id="cardTeamTitle" class="text-4xl lg:text-5xl font-black text-white tracking-tight uppercase">LOADING...</h2>
                                 <span class="text-brand-blue text-sm lg:text-base font-black uppercase tracking-[0.2em] italic">"The Desert Scorpions"</span>
                             </div>
                             
-                            <!-- Team Trophies -->
                             <div class="flex gap-2 mt-2">
                                 <span class="bg-gradient-to-br from-yellow-400 to-yellow-700 text-black text-[9px] font-black uppercase px-2 py-1 rounded border border-yellow-300 shadow">🏆 Pro Constructor '26</span>
-                                <span class="bg-gradient-to-br from-blue-500 to-blue-900 text-white text-[9px] font-black uppercase px-2 py-1 rounded border border-blue-400 shadow">🛡️ Highest Defense</span>
                             </div>
 
                             <p class="text-gray-400 text-xs mt-3 font-bold uppercase">
-                                Team Leader: <a href="racer.html?driver=Deathstalker%20Paine" class="text-brand-red hover:text-brand-gold transition">Deathstalker Paine</a> 
+                                Team Leader: <span id="teamLeaderDisplay" class="text-brand-red font-black">Scanning database...</span>
                             </p>
                         </div>
 
@@ -153,70 +125,12 @@
                 <div class="p-8 border-b border-brand-border bg-black/20">
                     <h3 class="text-[10px] font-black uppercase tracking-wider text-gray-500 mb-2">Team Manifesto</h3>
                     <p class="text-gray-300 italic text-sm leading-relaxed border-l-2 border-brand-blue pl-4">
-                        "Built for speed, high-precision telemetry execution, and track dominance. The Storm Riders recruit only the most aggressive pilots in the Second Life grid."
+                        "Built for speed, high-precision telemetry execution, and track dominance. We recruit only the most aggressive pilots in the grid."
                     </p>
                 </div>
 
-                <!-- 4. Multi-Column Dashboard -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-brand-border">
-                    
-                    <!-- LEFT/MIDDLE: Telemetry Engine (2/3 width) -->
-                    <div class="p-8 lg:col-span-2 space-y-8 bg-black/20">
-                        <div class="flex flex-col sm:flex-row gap-4 items-center bg-brand-bg border border-brand-border p-3 rounded-xl">
-                            <span class="text-[10px] font-black uppercase text-gray-500 pl-2">Syndicate Telemetry:</span>
-                            <select id="classFilter" class="w-full sm:w-auto bg-brand-card border border-brand-border text-white text-[10px] font-bold uppercase px-3 py-2 rounded outline-none focus:border-brand-blue transition cursor-pointer" onchange="updateStats()">
-                                <option value="pro_plus">Pro Plus League Aggregate</option>
-                                <option value="pro">Pro League Aggregate</option>
-                                <option value="amateur">Amateur League Aggregate</option>
-                            </select>
-                            <select id="trackFilter" class="w-full sm:w-auto bg-brand-card border border-brand-border text-white text-[10px] font-bold uppercase px-3 py-2 rounded outline-none focus:border-brand-blue transition cursor-pointer" onchange="updateStats()">
-                                <option value="all">All Tracks</option>
-                                <option value="vegas">Las Vegas Strip</option>
-                                <option value="rome">Ancient Rome</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-3 flex items-center gap-2">
-                                <div class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></div> Live Constructor Statistics
-                            </h3>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Total Wins</span><span id="stat-wins" class="text-xl font-black text-brand-gold">0</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Total Losses</span><span id="stat-losses" class="text-xl font-black text-white">0</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Total Points</span><span id="stat-pts" class="text-xl font-black text-white">0</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Syndicate XP</span><span id="stat-xp" class="text-xl font-black text-brand-blue">0</span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- RIGHT COLUMN: LIVE GSR COMMS WIDGET -->
-                    <div class="p-8 lg:col-span-1 flex flex-col justify-between h-full bg-brand-bg">
-                        <div>
-                            <div class="flex justify-between items-center mb-3 border-b border-brand-border pb-2">
-                                <span class="text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-1.5">
-                                    <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> 💬 GSR Comms
-                                </span>
-                                <select id="teamChatSelector" onchange="switchTeamChannel(this.value)" class="bg-brand-card border border-brand-border text-brand-blue text-[9px] font-black uppercase px-2 py-1 rounded outline-none cursor-pointer">
-                                    <option value="team" selected>🛡️ Team Chat</option>
-                                    <option value="global">🌐 Global Feed</option>
-                                    <option value="following">👥 Following</option>
-                                    <option value="pro_plus">⭐ Pro Plus</option>
-                                </select>
-                            </div>
-                            <div id="teamChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 my-2 space-y-2 h-44 overflow-y-auto flex flex-col justify-end text-[10px]">
-                                <div class="text-[10px] text-gray-500 text-center block my-auto">[ Syncing comms... ]</div>
-                            </div>
-                        </div>
-                        <div class="pt-3 border-t border-brand-border mt-4">
-                            <button onclick="toggleDrawer(true)" class="w-full bg-brand-card border border-brand-border hover:border-brand-blue text-brand-blue hover:text-white transition text-[9px] font-black uppercase py-2.5 rounded tracking-wider shadow cursor-pointer">
-                                OPEN DRAWER TO REPLY ↵
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 5. DYNAMIC DRIVER ROSTER GRID -->
-                <div class="p-8 border-t border-brand-border bg-black/40">
+                <!-- 4. DYNAMIC DRIVER ROSTER GRID -->
+                <div class="p-8 border-b border-brand-border bg-black/40">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> Active Team Roster
@@ -224,7 +138,37 @@
                         <span class="text-[9px] text-gray-500 font-mono uppercase">Verified Drivers Only</span>
                     </div>
                     <div id="teamRosterGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                        <div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Fetching team drivers... ]</div>
+                        <div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Fetching team drivers from database... ]</div>
+                    </div>
+                </div>
+
+                <!-- 5. Dashboard Grid (Stats & Chat) -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-brand-border">
+                    <div class="p-8 lg:col-span-2 space-y-8 bg-black/20">
+                        <div>
+                            <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-3 flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></div> Constructor Statistics
+                            </h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Wins</span><span class="text-xl font-black text-brand-gold">85</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Losses</span><span class="text-xl font-black text-white">30</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Points</span><span class="text-xl font-black text-white">12,500</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">XP</span><span class="text-xl font-black text-brand-blue">95k</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-8 lg:col-span-1 flex flex-col justify-between h-full bg-brand-bg">
+                        <div>
+                            <div class="flex justify-between items-center mb-3 border-b border-brand-border pb-2">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> 💬 GSR Comms
+                                </span>
+                            </div>
+                            <div id="teamChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 my-2 space-y-2 h-44 overflow-y-auto flex flex-col justify-end text-[10px]">
+                                <div class="text-[10px] text-gray-500 text-center block my-auto">[ Syncing comms... ]</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -232,35 +176,14 @@
         </div>
     </main>
 
-    <!-- SLIDE-OUT DRAWER OVERLAY & PANEL -->
-    <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
-    <div id="chatDrawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-brand-card border-l border-brand-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-        <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
-            <div>
-                <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
-                <p id="drawerChannelName" class="text-[10px] text-brand-blue uppercase">Channel: 🛡️ Team Chat</p>
-            </div>
-            <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition cursor-pointer">✕</button>
-        </div>
-        <div id="drawerMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-[#111]">
-             <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching logs... ]</div>
-        </div>
-        <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
-            <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-blue transition">
-            <button onclick="sendDrawerMessage()" id="drawerSendBtn" class="bg-brand-blue hover:bg-blue-600 text-white font-black uppercase text-[10px] px-4 py-2.5 rounded transition cursor-pointer">Send</button>
-        </div>
-    </div>
-
-    <!-- RECRUITMENT APPLICATION MODAL -->
+    <!-- APPLICATION MODAL -->
     <div id="applicationModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
         <div class="bg-brand-card border border-brand-gold rounded-xl max-w-md w-full p-6 shadow-2xl relative">
             <button onclick="closeModals()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg font-black uppercase">✕</button>
             <h2 class="text-lg font-black uppercase text-white border-b border-brand-border pb-3 mb-4">Submit Roster Application</h2>
-            
             <p class="text-xs text-gray-300 mb-4 leading-relaxed">
                 By submitting this application, your racer telemetry card will be transmitted directly to the Team Leader for review.
             </p>
-
             <div class="bg-[#0a0a0a] border border-brand-border rounded-lg p-4 mb-6 flex items-center gap-4">
                 <div class="w-12 h-12 bg-[#111] rounded border border-brand-border flex items-center justify-center text-[8px] text-gray-600">PHOTO</div>
                 <div>
@@ -268,66 +191,63 @@
                     <span class="text-[10px] text-gray-500 uppercase tracking-widest">Free Agent Pilot</span>
                 </div>
             </div>
-
             <div class="flex gap-3">
-                <button onclick="closeModals()" class="flex-1 bg-brand-bg border border-brand-border hover:border-gray-500 text-xs font-bold uppercase text-gray-300 py-3 rounded transition">Cancel</button>
+                <button onclick="closeModals()" class="flex-1 bg-brand-bg border border-brand-border hover:border-gray-500 text-xs font-bold uppercase text-gray-300 py-3 rounded transition cursor-pointer">Cancel</button>
                 <button onclick="submitApplication()" class="flex-1 bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs py-3 rounded transition shadow-lg cursor-pointer">Confirm & Send →</button>
             </div>
         </div>
     </div>
 
-    <!-- SUPABASE ENGINE & SCRIPTS -->
+    <!-- SUPABASE ENGINE & DYNAMIC LOGIC -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const pageTeamName = "Storm Riders";
-
-        window.toggleDrawer = function(show) {
-            const drawer = document.getElementById('chatDrawer');
-            const overlay = document.getElementById('drawerOverlay');
-            if (!drawer || !overlay) return;
-            if (show) {
-                overlay.classList.remove('hidden');
-                void overlay.offsetWidth;
-                overlay.classList.remove('opacity-0');
-                drawer.classList.remove('translate-x-full');
-            } else {
-                overlay.classList.add('opacity-0');
-                drawer.classList.add('translate-x-full');
-                setTimeout(() => { overlay.classList.add('hidden'); }, 300);
-            }
-        };
+        // Set fallback to Storm Riders, but allows dynamic generation if clicked from a Team Directory link
+        const urlParams = new URLSearchParams(window.location.search);
+        const pageTeamName = urlParams.get('name') ? decodeURIComponent(urlParams.get('name')) : "Storm Riders";
+        
+        document.getElementById('pageTeamTitleHeader').innerText = pageTeamName;
+        document.getElementById('cardTeamTitle').innerText = pageTeamName;
 
         const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
         const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
         const db = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        let activeTeamChannel = 'team';
         let currentUser = null;
-        let currentProfile = null;
+        let displayName = "";
         let isVerifiedTeamMember = false;
         let isTeamLeader = false;
         let teamIsRecruiting = true; // Default ON
-        let displayName = "";
-        let isFollowing = false;
 
-        const channelNames = { team: '🛡️ Team Chat', global: '🌐 Global Feed', following: '👥 Following', pro_plus: '⭐ Pro Plus' };
-
+        // --- 1. DYNAMIC ROSTER PULL FROM DB ---
         async function renderTeamRoster() {
             const grid = document.getElementById('teamRosterGrid');
-            if (!grid) return;
-            grid.innerHTML = `<div class="col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 text-center text-xs text-gray-500 font-mono py-4">[ Fetching team drivers... ]</div>`;
+            const leaderDisplay = document.getElementById('teamLeaderDisplay');
 
-            const { data: drivers, error } = await db.from('gsr_profiles').select('*').ilike('team', pageTeamName);
+            // Pull drivers directly from the 'racers' table dynamically
+            const { data: drivers, error } = await db
+                .from('racers')
+                .select('racer_name, car_number, role')
+                .ilike('team_name', pageTeamName);
+
             if (error || !drivers || drivers.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ No drivers found ]</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ No drivers assigned to this team yet ]</div>`;
+                if (leaderDisplay) leaderDisplay.innerText = "Unassigned";
                 return;
             }
 
             grid.innerHTML = '';
+            let foundLeaderName = "Unassigned";
+
             drivers.forEach(driver => {
-                const driverName = driver.username || driver.sl_legacy_name || 'UNKNOWN DRIVER';
-                const driverNum = driver.car_number ? `#${driver.car_number}` : '#13';
+                const driverName = driver.racer_name || 'UNKNOWN DRIVER';
+                const driverNum = driver.car_number ? `#${driver.car_number}` : '#--';
                 const role = driver.role || 'PRO LEAGUE';
+                
+                // Track leader for header display
+                if (role.toLowerCase().includes('leader')) {
+                    foundLeaderName = driverName;
+                }
+
                 const profileUrl = `racer.html?driver=${encodeURIComponent(driverName)}`;
 
                 grid.innerHTML += `
@@ -341,100 +261,120 @@
                                 <span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest text-center">PHOTO</span>
                             </div>
                             <h4 class="text-[11px] font-black uppercase text-white tracking-wider truncate">${escapeHtml(driverName)}</h4>
-                            <span class="text-[8px] text-gray-500 uppercase block tracking-wider truncate">Team: <span class="text-gray-300">${pageTeamName}</span></span>
                         </div>
                         <a href="${profileUrl}" class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-300 hover:border-brand-blue hover:text-white transition text-[8px] font-black uppercase py-1.5 rounded tracking-wider">VIEW PROFILE →</a>
                     </div>
                 `;
             });
+
+            if (leaderDisplay) {
+                leaderDisplay.innerHTML = foundLeaderName !== "Unassigned" 
+                    ? `<a href="racer.html?driver=${encodeURIComponent(foundLeaderName)}" class="hover:text-brand-gold transition underline">${escapeHtml(foundLeaderName)}</a>`
+                    : "Unassigned";
+            }
         }
 
+        // --- 2. AUTHENTICATION (FIXED DATABASE COLUMNS) ---
         async function initTeamCardPage() {
+            const { data: { session } } = await db.auth.getSession();
+            if (session && session.user) {
+                await handleAuthUser(session.user);
+            }
+
             db.auth.onAuthStateChange(async (event, session) => {
-                const userNav = document.getElementById('userNav');
-                
                 if (session && session.user) {
-                    currentUser = session.user;
-                    const { data: profile } = await db
-                        .from('gsr_profiles')
-                        .select('username, sl_legacy_name, team_name, team, role')
-                        .eq('id', currentUser.id)
-                        .single();
-
-                    currentProfile = profile;
-                    displayName = profile?.username || profile?.sl_legacy_name || currentUser.email.split('@')[0];
-                    
-                    const userTeam = profile?.team_name || profile?.team || "Unassigned";
-                    isVerifiedTeamMember = (userTeam.toLowerCase() === pageTeamName.toLowerCase());
-
-                    if (isVerifiedTeamMember && profile?.role === 'leader') {
-                        isTeamLeader = true;
-                    } else if (displayName.toLowerCase() === 'deathstalker paine' && pageTeamName.toLowerCase() === 'storm riders') {
-                        isTeamLeader = true;
-                    }
-
-                    if (userNav) {
-                        userNav.innerHTML = `
-                            <div class="text-right hidden sm:block">
-                                <span class="block text-xs font-black text-white uppercase">${displayName}</span>
-                                <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
-                                </span>
-                            </div>
-                            <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
-                        `;
-                    }
+                    await handleAuthUser(session.user);
                 } else {
                     currentUser = null;
                     isVerifiedTeamMember = false;
                     isTeamLeader = false;
-                    if (userNav) {
-                        userNav.innerHTML = `
-                            <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
-                            <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
-                        `;
-                    }
+                    updateHeaderAuthUI();
+                    renderBannerControls();
                 }
-                
-                renderBannerControls();
-                loadTeamChatWidget();
             });
 
             renderTeamRoster();
         }
 
-        // Render Top Banner Apply / Leader Review Controls
+        async function handleAuthUser(user) {
+            currentUser = user;
+            
+            // Step 1: Securely pull name using UUID from gsr_profiles
+            const { data: profile } = await db
+                .from('gsr_profiles')
+                .select('display_name')
+                .eq('uuid', currentUser.id)
+                .single();
+
+            displayName = profile?.display_name || currentUser.email.split('@')[0];
+            
+            // Step 2: Dynamically query the 'racers' table to check team membership and role
+            const { data: racerProfile } = await db
+                .from('racers')
+                .select('team_name, role')
+                .ilike('racer_name', displayName)
+                .single();
+
+            const userTeam = racerProfile?.team_name || "";
+            const userRole = racerProfile?.role || "";
+
+            // Step 3: Determine UI flags securely from DB data
+            isVerifiedTeamMember = (userTeam.toLowerCase() === pageTeamName.toLowerCase());
+            isTeamLeader = isVerifiedTeamMember && userRole.toLowerCase().includes('leader');
+
+            updateHeaderAuthUI();
+            renderBannerControls();
+        }
+
+        function updateHeaderAuthUI() {
+            const userNav = document.getElementById('userNav');
+            if (!userNav) return;
+
+            if (currentUser) {
+                userNav.innerHTML = `
+                    <div class="text-right hidden sm:block">
+                        <span class="block text-xs font-black text-white uppercase">${escapeHtml(displayName)}</span>
+                        <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
+                        </span>
+                    </div>
+                    <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
+                `;
+            } else {
+                userNav.innerHTML = `
+                    <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
+                    <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
+                `;
+            }
+        }
+
+        // --- 3. RECRUITMENT UI ---
         function renderBannerControls() {
             const container = document.getElementById('bannerApplyContainer');
             const badge = document.getElementById('recruitmentBadge');
             if (!container || !badge) return;
 
-            // Update badge appearance & interactivity based on leadership
             if (isTeamLeader) {
                 badge.className = teamIsRecruiting 
                     ? "bg-green-500 text-black border border-green-300 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg animate-pulse transition cursor-pointer hover:bg-green-400"
                     : "bg-red-600 text-white border border-red-400 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg transition cursor-pointer hover:bg-red-500";
                 badge.innerText = teamIsRecruiting ? "● Recruiting Drivers (Click to Toggle)" : "✖ Roster Closed (Click to Open)";
-                badge.title = "Click to toggle recruitment ON/OFF";
             } else {
                 badge.className = teamIsRecruiting 
                     ? "bg-green-500 text-black border border-green-300 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg animate-pulse transition cursor-default"
-                    : "bg-red-600 text-white border border-red-400 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg transition cursor-default";
+                    : "bg-gray-700 text-gray-300 border border-gray-500 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg transition cursor-default";
                 badge.innerText = teamIsRecruiting ? "● Recruiting Drivers" : "✖ Roster Closed";
-                badge.title = "";
             }
 
             let html = '';
 
             if (teamIsRecruiting) {
                 if (isTeamLeader) {
-                    // Leader sees button to review incoming applications
-                    html += `<a href="recruitment.html" class="bg-brand-blue hover:bg-blue-600 text-white font-black uppercase text-[9px] px-3 py-1.5 rounded shadow transition flex items-center gap-1.5 border border-brand-blue">
+                    html += `<a href="recruitment.html?team=${encodeURIComponent(pageTeamName)}" class="bg-brand-blue hover:bg-blue-600 text-white font-black uppercase text-[9px] px-3 py-1.5 rounded shadow transition flex items-center gap-1.5 border border-brand-blue cursor-pointer">
                         📋 Review Applications
                     </a>`;
                 } else if (currentUser && !isVerifiedTeamMember) {
-                    // Regular signed-in user sees Apply button
-                    html += `<button onclick="openApplicationModal()" class="bg-green-600 hover:bg-green-500 text-black font-black uppercase text-[9px] px-3 py-1.5 rounded shadow transition flex items-center gap-1.5">
+                    html += `<button onclick="openApplicationModal()" class="bg-green-600 hover:bg-green-500 text-black font-black uppercase text-[9px] px-3 py-1.5 rounded shadow transition flex items-center gap-1.5 cursor-pointer">
                         📝 Apply for Roster
                     </button>`;
                 }
@@ -457,8 +397,6 @@
 
         async function submitApplication() {
             if (!currentUser) return;
-            
-            // Save to Supabase gsr_applications table
             const { error } = await db.from('gsr_applications').insert([{
                 user_id: currentUser.id,
                 applicant_name: displayName,
@@ -466,7 +404,7 @@
             }]);
 
             if (error) {
-                alert("Application submission note: " + error.message);
+                alert("Application error: " + error.message);
             } else {
                 alert("Your roster application has been successfully transmitted to the Team Leader!");
             }
@@ -478,39 +416,6 @@
             document.getElementById('applicationModal').classList.remove('flex');
         }
 
-        async function loadTeamChatWidget() {
-            const feed = document.getElementById('teamChatFeed');
-            const drawerFeed = document.getElementById('drawerMessages');
-            
-            const { data } = await db.from('gsr_chats').select('*').eq('channel', 'team').order('created_at', { ascending: false }).limit(20);
-            if (!data || data.length === 0) {
-                const emptyMsg = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No transmissions ]</div>`;
-                if (feed) feed.innerHTML = emptyMsg;
-                if (drawerFeed) drawerFeed.innerHTML = emptyMsg;
-                return;
-            }
-
-            const messages = data.reverse();
-            if (feed) {
-                feed.innerHTML = '';
-                messages.slice(-5).forEach(msg => {
-                    feed.innerHTML += `<div class="text-[10px] leading-snug truncate"><span class="font-black text-brand-blue uppercase">[${escapeHtml(msg.display_name)}]:</span> <span class="text-gray-300">${escapeHtml(msg.message)}</span></div>`;
-                });
-                feed.scrollTop = feed.scrollHeight;
-            }
-        }
-
-        async function sendDrawerMessage() {
-            if (!currentUser) return alert("Sign in required.");
-            const input = document.getElementById('drawerInput');
-            const val = input.value.trim();
-            if (!val) return;
-
-            await db.from('gsr_chats').insert([{ user_id: currentUser.id, display_name: displayName, message: val, channel: 'team' }]);
-            input.value = '';
-            loadTeamChatWidget();
-        }
-
         async function executeSignOut() {
             await db.auth.signOut();
             window.location.reload(); 
@@ -518,40 +423,7 @@
 
         function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
 
-        let isFollowing = false;
-        function toggleFollow() {
-            if (!currentUser) { alert("Sign in required."); return; }
-            isFollowing = !isFollowing;
-            const btn = document.getElementById('followBtn');
-            if(isFollowing) {
-                btn.innerHTML = 'Following Syndicate ✓';
-                btn.className = "w-full md:w-auto bg-brand-blue border border-brand-blue text-black text-[10px] font-black uppercase px-6 py-2.5 rounded transition shadow";
-            } else {
-                btn.innerHTML = 'Follow Syndicate +';
-                btn.className = "w-full md:w-auto bg-brand-bg border border-brand-border hover:border-brand-blue text-gray-400 hover:text-white text-[10px] font-black uppercase px-6 py-2.5 rounded transition shadow";
-            }
-        }
-
-        const statsData = {
-            'pro_plus': { 'all': { w: 85, l: 30, pts: 12500, xp: 95000 }, 'vegas': { w: 30, l: 10, pts: 4500, xp: 32000 }, 'rome': { w: 25, l: 8, pts: 3800, xp: 28000 } },
-            'pro': { 'all': { w: 42, l: 15, pts: 6200, xp: 45000 }, 'vegas': { w: 18, l: 5, pts: 2100, xp: 18000 }, 'rome': { w: 12, l: 4, pts: 1800, xp: 14000 } },
-            'amateur': { 'all': { w: 12, l: 20, pts: 850, xp: 8500 }, 'vegas': { w: 6, l: 8, pts: 400, xp: 4000 }, 'rome': { w: 4, l: 5, pts: 300, xp: 3000 } }
-        };
-
-        function updateStats() {
-            const classVal = document.getElementById('classFilter').value;
-            const trackVal = document.getElementById('trackFilter').value;
-            const data = statsData[classVal][trackVal] || { w: 0, l: 0, pts: 0, xp: 0 };
-            document.getElementById('stat-wins').innerText = data.w;
-            document.getElementById('stat-losses').innerText = data.l;
-            document.getElementById('stat-pts').innerText = data.pts.toLocaleString();
-            document.getElementById('stat-xp').innerText = data.xp.toLocaleString();
-        }
-
-        window.onload = function() {
-            initTeamCardPage();
-            updateStats();
-        };
+        window.onload = initTeamCardPage;
     </script>
 </body>
 </html>
