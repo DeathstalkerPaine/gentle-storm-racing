@@ -36,10 +36,9 @@
             </div>
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Official Team Card</span>
-                <h1 id="pageTeamTitleHeader" class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">LOADING...</h1>
+                <h1 id="pageTeamTitleHeader" class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">STORM RIDERS</h1>
             </div>
 
-            <!-- Dynamic User Auth Header -->
             <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2">
                 <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
                 <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
@@ -69,51 +68,42 @@
             </div>
         </div>
 
-        <!-- THE TEAM TRADING CARD WRAPPER -->
         <div class="card-foil-border rounded-2xl shadow-[0_0_40px_rgba(42,117,255,0.15)] relative">
             <div class="bg-brand-card rounded-[14px] overflow-hidden relative card-texture">
                 
-                <!-- 1. Banner & Status Badge (Recruitment Control Top-Right) -->
+                <!-- 1. Banner -->
                 <div class="h-64 w-full bg-cover bg-center relative border-b border-brand-border" style="background-image: url('stormriders-banner.jpg'); background-color: #111a22;">
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
-                    
                     <div class="absolute top-4 right-6 z-10 flex flex-col items-end gap-2">
                         <div class="flex gap-2">
                             <span class="bg-black/80 text-brand-blue border border-brand-blue font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg">Pro Plus League Syndicate</span>
-                            <button id="recruitmentBadge" onclick="toggleRecruitmentStatus()" class="bg-gray-700 text-gray-300 border border-gray-500 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg transition cursor-default">
-                                ✖ Checking Status
+                            <button id="recruitmentBadge" onclick="toggleRecruitmentStatus()" class="bg-green-500 text-black border border-green-300 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg animate-pulse transition cursor-default">
+                                ● Recruiting Drivers
                             </button>
                         </div>
                         <div id="bannerApplyContainer"></div>
                     </div>
                 </div>
 
-                <!-- 2. Header Box: Logo, Identity, Trophies -->
+                <!-- 2. Header Box -->
                 <div class="px-8 pb-6 relative border-b border-brand-border">
                     <div class="flex flex-col md:flex-row items-start md:items-end justify-between -mt-20 gap-6 relative z-10">
-                        <!-- Team Logo Box -->
                         <div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-[#0a0a0a] shadow-2xl flex items-center justify-center shrink-0">
                             <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Logo Pending<br>Approval</span>
                         </div>
-
-                        <!-- Identity -->
                         <div class="flex-1 pt-20 md:pt-0">
                             <div class="flex flex-wrap items-baseline gap-3">
-                                <h2 id="cardTeamTitle" class="text-4xl lg:text-5xl font-black text-white tracking-tight uppercase">LOADING...</h2>
+                                <h2 id="cardTeamTitle" class="text-4xl lg:text-5xl font-black text-white tracking-tight uppercase">STORM RIDERS</h2>
                                 <span class="text-brand-blue text-sm lg:text-base font-black uppercase tracking-[0.2em] italic">"The Desert Scorpions"</span>
                             </div>
-                            
                             <div class="flex gap-2 mt-2">
                                 <span class="bg-gradient-to-br from-yellow-400 to-yellow-700 text-black text-[9px] font-black uppercase px-2 py-1 rounded border border-yellow-300 shadow">🏆 Pro Constructor '26</span>
                             </div>
-
                             <p class="text-gray-400 text-xs mt-3 font-bold uppercase">
-                                Team Leader: <span id="teamLeaderDisplay" class="text-brand-red font-black">Scanning database...</span>
+                                Team Leader: <span id="teamLeaderDisplay" class="text-brand-red font-black">UNASSIGNED</span>
                             </p>
                         </div>
-
-                        <!-- Follow Button -->
-                        <div class="flex flex-col items-end gap-3 w-full md:w-auto" id="teamActionButtons">
+                        <div class="flex flex-col items-end gap-3 w-full md:w-auto">
                             <button id="followBtn" class="w-full md:w-auto bg-brand-bg border border-brand-border hover:border-brand-blue hover:text-white text-gray-400 text-[10px] font-black uppercase px-6 py-2.5 rounded transition shadow" onclick="toggleFollow()">
                                 Follow Syndicate +
                             </button>
@@ -121,7 +111,7 @@
                     </div>
                 </div>
 
-                <!-- 3. Bio Section -->
+                <!-- 3. Manifesto -->
                 <div class="p-8 border-b border-brand-border bg-black/20">
                     <h3 class="text-[10px] font-black uppercase tracking-wider text-gray-500 mb-2">Team Manifesto</h3>
                     <p class="text-gray-300 italic text-sm leading-relaxed border-l-2 border-brand-blue pl-4">
@@ -129,21 +119,8 @@
                     </p>
                 </div>
 
-                <!-- 4. DYNAMIC DRIVER ROSTER GRID -->
-                <div class="p-8 border-b border-brand-border bg-black/40">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> Active Team Roster
-                        </h3>
-                        <span class="text-[9px] text-gray-500 font-mono uppercase">Verified Drivers Only</span>
-                    </div>
-                    <div id="teamRosterGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                        <div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Fetching team drivers from database... ]</div>
-                    </div>
-                </div>
-
-                <!-- 5. Dashboard Grid (Stats & Chat) -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-brand-border">
+                <!-- 4. Dashboard Grid (Stats & Chat) -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-brand-border border-b border-brand-border">
                     <div class="p-8 lg:col-span-2 space-y-8 bg-black/20">
                         <div>
                             <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-3 flex items-center gap-2">
@@ -169,6 +146,19 @@
                                 <div class="text-[10px] text-gray-500 text-center block my-auto">[ Syncing comms... ]</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- 5. ACTIVE TEAM ROSTER (MOVED TO BOTTOM ROW) -->
+                <div class="p-8 bg-black/40">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> Active Team Roster
+                        </h3>
+                        <span class="text-[9px] text-gray-500 font-mono uppercase">Verified Drivers Only</span>
+                    </div>
+                    <div id="teamRosterGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                        <div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Fetching team drivers from database... ]</div>
                     </div>
                 </div>
 
@@ -198,14 +188,11 @@
         </div>
     </div>
 
-      <!-- SUPABASE ENGINE (MATCHED TO ACTUAL DB SCHEMA) -->
+    <!-- SUPABASE ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const pageTeamName = urlParams.get('name') ? decodeURIComponent(urlParams.get('name')) : "Storm Riders";
-        
-        document.getElementById('pageTeamTitleHeader').innerText = pageTeamName;
-        document.getElementById('cardTeamTitle').innerText = pageTeamName;
 
         const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
         const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
@@ -215,25 +202,20 @@
         let displayName = "";
         let isVerifiedTeamMember = false;
         let isTeamLeader = false;
-        let teamIsRecruiting = true; // Default ON
+        let teamIsRecruiting = true;
         let currentTeamId = null;
 
-        // --- 1. PULL ROSTER USING TEAM_MEMBERS & RACERS ---
         async function renderTeamRoster() {
             const grid = document.getElementById('teamRosterGrid');
             const leaderDisplay = document.getElementById('teamLeaderDisplay');
 
-            // Find the team ID from the teams table
-            const { data: teamData } = await db.from('teams').select('id').eq('name', pageTeamName).single();
-            
+            const { data: teamData } = await db.from('teams').select('id, name').eq('name', pageTeamName).single();
             if (!teamData) {
-                grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Team not found in database ]</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Team not found ]</div>`;
                 return;
             }
-            
             currentTeamId = teamData.id;
 
-            // Pull the roster by joining team_members with racers
             const { data: drivers, error } = await db
                 .from('team_members')
                 .select('role, racers(display_name, racer_number)')
@@ -284,9 +266,8 @@
             }
         }
 
-        // --- 2. AUTHENTICATION (EXACT MATCH TO INDEX.HTML) ---
         async function initTeamCardPage() {
-            await renderTeamRoster(); // Load roster and team ID first
+            await renderTeamRoster();
 
             const { data: { session } } = await db.auth.getSession();
             if (session && session.user) {
@@ -309,7 +290,6 @@
         async function handleAuthUser(user) {
             currentUser = user;
             
-            // From your index.html - checking gsr_profiles
             const { data: profile } = await db
                 .from('gsr_profiles')
                 .select('sl_legacy_name')
@@ -317,14 +297,15 @@
                 .single();
 
             displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
-            
-            // Check if this user is explicitly in the team_members table for this team
-            if (currentTeamId) {
+
+            // Match user name against racer table & team_members
+            const { data: racer } = await db.from('racers').select('id').eq('display_name', displayName).single();
+            if (racer && currentTeamId) {
                 const { data: memberRecord } = await db
                     .from('team_members')
                     .select('role')
                     .eq('team_id', currentTeamId)
-                    .eq('racer_id', currentUser.id)
+                    .eq('racer_id', racer.id)
                     .single();
 
                 if (memberRecord) {
@@ -361,7 +342,6 @@
             }
         }
 
-        // --- 3. RECRUITMENT UI LOGIC ---
         function renderBannerControls() {
             const container = document.getElementById('bannerApplyContainer');
             const badge = document.getElementById('recruitmentBadge');
@@ -410,7 +390,6 @@
 
         async function submitApplication() {
             if (!currentUser) return;
-            
             const { error } = await db.from('gsr_applications').insert([{
                 user_id: currentUser.id,
                 applicant_name: displayName,
