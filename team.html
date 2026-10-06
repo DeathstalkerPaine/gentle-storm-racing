@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">Storm Riders | Official Team Card</title>
+    <title>Storm Riders | Official Team Card</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -31,6 +31,7 @@
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #2a75ff; }
         
+        /* Custom Trading Card Border Foil Effect */
         .card-foil-border {
             background: linear-gradient(135deg, #2a75ff 0%, #112a55 25%, #121212 50%, #112a55 75%, #2a75ff 100%);
             padding: 2px;
@@ -44,91 +45,6 @@
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
-                <a href="index.html"><img src="logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
+                <a href="index.html"><img src="h-logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
             </div>
-            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
-                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Official Team Card</span>
-                <h1 id="pageTeamHeader" class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">STORM RIDERS</h1>
-            </div>
-
-            <!-- Dynamic User Auth Header -->
-            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2">
-                <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
-                <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
-            </div>
-        </div>
-    </header>
-
-    <!-- SUB-NAVBAR -->
-    <nav class="bg-brand-bg border-b border-brand-border py-3">
-        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
-            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams Hub</a>
-            <a href="teams_profiles.html" class="text-gray-300 hover:text-brand-gold transition">Team Directory</a>
-            <a href="#" class="text-brand-gold transition underline decoration-2 underline-offset-4">Team Profile</a>
-        </div>
-    </nav>
-
-    <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-5xl w-full mx-auto py-10 px-4">
-        
-        <div class="flex justify-between items-center mb-6">
-            <a href="teams_profiles.html" class="inline-flex items-center text-xs text-gray-400 hover:text-white transition uppercase font-bold">
-                &larr; Back to Directory
-            </a>
-            <div class="bg-brand-card border border-brand-border px-4 py-2 rounded-lg shadow text-center">
-                <span class="block text-[9px] uppercase font-bold text-gray-500">Syndicate Points</span>
-                <span class="text-xl font-black text-brand-gold">12,500 <span class="text-[10px] text-white uppercase">PTS</span></span>
-            </div>
-        </div>
-
-        <!-- THE TEAM TRADING CARD WRAPPER -->
-        <div class="card-foil-border rounded-2xl shadow-[0_0_40px_rgba(42,117,255,0.15)] relative">
-            <div class="bg-brand-card rounded-[14px] overflow-hidden relative card-texture">
-                
-                <!-- 1. Banner & Status Badge -->
-                <div class="h-64 w-full bg-cover bg-center relative border-b border-brand-border" style="background-image: url('stormriders-banner.jpg'); background-color: #111a22;">
-                    <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
-                    
-                    <div class="absolute top-4 right-6 z-10 flex gap-2">
-                        <span class="bg-black/80 text-brand-blue border border-brand-blue font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg">Pro Plus League Syndicate</span>
-                        <span id="recruitmentBadge" class="bg-green-500 text-black border border-green-300 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg animate-pulse">● Recruiting Drivers</span>
-                    </div>
-                </div>
-
-                <!-- 2. Header Box: Logo, Identity, Trophies -->
-                <div class="px-8 pb-6 relative border-b border-brand-border">
-                    <div class="flex flex-col md:flex-row items-start md:items-end justify-between -mt-20 gap-6 relative z-10">
-                        
-                        <!-- Team Logo Box -->
-                        <div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-[#0a0a0a] shadow-2xl flex items-center justify-center shrink-0">
-                            <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Logo Pending<br>Approval</span>
-                        </div>
-
-                        <!-- Identity -->
-                        <div class="flex-1 pt-20 md:pt-0">
-                            <div class="flex flex-wrap items-baseline gap-3">
-                                <h2 id="cardTeamTitle" class="text-4xl lg:text-5xl font-black text-white tracking-tight uppercase">Storm Riders</h2>
-                                <span class="text-brand-blue text-sm lg:text-base font-black uppercase tracking-[0.2em] italic">"The Desert Scorpions"</span>
-                            </div>
-                            
-                            <!-- Team Trophies -->
-                            <div class="flex gap-2 mt-2">
-                                <span class="bg-gradient-to-br from-yellow-400 to-yellow-700 text-black text-[9px] font-black uppercase px-2 py-1 rounded border border-yellow-300 shadow">🏆 Pro Constructor '26</span>
-                            </div>
-
-                            <p class="text-gray-400 text-xs mt-3 font-bold uppercase">
-                                Team Leader: <a href="racer.html?driver=Deathstalker%20Paine" class="text-brand-red hover:text-brand-gold transition">Deathstalker Paine</a> 
-                            </p>
-                        </div>
-
-                        <!-- Dynamic Action Buttons (Follow, Apply, or Leader Dashboard) -->
-                        <div id="teamActionButtons" class="flex flex-col items-end gap-2 w-full md:w-auto">
-                            <button class="w-full md:w-auto bg-brand-bg border border-brand-border text-gray-400 text-[10px] font-black uppercase px-6 py-2.5 rounded shadow cursor-wait">Loading...</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 3. Bio Section -->
-                <div class="p-8 border-b border-brand-border bg-black/20">
-                    <h3 class="text-[10px] font-black uppercase tracking-
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-
