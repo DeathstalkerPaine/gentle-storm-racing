@@ -64,7 +64,7 @@
             </a>
             <div class="bg-brand-card border border-brand-border px-4 py-2 rounded-lg shadow text-center">
                 <span class="block text-[9px] uppercase font-bold text-gray-500">Syndicate Points</span>
-                <span class="text-xl font-black text-brand-gold">12,500 <span class="text-[10px] text-white uppercase">PTS</span></span>
+                <span class="text-xl font-black text-brand-gold">0 <span class="text-[10px] text-white uppercase">PTS</span></span>
             </div>
         </div>
 
@@ -77,8 +77,8 @@
                     <div class="absolute top-4 right-6 z-10 flex flex-col items-end gap-2">
                         <div class="flex gap-2">
                             <span class="bg-black/80 text-brand-blue border border-brand-blue font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg">Pro Plus League Syndicate</span>
-                            <button id="recruitmentBadge" onclick="toggleRecruitmentStatus()" class="bg-green-500 text-black border border-green-300 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg animate-pulse transition cursor-default">
-                                ● Recruiting Drivers
+                            <button id="recruitmentBadge" onclick="toggleRecruitmentStatus()" class="bg-gray-700 text-gray-300 border border-gray-500 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg transition cursor-default">
+                                ✖ Checking Status
                             </button>
                         </div>
                         <div id="bannerApplyContainer"></div>
@@ -127,10 +127,10 @@
                                 <div class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></div> Constructor Statistics
                             </h3>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Wins</span><span class="text-xl font-black text-brand-gold">85</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Losses</span><span class="text-xl font-black text-white">30</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Points</span><span class="text-xl font-black text-white">12,500</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">XP</span><span class="text-xl font-black text-brand-blue">95k</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Wins</span><span class="text-xl font-black text-brand-gold">0</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Losses</span><span class="text-xl font-black text-white">0</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Points</span><span class="text-xl font-black text-white">0</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">XP</span><span class="text-xl font-black text-brand-blue">0</span></div>
                             </div>
                         </div>
                     </div>
@@ -141,6 +141,13 @@
                                 <span class="text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-1.5">
                                     <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> 💬 GSR Comms
                                 </span>
+                                <!-- DROPDOWN RESTORED -->
+                                <select id="teamChatSelector" onchange="switchTeamChannel(this.value)" class="bg-brand-card border border-brand-border text-brand-blue text-[9px] font-black uppercase px-2 py-1 rounded outline-none cursor-pointer">
+                                    <option value="team" selected>🛡️ Team Chat</option>
+                                    <option value="global">🌐 Global Feed</option>
+                                    <option value="following">👥 Following</option>
+                                    <option value="pro_plus">⭐ Pro Plus</option>
+                                </select>
                             </div>
                             <div id="teamChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 my-2 space-y-2 h-44 overflow-y-auto flex flex-col justify-end text-[10px]">
                                 <div class="text-[10px] text-gray-500 text-center block my-auto">[ Syncing comms... ]</div>
@@ -149,7 +156,7 @@
                     </div>
                 </div>
 
-                <!-- 5. ACTIVE TEAM ROSTER (MOVED TO BOTTOM ROW) -->
+                <!-- 5. ACTIVE TEAM ROSTER -->
                 <div class="p-8 bg-black/40">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue flex items-center gap-2">
@@ -188,7 +195,7 @@
         </div>
     </div>
 
-                <!-- SUPABASE ENGINE (DIRECT QUERY NO JOINS) -->
+    <!-- SUPABASE ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -205,16 +212,16 @@
         let displayName = "";
         let isVerifiedTeamMember = false;
         let isTeamLeader = false;
-        let teamIsRecruiting = true; // Default ON
+        let teamIsRecruiting = true; 
         let currentTeamId = null;
         let currentLeaderId = null;
+        let activeTeamChannel = 'team'; // Restored
 
-        // --- 1. RENDER ROSTER (DIRECTLY FROM RACERS TABLE) ---
+        // --- 1. RENDER ROSTER ---
         async function renderTeamRoster() {
             const grid = document.getElementById('teamRosterGrid');
             const leaderDisplay = document.getElementById('teamLeaderDisplay');
 
-            // 1. Get the team's ID and the exact Leader ID directly from the teams table
             const { data: teamData } = await db.from('teams').select('id, name, leader_user_id').eq('name', pageTeamName).single();
             if (!teamData) {
                 grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Team not found ]</div>`;
@@ -224,7 +231,6 @@
             currentTeamId = teamData.id;
             currentLeaderId = teamData.leader_user_id;
 
-            // 2. Fetch roster directly from the racers table (Bypassing team_members joins)
             const { data: drivers, error } = await db
                 .from('racers')
                 .select('id, display_name, racer_number')
@@ -240,10 +246,9 @@
             let foundLeaderName = "UNASSIGNED";
 
             drivers.forEach(driver => {
-                const driverName = driver.display_name || 'Unknown Pilot';
+                const driverName = (driver.display_name && driver.display_name.trim() !== '') ? driver.display_name : 'Unknown Pilot';
                 const driverNum = driver.racer_number ? `#${driver.racer_number}` : '#--';
                 
-                // Determine if this specific driver is the leader
                 let role = 'PRO LEAGUE';
                 if (currentLeaderId && driver.id === currentLeaderId) {
                     role = 'LEADER';
@@ -279,6 +284,7 @@
         // --- 2. AUTHENTICATION ---
         async function initTeamCardPage() {
             await renderTeamRoster();
+            loadTeamChatWidget(); // Restored
 
             const { data: { session } } = await db.auth.getSession();
             if (session && session.user) {
@@ -301,7 +307,6 @@
         async function handleAuthUser(user) {
             currentUser = user;
             
-            // Get your display name for the top right
             const { data: profile } = await db
                 .from('gsr_profiles')
                 .select('sl_legacy_name')
@@ -310,14 +315,11 @@
 
             displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
 
-            // Direct check against teams and racers tables
             if (currentTeamId) {
-                // Are you the leader?
                 if (currentLeaderId === currentUser.id) {
                     isTeamLeader = true;
                     isVerifiedTeamMember = true;
                 } else {
-                    // If not the leader, are you at least on the team?
                     const { data: racerInfo } = await db
                         .from('racers')
                         .select('primary_team_id')
@@ -422,6 +424,30 @@
         function closeModals() {
             document.getElementById('applicationModal').classList.add('hidden');
             document.getElementById('applicationModal').classList.remove('flex');
+        }
+
+        // --- 4. CHAT FUNCTIONS RESTORED ---
+        function switchTeamChannel(channel) {
+            activeTeamChannel = channel;
+            loadTeamChatWidget();
+        }
+
+        async function loadTeamChatWidget() {
+            const feed = document.getElementById('teamChatFeed');
+            const { data, error } = await db.from('gsr_chats').select('*').eq('channel', activeTeamChannel).order('created_at', { ascending: false }).limit(20);
+            
+            if (error || !data || data.length === 0) {
+                if (feed) feed.innerHTML = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No active transmissions ]</div>`;
+                return;
+            }
+            
+            if (feed) {
+                feed.innerHTML = '';
+                data.reverse().slice(-5).forEach(msg => {
+                    feed.innerHTML += `<div class="text-[10px] leading-snug truncate"><span class="font-black text-brand-blue uppercase">[${escapeHtml(msg.display_name)}]:</span> <span class="text-gray-300">${escapeHtml(msg.message)}</span></div>`;
+                });
+                feed.scrollTop = feed.scrollHeight;
+            }
         }
 
         async function executeSignOut() {
