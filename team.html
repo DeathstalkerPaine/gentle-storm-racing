@@ -119,40 +119,40 @@
                     </p>
                 </div>
 
-                <!-- 4. Dashboard Grid (Stats & Chat) -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-brand-border border-b border-brand-border">
-                    <div class="p-8 lg:col-span-2 space-y-8 bg-black/20">
-                        <div>
-                            <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-3 flex items-center gap-2">
-                                <div class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></div> Constructor Statistics
-                            </h3>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Wins</span><span class="text-xl font-black text-brand-gold">0</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Losses</span><span class="text-xl font-black text-white">0</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Points</span><span class="text-xl font-black text-white">0</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">XP</span><span class="text-xl font-black text-brand-blue">0</span></div>
-                            </div>
+               
+            <!-- GSR CHATS THREADS (LIVE CONNECTED WIDGET WITH DROPDOWN & DRAWER TRIGGER) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 transition flex flex-col justify-between group">
+                <div>
+                    <div class="flex justify-between items-center gap-2">
+                        <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Live Discussion</span>
+                        
+                        <div class="flex items-center gap-2">
+                            <!-- Channel Selector Dropdown -->
+                            <select id="indexChatSelect" onchange="switchIndexChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-brand-gold text-[10px] font-black uppercase px-2 py-1 rounded outline-none focus:border-brand-gold cursor-pointer">
+                                <option value="global" selected>🌐 Global</option>
+                                <option value="following">👥 Following</option>
+                                <option value="team">🛡️ Teams</option>
+                                <option value="pro_plus">⭐ Pro Plus</option>
+                            </select>
+                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"></span>
                         </div>
                     </div>
-
-                    <div class="p-8 lg:col-span-1 flex flex-col justify-between h-full bg-brand-bg">
-                        <div>
-                            <div class="flex justify-between items-center mb-3 border-b border-brand-border pb-2">
-                                <span class="text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-1.5">
-                                    <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> 💬 GSR Comms
-                                </span>
-                                <!-- DROPDOWN RESTORED -->
-                                <select id="teamChatSelector" onchange="switchTeamChannel(this.value)" class="bg-brand-card border border-brand-border text-brand-blue text-[9px] font-black uppercase px-2 py-1 rounded outline-none cursor-pointer">
-                                    <option value="team" selected>🛡️ Team Chat</option>
-                                    <option value="global">🌐 Global Feed</option>
-                                    <option value="following">👥 Following</option>
-                                    <option value="pro_plus">⭐ Pro Plus</option>
-                                </select>
-                            </div>
-                            <div id="teamChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 my-2 space-y-2 h-44 overflow-y-auto flex flex-col justify-end text-[10px]">
-                                <div class="text-[10px] text-gray-500 text-center block my-auto">[ Syncing comms... ]</div>
-                            </div>
-                        </div>
+                    
+                    <h3 class="text-lg font-black uppercase text-white mt-2">GSR Chats Threads</h3>
+                    
+                    <!-- Dynamic Read-Only Feed Box -->
+                    <div id="mainMenuChatFeed" class="bg-brand-bg border border-brand-border rounded-lg p-3 my-3 space-y-2 h-28 overflow-hidden flex flex-col justify-end">
+                        <div class="text-[10px] text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
+                    </div>
+                </div>
+                
+                <div class="pt-3 border-t border-brand-border flex justify-between items-center text-xs">
+                    <a href="chats.html" class="font-bold uppercase text-brand-gold hover:underline text-[10px]">Open Comms Hub →</a>
+                    
+                    <!-- Drawer Trigger Button -->
+                    <button onclick="toggleDrawer(true)" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">
+                        Open Drawer to Reply ↵
+                    </button>
                     </div>
                 </div>
 
