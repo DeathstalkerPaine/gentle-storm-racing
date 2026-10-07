@@ -188,7 +188,7 @@
         </div>
     </div>
 
-       <!-- SUPABASE ENGINE -->
+         <!-- SUPABASE ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -205,10 +205,12 @@
         let teamIsRecruiting = true;
         let currentTeamId = null;
 
+        // --- 1. RENDER ROSTER & FIND LEADER ---
         async function renderTeamRoster() {
             const grid = document.getElementById('teamRosterGrid');
             const leaderDisplay = document.getElementById('teamLeaderDisplay');
 
+            // Find the team's ID
             const { data: teamData } = await db.from('teams').select('id, name').eq('name', pageTeamName).single();
             if (!teamData) {
                 grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Team not found ]</div>`;
@@ -216,10 +218,14 @@
             }
             currentTeamId = teamData.id;
 
-            // Fetch team members joining with the racers table
+            // Fetch roster by connecting team_members to racers based on your actual schema
             const { data: drivers, error } = await db
                 .from('team_members')
-                .select('role, racer_id, racers(display_name, racer_number)')
+                .select(`
+                    role,
+                    racer_id,
+                    racers ( display_name, racer_number )
+                `)
                 .eq('team_id', currentTeamId)
                 .eq('is_active', true);
 
@@ -233,11 +239,11 @@
             let foundLeaderName = "UNASSIGNED";
 
             drivers.forEach(driver => {
-                const driverName = driver.racers?.display_name || 'Deathstalker Paine';
-                const driverNum = driver.racers?.racer_number ? `#${driver.racers.racer_number}` : '#13';
-                const role = driver.role || 'PRO LEAGUE';
+                const driverName = driver.racers?.display_name || 'Unknown Pilot';
+                const driverNum = driver.racers?.racer_number ? `#${driver.racers.racer_number}` : '#--';
+                const role = driver.role ? driver.role.toUpperCase() : 'PRO LEAGUE';
                 
-                if (role.toLowerCase() === 'leader') {
+                if (role === 'LEADER') {
                     foundLeaderName = driverName;
                 }
 
@@ -267,6 +273,7 @@
             }
         }
 
+        // --- 2. AUTHENTICATION (Matching Index.html exactly) ---
         async function initTeamCardPage() {
             await renderTeamRoster();
 
@@ -291,15 +298,16 @@
         async function handleAuthUser(user) {
             currentUser = user;
             
+            // Get your display name for the top right
             const { data: profile } = await db
                 .from('gsr_profiles')
-                .select('sl_legacy_name, display_name')
+                .select('sl_legacy_name')
                 .eq('id', currentUser.id)
                 .single();
 
-            displayName = profile?.sl_legacy_name || profile?.display_name || currentUser.email.split('@')[0];
+            displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
 
-            // Direct check by user ID against team_members.racer_id
+            // SECURITY CHECK: Check if your exact Login ID matches a Racer ID in this team
             if (currentTeamId) {
                 const { data: memberRecord } = await db
                     .from('team_members')
@@ -342,6 +350,7 @@
             }
         }
 
+        // --- 3. RECRUITMENT UI ---
         function renderBannerControls() {
             const container = document.getElementById('bannerApplyContainer');
             const badge = document.getElementById('recruitmentBadge');
@@ -418,5 +427,6 @@
 
         window.onload = initTeamCardPage;
     </script>
+
 </body>
 </html>
