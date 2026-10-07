@@ -36,9 +36,10 @@
             </div>
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Official Team Card</span>
-                <h1 id="pageTeamTitleHeader" class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">STORM RIDERS</h1>
+                <h1 id="pageTeamTitleHeader" class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">LOADING...</h1>
             </div>
 
+            <!-- Dynamic User Auth Header -->
             <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2">
                 <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
                 <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
@@ -64,16 +65,18 @@
             </a>
             <div class="bg-brand-card border border-brand-border px-4 py-2 rounded-lg shadow text-center">
                 <span class="block text-[9px] uppercase font-bold text-gray-500">Syndicate Points</span>
-                <span class="text-xl font-black text-brand-gold">0 <span class="text-[10px] text-white uppercase">PTS</span></span>
+                <span class="text-xl font-black text-brand-gold">12,500 <span class="text-[10px] text-white uppercase">PTS</span></span>
             </div>
         </div>
 
+        <!-- THE TEAM TRADING CARD WRAPPER -->
         <div class="card-foil-border rounded-2xl shadow-[0_0_40px_rgba(42,117,255,0.15)] relative">
             <div class="bg-brand-card rounded-[14px] overflow-hidden relative card-texture">
                 
-                <!-- 1. Banner -->
+                <!-- 1. Banner & Status Badge (Recruitment Control Top-Right) -->
                 <div class="h-64 w-full bg-cover bg-center relative border-b border-brand-border" style="background-image: url('stormriders-banner.jpg'); background-color: #111a22;">
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
+                    
                     <div class="absolute top-4 right-6 z-10 flex flex-col items-end gap-2">
                         <div class="flex gap-2">
                             <span class="bg-black/80 text-brand-blue border border-brand-blue font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg">Pro Plus League Syndicate</span>
@@ -85,25 +88,32 @@
                     </div>
                 </div>
 
-                <!-- 2. Header Box -->
+                <!-- 2. Header Box: Logo, Identity, Trophies -->
                 <div class="px-8 pb-6 relative border-b border-brand-border">
                     <div class="flex flex-col md:flex-row items-start md:items-end justify-between -mt-20 gap-6 relative z-10">
+                        <!-- Team Logo Box -->
                         <div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-[#0a0a0a] shadow-2xl flex items-center justify-center shrink-0">
                             <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Logo Pending<br>Approval</span>
                         </div>
+
+                        <!-- Identity -->
                         <div class="flex-1 pt-20 md:pt-0">
                             <div class="flex flex-wrap items-baseline gap-3">
-                                <h2 id="cardTeamTitle" class="text-4xl lg:text-5xl font-black text-white tracking-tight uppercase">STORM RIDERS</h2>
+                                <h2 id="cardTeamTitle" class="text-4xl lg:text-5xl font-black text-white tracking-tight uppercase">LOADING...</h2>
                                 <span class="text-brand-blue text-sm lg:text-base font-black uppercase tracking-[0.2em] italic">"The Desert Scorpions"</span>
                             </div>
+                            
                             <div class="flex gap-2 mt-2">
                                 <span class="bg-gradient-to-br from-yellow-400 to-yellow-700 text-black text-[9px] font-black uppercase px-2 py-1 rounded border border-yellow-300 shadow">🏆 Pro Constructor '26</span>
                             </div>
+
                             <p class="text-gray-400 text-xs mt-3 font-bold uppercase">
-                                Team Leader: <span id="teamLeaderDisplay" class="text-brand-red font-black">UNASSIGNED</span>
+                                Team Leader: <span id="teamLeaderDisplay" class="text-brand-red font-black">Scanning database...</span>
                             </p>
                         </div>
-                        <div class="flex flex-col items-end gap-3 w-full md:w-auto">
+
+                        <!-- Follow Button -->
+                        <div class="flex flex-col items-end gap-3 w-full md:w-auto" id="teamActionButtons">
                             <button id="followBtn" class="w-full md:w-auto bg-brand-bg border border-brand-border hover:border-brand-blue hover:text-white text-gray-400 text-[10px] font-black uppercase px-6 py-2.5 rounded transition shadow" onclick="toggleFollow()">
                                 Follow Syndicate +
                             </button>
@@ -111,7 +121,7 @@
                     </div>
                 </div>
 
-                <!-- 3. Manifesto -->
+                <!-- 3. Bio Section -->
                 <div class="p-8 border-b border-brand-border bg-black/20">
                     <h3 class="text-[10px] font-black uppercase tracking-wider text-gray-500 mb-2">Team Manifesto</h3>
                     <p class="text-gray-300 italic text-sm leading-relaxed border-l-2 border-brand-blue pl-4">
@@ -119,45 +129,8 @@
                     </p>
                 </div>
 
-               
-            <!-- GSR CHATS THREADS (LIVE CONNECTED WIDGET WITH DROPDOWN & DRAWER TRIGGER) -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 transition flex flex-col justify-between group">
-                <div>
-                    <div class="flex justify-between items-center gap-2">
-                        <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Live Discussion</span>
-                        
-                        <div class="flex items-center gap-2">
-                            <!-- Channel Selector Dropdown -->
-                            <select id="indexChatSelect" onchange="switchIndexChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-brand-gold text-[10px] font-black uppercase px-2 py-1 rounded outline-none focus:border-brand-gold cursor-pointer">
-                                <option value="global" selected>🌐 Global</option>
-                                <option value="following">👥 Following</option>
-                                <option value="team">🛡️ Teams</option>
-                                <option value="pro_plus">⭐ Pro Plus</option>
-                            </select>
-                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"></span>
-                        </div>
-                    </div>
-                    
-                    <h3 class="text-lg font-black uppercase text-white mt-2">GSR Chats Threads</h3>
-                    
-                    <!-- Dynamic Read-Only Feed Box -->
-                    <div id="mainMenuChatFeed" class="bg-brand-bg border border-brand-border rounded-lg p-3 my-3 space-y-2 h-28 overflow-hidden flex flex-col justify-end">
-                        <div class="text-[10px] text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
-                    </div>
-                </div>
-                
-                <div class="pt-3 border-t border-brand-border flex justify-between items-center text-xs">
-                    <a href="chats.html" class="font-bold uppercase text-brand-gold hover:underline text-[10px]">Open Comms Hub →</a>
-                    
-                    <!-- Drawer Trigger Button -->
-                    <button onclick="toggleDrawer(true)" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">
-                        Open Drawer to Reply ↵
-                    </button>
-                    </div>
-                </div>
-
-                <!-- 5. ACTIVE TEAM ROSTER -->
-                <div class="p-8 bg-black/40">
+                <!-- 4. DYNAMIC DRIVER ROSTER GRID -->
+                <div class="p-8 border-b border-brand-border bg-black/40">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> Active Team Roster
@@ -166,6 +139,36 @@
                     </div>
                     <div id="teamRosterGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
                         <div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Fetching team drivers from database... ]</div>
+                    </div>
+                </div>
+
+                <!-- 5. Dashboard Grid (Stats & Chat) -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-brand-border">
+                    <div class="p-8 lg:col-span-2 space-y-8 bg-black/20">
+                        <div>
+                            <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-3 flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></div> Constructor Statistics
+                            </h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Wins</span><span class="text-xl font-black text-brand-gold">85</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Losses</span><span class="text-xl font-black text-white">30</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Points</span><span class="text-xl font-black text-white">12,500</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">XP</span><span class="text-xl font-black text-brand-blue">95k</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-8 lg:col-span-1 flex flex-col justify-between h-full bg-brand-bg">
+                        <div>
+                            <div class="flex justify-between items-center mb-3 border-b border-brand-border pb-2">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> 💬 GSR Comms
+                                </span>
+                            </div>
+                            <div id="teamChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 my-2 space-y-2 h-44 overflow-y-auto flex flex-col justify-end text-[10px]">
+                                <div class="text-[10px] text-gray-500 text-center block my-auto">[ Syncing comms... ]</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -195,7 +198,7 @@
         </div>
     </div>
 
-    <!-- SUPABASE ENGINE -->
+       <!-- SUPABASE ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -215,7 +218,7 @@
         let teamIsRecruiting = true; 
         let currentTeamId = null;
         let currentLeaderId = null;
-        let activeTeamChannel = 'team'; // Restored
+        let activeTeamChannel = 'team'; 
 
         // --- 1. RENDER ROSTER ---
         async function renderTeamRoster() {
@@ -281,10 +284,10 @@
             }
         }
 
-        // --- 2. AUTHENTICATION ---
+        // --- 2. AUTHENTICATION (FIXED IDENTITY CHECK) ---
         async function initTeamCardPage() {
             await renderTeamRoster();
-            loadTeamChatWidget(); // Restored
+            loadTeamChatWidget(); 
 
             const { data: { session } } = await db.auth.getSession();
             if (session && session.user) {
@@ -307,6 +310,7 @@
         async function handleAuthUser(user) {
             currentUser = user;
             
+            // 1. Get Auth Name
             const { data: profile } = await db
                 .from('gsr_profiles')
                 .select('sl_legacy_name')
@@ -315,20 +319,20 @@
 
             displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
 
-            if (currentTeamId) {
-                if (currentLeaderId === currentUser.id) {
+            // 2. Fetch YOUR Racer Card ID to match against the Team Leader ID
+            const { data: currentRacer } = await db
+                .from('racers')
+                .select('id, primary_team_id')
+                .ilike('display_name', displayName)
+                .single();
+
+            if (currentTeamId && currentRacer) {
+                // If your Racer ID matches the Team's Leader ID, unlock everything
+                if (currentLeaderId === currentRacer.id) {
                     isTeamLeader = true;
                     isVerifiedTeamMember = true;
-                } else {
-                    const { data: racerInfo } = await db
-                        .from('racers')
-                        .select('primary_team_id')
-                        .eq('id', currentUser.id)
-                        .single();
-
-                    if (racerInfo && racerInfo.primary_team_id === currentTeamId) {
-                        isVerifiedTeamMember = true;
-                    }
+                } else if (currentRacer.primary_team_id === currentTeamId) {
+                    isVerifiedTeamMember = true;
                 }
             }
 
@@ -380,6 +384,7 @@
 
             if (teamIsRecruiting) {
                 if (isTeamLeader) {
+                    // THIS WILL NOW SHOW FOR YOU:
                     html += `<a href="recruitment.html?team=${encodeURIComponent(pageTeamName)}" class="bg-brand-blue hover:bg-blue-600 text-white font-black uppercase text-[9px] px-3 py-1.5 rounded shadow transition flex items-center gap-1.5 border border-brand-blue cursor-pointer">
                         📋 Review Applications
                     </a>`;
@@ -426,7 +431,7 @@
             document.getElementById('applicationModal').classList.remove('flex');
         }
 
-        // --- 4. CHAT FUNCTIONS RESTORED ---
+        // --- 4. CHAT FUNCTIONS ---
         function switchTeamChannel(channel) {
             activeTeamChannel = channel;
             loadTeamChatWidget();
