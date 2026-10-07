@@ -188,11 +188,14 @@
         </div>
     </div>
 
-         <!-- SUPABASE ENGINE -->
+            <!-- SUPABASE ENGINE (DIRECT QUERY NO JOINS) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const pageTeamName = urlParams.get('name') ? decodeURIComponent(urlParams.get('name')) : "Storm Riders";
+        
+        document.getElementById('pageTeamTitleHeader').innerText = pageTeamName;
+        document.getElementById('cardTeamTitle').innerText = pageTeamName;
 
         const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
         const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
@@ -202,32 +205,30 @@
         let displayName = "";
         let isVerifiedTeamMember = false;
         let isTeamLeader = false;
-        let teamIsRecruiting = true;
+        let teamIsRecruiting = true; // Default ON
         let currentTeamId = null;
+        let currentLeaderId = null;
 
-        // --- 1. RENDER ROSTER & FIND LEADER ---
+        // --- 1. RENDER ROSTER (DIRECTLY FROM RACERS TABLE) ---
         async function renderTeamRoster() {
             const grid = document.getElementById('teamRosterGrid');
             const leaderDisplay = document.getElementById('teamLeaderDisplay');
 
-            // Find the team's ID
-            const { data: teamData } = await db.from('teams').select('id, name').eq('name', pageTeamName).single();
+            // 1. Get the team's ID and the exact Leader ID directly from the teams table
+            const { data: teamData } = await db.from('teams').select('id, name, leader_user_id').eq('name', pageTeamName).single();
             if (!teamData) {
                 grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Team not found ]</div>`;
                 return;
             }
+            
             currentTeamId = teamData.id;
+            currentLeaderId = teamData.leader_user_id;
 
-            // Fetch roster by connecting team_members to racers based on your actual schema
+            // 2. Fetch roster directly from the racers table (Bypassing team_members joins)
             const { data: drivers, error } = await db
-                .from('team_members')
-                .select(`
-                    role,
-                    racer_id,
-                    racers ( display_name, racer_number )
-                `)
-                .eq('team_id', currentTeamId)
-                .eq('is_active', true);
+                .from('racers')
+                .select('id, display_name, racer_number')
+                .eq('primary_team_id', currentTeamId);
 
             if (error || !drivers || drivers.length === 0) {
                 grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ No drivers assigned to this team yet ]</div>`;
@@ -239,11 +240,13 @@
             let foundLeaderName = "UNASSIGNED";
 
             drivers.forEach(driver => {
-                const driverName = driver.racers?.display_name || 'Unknown Pilot';
-                const driverNum = driver.racers?.racer_number ? `#${driver.racers.racer_number}` : '#--';
-                const role = driver.role ? driver.role.toUpperCase() : 'PRO LEAGUE';
+                const driverName = driver.display_name || 'Unknown Pilot';
+                const driverNum = driver.racer_number ? `#${driver.racer_number}` : '#--';
                 
-                if (role === 'LEADER') {
+                // Determine if this specific driver is the leader
+                let role = 'PRO LEAGUE';
+                if (currentLeaderId && driver.id === currentLeaderId) {
+                    role = 'LEADER';
                     foundLeaderName = driverName;
                 }
 
@@ -273,7 +276,7 @@
             }
         }
 
-        // --- 2. AUTHENTICATION (Matching Index.html exactly) ---
+        // --- 2. AUTHENTICATION ---
         async function initTeamCardPage() {
             await renderTeamRoster();
 
@@ -307,19 +310,22 @@
 
             displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
 
-            // SECURITY CHECK: Check if your exact Login ID matches a Racer ID in this team
+            // Direct check against teams and racers tables
             if (currentTeamId) {
-                const { data: memberRecord } = await db
-                    .from('team_members')
-                    .select('role')
-                    .eq('team_id', currentTeamId)
-                    .eq('racer_id', currentUser.id)
-                    .single();
-
-                if (memberRecord) {
+                // Are you the leader?
+                if (currentLeaderId === currentUser.id) {
+                    isTeamLeader = true;
                     isVerifiedTeamMember = true;
-                    if (memberRecord.role.toLowerCase() === 'leader') {
-                        isTeamLeader = true;
+                } else {
+                    // If not the leader, are you at least on the team?
+                    const { data: racerInfo } = await db
+                        .from('racers')
+                        .select('primary_team_id')
+                        .eq('id', currentUser.id)
+                        .single();
+
+                    if (racerInfo && racerInfo.primary_team_id === currentTeamId) {
+                        isVerifiedTeamMember = true;
                     }
                 }
             }
