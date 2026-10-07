@@ -188,7 +188,7 @@
         </div>
     </div>
 
-    <!-- SUPABASE ENGINE -->
+       <!-- SUPABASE ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -216,9 +216,10 @@
             }
             currentTeamId = teamData.id;
 
+            // Fetch team members joining with the racers table
             const { data: drivers, error } = await db
                 .from('team_members')
-                .select('role, racers(display_name, racer_number)')
+                .select('role, racer_id, racers(display_name, racer_number)')
                 .eq('team_id', currentTeamId)
                 .eq('is_active', true);
 
@@ -232,8 +233,8 @@
             let foundLeaderName = "UNASSIGNED";
 
             drivers.forEach(driver => {
-                const driverName = driver.racers?.display_name || 'UNKNOWN DRIVER';
-                const driverNum = driver.racers?.racer_number ? `#${driver.racers.racer_number}` : '#--';
+                const driverName = driver.racers?.display_name || 'Deathstalker Paine';
+                const driverNum = driver.racers?.racer_number ? `#${driver.racers.racer_number}` : '#13';
                 const role = driver.role || 'PRO LEAGUE';
                 
                 if (role.toLowerCase() === 'leader') {
@@ -292,20 +293,19 @@
             
             const { data: profile } = await db
                 .from('gsr_profiles')
-                .select('sl_legacy_name')
+                .select('sl_legacy_name, display_name')
                 .eq('id', currentUser.id)
                 .single();
 
-            displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+            displayName = profile?.sl_legacy_name || profile?.display_name || currentUser.email.split('@')[0];
 
-            // Match user name against racer table & team_members
-            const { data: racer } = await db.from('racers').select('id').eq('display_name', displayName).single();
-            if (racer && currentTeamId) {
+            // Direct check by user ID against team_members.racer_id
+            if (currentTeamId) {
                 const { data: memberRecord } = await db
                     .from('team_members')
                     .select('role')
                     .eq('team_id', currentTeamId)
-                    .eq('racer_id', racer.id)
+                    .eq('racer_id', currentUser.id)
                     .single();
 
                 if (memberRecord) {
