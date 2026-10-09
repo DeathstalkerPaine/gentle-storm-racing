@@ -54,24 +54,16 @@
             <!-- Top 5 Pro Racers -->
             <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col">
                 <h2 class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center">Top 5 Pro League Racers</h2>
-                <div class="space-y-3 flex-grow">
-                    <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-gold rounded"><span class="text-brand-gold font-black italic text-lg w-4">1</span><div class="flex-grow"><p class="text-white text-[11px] font-black uppercase leading-tight">Deathstalker Paine</p><p class="text-[9px] text-gray-500 uppercase">Storm Riders</p></div></div>
-                    <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-80"><span class="text-gray-400 font-black italic text-lg w-4">2</span><div class="flex-grow"><p class="text-white text-[11px] font-black uppercase leading-tight">Vortex_SL</p><p class="text-[9px] text-gray-500 uppercase">Neon Syndicate</p></div></div>
-                    <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-60"><span class="text-gray-500 font-black italic text-lg w-4">3</span><div class="flex-grow"><p class="text-white text-[11px] font-black uppercase leading-tight">BlazeRunner</p><p class="text-[9px] text-gray-500 uppercase">Apex Predators</p></div></div>
-                    <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-50"><span class="text-gray-600 font-black italic text-lg w-4">4</span><p class="text-gray-500 text-[10px] font-bold uppercase">Pending</p></div>
-                    <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-50"><span class="text-gray-600 font-black italic text-lg w-4">5</span><p class="text-gray-500 text-[10px] font-bold uppercase">Pending</p></div>
+                <div id="proRacersBox" class="space-y-3 flex-grow">
+                    <div class="text-center text-xs text-gray-500 py-10 font-mono">[ Querying Database... ]</div>
                 </div>
             </div>
 
             <!-- Top 5 Pro Teams -->
             <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col">
                 <h2 class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center">Top 5 Pro League Teams</h2>
-                <div class="space-y-3 flex-grow">
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-3 border border-brand-gold rounded"><span class="text-brand-gold font-black italic">1.</span><span class="text-white text-xs font-bold uppercase">Storm Riders</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-3 border border-brand-border rounded"><span class="text-gray-400 font-black italic">2.</span><span class="text-white text-xs font-bold uppercase">Neon Syndicate</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-3 border border-brand-border rounded"><span class="text-gray-500 font-black italic">3.</span><span class="text-white text-xs font-bold uppercase">Apex Predators</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-3 border border-brand-border rounded"><span class="text-gray-600 font-black italic">4.</span><span class="text-gray-500 text-xs font-bold uppercase">---</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-3 border border-brand-border rounded"><span class="text-gray-600 font-black italic">5.</span><span class="text-gray-500 text-xs font-bold uppercase">---</span></div>
+                <div id="proTeamsBox" class="space-y-3 flex-grow">
+                    <div class="text-center text-xs text-gray-500 py-10 font-mono">[ Querying Database... ]</div>
                 </div>
             </div>
 
@@ -79,9 +71,9 @@
             <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col gold-border-glow">
                 <h2 class="text-sm font-black uppercase text-brand-gold border-b border-brand-border pb-3 mb-4 text-center">Pro League Team of the Week</h2>
                 <div class="flex-grow flex flex-col items-center justify-center bg-brand-bg border border-brand-border rounded-xl p-4 text-center space-y-3">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-red-900 to-black border-2 border-brand-red flex items-center justify-center shadow-lg"><span class="text-white font-black text-xl">SR</span></div>
-                    <h3 class="text-lg font-black uppercase text-white">Storm Riders</h3>
-                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-wider animate-pulse">Auto-Aggregating 1-Week Stats...</p>
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-red-900 to-black border-2 border-brand-red flex items-center justify-center shadow-lg"><span id="proWeekInitials" class="text-white font-black text-xl">--</span></div>
+                    <h3 id="proWeekName" class="text-lg font-black uppercase text-white">Pending</h3>
+                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-wider animate-pulse">Auto-Aggregating Stats...</p>
                 </div>
             </div>
         </section>
@@ -100,40 +92,45 @@
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
                 <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Top 5 Amateur League Racers</h2>
-                <div class="flex-grow flex items-center justify-center bg-brand-bg border border-brand-border rounded-xl text-gray-500 text-[10px] font-bold uppercase text-center p-4">Standings Pending Competition</div>
+                <div id="amateurRacersBox" class="space-y-3 flex-grow">
+                    <div class="text-center text-xs text-gray-500 py-10 font-mono">[ Querying Database... ]</div>
+                </div>
             </div>
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
                 <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Top 5 Amateur League Teams</h2>
-                <div class="flex-grow flex items-center justify-center bg-brand-bg border border-brand-border rounded-xl text-gray-500 text-[10px] font-bold uppercase text-center p-4">Standings Pending Competition</div>
+                <div id="amateurTeamsBox" class="space-y-3 flex-grow">
+                    <div class="text-center text-xs text-gray-500 py-10 font-mono">[ Querying Database... ]</div>
+                </div>
             </div>
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
                 <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Amateur League Team of the Week</h2>
-                <div class="flex-grow flex items-center justify-center bg-brand-bg border border-brand-border rounded-xl text-gray-500 text-[10px] font-bold uppercase text-center p-4">Aggregating Weekly Stats</div>
+                <div class="flex-grow flex flex-col items-center justify-center bg-brand-bg border border-brand-border rounded-xl p-4 text-center space-y-3">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-gray-700 to-black border-2 border-gray-500 flex items-center justify-center shadow-lg"><span id="amateurWeekInitials" class="text-white font-black text-xl">--</span></div>
+                    <h3 id="amateurWeekName" class="text-lg font-black uppercase text-white">Pending</h3>
+                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-wider animate-pulse">Aggregating Stats...</p>
+                </div>
             </div>
         </section>
 
         <!-- ROW 4: UPCOMING EVENTS BANNER -->
         <section class="bg-gradient-to-r from-brand-card via-[#1a1a1a] to-brand-card border border-brand-border rounded-xl p-8 text-center shadow-2xl">
-            <h2 class="text-2xl md:text-3xl font-black uppercase text-white tracking-widest drop-shadow-md">Upcoming League Events</h2>
-            <p class="text-gray-400 text-xs mt-2 font-bold uppercase">The Vegas Strip Relay Grid Locks in 48 Hours</p>
+            <h2 id="upcomingEventTitle" class="text-2xl md:text-3xl font-black uppercase text-white tracking-widest drop-shadow-md">Upcoming League Events</h2>
+            <p id="upcomingEventDesc" class="text-gray-400 text-xs mt-2 font-bold uppercase">Querying official calendar schedule...</p>
         </section>
 
         <!-- ROW 5: HIGHLIGHTS & CHATS GRID -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Pro Highlight -->
             <div class="bg-brand-card border border-brand-red/50 rounded-xl p-6 flex flex-col shadow-xl">
                 <span class="text-[9px] font-black uppercase text-brand-red bg-red-950 px-2 py-0.5 rounded border border-brand-red/30 inline-block mb-3 self-start">Magazine Feature</span>
                 <h2 class="text-sm font-black uppercase text-white mb-2 leading-tight">Pro League Team Highlight of the Month</h2>
                 <p class="text-[10px] text-gray-400 flex-grow">An exclusive breakdown of Pro strategies and dominant vehicle setups.</p>
                 <a href="multimedia.html" class="mt-4 text-[10px] uppercase font-bold text-brand-red hover:underline">Read Article →</a>
             </div>
-            <!-- Amateur Highlight -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col shadow-xl">
                 <span class="text-[9px] font-black uppercase text-gray-300 bg-gray-800 px-2 py-0.5 rounded border border-gray-600 inline-block mb-3 self-start">Magazine Feature</span>
                 <h2 class="text-sm font-black uppercase text-white mb-2 leading-tight">Amateur League Team Highlight of the Month</h2>
                 <p class="text-[10px] text-gray-400 flex-grow">Following the rising stars breaking out of the Amateur circuit.</p>
                 <a href="multimedia.html" class="mt-4 text-[10px] uppercase font-bold text-gray-300 hover:underline">Read Article →</a>
-            </div>
             </div>
         </section>
 
@@ -141,5 +138,121 @@
 
     <!-- UNIVERSAL FOOTER -->
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function initLeaguesHub() {
+            const { data: racers } = await db.from('racers').select('*');
+            const { data: teams } = await db.from('teams').select('*');
+            
+            const allRacers = racers || [];
+            const allTeams = teams || [];
+
+            // Group Team Points
+            const teamMap = {};
+            allRacers.forEach(r => {
+                const teamName = r.primary_team_id ? (allTeams.find(t => t.id === r.primary_team_id)?.name || 'Independent') : 'Independent';
+                if (!teamMap[teamName]) teamMap[teamName] = 0;
+                teamMap[teamName] += (r.rating_points || 0);
+            });
+            const teamRankings = Object.keys(teamMap).map(name => ({ name, pts: teamMap[name] })).sort((a,b) => b.pts - a.pts);
+
+            // Racer Rankings
+            const sortedRacers = [...allRacers].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
+
+            // PRO RACERS (Top 5)
+            const proRacersBox = document.getElementById('proRacersBox');
+            if (proRacersBox) {
+                proRacersBox.innerHTML = '';
+                for (let i = 0; i < 5; i++) {
+                    const r = sortedRacers[i];
+                    const teamName = r && r.primary_team_id ? (allTeams.find(t => t.id === r.primary_team_id)?.name || 'Independent') : 'Independent';
+                    
+                    if (r) {
+                        proRacersBox.innerHTML += `
+                            <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border ${i === 0 ? 'border-brand-gold' : 'border-brand-border'} rounded ${i > 0 ? (i===1 ? 'opacity-80' : 'opacity-60') : ''}">
+                                <span class="${i === 0 ? 'text-brand-gold' : 'text-gray-400'} font-black italic text-lg w-4">${i + 1}</span>
+                                <div class="flex-grow"><p class="text-white text-[11px] font-black uppercase leading-tight">${escapeHtml(r.display_name)}</p><p class="text-[9px] text-gray-500 uppercase">${escapeHtml(teamName)}</p></div>
+                            </div>`;
+                    } else {
+                        proRacersBox.innerHTML += `<div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-50"><span class="text-gray-600 font-black italic text-lg w-4">${i + 1}</span><p class="text-gray-500 text-[10px] font-bold uppercase">Pending</p></div>`;
+                    }
+                }
+            }
+
+            // PRO TEAMS (Top 5)
+            const proTeamsBox = document.getElementById('proTeamsBox');
+            if (proTeamsBox) {
+                proTeamsBox.innerHTML = '';
+                for (let i = 0; i < 5; i++) {
+                    const t = teamRankings[i];
+                    if (t) {
+                        proTeamsBox.innerHTML += `<div class="flex justify-between items-center bg-brand-bg px-3 py-3 border ${i === 0 ? 'border-brand-gold' : 'border-brand-border'} rounded"><span class="${i === 0 ? 'text-brand-gold' : 'text-gray-400'} font-black italic">${i + 1}.</span><span class="text-white text-xs font-bold uppercase">${escapeHtml(t.name)}</span></div>`;
+                    } else {
+                        proTeamsBox.innerHTML += `<div class="flex justify-between items-center bg-brand-bg px-3 py-3 border border-brand-border rounded"><span class="text-gray-600 font-black italic">${i + 1}.</span><span class="text-gray-500 text-xs font-bold uppercase">---</span></div>`;
+                    }
+                }
+            }
+
+            // AMATEUR RACERS (Lowest 5)
+            const amateurRacersBox = document.getElementById('amateurRacersBox');
+            if (amateurRacersBox) {
+                amateurRacersBox.innerHTML = '';
+                const sortedAmateurs = [...allRacers].sort((a,b) => (a.rating_points || 0) - (b.rating_points || 0));
+                for(let i=0; i<5; i++) {
+                    const r = sortedAmateurs[i];
+                    const teamName = r && r.primary_team_id ? (allTeams.find(t => t.id === r.primary_team_id)?.name || 'Independent') : 'Independent';
+                    if(r) {
+                        amateurRacersBox.innerHTML += `
+                            <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border rounded">
+                                <span class="text-gray-400 font-black italic text-lg w-4">${i + 1}</span>
+                                <div class="flex-grow"><p class="text-white text-[11px] font-black uppercase leading-tight">${escapeHtml(r.display_name)}</p><p class="text-[9px] text-gray-500 uppercase">${escapeHtml(teamName)}</p></div>
+                            </div>`;
+                    } else {
+                        amateurRacersBox.innerHTML += `<div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-50"><span class="text-gray-600 font-black italic text-lg w-4">${i + 1}</span><p class="text-gray-500 text-[10px] font-bold uppercase">Pending</p></div>`;
+                    }
+                }
+            }
+
+            // AMATEUR TEAMS (Lowest 5)
+            const amateurTeamsBox = document.getElementById('amateurTeamsBox');
+            if (amateurTeamsBox) {
+                amateurTeamsBox.innerHTML = '';
+                const amateurTeams = [...teamRankings].reverse();
+                for(let i=0; i<5; i++) {
+                    const t = amateurTeams[i];
+                    if(t) {
+                        amateurTeamsBox.innerHTML += `<div class="flex justify-between items-center bg-brand-bg px-3 py-3 border border-brand-border rounded"><span class="text-gray-400 font-black italic">${i + 1}.</span><span class="text-white text-xs font-bold uppercase">${escapeHtml(t.name)}</span></div>`;
+                    } else {
+                        amateurTeamsBox.innerHTML += `<div class="flex justify-between items-center bg-brand-bg px-3 py-3 border border-brand-border rounded"><span class="text-gray-600 font-black italic">${i + 1}.</span><span class="text-gray-500 text-xs font-bold uppercase">---</span></div>`;
+                    }
+                }
+            }
+
+            // Teams of the week updates
+            if (teamRankings.length > 0) {
+                document.getElementById('proWeekName').innerText = teamRankings[0].name;
+                document.getElementById('proWeekInitials').innerText = teamRankings[0].name.substring(0, 2).toUpperCase();
+                
+                const lowestTeam = teamRankings[teamRankings.length - 1];
+                document.getElementById('amateurWeekName').innerText = lowestTeam.name;
+                document.getElementById('amateurWeekInitials').innerText = lowestTeam.name.substring(0, 2).toUpperCase();
+            }
+
+            // Upcoming Event Sync
+            const todayStr = new Date().toISOString().split('T')[0];
+            const { data: events } = await db.from('gsr_events').select('*').gte('event_date', todayStr).order('event_date', { ascending: true }).limit(1);
+            if (events && events.length > 0) {
+                document.getElementById('upcomingEventTitle').innerText = events[0].title;
+                document.getElementById('upcomingEventDesc').innerText = `${events[0].event_date} • ${events[0].event_time} | ${events[0].description || events[0].category}`;
+            }
+        }
+        function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+        window.onload = initLeaguesHub;
+    </script>
 </body>
 </html>
