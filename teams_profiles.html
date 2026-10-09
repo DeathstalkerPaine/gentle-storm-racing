@@ -61,7 +61,7 @@
                 <select id="statusFilter" onchange="filterTeams()" class="bg-brand-bg border border-brand-border text-white text-xs px-4 py-2.5 rounded-lg outline-none focus:border-brand-gold uppercase tracking-wider cursor-pointer">
                     <option value="all">All Roster Status</option>
                     <option value="recruiting">Recruiting Drivers</option>
-                    <option value="full">Roster Full</option>
+                    <option value="closed">Roster Closed</option>
                 </select>
             </div>
 
@@ -93,41 +93,51 @@
 
         async function loadTeamDirectory() {
             buildAlphabetBar();
-            const { data: profiles } = await db.from('gsr_profiles').select('*');
-            const allProfiles = profiles || [];
 
-            const teamMap = {};
-            
-            // Ensure Storm Riders is always present by default with your mockup stats
-            teamMap["Storm Riders"] = { 
-                name: "Storm Riders", 
-                pts: 12500, 
-                wins: 45, 
-                count: 1, 
-                leader: "Deathstalker Paine",
-                isDefault: true 
-            };
+            // Query live database tables directly
+            const { data: dbTeams } = await db.from('teams').select('*');
+            const { data: dbRacers } = await db.from('racers').select('*');
 
-            // Aggregate other teams from Supabase profiles
-            allProfiles.forEach(p => {
-                const tName = p.team_name || p.team || 'Unassigned';
-                if (tName !== 'Unassigned' && tName.trim() !== '') {
-                    if (!teamMap[tName]) {
-                        teamMap[tName] = { name: tName, pts: 0, wins: 0, count: 0, leader: p.sl_legacy_name || 'Leader' };
-                    } else if (teamMap[tName].isDefault) {
-                        // Update default Storm Riders stats with real DB info if available
-                        teamMap[tName].pts += (p.rating || 0);
-                        teamMap[tName].wins += (p.wins || 0);
-                        teamMap[tName].count += 1;
-                        return;
-                    }
-                    teamMap[tName].pts += (p.rating || 500);
-                    teamMap[tName].wins += (p.wins || 0);
-                    teamMap[tName].count += 1;
+            const teamsList = dbTeams || [];
+            const racersList = dbRacers || [];
+
+            // Map database teams dynamically without hardcoded stat overlays
+            const processedTeams = teamsList.map(team => {
+                const members = racersList.filter(r => r.primary_team_id === team.id || r.team_id === team.id);
+                
+                let leaderName = "UNASSIGNED";
+                if (team.leader_user_id) {
+                    const leaderRacer = racersList.find(r => r.id === team.leader_user_id);
+                    if (leaderRacer) leaderName = leaderRacer.display_name;
                 }
+
+                if (leaderName === "UNASSIGNED") {
+                    const fallbackLeader = members.find(r => r.display_name && r.display_name.toLowerCase().includes('deathstalker'));
+                    if (fallbackLeader) leaderName = fallbackLeader.display_name;
+                }
+
+                const totalPts = members.reduce((sum, r) => sum + (r.rating_points || r.xp || 0), 0);
+                const totalWins = members.reduce((sum, r) => sum + (r.wins || 0), 0);
+                const rosterCount = members.length;
+
+                // Read recruiting status dynamically from DB or check if roster is full/closed
+                const isRecruiting = (team.is_recruiting !== undefined && team.is_recruiting !== null) 
+                    ? team.is_recruiting 
+                    : (rosterCount > 0 && rosterCount < 4);
+
+                return {
+                    id: team.id,
+                    name: team.name,
+                    pts: totalPts,
+                    wins: totalWins,
+                    count: rosterCount,
+                    leader: leaderName,
+                    isRecruiting: isRecruiting,
+                    isPlaceholder: false
+                };
             });
 
-            allTeamsCache = Object.values(teamMap).sort((a,b) => b.pts - a.pts);
+            allTeamsCache = processedTeams.sort((a,b) => b.pts - a.pts);
             renderTeams(allTeamsCache);
         }
 
@@ -156,11 +166,10 @@
             const statusVal = document.getElementById('statusFilter').value;
 
             const filtered = allTeamsCache.filter(t => {
-                if (t.isPlaceholder) return true; // Keep placeholders visible unless searching specifically
+                if (t.isPlaceholder) return true;
                 const matchesSearch = t.name.toLowerCase().includes(searchVal);
                 const matchesLetter = selectedLetter === 'ALL' || t.name.toUpperCase().startsWith(selectedLetter);
-                const isRecruiting = t.count < 4;
-                const matchesStatus = statusVal === 'all' || (statusVal === 'recruiting' && isRecruiting) || (statusVal === 'full' && !isRecruiting);
+                const matchesStatus = statusVal === 'all' || (statusVal === 'recruiting' && t.isRecruiting) || (statusVal === 'closed' && !t.isRecruiting);
 
                 return matchesSearch && matchesLetter && matchesStatus;
             });
@@ -172,7 +181,6 @@
             const grid = document.getElementById('teamDirectoryGrid');
             grid.innerHTML = '';
 
-            // Combine active teams + pad out with placeholders until we hit 16 total slots (matching your mockup)
             let displayList = [...teams];
             while (displayList.length < 16) {
                 displayList.push({ isPlaceholder: true });
@@ -180,7 +188,6 @@
 
             displayList.forEach(t => {
                 if (t.isPlaceholder) {
-                    // Render Empty / Pending Syndicate Placeholder Card
                     grid.innerHTML += `
                         <div class="bg-[#0a0a0a]/50 border border-brand-border/40 rounded-xl p-4 flex flex-col justify-between opacity-50">
                             <div>
@@ -203,12 +210,10 @@
                         </div>
                     `;
                 } else {
-                    // Render Active Team Card
                     const encodedName = encodeURIComponent(t.name);
-                    const isRecruiting = t.count < 4;
-                    const badgeHtml = isRecruiting 
+                    const badgeHtml = t.isRecruiting 
                         ? `<span class="bg-green-500 text-black font-black text-[8px] uppercase px-2 py-0.5 rounded animate-pulse">● Recruiting</span>`
-                        : `<span class="bg-gray-700 text-gray-300 font-black text-[8px] uppercase px-2 py-0.5 rounded">Roster Full</span>`;
+                        : `<span class="bg-gray-700 text-gray-300 font-black text-[8px] uppercase px-2 py-0.5 rounded">Roster Closed</span>`;
 
                     grid.innerHTML += `
                         <div class="bg-[#0a0a0a] border border-brand-gold rounded-xl p-4 flex flex-col justify-between group shadow-[0_0_15px_rgba(197,160,89,0.1)]">
