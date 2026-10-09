@@ -265,71 +265,76 @@
             pro_plus: '⭐ Pro Plus'
         };
 
-        // --- 1. RENDER ROSTER ---
+        // --- 1. RENDER ROSTER (CRASH PREVENTED HERE) ---
         async function renderTeamRoster() {
             const grid = document.getElementById('teamRosterGrid');
             const leaderDisplay = document.getElementById('teamLeaderDisplay');
 
-            // FIX APPLIED HERE: We now pull is_recruiting from the database query
-            const { data: teamData } = await db.from('teams').select('id, name, leader_user_id, is_recruiting').eq('name', pageTeamName).single();
-            if (!teamData) {
-                grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Team not found ]</div>`;
-                return;
-            }
-            
-            currentTeamId = teamData.id;
-            currentLeaderId = teamData.leader_user_id;
-
-            // FIX APPLIED HERE: Actually set the page's status based on what the database says!
-            teamIsRecruiting = teamData.is_recruiting === false ? false : true;
-
-            const { data: drivers, error } = await db
-                .from('racers')
-                .select('id, display_name, racer_number')
-                .eq('primary_team_id', currentTeamId);
-
-            if (error || !drivers || drivers.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ No drivers assigned to this team yet ]</div>`;
-                if (leaderDisplay) leaderDisplay.innerText = "UNASSIGNED";
-                return;
-            }
-
-            grid.innerHTML = '';
-            let foundLeaderName = "UNASSIGNED";
-
-            drivers.forEach(driver => {
-                const driverName = (driver.display_name && driver.display_name.trim() !== '') ? driver.display_name : 'Unknown Pilot';
-                const driverNum = driver.racer_number ? `#${driver.racer_number}` : '#--';
+            try {
+                // Changed from select('..., is_recruiting') to select('*') so it doesn't crash if column is missing
+                const { data: teamData, error: teamError } = await db.from('teams').select('*').eq('name', pageTeamName).single();
                 
-                let role = 'PRO LEAGUE';
-                if (currentLeaderId && driver.id === currentLeaderId) {
-                    role = 'LEADER';
-                    foundLeaderName = driverName;
+                if (teamError || !teamData) {
+                    grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Team not found ]</div>`;
+                    return;
+                }
+                
+                currentTeamId = teamData.id;
+                currentLeaderId = teamData.leader_user_id;
+
+                // Safely checks if is_recruiting is false. If the column doesn't exist yet, it safely defaults to true.
+                teamIsRecruiting = teamData.is_recruiting === false ? false : true;
+
+                const { data: drivers, error: driverError } = await db
+                    .from('racers')
+                    .select('id, display_name, racer_number')
+                    .eq('primary_team_id', currentTeamId);
+
+                if (driverError || !drivers || drivers.length === 0) {
+                    grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ No drivers assigned to this team yet ]</div>`;
+                    if (leaderDisplay) leaderDisplay.innerText = "UNASSIGNED";
+                    return;
                 }
 
-                const profileUrl = `racer.html?driver=${encodeURIComponent(driverName)}`;
+                grid.innerHTML = '';
+                let foundLeaderName = "UNASSIGNED";
 
-                grid.innerHTML += `
-                    <div class="bg-[#0a0a0a] border border-brand-border hover:border-brand-blue rounded-xl p-3 flex flex-col justify-between group transition shadow-md">
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="bg-brand-red text-white text-[7px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider">${role}</span>
-                                <span class="text-brand-blue font-mono font-black text-[10px]">${driverNum}</span>
+                drivers.forEach(driver => {
+                    const driverName = (driver.display_name && driver.display_name.trim() !== '') ? driver.display_name : 'Unknown Pilot';
+                    const driverNum = driver.racer_number ? `#${driver.racer_number}` : '#--';
+                    
+                    let role = 'PRO LEAGUE';
+                    if (currentLeaderId && driver.id === currentLeaderId) {
+                        role = 'LEADER';
+                        foundLeaderName = driverName;
+                    }
+
+                    const profileUrl = `racer.html?driver=${encodeURIComponent(driverName)}`;
+
+                    grid.innerHTML += `
+                        <div class="bg-[#0a0a0a] border border-brand-border hover:border-brand-blue rounded-xl p-3 flex flex-col justify-between group transition shadow-md">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="bg-brand-red text-white text-[7px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider">${role}</span>
+                                    <span class="text-brand-blue font-mono font-black text-[10px]">${driverNum}</span>
+                                </div>
+                                <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2 group-hover:border-brand-blue transition cursor-pointer" onclick="window.location='${profileUrl}'">
+                                    <span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest text-center">PHOTO</span>
+                                </div>
+                                <h4 class="text-[11px] font-black uppercase text-white tracking-wider truncate">${escapeHtml(driverName)}</h4>
                             </div>
-                            <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2 group-hover:border-brand-blue transition cursor-pointer" onclick="window.location='${profileUrl}'">
-                                <span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest text-center">PHOTO</span>
-                            </div>
-                            <h4 class="text-[11px] font-black uppercase text-white tracking-wider truncate">${escapeHtml(driverName)}</h4>
+                            <a href="${profileUrl}" class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-300 hover:border-brand-blue hover:text-white transition text-[8px] font-black uppercase py-1.5 rounded tracking-wider">VIEW PROFILE →</a>
                         </div>
-                        <a href="${profileUrl}" class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-300 hover:border-brand-blue hover:text-white transition text-[8px] font-black uppercase py-1.5 rounded tracking-wider">VIEW PROFILE →</a>
-                    </div>
-                `;
-            });
+                    `;
+                });
 
-            if (leaderDisplay) {
-                leaderDisplay.innerHTML = foundLeaderName !== "UNASSIGNED" 
-                    ? `<a href="racer.html?driver=${encodeURIComponent(foundLeaderName)}" class="hover:text-brand-gold transition underline uppercase">${escapeHtml(foundLeaderName)}</a>`
-                    : "UNASSIGNED";
+                if (leaderDisplay) {
+                    leaderDisplay.innerHTML = foundLeaderName !== "UNASSIGNED" 
+                        ? `<a href="racer.html?driver=${encodeURIComponent(foundLeaderName)}" class="hover:text-brand-gold transition underline uppercase">${escapeHtml(foundLeaderName)}</a>`
+                        : "UNASSIGNED";
+                }
+            } catch (err) {
+                console.error("Error loading team data: ", err);
             }
         }
 
@@ -341,6 +346,10 @@
             const { data: { session } } = await db.auth.getSession();
             if (session && session.user) {
                 await handleAuthUser(session.user);
+            } else {
+                // FORCE THE UI TO UPDATE EVEN IF LOGGED OUT
+                updateHeaderAuthUI();
+                renderBannerControls();
             }
 
             db.auth.onAuthStateChange(async (event, session) => {
@@ -392,41 +401,4 @@
 
             if (currentUser) {
                 userNav.innerHTML = `
-                    <div class="text-right hidden sm:block">
-                        <span class="block text-xs font-black text-white uppercase">${escapeHtml(displayName)}</span>
-                        <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
-                        </span>
-                    </div>
-                    <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
-                `;
-            } else {
-                userNav.innerHTML = `
-                    <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
-                    <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
-                `;
-            }
-        }
-
-        // --- 3. RECRUITMENT UI ---
-        function renderBannerControls() {
-            const container = document.getElementById('bannerApplyContainer');
-            const badge = document.getElementById('recruitmentBadge');
-            if (!container || !badge) return;
-
-            if (isTeamLeader) {
-                badge.className = teamIsRecruiting 
-                    ? "bg-green-500 text-black border border-green-300 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg animate-pulse transition cursor-pointer hover:bg-green-400"
-                    : "bg-red-600 text-white border border-red-400 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg transition cursor-pointer hover:bg-red-500";
-                badge.innerText = teamIsRecruiting ? "● Recruiting Drivers (Click to Toggle)" : "✖ Roster Closed (Click to Open)";
-            } else {
-                badge.className = teamIsRecruiting 
-                    ? "bg-green-500 text-black border border-green-300 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg animate-pulse transition cursor-default"
-                    : "bg-gray-700 text-gray-300 border border-gray-500 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg transition cursor-default";
-                badge.innerText = teamIsRecruiting ? "● Recruiting Drivers" : "✖ Roster Closed";
-            }
-
-            let html = '';
-
-            if (teamIsRecruiting) {
-                
+                    <div
