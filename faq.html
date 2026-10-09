@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ & Support | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- MAIN PAGE HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html"><img src="logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform"></a>
+            </div>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Grid Knowledge Base</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    FAQ & SUPPORT
+                </h1>
+            </div>                 
+        </div>
+    </header>
+
+    <!-- NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams Hub</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards</a>
+            <a href="faq.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">FAQ</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 space-y-8">
+        
+        <div class="text-center mb-10">
+            <h2 class="text-xl font-black uppercase text-white tracking-widest">Frequently Asked Questions</h2>
+            <p class="text-xs text-gray-400 mt-2">Everything you need to know about competing, telemetry, and syndicates in Gentle Storm Racing.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <!-- Category: Telemetry & Leaderboards -->
+            <div class="space-y-6">
+                <h3 class="text-sm font-black uppercase text-brand-gold border-b border-brand-border pb-2 tracking-widest flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-brand-gold"></span> Telemetry & Rankings
+                </h3>
+                
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-gold transition">
+                    <h4 class="text-xs font-black uppercase text-white mb-2">How is my live telemetry tracked?</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        GSR utilizes proprietary LSL scripts embedded in track infrastructure and official vehicle HUDs in Second Life. When you cross a finish line, take damage, or set a fastest lap, the data is pushed directly to our Supabase servers and instantly updates your Racer Card.
+                    </p>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-gold transition">
+                    <h4 class="text-xs font-black uppercase text-white mb-2">How are Rating Points (PTS) calculated?</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Points are awarded dynamically based on race outcomes, with bonuses for setting track records, maintaining low damage (Defensive bonuses), and aggressive takedowns. Disqualifications (DSQ) penalize your overall rating.
+                    </p>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-gold transition">
+                    <h4 class="text-xs font-black uppercase text-white mb-2">Why does my photo say "Pending"?</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        To maintain grid immersion and comply with Second Life community standards, all custom driver photos and team logos require manual moderation before they are pushed live to the global telemetry feeds.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Category: Teams & Comms -->
+            <div class="space-y-6">
+                <h3 class="text-sm font-black uppercase text-brand-blue border-b border-brand-border pb-2 tracking-widest flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue"></span> Syndicates & Comms
+                </h3>
+
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-blue transition">
+                    <h4 class="text-xs font-black uppercase text-white mb-2">How do I apply for a Team?</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Navigate to the <span class="text-white font-bold">Teams Profile</span> page of a recruiting Syndicate. If their roster is open (indicated by a green blinking dot), click "Apply for Roster." Your telemetry will be forwarded directly to the Team Leader for review.
+                    </p>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-blue transition">
+                    <h4 class="text-xs font-black uppercase text-white mb-2">How does the GSR Comms Widget work?</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        The Comms Widget links your web profile to the live chat database. You can tune your frequency to the <span class="text-brand-gold font-bold">Global Feed</span>, your private <span class="text-brand-blue font-bold">Team Chat</span>, or listen strictly to racers you follow via the <span class="text-gray-300 font-bold">Following</span> channel.
+                    </p>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-blue transition">
+                    <h4 class="text-xs font-black uppercase text-white mb-2">What happens if a Team Leader turns off recruiting?</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Once a Team Leader toggles their recruitment status to closed, the application portal on their Team Card locks instantly, and they are removed from the "Free Agent" recruitment boards until they manually reopen their roster.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Category: Leagues & Authentication -->
+            <div class="space-y-6 md:col-span-2 mt-4">
+                <h3 class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-2 tracking-widest flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-brand-red"></span> Leagues & Account Setup
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-red transition">
+                        <h4 class="text-xs font-black uppercase text-white mb-2">What is the Pro Plus Subscriber League?</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            Pro Plus is the premier racing tier of GSR. Drivers in this bracket face no vehicle restriction limits, compete for higher point multipliers, and gain access to the exclusive Pro Plus Comms frequency.
+                        </p>
+                    </div>
+
+                    <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-red transition">
+                        <h4 class="text-xs font-black uppercase text-white mb-2">Why isn't my Follow button saving?</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            Following drivers and transmitting in GSR Comms requires an active authentication session. Ensure you have clicked "Sign In" at the top right of the screen. Your session is securely managed via our database backend.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Contact Support Box -->
+        <div class="bg-[#111] border border-brand-border rounded-xl p-8 text-center mt-12">
+            <h3 class="text-sm font-black uppercase text-white mb-2 tracking-wider">Still Need Assistance?</h3>
+            <p class="text-xs text-gray-400 mb-6">If your telemetry is out of sync or you are experiencing HUD issues in Second Life, contact a grid official.</p>
+            <a href="chats.html" class="inline-block bg-brand-bg border border-brand-border hover:border-brand-gold text-white text-[10px] font-black uppercase px-6 py-3 rounded transition shadow-lg">Open Support Comms</a>
+        </div>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
+
+</body>
+</html>
