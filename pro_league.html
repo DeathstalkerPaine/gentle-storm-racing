@@ -60,10 +60,8 @@
                             <th class="py-3 px-6 text-right">Points</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-brand-border">
-                        <tr class="hover:bg-white/5 transition cursor-pointer" onclick="window.location='team.html'"><td class="py-4 px-6 font-black italic text-brand-gold text-lg">1</td><td class="py-4 px-6 font-bold text-white uppercase">Storm Riders</td><td class="py-4 px-6 text-right font-black text-brand-gold">12,500</td></tr>
-                        <tr class="hover:bg-white/5 transition"><td class="py-4 px-6 font-black italic text-gray-400 text-lg">2</td><td class="py-4 px-6 font-bold text-gray-300 uppercase">Neon Syndicate</td><td class="py-4 px-6 text-right font-black text-white">10,200</td></tr>
-                        <tr class="hover:bg-white/5 transition"><td class="py-4 px-6 font-black italic text-gray-500 text-lg">3</td><td class="py-4 px-6 font-bold text-gray-400 uppercase">Apex Predators</td><td class="py-4 px-6 text-right font-black text-white">9,800</td></tr>
+                    <tbody id="proTeamsTable" class="divide-y divide-brand-border">
+                        <tr><td colspan="3" class="py-6 text-center text-xs font-mono text-gray-500">[ Querying database... ]</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -74,8 +72,8 @@
 
         <!-- SECTION 2: UPCOMING LEAGUE EVENTS -->
         <section class="bg-gradient-to-r from-red-950 via-brand-card to-brand-card border border-brand-red/50 rounded-xl p-8 text-center shadow-xl">
-            <h2 class="text-2xl font-black uppercase text-white tracking-widest mb-2">Upcoming League Events</h2>
-            <p class="text-brand-red text-xs font-bold uppercase tracking-widest">Las Vegas Strip Pro Qualifier - Friday 8PM SLT</p>
+            <h2 id="upcomingEventTitle" class="text-2xl font-black uppercase text-white tracking-widest mb-2">Upcoming League Events</h2>
+            <p id="upcomingEventDesc" class="text-brand-red text-xs font-bold uppercase tracking-widest">Querying official calendar schedule...</p>
         </section>
 
         <!-- SECTION 3: SPONSORS -->
@@ -89,49 +87,40 @@
         </section>
 
         <!-- SECTION 4: GSR CHATS -->
-<section class="bg-brand-card border border-brand-border rounded-xl p-6 sm:p-8 shadow-xl">
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-brand-border pb-4 mb-6 gap-4">
-        <h2 class="text-2xl font-black uppercase text-white tracking-widest flex items-center gap-2">
-            <span class="w-3 h-3 rounded-full bg-brand-green animate-pulse"></span> GSR Chats
-        </h2>
-        
-        <!-- Channel Selector Dropdown -->
-        <div class="flex items-center gap-3 w-full sm:w-auto">
-            <select id="sectionChatSelector" onchange="switchSectionChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-brand-gold text-xs font-black uppercase px-3 py-2 rounded outline-none focus:border-brand-gold cursor-pointer w-full sm:w-auto">
-                <option value="global" selected>🌐 Global Feed</option>
-                <option value="following">👥 Following</option>
-                <option value="team">🛡️ Team Chat</option>
-                <option value="pro_plus">⭐ Pro Plus</option>
-            </select>
-        </div>
-    </div>
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 sm:p-8 shadow-xl">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-brand-border pb-4 mb-6 gap-4">
+                <h2 class="text-2xl font-black uppercase text-white tracking-widest flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-brand-green animate-pulse"></span> GSR Chats
+                </h2>
+                
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <select id="sectionChatSelector" onchange="switchSectionChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-brand-gold text-xs font-black uppercase px-3 py-2 rounded outline-none focus:border-brand-gold cursor-pointer w-full sm:w-auto">
+                        <option value="global" selected>🌐 Global Feed</option>
+                        <option value="following">👥 Following</option>
+                        <option value="team">🛡️ Team Chat</option>
+                        <option value="pro_plus">⭐ Pro Plus</option>
+                    </select>
+                </div>
+            </div>
 
-    <!-- Live Dynamic Feed Area -->
-    <div id="sectionChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-lg p-4 space-y-2 h-44 overflow-y-auto flex flex-col justify-end text-xs">
-        <div class="text-xs text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
-    </div>
+            <div id="sectionChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-lg p-4 space-y-2 h-44 overflow-y-auto flex flex-col justify-end text-xs">
+                <div class="text-xs text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
+            </div>
 
-    <!-- Footer Links & Drawer Action -->
-    <div class="pt-4 mt-4 border-t border-brand-border flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
-        <a href="chats.html" class="font-bold uppercase text-brand-gold hover:underline text-xs">Open Comms Hub →</a>
-        
-        <!-- Reply Drawer Trigger -->
-        <button onclick="toggleDrawer(true)" class="w-full sm:w-auto bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-xs uppercase font-black px-4 py-2.5 rounded transition shadow cursor-pointer">
-            Open Drawer to Reply ↵
-        </button>
-    </div>
-</section>
-
+            <div class="pt-4 mt-4 border-t border-brand-border flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
+                <a href="chats.html" class="font-bold uppercase text-brand-gold hover:underline text-xs">Open Comms Hub →</a>
+                <button onclick="toggleDrawer(true)" class="w-full sm:w-auto bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-xs uppercase font-black px-4 py-2.5 rounded transition shadow cursor-pointer">
+                    Open Drawer to Reply ↵
+                </button>
+            </div>
         </section>
 
         <!-- SECTION 5: 3-COLUMN BOTTOM GRID -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
                 <h3 class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center">Top 5 Team Racers</h3>
-                <div class="space-y-3 flex-grow">
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-gold rounded"><span class="text-brand-gold font-black italic">1.</span><span class="text-white text-[10px] font-bold uppercase">Deathstalker Paine</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-400 font-black italic">2.</span><span class="text-gray-300 text-[10px] font-bold uppercase">Vortex_SL</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-500 font-black italic">3.</span><span class="text-gray-400 text-[10px] font-bold uppercase">BlazeRunner</span></div>
+                <div id="topTeamRacersBox" class="space-y-3 flex-grow">
+                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Querying telemetry... ]</div>
                 </div>
             </div>
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
@@ -152,283 +141,175 @@
 
     <!-- UNIVERSAL FOOTER -->
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
-<!-- SLIDE-OUT DRAWER OVERLAY & PANEL -->
-<div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
 
-<div id="chatDrawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-brand-card border-l border-brand-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-    <!-- Drawer Header -->
-    <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
-        <div>
-            <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
-            <p id="drawerChannelName" class="text-[10px] text-brand-gold uppercase">Channel: 🌐 Global Feed</p>
+    <!-- SLIDE-OUT DRAWER OVERLAY & PANEL -->
+    <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <div id="chatDrawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-brand-card border-l border-brand-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
+            <div>
+                <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
+                <p id="drawerChannelName" class="text-[10px] text-brand-gold uppercase">Channel: 🌐 Global Feed</p>
+            </div>
+            <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition cursor-pointer">✕</button>
         </div>
-        <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition cursor-pointer">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-    </div>
 
-    <!-- Drawer Messages Area -->
-    <div id="drawerMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-[#111]">
-         <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching logs... ]</div>
-    </div>
+        <div id="drawerMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-[#111]">
+             <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching logs... ]</div>
+        </div>
 
-    <!-- Drawer Input Area -->
-    <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
-        <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-gold transition">
-        <button onclick="sendDrawerMessage()" id="drawerSendBtn" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
-    </div>
-</div>
-Here is the complete section replacement along with the slide-out drawer HTML and the live Supabase JavaScript engine to replace that placeholder.
-1. HTML Section Replacement
-Replace <!-- SECTION 4: GSR CHATS --> with this live-connected component:
-<!-- SECTION 4: GSR CHATS -->
-<section class="bg-brand-card border border-brand-border rounded-xl p-6 sm:p-8 shadow-xl">
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-brand-border pb-4 mb-6 gap-4">
-        <h2 class="text-2xl font-black uppercase text-white tracking-widest flex items-center gap-2">
-            <span class="w-3 h-3 rounded-full bg-brand-green animate-pulse"></span> GSR Chats
-        </h2>
-        
-        <!-- Channel Selector Dropdown -->
-        <div class="flex items-center gap-3 w-full sm:w-auto">
-            <select id="sectionChatSelector" onchange="switchSectionChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-brand-gold text-xs font-black uppercase px-3 py-2 rounded outline-none focus:border-brand-gold cursor-pointer w-full sm:w-auto">
-                <option value="global" selected>🌐 Global Feed</option>
-                <option value="following">👥 Following</option>
-                <option value="team">🛡️ Team Chat</option>
-                <option value="pro_plus">⭐ Pro Plus</option>
-            </select>
+        <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
+            <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-gold transition">
+            <button onclick="sendDrawerMessage()" id="drawerSendBtn" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
         </div>
     </div>
 
-    <!-- Live Dynamic Feed Area -->
-    <div id="sectionChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-lg p-4 space-y-2 h-44 overflow-y-auto flex flex-col justify-end text-xs">
-        <div class="text-xs text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
-    </div>
+    <!-- SUPABASE ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        window.toggleDrawer = function(show) {
+            const drawer = document.getElementById('chatDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            if (!drawer || !overlay) return;
 
-    <!-- Footer Links & Drawer Action -->
-    <div class="pt-4 mt-4 border-t border-brand-border flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
-        <a href="chats.html" class="font-bold uppercase text-brand-gold hover:underline text-xs">Open Comms Hub →</a>
-        
-        <!-- Reply Drawer Trigger -->
-        <button onclick="toggleDrawer(true)" class="w-full sm:w-auto bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-xs uppercase font-black px-4 py-2.5 rounded transition shadow cursor-pointer">
-            Open Drawer to Reply ↵
-        </button>
-    </div>
-</section>
-
-2. Slide-Out Drawer Panel HTML
-Add this right before the closing </body> tag on the page:
-<!-- SLIDE-OUT DRAWER OVERLAY & PANEL -->
-<div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
-
-<div id="chatDrawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-brand-card border-l border-brand-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-    <!-- Drawer Header -->
-    <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
-        <div>
-            <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
-            <p id="drawerChannelName" class="text-[10px] text-brand-gold uppercase">Channel: 🌐 Global Feed</p>
-        </div>
-        <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition cursor-pointer">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-    </div>
-
-    <!-- Drawer Messages Area -->
-    <div id="drawerMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-[#111]">
-         <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching logs... ]</div>
-    </div>
-
-    <!-- Drawer Input Area -->
-    <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
-        <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-gold transition">
-        <button onclick="sendDrawerMessage()" id="drawerSendBtn" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
-    </div>
-</div>
-
-3. JavaScript Engine
-Paste this script block right before </body>:
-<!-- SUPABASE NATIVE ENGINE FOR SECTION 4 CHAT -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-    // Global Drawer Control
-    window.toggleDrawer = function(show) {
-        const drawer = document.getElementById('chatDrawer');
-        const overlay = document.getElementById('drawerOverlay');
-
-        if (!drawer || !overlay) {
-            console.error("GSR Drawer Error: Could not find #chatDrawer or #drawerOverlay in HTML.");
-            return;
-        }
-
-        if (show) {
-            overlay.classList.remove('hidden');
-            void overlay.offsetWidth;
-            overlay.classList.remove('opacity-0');
-            drawer.classList.remove('translate-x-full');
-
-            const msgBox = document.getElementById('drawerMessages');
-            if (msgBox) msgBox.scrollTop = msgBox.scrollHeight;
-        } else {
-            overlay.classList.add('opacity-0');
-            drawer.classList.add('translate-x-full');
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-            }, 300);
-        }
-    };
-
-    const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-    const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-    const db = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-    let activeSectionChannel = 'global';
-    let currentUser = null;
-    let currentProfile = null;
-
-    const channelNames = {
-        global: '🌐 Global Feed',
-        following: '👥 Following',
-        team: '🛡️️ Team Chat',
-        pro_plus: '⭐ Pro Plus'
-    };
-
-    async function initSectionChatWidget() {
-        // Sync Auth Session
-        const { data: { session } } = await db.auth.getSession();
-        const drawerInput = document.getElementById('drawerInput');
-
-        if (session) {
-            currentUser = session.user;
-            const { data: profile } = await db
-                .from('gsr_profiles')
-                .select('sl_legacy_name')
-                .eq('id', currentUser.id)
-                .single();
-
-            currentProfile = profile;
-            if (drawerInput) {
-                drawerInput.placeholder = "Type message...";
-                drawerInput.disabled = false;
+            if (show) {
+                overlay.classList.remove('hidden');
+                void overlay.offsetWidth;
+                overlay.classList.remove('opacity-0');
+                drawer.classList.remove('translate-x-full');
+                const msgBox = document.getElementById('drawerMessages');
+                if (msgBox) msgBox.scrollTop = msgBox.scrollHeight;
+            } else {
+                overlay.classList.add('opacity-0');
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => { overlay.classList.add('hidden'); }, 300);
             }
-        } else {
-            if (drawerInput) {
-                drawerInput.placeholder = "Sign in at Main Menu to chat...";
-                drawerInput.disabled = true;
+        };
+
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let activeSectionChannel = 'global';
+        let currentUser = null;
+        let currentProfile = null;
+
+        const channelNames = { global: '🌐 Global Feed', following: '👥 Following', team: '🛡️ Team Chat', pro_plus: '⭐ Pro Plus' };
+
+        async function initProPage() {
+            // 1. Auth Sync
+            const { data: { session } } = await db.auth.getSession();
+            const drawerInput = document.getElementById('drawerInput');
+
+            if (session) {
+                currentUser = session.user;
+                const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name').eq('id', currentUser.id).single();
+                currentProfile = profile;
+                if (drawerInput) { drawerInput.placeholder = "Type message..."; drawerInput.disabled = false; }
+            } else {
+                if (drawerInput) { drawerInput.placeholder = "Sign in to chat..."; drawerInput.disabled = true; }
             }
-        }
 
-        loadSectionChatWidget();
-        subscribeToSectionRealtime();
-    }
-
-    async function switchSectionChannel(channel) {
-        activeSectionChannel = channel;
-        const drawerTitle = document.getElementById('drawerChannelName');
-        if (drawerTitle) drawerTitle.innerText = `Channel: ${channelNames[channel] || channel}`;
-        
-        loadSectionChatWidget();
-    }
-
-    async function loadSectionChatWidget() {
-        const feed = document.getElementById('sectionChatFeed');
-        const drawerFeed = document.getElementById('drawerMessages');
-
-        const { data, error } = await db
-            .from('gsr_chats')
-            .select('*')
-            .eq('channel', activeSectionChannel)
-            .order('created_at', { ascending: false })
-            .limit(20);
-
-        if (error || !data || data.length === 0) {
-            const emptyMsg = `<div class="text-xs text-gray-500 text-center block my-auto">[ No active transmissions ]</div>`;
-            if (feed) feed.innerHTML = emptyMsg;
-            if (drawerFeed) drawerFeed.innerHTML = emptyMsg;
-            return;
-        }
-
-        const messages = data.reverse();
-
-        // Populate Widget (Last 5)
-        if (feed) {
-            feed.innerHTML = '';
-            messages.slice(-5).forEach(msg => {
-                feed.innerHTML += `
-                    <div class="text-xs leading-relaxed truncate">
-                        <span class="font-black text-brand-gold uppercase">[${escapeHtml(msg.display_name)}]:</span> 
-                        <span class="text-gray-300">${escapeHtml(msg.message)}</span>
-                    </div>
-                `;
+            loadSectionChatWidget();
+            
+            // 2. Fetch Teams and Racers
+            const { data: racers } = await db.from('racers').select('*');
+            const { data: teams } = await db.from('teams').select('*');
+            
+            const teamMap = {};
+            (racers || []).forEach(r => {
+                const teamName = r.primary_team_id ? ((teams || []).find(t => t.id === r.primary_team_id)?.name || 'Independent') : 'Independent';
+                if (!teamMap[teamName]) teamMap[teamName] = 0;
+                teamMap[teamName] += (r.rating_points || 0);
             });
-            feed.scrollTop = feed.scrollHeight;
-        }
+            const proTeams = Object.keys(teamMap).map(name => ({ name, pts: teamMap[name] })).sort((a,b) => b.pts - a.pts);
 
-        // Populate Drawer (Full History)
-        if (drawerFeed) {
-            drawerFeed.innerHTML = '';
-            messages.forEach(msg => {
-                const isMe = currentUser && msg.user_id === currentUser.id;
-                const align = isMe ? 'items-end' : 'items-start';
-                const bg = isMe ? 'bg-brand-gold/10 border-brand-gold text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200';
-
-                drawerFeed.innerHTML += `
-                    <div class="flex flex-col ${align}">
-                        <span class="text-[9px] font-black uppercase text-gray-500 mb-0.5">${escapeHtml(msg.display_name)}</span>
-                        <div class="${bg} border px-3 py-2 rounded-lg text-xs max-w-[85%] break-words">
-                            ${escapeHtml(msg.message)}
-                        </div>
-                    </div>
-                `;
-            });
-            drawerFeed.scrollTop = drawerFeed.scrollHeight;
-        }
-    }
-
-    async function sendDrawerMessage() {
-        if (!currentUser) {
-            alert("Sign in required to transmit messages.");
-            return;
-        }
-
-        const input = document.getElementById('drawerInput');
-        const val = input.value.trim();
-        if (!val) return;
-
-        const name = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
-
-        const { error } = await db.from('gsr_chats').insert([{
-            user_id: currentUser.id,
-            display_name: name,
-            message: val,
-            channel: activeSectionChannel
-        }]);
-
-        if (error) {
-            alert("Transmission failed: " + error.message);
-        } else {
-            input.value = '';
-        }
-    }
-
-    function subscribeToSectionRealtime() {
-        db.channel('public:gsr_chats_section4')
-            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
-                if (payload.new.channel === activeSectionChannel) {
-                    loadSectionChatWidget();
+            // Populate Team Standings
+            const tableBody = document.getElementById('proTeamsTable');
+            if (tableBody) {
+                tableBody.innerHTML = '';
+                for (let i = 0; i < 3; i++) {
+                    const t = proTeams[i];
+                    const rankClass = i === 0 ? 'text-brand-gold' : (i === 1 ? 'text-gray-400' : 'text-gray-500');
+                    const nameClass = i === 0 ? 'text-white' : (i === 1 ? 'text-gray-300' : 'text-gray-400');
+                    const ptsClass = i === 0 ? 'text-brand-gold' : 'text-white';
+                    if (t) {
+                        tableBody.innerHTML += `<tr class="hover:bg-white/5 transition cursor-pointer" onclick="window.location='team.html?name=${encodeURIComponent(t.name)}'"><td class="py-4 px-6 font-black italic ${rankClass} text-lg">${i + 1}</td><td class="py-4 px-6 font-bold ${nameClass} uppercase">${escapeHtml(t.name)}</td><td class="py-4 px-6 text-right font-black ${ptsClass}">${t.pts.toLocaleString()}</td></tr>`;
+                    }
                 }
-            })
-            .subscribe();
-    }
+            }
 
-    function escapeHtml(str) {
-        return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
-    }
+            // Populate Top Racers
+            const topRacersBox = document.getElementById('topTeamRacersBox');
+            if (topRacersBox) {
+                topRacersBox.innerHTML = '';
+                const sortedRacers = [...(racers||[])].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
+                for(let i=0; i<3; i++) {
+                    const r = sortedRacers[i];
+                    if (r) {
+                        topRacersBox.innerHTML += `<div class="flex justify-between items-center bg-brand-bg px-3 py-2 border ${i===0?'border-brand-gold':'border-brand-border'} rounded cursor-pointer hover:bg-black/50 transition" onclick="window.location='racer.html?driver=${encodeURIComponent(r.display_name)}'"><span class="${i===0?'text-brand-gold':(i===1?'text-gray-400':'text-gray-500')} font-black italic">${i + 1}.</span><span class="text-white text-[10px] font-bold uppercase">${escapeHtml(r.display_name)}</span></div>`;
+                    }
+                }
+            }
 
-    document.getElementById('drawerInput')?.addEventListener('keypress', e => {
-        if (e.key === 'Enter') sendDrawerMessage();
-    });
+            // Calendar
+            const todayStr = new Date().toISOString().split('T')[0];
+            const { data: events } = await db.from('gsr_events').select('*').gte('event_date', todayStr).order('event_date', { ascending: true }).limit(1);
+            if (events && events.length > 0) {
+                document.getElementById('upcomingEventTitle').innerText = events[0].title;
+                document.getElementById('upcomingEventDesc').innerText = `${events[0].event_date} • ${events[0].event_time} | ${events[0].description || events[0].category}`;
+            }
+        }
 
-    window.onload = initSectionChatWidget;
-</script>
+        async function switchSectionChannel(channel) {
+            activeSectionChannel = channel;
+            document.getElementById('drawerChannelName').innerText = `Channel: ${channelNames[channel] || channel}`;
+            loadSectionChatWidget();
+        }
+
+        async function loadSectionChatWidget() {
+            const feed = document.getElementById('sectionChatFeed');
+            const drawerFeed = document.getElementById('drawerMessages');
+            const { data, error } = await db.from('gsr_chats').select('*').eq('channel', activeSectionChannel).order('created_at', { ascending: false }).limit(20);
+
+            if (error || !data || data.length === 0) {
+                const emptyMsg = `<div class="text-xs text-gray-500 text-center block my-auto">[ No active transmissions ]</div>`;
+                if(feed) feed.innerHTML = emptyMsg;
+                if(drawerFeed) drawerFeed.innerHTML = emptyMsg;
+                return;
+            }
+
+            const messages = data.reverse();
+            if (feed) {
+                feed.innerHTML = '';
+                messages.slice(-5).forEach(msg => { feed.innerHTML += `<div class="text-xs leading-relaxed truncate"><span class="font-black text-brand-gold uppercase">[${escapeHtml(msg.display_name)}]:</span> <span class="text-gray-300">${escapeHtml(msg.message)}</span></div>`; });
+                feed.scrollTop = feed.scrollHeight;
+            }
+            if (drawerFeed) {
+                drawerFeed.innerHTML = '';
+                messages.forEach(msg => {
+                    const isMe = currentUser && msg.user_id === currentUser.id;
+                    const align = isMe ? 'items-end' : 'items-start';
+                    const bg = isMe ? 'bg-brand-gold/10 border-brand-gold text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200';
+                    drawerFeed.innerHTML += `<div class="flex flex-col ${align}"><span class="text-[9px] font-black uppercase text-gray-500 mb-0.5">${escapeHtml(msg.display_name)}</span><div class="${bg} border px-3 py-2 rounded-lg text-xs max-w-[85%] break-words">${escapeHtml(msg.message)}</div></div>`;
+                });
+                drawerFeed.scrollTop = drawerFeed.scrollHeight;
+            }
+        }
+
+        async function sendDrawerMessage() {
+            if (!currentUser) return alert("Sign in required to transmit messages.");
+            const input = document.getElementById('drawerInput');
+            if (!input.value.trim()) return;
+            const name = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
+            const { error } = await db.from('gsr_chats').insert([{ user_id: currentUser.id, display_name: name, message: input.value.trim(), channel: activeSectionChannel }]);
+            if (error) alert("Transmission failed: " + error.message);
+            else { input.value = ''; loadSectionChatWidget(); }
+        }
+
+        function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+        document.getElementById('drawerInput')?.addEventListener('keypress', e => { if (e.key === 'Enter') sendDrawerMessage(); });
+        window.onload = initProPage;
+    </script>
 </body>
 </html>
