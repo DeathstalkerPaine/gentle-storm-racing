@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -36,16 +35,16 @@
     </header>
 
     <nav class="bg-brand-bg border-b border-brand-border py-3">
-    <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
-        <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
-        <a href="leaderboard_view.html?category=team" class="text-gray-300 hover:text-brand-gold transition">Team Leaderboards</a>
-        <a href="leaderboard_view.html?class=pro" class="text-gray-300 hover:text-brand-gold transition">League Leaderboards</a>
-        <a href="leaderboard_view.html?category=racer" class="text-gray-300 hover:text-brand-gold transition">Racer Leaderboard</a>
-        <a href="leaderboard_view.html?category=racer&class=pro_plus" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Leaderboard</a>
-        <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
-        <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
-    </div>
-</nav>
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="leaderboard_view.html?category=team" class="text-gray-300 hover:text-brand-gold transition">Team Leaderboards</a>
+            <a href="leaderboard_view.html?class=pro" class="text-gray-300 hover:text-brand-gold transition">League Leaderboards</a>
+            <a href="leaderboard_view.html?category=racer" class="text-gray-300 hover:text-brand-gold transition">Racer Leaderboard</a>
+            <a href="leaderboard_view.html?category=racer&class=pro_plus" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Leaderboard</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
 
     <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
@@ -55,40 +54,28 @@
             <!-- Top 5 Pro Plus Racers -->
             <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col red-border-glow">
                 <h2 class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center tracking-widest">Top 5 Pro Plus Racers</h2>
-                <div class="space-y-3 flex-grow">
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-gold rounded"><span class="text-brand-gold font-black italic w-4">1</span><span class="text-white text-[11px] font-bold uppercase">Deathstalker Paine</span><span class="text-brand-gold text-[10px] font-black">1,250 PT</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-80"><span class="text-gray-400 font-black italic w-4">2</span><span class="text-gray-300 text-[11px] font-bold uppercase">Vortex_SL</span><span class="text-gray-400 text-[10px] font-black">980 PT</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-60"><span class="text-gray-500 font-black italic w-4">3</span><span class="text-gray-400 text-[11px] font-bold uppercase">BlazeRunner</span><span class="text-gray-500 text-[10px] font-black">740 PT</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-40"><span class="text-gray-600 font-black italic w-4">4</span><span class="text-gray-600 text-[10px] font-bold uppercase">Pending</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-40"><span class="text-gray-600 font-black italic w-4">5</span><span class="text-gray-600 text-[10px] font-bold uppercase">Pending</span></div>
+                <div id="topProPlusList" class="space-y-3 flex-grow">
+                    <div class="text-center text-xs text-gray-500 py-10 font-mono">[ Fetching Data... ]</div>
                 </div>
-                <a href="leaderboard_view.html" class="mt-4 text-[10px] uppercase font-bold text-brand-red text-center hover:underline">View Full Leaderboard →</a>
+                <a href="leaderboard_view.html?category=racer" class="mt-4 text-[10px] uppercase font-bold text-brand-red text-center hover:underline">View Full Leaderboard →</a>
             </div>
 
             <!-- Top 5 Pro League Teams -->
             <div class="bg-brand-card border border-brand-blue rounded-xl p-6 shadow-xl flex flex-col blue-border-glow">
                 <h2 class="text-sm font-black uppercase text-brand-blue border-b border-brand-border pb-3 mb-4 text-center tracking-widest">Top 5 Pro Teams</h2>
-                <div class="space-y-3 flex-grow">
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-gold rounded"><span class="text-brand-gold font-black italic w-4">1</span><span class="text-white text-[11px] font-bold uppercase">Storm Riders</span><span class="text-brand-gold text-[10px] font-black">12.5k XP</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-400 font-black italic w-4">2</span><span class="text-gray-300 text-[11px] font-bold uppercase">Neon Syndicate</span><span class="text-gray-400 text-[10px] font-black">10.2k XP</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-500 font-black italic w-4">3</span><span class="text-gray-400 text-[11px] font-bold uppercase">Apex Predators</span><span class="text-gray-500 text-[10px] font-black">9.8k XP</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-40"><span class="text-gray-600 font-black italic w-4">4</span><span class="text-gray-600 text-[10px] font-bold uppercase">Pending</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-40"><span class="text-gray-600 font-black italic w-4">5</span><span class="text-gray-600 text-[10px] font-bold uppercase">Pending</span></div>
+                <div id="topTeamsList" class="space-y-3 flex-grow">
+                    <div class="text-center text-xs text-gray-500 py-10 font-mono">[ Fetching Data... ]</div>
                 </div>
-                <a href="leaderboard_view.html" class="mt-4 text-[10px] uppercase font-bold text-brand-blue text-center hover:underline">View Full Leaderboard →</a>
+                <a href="leaderboard_view.html?category=team" class="mt-4 text-[10px] uppercase font-bold text-brand-blue text-center hover:underline">View Full Leaderboard →</a>
             </div>
 
             <!-- Top 5 Amateur League Racers -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
                 <h2 class="text-sm font-black uppercase text-gray-300 border-b border-brand-border pb-3 mb-4 text-center tracking-widest">Top 5 Amateur Racers</h2>
-                <div class="space-y-3 flex-grow">
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-brand-gold font-black italic w-4">1</span><span class="text-white text-[11px] font-bold uppercase">RookieDriver_01</span><span class="text-brand-gold text-[10px] font-black">450 PT</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-400 font-black italic w-4">2</span><span class="text-gray-300 text-[11px] font-bold uppercase">VelocityX</span><span class="text-gray-400 text-[10px] font-black">380 PT</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded"><span class="text-gray-500 font-black italic w-4">3</span><span class="text-gray-400 text-[11px] font-bold uppercase">AsphaltGhost</span><span class="text-gray-500 text-[10px] font-black">290 PT</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-40"><span class="text-gray-600 font-black italic w-4">4</span><span class="text-gray-600 text-[10px] font-bold uppercase">Pending</span></div>
-                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-40"><span class="text-gray-600 font-black italic w-4">5</span><span class="text-gray-600 text-[10px] font-bold uppercase">Pending</span></div>
+                <div id="topAmateurList" class="space-y-3 flex-grow">
+                    <div class="text-center text-xs text-gray-500 py-10 font-mono">[ Fetching Data... ]</div>
                 </div>
-                <a href="leaderboard_view.html" class="mt-4 text-[10px] uppercase font-bold text-gray-400 text-center hover:underline">View Full Leaderboard →</a>
+                <a href="leaderboard_view.html?category=racer&class=amateur" class="mt-4 text-[10px] uppercase font-bold text-gray-400 text-center hover:underline">View Full Leaderboard →</a>
             </div>
         </section>
 
@@ -104,18 +91,18 @@
         
         <!-- ROW 3: 2-COLUMN STATS -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Aggressive -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
-                <h3 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Top 5 Most Aggressive (Player DMG)</h3>
-                <div class="bg-brand-bg border border-brand-border rounded-xl flex-grow p-4 text-center">
-                    <div class="flex justify-between items-center mb-2 px-2"><span class="text-[10px] font-black uppercase text-brand-red">#1 Deathstalker Paine</span><span class="text-[10px] font-mono text-gray-400">18,500 DMG</span></div>
-                    <div class="flex justify-between items-center mb-2 px-2"><span class="text-[10px] font-black uppercase text-gray-300">#2 Vortex_SL</span><span class="text-[10px] font-mono text-gray-400">14,200 DMG</span></div>
+                <h3 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Top 5 Most Aggressive (Highest DMG)</h3>
+                <div id="topAggressiveList" class="bg-brand-bg border border-brand-border rounded-xl flex-grow p-4 text-center">
+                    <div class="text-center text-xs text-gray-500 py-4 font-mono">[ Fetching Data... ]</div>
                 </div>
             </div>
+            <!-- Defensive -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
-                <h3 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Top 5 Defensive (Lowest Dmg Taken)</h3>
-                <div class="bg-brand-bg border border-brand-border rounded-xl flex-grow p-4 text-center">
-                    <div class="flex justify-between items-center mb-2 px-2"><span class="text-[10px] font-black uppercase text-brand-blue">#1 BlazeRunner</span><span class="text-[10px] font-mono text-gray-400">2,100 DMG</span></div>
-                    <div class="flex justify-between items-center mb-2 px-2"><span class="text-[10px] font-black uppercase text-gray-300">#2 Neon_Knight</span><span class="text-[10px] font-mono text-gray-400">3,400 DMG</span></div>
+                <h3 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Top 5 Defensive (Lowest DMG)</h3>
+                <div id="topDefensiveList" class="bg-brand-bg border border-brand-border rounded-xl flex-grow p-4 text-center">
+                    <div class="text-center text-xs text-gray-500 py-4 font-mono">[ Fetching Data... ]</div>
                 </div>
             </div>
         </section>
@@ -123,24 +110,148 @@
         <!-- ROW 4: 3-COLUMN TRACK RECORDS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
-                <h3 class="text-[11px] font-black uppercase text-brand-gold border-b border-brand-border pb-3 mb-4 text-center">Vegas Strip Records</h3>
-                <div class="bg-brand-bg border border-brand-border p-3 rounded text-center"><span class="block text-[10px] font-black text-white uppercase">Deathstalker Paine</span><span class="text-[12px] font-mono text-brand-gold">1:18.420</span></div>
+                <h3 class="text-[11px] font-black uppercase text-brand-gold border-b border-brand-border pb-3 mb-4 text-center">Global Fast Lap</h3>
+                <div id="recordBestLap" class="bg-brand-bg border border-brand-border p-3 rounded text-center">
+                    <span class="text-[10px] font-mono text-gray-500">[ Fetching... ]</span>
+                </div>
             </div>
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
-                <h3 class="text-[11px] font-black uppercase text-brand-gold border-b border-brand-border pb-3 mb-4 text-center">Ancient Rome Records</h3>
-                <div class="bg-brand-bg border border-brand-border p-3 rounded text-center"><span class="block text-[10px] font-black text-white uppercase">Vortex_SL</span><span class="text-[12px] font-mono text-brand-gold">1:34.900</span></div>
+                <h3 class="text-[11px] font-black uppercase text-brand-gold border-b border-brand-border pb-3 mb-4 text-center">Global Course Record</h3>
+                <div id="recordBestCourse" class="bg-brand-bg border border-brand-border p-3 rounded text-center">
+                    <span class="text-[10px] font-mono text-gray-500">[ Fetching... ]</span>
+                </div>
             </div>
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
                 <h3 class="text-[11px] font-black uppercase text-brand-gold border-b border-brand-border pb-3 mb-4 text-center">Abandoned City Records</h3>
-                <div class="bg-brand-bg border border-brand-border p-3 rounded text-center"><span class="block text-[10px] font-black text-gray-500 uppercase">Unclaimed</span><span class="text-[12px] font-mono text-gray-600">--:--.---</span></div>
+                <div class="bg-brand-bg border border-brand-border p-3 rounded text-center">
+                    <span class="block text-[10px] font-black text-gray-500 uppercase">Unclaimed</span>
+                    <span class="text-[12px] font-mono text-gray-600">--:--.---</span>
+                </div>
             </div>
         </section>
 
     </main>
 
-    <!-- UNIVERSAL FOOTER -->
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
+
+    <!-- SUPABASE ENGINE & DASHBOARD LOGIC -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function initDashboard() {
+            // Fetch all racers and teams
+            const { data: racers, error: rError } = await db.from('racers').select('*');
+            const { data: teams, error: tError } = await db.from('teams').select('*');
+
+            if (!racers || racers.length === 0) return;
+
+            // 1. TOP RACERS (Points)
+            const sortedRacers = [...racers].sort((a, b) => (b.rating_points || 0) - (a.rating_points || 0));
+            renderTopList('topProPlusList', sortedRacers.slice(0, 5), 'PT');
+            
+            // 2. TOP TEAMS (Aggregate Points)
+            if (teams) {
+                const teamStats = teams.map(t => {
+                    const members = racers.filter(r => r.primary_team_id === t.id);
+                    const totalPts = members.reduce((sum, r) => sum + (r.rating_points || 0), 0);
+                    return { display_name: t.name, rating_points: totalPts, isTeam: true };
+                });
+                const sortedTeams = teamStats.sort((a, b) => b.rating_points - a.rating_points);
+                renderTopList('topTeamsList', sortedTeams.slice(0, 5), 'XP');
+            }
+
+            // 3. TOP AMATEUR (Lowest 5 points as placeholder, or filter by league if column exists)
+            const amateurRacers = [...racers].sort((a, b) => (a.rating_points || 0) - (b.rating_points || 0));
+            renderTopList('topAmateurList', amateurRacers.slice(0, 5), 'PT', true);
+
+            // 4. DAMAGE RANKINGS
+            const sortedByDmgHigh = [...racers].sort((a, b) => (b.lifetime_damage || 0) - (a.lifetime_damage || 0));
+            const sortedByDmgLow = [...racers].sort((a, b) => (a.lifetime_damage || 0) - (b.lifetime_damage || 0));
+
+            renderDamageList('topAggressiveList', sortedByDmgHigh.slice(0, 5), ['text-brand-red', 'text-gray-300', 'text-gray-400']);
+            renderDamageList('topDefensiveList', sortedByDmgLow.slice(0, 5), ['text-brand-blue', 'text-gray-300', 'text-gray-400']);
+
+            // 5. GLOBAL TRACK RECORDS
+            const validLaps = racers.filter(r => r.best_lap_time && r.best_lap_time !== '--:--.---').sort((a,b) => a.best_lap_time.localeCompare(b.best_lap_time));
+            const validCourses = racers.filter(r => r.best_race_time && r.best_race_time !== '--:--.---').sort((a,b) => a.best_race_time.localeCompare(b.best_race_time));
+
+            if(validLaps.length > 0) {
+                document.getElementById('recordBestLap').innerHTML = `<span class="block text-[10px] font-black text-white uppercase">${escapeHtml(validLaps[0].display_name)}</span><span class="text-[12px] font-mono text-brand-gold">${validLaps[0].best_lap_time}</span>`;
+            }
+            if(validCourses.length > 0) {
+                document.getElementById('recordBestCourse').innerHTML = `<span class="block text-[10px] font-black text-white uppercase">${escapeHtml(validCourses[0].display_name)}</span><span class="text-[12px] font-mono text-brand-gold">${validCourses[0].best_race_time}</span>`;
+            }
+        }
+
+        function renderTopList(containerId, dataArray, unit, isAmateur = false) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            for (let i = 0; i < 5; i++) {
+                const item = dataArray[i];
+                let bgClass = "opacity-40";
+                let numClass = "text-gray-600";
+                let textClass = "text-gray-600";
+                let name = "Pending";
+                let score = "";
+                let href = "#";
+
+                if (item) {
+                    name = item.display_name;
+                    score = `${(item.rating_points || 0).toLocaleString()} ${unit}`;
+                    if (i === 0) {
+                        bgClass = "border-brand-gold";
+                        numClass = "text-brand-gold";
+                        textClass = "text-white";
+                    } else if (i === 1) {
+                        bgClass = "border-brand-border opacity-80";
+                        numClass = "text-gray-400";
+                        textClass = "text-gray-300";
+                    } else if (i === 2) {
+                        bgClass = "border-brand-border opacity-60";
+                        numClass = "text-gray-500";
+                        textClass = "text-gray-400";
+                    } else {
+                        bgClass = "border-brand-border opacity-40";
+                    }
+                    
+                    href = item.isTeam ? `team.html?name=${encodeURIComponent(name)}` : `racer.html?driver=${encodeURIComponent(name)}`;
+                }
+
+                container.innerHTML += `
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border rounded cursor-pointer hover:bg-[#111] transition ${bgClass}" onclick="if('${name}' !== 'Pending') window.location='${href}'">
+                        <span class="${numClass} font-black italic w-4">${i + 1}</span>
+                        <span class="${textClass} text-[11px] font-bold uppercase truncate flex-grow pl-2">${escapeHtml(name)}</span>
+                        <span class="${i === 0 ? 'text-brand-gold' : numClass} text-[10px] font-black whitespace-nowrap">${score}</span>
+                    </div>
+                `;
+            }
+        }
+
+        function renderDamageList(containerId, dataArray, colorClasses) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            for (let i = 0; i < 5; i++) {
+                if(!dataArray[i]) break;
+                const r = dataArray[i];
+                const color = i === 0 ? colorClasses[0] : (i === 1 ? colorClasses[1] : colorClasses[2]);
+                
+                container.innerHTML += `
+                    <div class="flex justify-between items-center mb-2 px-2 cursor-pointer hover:bg-black/40 rounded transition" onclick="window.location='racer.html?driver=${encodeURIComponent(r.display_name)}'">
+                        <span class="text-[10px] font-black uppercase ${color} truncate mr-2">#${i+1} ${escapeHtml(r.display_name)}</span>
+                        <span class="text-[10px] font-mono text-gray-400 whitespace-nowrap">${(r.lifetime_damage || 0).toLocaleString()} DMG</span>
+                    </div>
+                `;
+            }
+        }
+
+        function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+        
+        window.onload = initDashboard;
+    </script>
 </body>
 </html>
-
-
