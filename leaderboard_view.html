@@ -116,8 +116,7 @@
 
     </main>
 
-
-          <!-- SUPABASE ENGINE -->
+    <!-- SUPABASE ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
@@ -125,24 +124,26 @@
         const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
         const db = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        let liveProfiles = [];
+        let liveRacers = [];
+        let liveTeams = [];
 
         async function fetchLeaderboardData() {
-            const { data, error } = await db.from('gsr_profiles').select('*');
-            
-            if (error) {
-                console.warn("Supabase Access Blocked or Error:", error.message);
-            }
+            const { data: racersData } = await db.from('racers').select('*');
+            const { data: teamsData } = await db.from('teams').select('id, name');
 
-            // Pull strictly from Supabase. No fake fallbacks overriding your zeros.
-            liveProfiles = data || [];
+            liveRacers = racersData || [];
+            liveTeams = teamsData || [];
             renderTable();
+        }
+
+        function getTeamName(teamId) {
+            const team = liveTeams.find(t => t.id === teamId);
+            return team ? team.name : 'UNASSIGNED';
         }
 
         function renderTable() {
             const tbody = document.getElementById('leaderboardBody');
             const category = document.getElementById('queryCategory').value;
-            const classVal = document.getElementById('queryClass').value;
             const trackVal = document.getElementById('queryTrack').value;
             const trackLabel = document.getElementById('trackLabel');
             
@@ -158,22 +159,22 @@
             };
             if (trackLabel) trackLabel.innerText = `Showing: ${trackNames[trackVal] || 'Global (All Tracks)'}`;
 
-            // 1. TEAM AGGREGATE MODE
+            // 1. TEAM MODE
             if (category === 'team') {
                 const teamStats = {};
                 
-                liveProfiles.forEach(p => {
-                    const team = p.team_name || p.team || 'Unassigned';
-                    if (team !== 'Unassigned' && team.trim() !== '') {
-                        if (!teamStats[team]) {
-                            teamStats[team] = { name: team, pts: 0, wins: 0, losses: 0, draws: 0, dmgOut: 0, dmgIn: 0 };
+                liveRacers.forEach(r => {
+                    if (r.primary_team_id) {
+                        const teamName = getTeamName(r.primary_team_id);
+                        if (!teamStats[teamName]) {
+                            teamStats[teamName] = { name: teamName, pts: 0, wins: 0, losses: 0, draws: 0, dmgOut: 0, dmgIn: 0 };
                         }
-                        teamStats[team].pts += (p.rating || 0);
-                        teamStats[team].wins += (p.wins || 0);
-                        teamStats[team].losses += (p.losses || 0);
-                        teamStats[team].draws += (p.draws || p.dsq || 0);
-                        teamStats[team].dmgOut += (p.dmg_dealt || 0);
-                        teamStats[team].dmgIn += (p.dmg_taken || 0);
+                        teamStats[teamName].pts += (r.rating_points || 0);
+                        teamStats[teamName].wins += (r.wins || 0);
+                        teamStats[teamName].losses += (r.losses || 0);
+                        teamStats[teamName].draws += (r.dsqualifications || 0);
+                        teamStats[teamName].dmgOut += (r.lifetime_damage || 0);
+                        teamStats[teamName].dmgIn += 0;
                     }
                 });
 
@@ -192,7 +193,7 @@
                     tbody.innerHTML += `
                         <tr class="hover:bg-white/5 transition">
                             <td class="py-4 px-6 text-center font-black italic ${rankClass}">${index + 1}</td>
-                            <td class="py-4 px-4 cursor-pointer hover:bg-brand-card transition rounded" onclick="window.location='team.html'">
+                            <td class="py-4 px-4 cursor-pointer hover:bg-brand-card transition rounded" onclick="window.location='team.html?name=${encodeURIComponent(team.name)}'">
                                 <div class="font-black text-white uppercase text-sm hover:text-brand-gold transition">${escapeHtml(team.name)}</div>
                                 <div class="font-bold text-[9px] text-gray-500 uppercase">SYNDICATE</div>
                             </td>
@@ -209,51 +210,42 @@
                 return;
             }
 
-            // 2. INDIVIDUAL RACERS MODE
-            let displayData = [...liveProfiles];
-
-            if (classVal !== 'all') {
-                displayData = displayData.filter(p => {
-                    const roleStr = (p.role || p.league || '').toLowerCase().replace(' ', '_');
-                    return roleStr.includes(classVal);
-                });
-            }
+            // 2. RACER MODE
+            let displayData = [...liveRacers].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
 
             if (displayData.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="9" class="py-12 text-center text-gray-500 font-mono uppercase tracking-widest">[ NO RACER TELEMETRY FOUND ]</td></tr>`;
                 return;
             }
 
-            displayData.sort((a,b) => (b.rating || 0) - (a.rating || 0));
-
             displayData.forEach((row, index) => {
-                const name = row.sl_legacy_name || 'UNKNOWN';
-                const team = row.team_name || row.team || 'UNASSIGNED';
+                const name = row.display_name || 'UNKNOWN';
+                const teamName = row.primary_team_id ? getTeamName(row.primary_team_id) : 'UNASSIGNED';
                 const rankClass = index === 0 ? 'text-brand-gold text-lg text-shadow-glow' : (index === 1 ? 'text-gray-300 text-base' : 'text-gray-500 text-sm');
                 
                 const wins = row.wins || 0;
                 const losses = row.losses || 0;
-                const draws = row.draws || row.dsq || 0;
+                const draws = row.dsqualifications || 0;
                 const totalRaces = wins + losses + draws;
                 const winPct = totalRaces > 0 ? Math.round((wins / totalRaces) * 100) + '%' : '0%';
                 
-                const bestLap = row.best_lap || "--:--.---";
-                const bestCourse = row.best_course || "--:--.---";
+                const bestLap = row.best_lap_time || "--:--.---";
+                const bestCourse = row.best_race_time || "--:--.---";
 
                 tbody.innerHTML += `
                     <tr class="hover:bg-white/5 transition">
                         <td class="py-4 px-6 text-center font-black italic ${rankClass}">${index + 1}</td>
                         <td class="py-4 px-4 cursor-pointer hover:bg-brand-card transition rounded" onclick="window.location='racer.html?driver=${encodeURIComponent(name)}'">
                             <div class="font-black text-white uppercase text-sm hover:text-brand-gold transition">${escapeHtml(name)}</div>
-                            <div class="font-bold text-[9px] text-gray-500 uppercase">${escapeHtml(team)}</div>
+                            <div class="font-bold text-[9px] text-gray-500 uppercase">${escapeHtml(teamName)}</div>
                         </td>
-                        <td class="py-4 px-4 text-center font-black text-brand-gold text-base bg-brand-gold/5">${(row.rating || 0).toLocaleString()}</td>
+                        <td class="py-4 px-4 text-center font-black text-brand-gold text-base bg-brand-gold/5">${(row.rating_points || 0).toLocaleString()}</td>
                         <td class="py-4 px-4 text-center font-black text-white">${winPct}</td>
                         <td class="py-4 px-4 text-center font-bold text-gray-400"><span class="text-white">${wins}</span> - ${losses} - <span class="text-gray-500">${draws}</span></td>
                         <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${bestLap}</td>
                         <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${bestCourse}</td>
-                        <td class="py-4 px-4 text-center font-mono font-bold text-brand-red">${(row.dmg_dealt || 0).toLocaleString()}</td>
-                        <td class="py-4 px-4 text-center font-mono font-bold text-gray-500">${(row.dmg_taken || 0).toLocaleString()}</td>
+                        <td class="py-4 px-4 text-center font-mono font-bold text-brand-red">${(row.lifetime_damage || 0).toLocaleString()}</td>
+                        <td class="py-4 px-4 text-center font-mono font-bold text-gray-500">0</td>
                     </tr>
                 `;
             });
@@ -261,30 +253,15 @@
 
         function initFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
-            
-            if (urlParams.has('category')) {
-                const el = document.getElementById('queryCategory');
-                if (el) el.value = urlParams.get('category');
-            }
-            if (urlParams.has('class')) {
-                const el = document.getElementById('queryClass');
-                if (el) el.value = urlParams.get('class');
-            }
-            if (urlParams.has('time')) {
-                const el = document.getElementById('queryTime');
-                if (el) el.value = urlParams.get('time');
-            }
-            if (urlParams.has('track')) {
-                const el = document.getElementById('queryTrack');
-                if (el) el.value = urlParams.get('track');
-            }
+            if (urlParams.has('category')) document.getElementById('queryCategory').value = urlParams.get('category');
+            if (urlParams.has('class')) document.getElementById('queryClass').value = urlParams.get('class');
+            if (urlParams.has('time')) document.getElementById('queryTime').value = urlParams.get('time');
+            if (urlParams.has('track')) document.getElementById('queryTrack').value = urlParams.get('track');
 
             fetchLeaderboardData();
         }
 
-        function escapeHtml(str) {
-            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
-        }
+        function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
 
         window.onload = initFromURL;
     </script>
