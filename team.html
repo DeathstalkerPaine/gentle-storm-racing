@@ -461,14 +461,25 @@
             container.innerHTML = html;
         }
 
-        // SAVE THE NEW STATUS DIRECTLY TO THE DATABASE
-        async function toggleRecruitmentStatus() {
-            if (!isTeamLeader || !currentTeamId) return;
-            teamIsRecruiting = !teamIsRecruiting;
-            
-            await db.from('teams').update({ is_recruiting: teamIsRecruiting }).eq('id', currentTeamId);
-            renderBannerControls();
-        }
+       // SAVE THE NEW STATUS DIRECTLY TO THE DATABASE WITH ERROR CHECKING
+async function toggleRecruitmentStatus() {
+    if (!isTeamLeader || !currentTeamId) return;
+    
+    // 1. Flip the status
+    teamIsRecruiting = !teamIsRecruiting;
+    
+    // 2. Try to save to Supabase
+    const { error } = await db.from('teams').update({ is_recruiting: teamIsRecruiting }).eq('id', currentTeamId);
+    
+    // 3. If Supabase rejects it, show the exact error and revert the button
+    if (error) {
+        alert("SUPABASE ERROR: " + error.message);
+        teamIsRecruiting = !teamIsRecruiting; // Revert back
+    }
+    
+    // 4. Update the screen
+    renderBannerControls();
+}
 
         function openApplicationModal() {
             document.getElementById('applicantName').innerText = displayName;
