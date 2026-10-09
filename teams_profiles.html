@@ -47,7 +47,6 @@
             <a href="teams.html" class="text-[10px] font-black uppercase text-gray-400 hover:text-white transition tracking-widest">← BACK TO TEAMS HUB</a>
         </div>
 
-        <!-- SEARCH & FILTER CONTROLS BAR -->
         <section class="bg-brand-card border border-brand-border rounded-xl p-4 shadow-xl space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <input type="text" id="searchInput" placeholder="SEARCH TEAM NAME..." oninput="filterTeams()" class="bg-brand-bg border border-brand-border text-white text-xs px-4 py-2.5 rounded-lg outline-none focus:border-brand-gold uppercase tracking-wider">
@@ -65,13 +64,11 @@
                 </select>
             </div>
 
-            <!-- ALPHABET FILTER BUTTONS -->
             <div id="alphabetBar" class="flex flex-wrap gap-1 pt-2 border-t border-brand-border justify-center">
                 <button onclick="setLetter('ALL')" class="alphabet-btn bg-brand-gold text-black font-black text-[10px] px-2.5 py-1 rounded transition">ALL</button>
             </div>
         </section>
 
-        <!-- DYNAMIC TEAM CARDS GRID -->
         <div id="teamDirectoryGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             <div class="col-span-full text-center text-xs text-gray-500 font-mono py-12">[ Querying live team directories... ]</div>
         </div>
@@ -81,7 +78,6 @@
         &copy; 2026 Gentle Storm Racing. Built for Second Life.
     </footer>
 
-    <!-- SUPABASE ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
@@ -94,14 +90,12 @@
         async function loadTeamDirectory() {
             buildAlphabetBar();
 
-            // Query live database tables directly
             const { data: dbTeams } = await db.from('teams').select('*');
             const { data: dbRacers } = await db.from('racers').select('*');
 
             const teamsList = dbTeams || [];
             const racersList = dbRacers || [];
 
-            // Map database teams dynamically without hardcoded stat overlays
             const processedTeams = teamsList.map(team => {
                 const members = racersList.filter(r => r.primary_team_id === team.id || r.team_id === team.id);
                 
@@ -116,14 +110,14 @@
                     if (fallbackLeader) leaderName = fallbackLeader.display_name;
                 }
 
-                const totalPts = members.reduce((sum, r) => sum + (r.rating_points || r.xp || 0), 0);
+                const totalPts = members.reduce((sum, r) => sum + (r.rating_points || 0), 0);
                 const totalWins = members.reduce((sum, r) => sum + (r.wins || 0), 0);
                 const rosterCount = members.length;
 
-                // Read recruiting status dynamically from DB or check if roster is full/closed
-                const isRecruiting = (team.is_recruiting !== undefined && team.is_recruiting !== null) 
+                // Read persistent is_recruiting column from DB directly
+                const isRecruiting = team.is_recruiting !== undefined && team.is_recruiting !== null 
                     ? team.is_recruiting 
-                    : (rosterCount > 0 && rosterCount < 4);
+                    : true;
 
                 return {
                     id: team.id,
@@ -203,7 +197,7 @@
                                 <div class="grid grid-cols-3 text-center mt-4 border-t border-brand-border/40 pt-4 text-gray-600">
                                     <div><span class="block text-[8px] font-bold uppercase mb-1">POINTS</span><span class="text-xs font-black">0</span></div>
                                     <div><span class="block text-[8px] font-bold uppercase mb-1">WINS</span><span class="text-xs font-black">0</span></div>
-                                    <div><span class="block text-[8px] font-bold uppercase mb-1">ROSTER</span><span class="text-xs font-black">0/4</span></div>
+                                    <div><span class="block text-[8px] font-bold uppercase mb-1">ROSTER</span><span class="text-xs font-black">0/10</span></div>
                                 </div>
                             </div>
                             <div class="mt-4 block w-full text-center bg-[#111]/30 border border-brand-border/30 text-gray-600 text-[9px] font-black uppercase py-2.5 rounded tracking-widest cursor-not-allowed">SLOT AVAILABLE</div>
@@ -241,7 +235,7 @@
                                     </div>
                                     <div>
                                         <span class="block text-[8px] text-gray-600 font-bold uppercase tracking-widest mb-1">ROSTER</span>
-                                        <span class="text-xs font-black text-white">${t.count}/4</span>
+                                        <span class="text-xs font-black text-white">${t.count}/10</span>
                                     </div>
                                 </div>
                             </div>
