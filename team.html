@@ -270,7 +270,8 @@
             const grid = document.getElementById('teamRosterGrid');
             const leaderDisplay = document.getElementById('teamLeaderDisplay');
 
-            const { data: teamData } = await db.from('teams').select('id, name, leader_user_id').eq('name', pageTeamName).single();
+            // FIX APPLIED HERE: We now pull is_recruiting from the database query
+            const { data: teamData } = await db.from('teams').select('id, name, leader_user_id, is_recruiting').eq('name', pageTeamName).single();
             if (!teamData) {
                 grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Team not found ]</div>`;
                 return;
@@ -278,6 +279,9 @@
             
             currentTeamId = teamData.id;
             currentLeaderId = teamData.leader_user_id;
+
+            // FIX APPLIED HERE: Actually set the page's status based on what the database says!
+            teamIsRecruiting = teamData.is_recruiting === false ? false : true;
 
             const { data: drivers, error } = await db
                 .from('racers')
@@ -329,7 +333,7 @@
             }
         }
 
-        // --- 2. AUTHENTICATION (WORKING IDENTITY CHECK) ---
+        // --- 2. AUTHENTICATION ---
         async function initTeamCardPage() {
             await renderTeamRoster();
             loadTeamChatWidget(); 
@@ -404,7 +408,7 @@
             }
         }
 
-        // --- 3. RECRUITMENT UI (SHOWS ALL THREE BUTTONS SIDE-BY-SIDE FOR LEADER) ---
+        // --- 3. RECRUITMENT UI ---
         function renderBannerControls() {
             const container = document.getElementById('bannerApplyContainer');
             const badge = document.getElementById('recruitmentBadge');
@@ -425,154 +429,4 @@
             let html = '';
 
             if (teamIsRecruiting) {
-                if (isTeamLeader) {
-                    html += `
-                        <a href="recruitment.html?team=${encodeURIComponent(pageTeamName)}" class="bg-brand-blue hover:bg-blue-600 text-white font-black uppercase text-[9px] px-3 py-1.5 rounded shadow transition flex items-center gap-1.5 border border-brand-blue cursor-pointer">
-                            📋 Review Applications
-                        </a>
-                        <button onclick="openApplicationModal()" class="bg-green-600 hover:bg-green-500 text-black font-black uppercase text-[9px] px-3 py-1.5 rounded shadow transition flex items-center gap-1.5 cursor-pointer">
-                            📝 Apply for Roster
-                        </button>
-                    `;
-                } else if (currentUser && !isVerifiedTeamMember) {
-                    html += `
-                        <button onclick="openApplicationModal()" class="bg-green-600 hover:bg-green-500 text-black font-black uppercase text-[9px] px-3 py-1.5 rounded shadow transition flex items-center gap-1.5 cursor-pointer">
-                            📝 Apply for Roster
-                        </button>
-                    `;
-                }
-            }
-
-            container.innerHTML = html;
-        }
-
-       async function toggleRecruitmentStatus() {
-    if (!isTeamLeader || !currentTeamId) return;
-    teamIsRecruiting = !teamIsRecruiting;
-    
-    // Save state directly to Supabase teams table
-    await db.from('teams').update({ is_recruiting: teamIsRecruiting }).eq('id', currentTeamId);
-    
-    renderBannerControls();
-}
- }
-
-        function openApplicationModal() {
-            document.getElementById('applicantName').innerText = displayName;
-            document.getElementById('applicationModal').classList.remove('hidden');
-            document.getElementById('applicationModal').classList.add('flex');
-        }
-
-        async function submitApplication() {
-            if (!currentUser) return;
-            const { error } = await db.from('gsr_applications').insert([{
-                user_id: currentUser.id,
-                applicant_name: displayName,
-                team_name: pageTeamName
-            }]);
-
-            if (error) {
-                alert("Application error: " + error.message);
-            } else {
-                alert("Your roster application has been successfully transmitted to the Team Leader!");
-            }
-            closeModals();
-        }
-
-        function closeModals() {
-            document.getElementById('applicationModal').classList.add('hidden');
-            document.getElementById('applicationModal').classList.remove('flex');
-        }
-
-        // --- 4. CHAT FUNCTIONS ---
-        function switchTeamChannel(channel) {
-            activeTeamChannel = channel;
-            const drawerTitle = document.getElementById('drawerChannelName');
-            if (drawerTitle) drawerTitle.innerText = `Channel: ${channelNames[channel] || channel}`;
-            loadTeamChatWidget();
-        }
-
-        async function loadTeamChatWidget() {
-            const feed = document.getElementById('teamChatFeed');
-            const drawerFeed = document.getElementById('drawerMessages');
-
-            const { data, error } = await db.from('gsr_chats').select('*').eq('channel', activeTeamChannel).order('created_at', { ascending: false }).limit(20);
-            
-            if (error || !data || data.length === 0) {
-                const emptyMsg = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No active transmissions ]</div>`;
-                if (feed) feed.innerHTML = emptyMsg;
-                if (drawerFeed) drawerFeed.innerHTML = emptyMsg;
-                return;
-            }
-            
-            const messages = data.reverse();
-
-            if (feed) {
-                feed.innerHTML = '';
-                messages.slice(-5).forEach(msg => {
-                    feed.innerHTML += `<div class="text-[10px] leading-snug truncate"><span class="font-black text-brand-blue uppercase">[${escapeHtml(msg.display_name)}]:</span> <span class="text-gray-300">${escapeHtml(msg.message)}</span></div>`;
-                });
-                feed.scrollTop = feed.scrollHeight;
-            }
-
-            if (drawerFeed) {
-                drawerFeed.innerHTML = '';
-                messages.forEach(msg => {
-                    const isMe = currentUser && msg.user_id === currentUser.id;
-                    const align = isMe ? 'items-end' : 'items-start';
-                    const bg = isMe ? 'bg-brand-blue/20 border-brand-blue text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200';
-
-                    drawerFeed.innerHTML += `
-                        <div class="flex flex-col ${align}">
-                            <span class="text-[9px] font-black uppercase text-gray-500 mb-0.5">${escapeHtml(msg.display_name)}</span>
-                            <div class="${bg} border px-3 py-2 rounded-lg text-xs max-w-[85%] break-words">
-                                ${escapeHtml(msg.message)}
-                            </div>
-                        </div>
-                    `;
-                });
-                drawerFeed.scrollTop = drawerFeed.scrollHeight;
-            }
-        }
-
-        async function sendDrawerMessage() {
-            if (!currentUser) {
-                alert("Sign in required to transmit messages.");
-                return;
-            }
-
-            const input = document.getElementById('drawerInput');
-            const val = input.value.trim();
-            if (!val) return;
-
-            const { error } = await db.from('gsr_chats').insert([{
-                user_id: currentUser.id,
-                display_name: displayName,
-                message: val,
-                channel: activeTeamChannel
-            }]);
-
-            if (error) {
-                alert("Transmission failed: " + error.message);
-            } else {
-                input.value = '';
-                loadTeamChatWidget();
-            }
-        }
-
-        async function executeSignOut() {
-            await db.auth.signOut();
-            window.location.reload(); 
-        }
-
-        function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
-
-        document.getElementById('drawerInput')?.addEventListener('keypress', e => {
-            if (e.key === 'Enter') sendDrawerMessage();
-        });
-
-        window.onload = initTeamCardPage;
-    </script>
-
-</body>
-</html>
+                
