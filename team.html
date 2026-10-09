@@ -36,10 +36,10 @@
             </div>
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Official Team Card</span>
-                <h1 id="pageTeamTitleHeader" class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">LOADING...</h1>
+                <h1 id="pageTeamTitleHeader" class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">STORM RIDERS</h1>
             </div>
 
-            <!-- Dynamic User Auth Header -->
+            <!-- Dynamic Header Auth -->
             <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2">
                 <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
                 <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
@@ -65,18 +65,16 @@
             </a>
             <div class="bg-brand-card border border-brand-border px-4 py-2 rounded-lg shadow text-center">
                 <span class="block text-[9px] uppercase font-bold text-gray-500">Syndicate Points</span>
-                <span class="text-xl font-black text-brand-gold">12,500 <span class="text-[10px] text-white uppercase">PTS</span></span>
+                <span class="text-xl font-black text-brand-gold">0 <span class="text-[10px] text-white uppercase">PTS</span></span>
             </div>
         </div>
 
-        <!-- THE TEAM TRADING CARD WRAPPER -->
         <div class="card-foil-border rounded-2xl shadow-[0_0_40px_rgba(42,117,255,0.15)] relative">
             <div class="bg-brand-card rounded-[14px] overflow-hidden relative card-texture">
                 
-                <!-- 1. Banner & Status Badge (Recruitment Control Top-Right) -->
+                <!-- 1. Banner & Recruitment Status -->
                 <div class="h-64 w-full bg-cover bg-center relative border-b border-brand-border" style="background-image: url('stormriders-banner.jpg'); background-color: #111a22;">
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
-                    
                     <div class="absolute top-4 right-6 z-10 flex flex-col items-end gap-2">
                         <div class="flex gap-2">
                             <span class="bg-black/80 text-brand-blue border border-brand-blue font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg">Pro Plus League Syndicate</span>
@@ -84,36 +82,29 @@
                                 ✖ Checking Status
                             </button>
                         </div>
-                        <div id="bannerApplyContainer"></div>
+                        <div id="bannerApplyContainer" class="flex items-center gap-2"></div>
                     </div>
                 </div>
 
-                <!-- 2. Header Box: Logo, Identity, Trophies -->
+                <!-- 2. Header Box -->
                 <div class="px-8 pb-6 relative border-b border-brand-border">
                     <div class="flex flex-col md:flex-row items-start md:items-end justify-between -mt-20 gap-6 relative z-10">
-                        <!-- Team Logo Box -->
                         <div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-[#0a0a0a] shadow-2xl flex items-center justify-center shrink-0">
                             <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Logo Pending<br>Approval</span>
                         </div>
-
-                        <!-- Identity -->
                         <div class="flex-1 pt-20 md:pt-0">
                             <div class="flex flex-wrap items-baseline gap-3">
-                                <h2 id="cardTeamTitle" class="text-4xl lg:text-5xl font-black text-white tracking-tight uppercase">LOADING...</h2>
+                                <h2 id="cardTeamTitle" class="text-4xl lg:text-5xl font-black text-white tracking-tight uppercase">STORM RIDERS</h2>
                                 <span class="text-brand-blue text-sm lg:text-base font-black uppercase tracking-[0.2em] italic">"The Desert Scorpions"</span>
                             </div>
-                            
                             <div class="flex gap-2 mt-2">
                                 <span class="bg-gradient-to-br from-yellow-400 to-yellow-700 text-black text-[9px] font-black uppercase px-2 py-1 rounded border border-yellow-300 shadow">🏆 Pro Constructor '26</span>
                             </div>
-
                             <p class="text-gray-400 text-xs mt-3 font-bold uppercase">
-                                Team Leader: <span id="teamLeaderDisplay" class="text-brand-red font-black">Scanning database...</span>
+                                Team Leader: <span id="teamLeaderDisplay" class="text-brand-red font-black">UNASSIGNED</span>
                             </p>
                         </div>
-
-                        <!-- Follow Button -->
-                        <div class="flex flex-col items-end gap-3 w-full md:w-auto" id="teamActionButtons">
+                        <div class="flex flex-col items-end gap-3 w-full md:w-auto">
                             <button id="followBtn" class="w-full md:w-auto bg-brand-bg border border-brand-border hover:border-brand-blue hover:text-white text-gray-400 text-[10px] font-black uppercase px-6 py-2.5 rounded transition shadow" onclick="toggleFollow()">
                                 Follow Syndicate +
                             </button>
@@ -121,7 +112,7 @@
                     </div>
                 </div>
 
-                <!-- 3. Bio Section -->
+                <!-- 3. Manifesto -->
                 <div class="p-8 border-b border-brand-border bg-black/20">
                     <h3 class="text-[10px] font-black uppercase tracking-wider text-gray-500 mb-2">Team Manifesto</h3>
                     <p class="text-gray-300 italic text-sm leading-relaxed border-l-2 border-brand-blue pl-4">
@@ -129,8 +120,50 @@
                     </p>
                 </div>
 
-                <!-- 4. DYNAMIC DRIVER ROSTER GRID -->
-                <div class="p-8 border-b border-brand-border bg-black/40">
+                <!-- 4. Middle Row: Constructor Statistics & Live Discussion -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-brand-border border-b border-brand-border">
+                    <div class="p-8 lg:col-span-2 space-y-8 bg-black/20">
+                        <div>
+                            <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-3 flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></div> Constructor Statistics
+                            </h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Wins</span><span class="text-xl font-black text-brand-gold">0</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Losses</span><span class="text-xl font-black text-white">0</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Points</span><span class="text-xl font-black text-white">0</span></div>
+                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">XP</span><span class="text-xl font-black text-brand-blue">0</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-8 lg:col-span-1 flex flex-col justify-between h-full bg-brand-bg">
+                        <div>
+                            <div class="flex justify-between items-center mb-3 border-b border-brand-border pb-2">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> 💬 GSR Comms
+                                </span>
+                                <select id="teamChatSelector" onchange="switchTeamChannel(this.value)" class="bg-brand-card border border-brand-border text-brand-blue text-[9px] font-black uppercase px-2 py-1 rounded outline-none cursor-pointer">
+                                    <option value="team" selected>🛡️ Teams</option>
+                                    <option value="global">🌐 Global</option>
+                                    <option value="following">👥 Following</option>
+                                    <option value="pro_plus">⭐ Pro Plus</option>
+                                </select>
+                            </div>
+                            <div id="teamChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 my-2 space-y-2 h-32 overflow-y-auto flex flex-col justify-end text-[10px]">
+                                <div class="text-[10px] text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-brand-border flex justify-between items-center text-xs mt-3">
+                            <a href="chats.html" class="font-bold uppercase text-brand-blue hover:underline text-[10px]">Open Comms Hub →</a>
+                            <button onclick="toggleDrawer(true)" class="bg-brand-card border border-brand-border hover:border-brand-blue text-brand-blue hover:text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">
+                                Open Drawer to Reply ↵
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. BOTTOM ROW: ACTIVE TEAM ROSTER -->
+                <div class="p-8 bg-black/40">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> Active Team Roster
@@ -142,60 +175,29 @@
                     </div>
                 </div>
 
-                <!-- 5. Dashboard Grid (Stats & Chat) -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-brand-border">
-                    <div class="p-8 lg:col-span-2 space-y-8 bg-black/20">
-                        <div>
-                            <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-3 flex items-center gap-2">
-                                <div class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></div> Constructor Statistics
-                            </h3>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Wins</span><span class="text-xl font-black text-brand-gold">85</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Losses</span><span class="text-xl font-black text-white">30</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Points</span><span class="text-xl font-black text-white">12,500</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">XP</span><span class="text-xl font-black text-brand-blue">95k</span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                   <!-- GSR CHATS THREADS (LIVE CONNECTED WIDGET WITH DROPDOWN & DRAWER TRIGGER) -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 transition flex flex-col justify-between group">
-                <div>
-                    <div class="flex justify-between items-center gap-2">
-                        <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Live Discussion</span>
-                        
-                        <div class="flex items-center gap-2">
-                            <!-- Channel Selector Dropdown -->
-                            <select id="indexChatSelect" onchange="switchIndexChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-brand-gold text-[10px] font-black uppercase px-2 py-1 rounded outline-none focus:border-brand-gold cursor-pointer">
-                                <option value="global" selected>🌐 Global</option>
-                                <option value="following">👥 Following</option>
-                                <option value="team">🛡️ Teams</option>
-                                <option value="pro_plus">⭐ Pro Plus</option>
-                            </select>
-                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"></span>
-                        </div>
-                    </div>
-                    
-                    <h3 class="text-lg font-black uppercase text-white mt-2">GSR Chats Threads</h3>
-                    
-                    <!-- Dynamic Read-Only Feed Box -->
-                    <div id="mainMenuChatFeed" class="bg-brand-bg border border-brand-border rounded-lg p-3 my-3 space-y-2 h-28 overflow-hidden flex flex-col justify-end">
-                        <div class="text-[10px] text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
-                    </div>
-                </div>
-                
-                <div class="pt-3 border-t border-brand-border flex justify-between items-center text-xs">
-                    <a href="chats.html" class="font-bold uppercase text-brand-gold hover:underline text-[10px]">Open Comms Hub →</a>
-                    
-                    <!-- Drawer Trigger Button -->
-                    <button onclick="toggleDrawer(true)" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">
-                        Open Drawer to Reply ↵
-                    </button>
-                </div>
-            </div>
             </div>
         </div>
     </main>
+
+    <!-- SLIDE-OUT CHAT DRAWER OVERLAY & PANEL -->
+    <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <div id="chatDrawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-brand-card border-l border-brand-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
+            <div>
+                <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
+                <p id="drawerChannelName" class="text-[10px] text-brand-blue uppercase">Channel: 🛡️ Teams</p>
+            </div>
+            <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition cursor-pointer">✕</button>
+        </div>
+        <div id="drawerMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-[#111]">
+             <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching logs... ]</div>
+        </div>
+        <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
+            <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-blue transition">
+            <button onclick="sendDrawerMessage()" class="bg-brand-blue hover:bg-blue-600 text-white font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
+        </div>
+    </div>
 
     <!-- APPLICATION MODAL -->
     <div id="applicationModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
@@ -219,271 +221,18 @@
         </div>
     </div>
 
-       <!-- SUPABASE ENGINE -->
+    <!-- SUPABASE ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const pageTeamName = urlParams.get('name') ? decodeURIComponent(urlParams.get('name')) : "Storm Riders";
-        
-        document.getElementById('pageTeamTitleHeader').innerText = pageTeamName;
-        document.getElementById('cardTeamTitle').innerText = pageTeamName;
+        // Global Drawer Control
+        window.toggleDrawer = function(show) {
+            const drawer = document.getElementById('chatDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            if (!drawer || !overlay) return;
 
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        let currentUser = null;
-        let displayName = "";
-        let isVerifiedTeamMember = false;
-        let isTeamLeader = false;
-        let teamIsRecruiting = true; 
-        let currentTeamId = null;
-        let currentLeaderId = null;
-        let activeTeamChannel = 'team'; 
-
-        // --- 1. RENDER ROSTER ---
-        async function renderTeamRoster() {
-            const grid = document.getElementById('teamRosterGrid');
-            const leaderDisplay = document.getElementById('teamLeaderDisplay');
-
-            const { data: teamData } = await db.from('teams').select('id, name, leader_user_id').eq('name', pageTeamName).single();
-            if (!teamData) {
-                grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Team not found ]</div>`;
-                return;
-            }
-            
-            currentTeamId = teamData.id;
-            currentLeaderId = teamData.leader_user_id;
-
-            const { data: drivers, error } = await db
-                .from('racers')
-                .select('id, display_name, racer_number')
-                .eq('primary_team_id', currentTeamId);
-
-            if (error || !drivers || drivers.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ No drivers assigned to this team yet ]</div>`;
-                if (leaderDisplay) leaderDisplay.innerText = "UNASSIGNED";
-                return;
-            }
-
-            grid.innerHTML = '';
-            let foundLeaderName = "UNASSIGNED";
-
-            drivers.forEach(driver => {
-                const driverName = (driver.display_name && driver.display_name.trim() !== '') ? driver.display_name : 'Unknown Pilot';
-                const driverNum = driver.racer_number ? `#${driver.racer_number}` : '#--';
-                
-                let role = 'PRO LEAGUE';
-                if (currentLeaderId && driver.id === currentLeaderId) {
-                    role = 'LEADER';
-                    foundLeaderName = driverName;
-                }
-
-                const profileUrl = `racer.html?driver=${encodeURIComponent(driverName)}`;
-
-                grid.innerHTML += `
-                    <div class="bg-[#0a0a0a] border border-brand-border hover:border-brand-blue rounded-xl p-3 flex flex-col justify-between group transition shadow-md">
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="bg-brand-red text-white text-[7px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider">${role}</span>
-                                <span class="text-brand-blue font-mono font-black text-[10px]">${driverNum}</span>
-                            </div>
-                            <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2 group-hover:border-brand-blue transition cursor-pointer" onclick="window.location='${profileUrl}'">
-                                <span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest text-center">PHOTO</span>
-                            </div>
-                            <h4 class="text-[11px] font-black uppercase text-white tracking-wider truncate">${escapeHtml(driverName)}</h4>
-                        </div>
-                        <a href="${profileUrl}" class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-300 hover:border-brand-blue hover:text-white transition text-[8px] font-black uppercase py-1.5 rounded tracking-wider">VIEW PROFILE →</a>
-                    </div>
-                `;
-            });
-
-            if (leaderDisplay) {
-                leaderDisplay.innerHTML = foundLeaderName !== "UNASSIGNED" 
-                    ? `<a href="racer.html?driver=${encodeURIComponent(foundLeaderName)}" class="hover:text-brand-gold transition underline uppercase">${escapeHtml(foundLeaderName)}</a>`
-                    : "UNASSIGNED";
-            }
-        }
-
-        // --- 2. AUTHENTICATION (FIXED IDENTITY CHECK) ---
-        async function initTeamCardPage() {
-            await renderTeamRoster();
-            loadTeamChatWidget(); 
-
-            const { data: { session } } = await db.auth.getSession();
-            if (session && session.user) {
-                await handleAuthUser(session.user);
-            }
-
-            db.auth.onAuthStateChange(async (event, session) => {
-                if (session && session.user) {
-                    await handleAuthUser(session.user);
-                } else {
-                    currentUser = null;
-                    isVerifiedTeamMember = false;
-                    isTeamLeader = false;
-                    updateHeaderAuthUI();
-                    renderBannerControls();
-                }
-            });
-        }
-
-        async function handleAuthUser(user) {
-            currentUser = user;
-            
-            // 1. Get Auth Name
-            const { data: profile } = await db
-                .from('gsr_profiles')
-                .select('sl_legacy_name')
-                .eq('id', currentUser.id)
-                .single();
-
-            displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
-
-            // 2. Fetch YOUR Racer Card ID to match against the Team Leader ID
-            const { data: currentRacer } = await db
-                .from('racers')
-                .select('id, primary_team_id')
-                .ilike('display_name', displayName)
-                .single();
-
-            if (currentTeamId && currentRacer) {
-                // If your Racer ID matches the Team's Leader ID, unlock everything
-                if (currentLeaderId === currentRacer.id) {
-                    isTeamLeader = true;
-                    isVerifiedTeamMember = true;
-                } else if (currentRacer.primary_team_id === currentTeamId) {
-                    isVerifiedTeamMember = true;
-                }
-            }
-
-            updateHeaderAuthUI();
-            renderBannerControls();
-        }
-
-        function updateHeaderAuthUI() {
-            const userNav = document.getElementById('userNav');
-            if (!userNav) return;
-
-            if (currentUser) {
-                userNav.innerHTML = `
-                    <div class="text-right hidden sm:block">
-                        <span class="block text-xs font-black text-white uppercase">${escapeHtml(displayName)}</span>
-                        <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
-                        </span>
-                    </div>
-                    <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
-                `;
-            } else {
-                userNav.innerHTML = `
-                    <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
-                    <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
-                `;
-            }
-        }
-
-        // --- 3. RECRUITMENT UI ---
-        function renderBannerControls() {
-            const container = document.getElementById('bannerApplyContainer');
-            const badge = document.getElementById('recruitmentBadge');
-            if (!container || !badge) return;
-
-            if (isTeamLeader) {
-                badge.className = teamIsRecruiting 
-                    ? "bg-green-500 text-black border border-green-300 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg animate-pulse transition cursor-pointer hover:bg-green-400"
-                    : "bg-red-600 text-white border border-red-400 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg transition cursor-pointer hover:bg-red-500";
-                badge.innerText = teamIsRecruiting ? "● Recruiting Drivers (Click to Toggle)" : "✖ Roster Closed (Click to Open)";
-            } else {
-                badge.className = teamIsRecruiting 
-                    ? "bg-green-500 text-black border border-green-300 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg animate-pulse transition cursor-default"
-                    : "bg-gray-700 text-gray-300 border border-gray-500 font-black uppercase text-[10px] px-3 py-1.5 rounded shadow-lg transition cursor-default";
-                badge.innerText = teamIsRecruiting ? "● Recruiting Drivers" : "✖ Roster Closed";
-            }
-
-            let html = '';
-
-            if (teamIsRecruiting) {
-                if (isTeamLeader) {
-                    // THIS WILL NOW SHOW FOR YOU:
-                    html += `<a href="recruitment.html?team=${encodeURIComponent(pageTeamName)}" class="bg-brand-blue hover:bg-blue-600 text-white font-black uppercase text-[9px] px-3 py-1.5 rounded shadow transition flex items-center gap-1.5 border border-brand-blue cursor-pointer">
-                        📋 Review Applications
-                    </a>`;
-                } else if (currentUser && !isVerifiedTeamMember) {
-                    html += `<button onclick="openApplicationModal()" class="bg-green-600 hover:bg-green-500 text-black font-black uppercase text-[9px] px-3 py-1.5 rounded shadow transition flex items-center gap-1.5 cursor-pointer">
-                        📝 Apply for Roster
-                    </button>`;
-                }
-            }
-
-            container.innerHTML = html;
-        }
-
-        function toggleRecruitmentStatus() {
-            if (!isTeamLeader) return;
-            teamIsRecruiting = !teamIsRecruiting;
-            renderBannerControls();
-        }
-
-        function openApplicationModal() {
-            document.getElementById('applicantName').innerText = displayName;
-            document.getElementById('applicationModal').classList.remove('hidden');
-            document.getElementById('applicationModal').classList.add('flex');
-        }
-
-        async function submitApplication() {
-            if (!currentUser) return;
-            const { error } = await db.from('gsr_applications').insert([{
-                user_id: currentUser.id,
-                applicant_name: displayName,
-                team_name: pageTeamName
-            }]);
-
-            if (error) {
-                alert("Application error: " + error.message);
-            } else {
-                alert("Your roster application has been successfully transmitted to the Team Leader!");
-            }
-            closeModals();
-        }
-
-        function closeModals() {
-            document.getElementById('applicationModal').classList.add('hidden');
-            document.getElementById('applicationModal').classList.remove('flex');
-        }
-
-        // --- 4. CHAT FUNCTIONS ---
-        function switchTeamChannel(channel) {
-            activeTeamChannel = channel;
-            loadTeamChatWidget();
-        }
-
-        async function loadTeamChatWidget() {
-            const feed = document.getElementById('teamChatFeed');
-            const { data, error } = await db.from('gsr_chats').select('*').eq('channel', activeTeamChannel).order('created_at', { ascending: false }).limit(20);
-            
-            if (error || !data || data.length === 0) {
-                if (feed) feed.innerHTML = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No active transmissions ]</div>`;
-                return;
-            }
-            
-            if (feed) {
-                feed.innerHTML = '';
-                data.reverse().slice(-5).forEach(msg => {
-                    feed.innerHTML += `<div class="text-[10px] leading-snug truncate"><span class="font-black text-brand-blue uppercase">[${escapeHtml(msg.display_name)}]:</span> <span class="text-gray-300">${escapeHtml(msg.message)}</span></div>`;
-                });
-                feed.scrollTop = feed.scrollHeight;
-            }
-        }
-
-        async function executeSignOut() {
-            await db.auth.signOut();
-            window.location.reload(); 
-        }
-
-        function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
-
-        window.onload = initTeamCardPage;
-    </script>
-</body>
-</html>
+            if (show) {
+                overlay.classList.remove('hidden');
+                void overlay.offsetWidth;
+                overlay.classList.remove('opacity-0');
+                drawer.classList.remove('translate-x-full');
+                const msgBox = document.getElementById('drawerMessages
