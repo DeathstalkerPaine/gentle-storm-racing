@@ -446,11 +446,16 @@
             container.innerHTML = html;
         }
 
-        function toggleRecruitmentStatus() {
-            if (!isTeamLeader) return;
-            teamIsRecruiting = !teamIsRecruiting;
-            renderBannerControls();
-        }
+       async function toggleRecruitmentStatus() {
+    if (!isTeamLeader || !currentTeamId) return;
+    teamIsRecruiting = !teamIsRecruiting;
+    
+    // Save state directly to Supabase teams table
+    await db.from('teams').update({ is_recruiting: teamIsRecruiting }).eq('id', currentTeamId);
+    
+    renderBannerControls();
+}
+ }
 
         function openApplicationModal() {
             document.getElementById('applicantName').innerText = displayName;
