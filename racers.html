@@ -10,6 +10,7 @@
     </script>
     <style>
         .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
@@ -21,11 +22,11 @@
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
-                <a href="index.html"><img src="logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
+                <a href="index.html"><img src="logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform"></a>
             </div>
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Grid Competitors</span>
-                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white">RACERS HUB</h1>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">RACERS HUB</h1>
             </div>
         </div>
     </header>
@@ -46,98 +47,257 @@
     </nav>
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-12">
-        <!-- TOP 3 PODIUM -->
+        
+        <!-- ROW 1: TOP 3 PODIUM -->
         <section class="space-y-6">
             <div class="text-center">
-                <h2 class="text-2xl font-black uppercase text-white">Current Top 3 Racers</h2>
+                <h2 class="text-2xl font-black uppercase text-white tracking-widest">Current Top 3 Racers</h2>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- #1 Top Racer -->
-                <div class="bg-brand-card border border-brand-gold rounded-xl p-6 flex flex-col justify-between shadow-xl gold-border-glow">
-                    <div>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="bg-brand-gold text-black font-black text-xs px-3 py-1 rounded">#1 RANK</span>
-                        </div>
-                        <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-xs text-gray-500 font-bold uppercase">Driver Photo</span></div>
-                        <h3 class="text-lg font-black uppercase text-white">Deathstalker Paine</h3>
-                        <p class="text-xs text-gray-400 mt-2">Current points leader.</p>
-                    </div>
-                    <a href="racers_profiles.html" class="mt-6 text-xs font-black uppercase text-brand-gold block text-center bg-brand-bg py-2.5 rounded border border-brand-border hover:bg-brand-gold hover:text-black transition">View Racer Card →</a>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="podiumGrid">
+                <div class="col-span-full text-center text-xs text-gray-500 font-mono py-10">[ Syncing live podium data... ]</div>
+            </div>
+        </section>
+
+        <!-- ROW 2: 3-COLUMN TOP 5 LISTS -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Top 5 Pro Plus Racers -->
+            <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col">
+                <h2 class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 Pro Plus</h2>
+                <div id="topProPlusBox" class="space-y-3 flex-grow">
+                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
                 </div>
-                <!-- #2 Top Racer -->
-                <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl opacity-60">
-                    <div>
-                        <div class="flex justify-between items-center mb-4"><span class="bg-gray-300 text-black font-black text-xs px-3 py-1 rounded">#2 RANK</span></div>
-                        <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-xs text-gray-500 font-bold uppercase">Open Slot</span></div>
-                        <h3 class="text-lg font-black uppercase text-white">Pending</h3>
-                    </div>
+                <a href="leaderboard_view.html?category=racer&class=pro_plus" class="mt-4 text-[10px] uppercase font-bold text-brand-red text-center hover:underline">View Full Leaderboard →</a>
+            </div>
+
+            <!-- Top 5 All-Time Wins -->
+            <div class="bg-brand-card border border-brand-blue rounded-xl p-6 shadow-xl flex flex-col blue-border-glow">
+                <h2 class="text-sm font-black uppercase text-brand-blue border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Most Career Wins</h2>
+                <div id="topWinsBox" class="space-y-3 flex-grow">
+                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
                 </div>
-                <!-- #3 Top Racer -->
-                <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl opacity-60">
-                    <div>
-                        <div class="flex justify-between items-center mb-4"><span class="bg-amber-700 text-white font-black text-xs px-3 py-1 rounded">#3 RANK</span></div>
-                        <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-xs text-gray-500 font-bold uppercase">Open Slot</span></div>
-                        <h3 class="text-lg font-black uppercase text-white">Pending</h3>
-                    </div>
+                <a href="leaderboard_view.html?category=racer" class="mt-4 text-[10px] uppercase font-bold text-brand-blue text-center hover:underline">View Full Leaderboard →</a>
+            </div>
+
+            <!-- Top 5 Amateur Racers -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
+                <h2 class="text-sm font-black uppercase text-gray-300 border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 Amateurs</h2>
+                <div id="topAmateurBox" class="space-y-3 flex-grow">
+                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
+                </div>
+                <a href="leaderboard_view.html?category=racer&class=amateur" class="mt-4 text-[10px] uppercase font-bold text-gray-400 text-center hover:underline">View Full Leaderboard →</a>
+            </div>
+        </section>
+
+        <!-- ROW 3: SPONSORS -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 text-center space-y-3 shadow-xl">
+            <span class="text-[10px] font-black uppercase text-gray-500 tracking-widest">Driver Sponsors & Partners</span>
+            <div class="flex flex-wrap justify-center items-center gap-8 py-2 opacity-75">
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Second Life Motors ]</span>
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ StormTech HUDs ]</span>
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Linden Fuel Co. ]</span>
+            </div>
+        </section>
+
+        <!-- ROW 4: 2-COLUMN WEEK/MONTH FOCUS -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl gold-border-glow">
+                <h3 class="text-sm font-black uppercase text-brand-gold text-center border-b border-brand-border pb-3 mb-4">Top 5 Racers of the Week</h3>
+                <div id="weeklyRacersBox" class="bg-brand-bg border border-brand-border p-4 rounded-xl space-y-2">
+                    <span class="text-xs text-gray-500 font-mono block text-center">[ Aggregating weekly telemetry... ]</span>
+                </div>
+            </div>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl">
+                <h3 class="text-sm font-black uppercase text-white text-center border-b border-brand-border pb-3 mb-4">Top 5 Racers of the Month</h3>
+                <div id="monthlyRacersBox" class="bg-brand-bg border border-brand-border p-4 rounded-xl space-y-2">
+                    <span class="text-xs text-gray-500 font-mono block text-center">[ Aggregating monthly telemetry... ]</span>
                 </div>
             </div>
         </section>
 
-        <!-- SPONSORS -->
-        <section class="bg-brand-card border border-brand-border rounded-xl p-6 text-center">
-            <span class="text-[10px] font-black uppercase text-gray-500 tracking-widest">Sponsors</span>
-            <div class="flex flex-wrap justify-center gap-8 py-4 opacity-75">
-                <span class="text-sm font-black text-gray-400 uppercase">[ Second Life Motors ]</span>
-                <span class="text-sm font-black text-gray-400 uppercase">[ StormTech HUDs ]</span>
+        <!-- ROW 5: 3-COLUMN BOTTOM FEATURES -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Next Race Event (Dynamic from Calendar) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <span id="nextEventDateTag" class="text-[9px] font-black uppercase text-brand-red bg-red-950 px-2 py-0.5 rounded border border-brand-red/30 inline-block mb-2">Upcoming Race</span>
+                    <h4 id="nextEventTitle" class="text-base font-black uppercase text-white">Loading Next Event...</h4>
+                    <p id="nextEventDesc" class="text-xs text-gray-400 mt-2">
+                        Querying official calendar schedule...
+                    </p>
+                </div>
+                <a href="upcoming_events.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-red text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    View Full Calendar →
+                </a>
             </div>
-        </section>
+
+            <!-- Racer Spotlight / Multimedia -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-brand-gold bg-amber-950 px-2 py-0.5 rounded border border-brand-gold/30 inline-block mb-2">Driver Spotlight</span>
+                    <h4 class="text-base font-black uppercase text-white">Grid Interviews</h4>
+                    <p class="text-xs text-gray-400 mt-2">
+                        Catch up on the latest trackside interviews, telemetry breakdowns, and driver highlights from the Pro League.
+                    </p>
+                </div>
+                <a href="multimedia.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    Watch Media →
+                </a>
             </div>
+
+            <!-- Free Agent Board -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-brand-blue bg-blue-950 px-2 py-0.5 rounded border border-brand-blue/30 inline-block mb-2">Free Agents</span>
+                    <h4 class="text-base font-black uppercase text-white">Looking for a Drive?</h4>
+                    <p class="text-xs text-gray-400 mt-2">
+                        Unsigned drivers can browse active syndicates looking to fill their rosters before the next championship round.
+                    </p>
+                </div>
+                <a href="teams_profiles.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-blue text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    Browse Syndicate Rosters →
+                </a>
+            </div>
+
         </section>
+
     </main>
 
-    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing.</footer>
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
 
+    <!-- SUPABASE ENGINE & DYNAMIC DATA SYNC -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        let currentWidgetChannel = 'global';
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        function switchWidgetChannel(channel) {
-            currentWidgetChannel = channel;
-            loadMiniChatWidget();
-        }
+        async function initRacersHub() {
+            // 1. Fetch Racers
+            const { data: racers } = await db.from('racers').select('*');
+            if (!racers || racers.length === 0) return;
 
-        function loadMiniChatWidget() {
-            const feedContainer = document.getElementById('miniChatFeed');
-            if (!feedContainer) return; 
+            // Sort all by rating points descending
+            const sortedByPts = [...racers].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
 
-            const rawData = localStorage.getItem('gsr_chat_network');
+            // --- RENDER PODIUM (Top 3) ---
+            const podiumGrid = document.getElementById('podiumGrid');
+            if (podiumGrid) {
+                podiumGrid.innerHTML = '';
+                
+                // #1
+                const r1 = sortedByPts[0];
+                podiumGrid.innerHTML += r1 ? createPodiumCard(r1, 1, 'bg-brand-gold', 'text-black', 'border-brand-gold', 'gold-border-glow opacity-100') : createEmptyPodium(1, 'bg-brand-gold', 'text-black');
+                
+                // #2
+                const r2 = sortedByPts[1];
+                podiumGrid.innerHTML += r2 ? createPodiumCard(r2, 2, 'bg-gray-300', 'text-black', 'border-brand-border', 'opacity-80 hover:opacity-100 transition') : createEmptyPodium(2, 'bg-gray-300', 'text-black');
+                
+                // #3
+                const r3 = sortedByPts[2];
+                podiumGrid.innerHTML += r3 ? createPodiumCard(r3, 3, 'bg-amber-700', 'text-white', 'border-brand-border', 'opacity-60 hover:opacity-100 transition') : createEmptyPodium(3, 'bg-amber-700', 'text-white');
+            }
+
+            // --- RENDER TOP 5 LISTS ---
+            const proPlusBox = document.getElementById('topProPlusBox');
+            const amateurBox = document.getElementById('topAmateurBox');
+            const winsBox = document.getElementById('topWinsBox');
+
+            // Pro Plus (Uses highest PTS for now)
+            if (proPlusBox) renderTopList(proPlusBox, sortedByPts.slice(0, 5), 'PT', 'text-brand-red');
             
-            if (rawData) {
-                const chatData = JSON.parse(rawData);
-                const messages = chatData[currentWidgetChannel] || [];
-                const latestMessages = messages.slice(-3);
-                
-                feedContainer.innerHTML = ''; 
-                
-                if (latestMessages.length === 0) {
-                    feedContainer.innerHTML = `<span class="text-[10px] text-gray-500 text-center block w-full">[ No comms in this feed ]</span>`;
-                    return;
-                }
+            // Amateur (Uses lowest PTS for now to simulate lower bracket)
+            const sortedAmateur = [...racers].sort((a,b) => (a.rating_points || 0) - (b.rating_points || 0));
+            if (amateurBox) renderTopList(amateurBox, sortedAmateur.slice(0, 5), 'PT', 'text-gray-300');
 
-                latestMessages.forEach(msg => {
-                    feedContainer.innerHTML += `
-                        <div class="text-[10px] leading-relaxed">
-                            <span class="font-black text-brand-blue uppercase">[${currentWidgetChannel.replace('_', ' ')}] ${msg.racer}:</span> 
-                            <span class="text-gray-400">${msg.text}</span>
-                        </div>
-                    `;
+            // Top Wins
+            const sortedByWins = [...racers].sort((a,b) => (b.wins || 0) - (a.wins || 0));
+            if (winsBox) renderTopList(winsBox, sortedByWins.slice(0, 5), 'Wins', 'text-brand-blue', 'wins');
+
+
+            // --- RENDER WEEKLY / MONTHLY (Simulated with top pts) ---
+            const weeklyBox = document.getElementById('weeklyRacersBox');
+            const monthlyBox = document.getElementById('monthlyRacersBox');
+            if (weeklyBox && monthlyBox) {
+                weeklyBox.innerHTML = '';
+                monthlyBox.innerHTML = '';
+                sortedByPts.slice(0, 5).forEach((r, idx) => {
+                    const row = `<div class="flex justify-between items-center px-2 py-1 text-xs cursor-pointer hover:bg-black/30 rounded transition" onclick="window.location='racer.html?driver=${encodeURIComponent(r.display_name)}'"><span class="text-white uppercase font-bold">#${idx+1} ${escapeHtml(r.display_name)}</span><span class="text-brand-gold font-mono">${(r.rating_points || 0).toLocaleString()} PTS</span></div>`;
+                    weeklyBox.innerHTML += row;
+                    monthlyBox.innerHTML += row;
                 });
+            }
+
+            // --- FETCH CALENDAR EVENT ---
+            const todayStr = new Date().toISOString().split('T')[0];
+            const { data: events } = await db.from('gsr_events').select('*').gte('event_date', todayStr).order('event_date', { ascending: true }).limit(1);
+
+            if (events && events.length > 0) {
+                const ev = events[0];
+                document.getElementById('nextEventDateTag').innerText = `${ev.event_date} • ${ev.event_time}`;
+                document.getElementById('nextEventTitle').innerText = ev.title;
+                document.getElementById('nextEventDesc').innerText = ev.description || ev.category;
+            } else {
+                document.getElementById('nextEventDateTag').innerText = "Schedule Notice";
+                document.getElementById('nextEventTitle').innerText = "No Upcoming Races";
+                document.getElementById('nextEventDesc').innerText = "Check back soon or open the calendar to view the official season schedule.";
             }
         }
 
-        window.onload = loadMiniChatWidget;
-        window.addEventListener('storage', (e) => {
-            if(e.key === 'gsr_chat_network') loadMiniChatWidget();
-        });
+        function createPodiumCard(racer, rank, badgeBg, badgeText, borderClass, extraClasses) {
+            const name = escapeHtml(racer.display_name);
+            const pts = (racer.rating_points || 0).toLocaleString();
+            return `
+                <div class="bg-brand-card border ${borderClass} rounded-xl p-6 flex flex-col justify-between shadow-xl ${extraClasses}">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="${badgeBg} ${badgeText} font-black text-xs px-3 py-1 rounded">#${rank} RANK</span>
+                            <span class="text-brand-gold font-mono text-[10px]">${pts} PTS</span>
+                        </div>
+                        <div class="aspect-square bg-[#0a0a0a] rounded-lg mb-4 flex items-center justify-center border border-brand-border cursor-pointer hover:border-brand-gold transition" onclick="window.location='racer.html?driver=${encodeURIComponent(name)}'">
+                            <span class="text-xs text-gray-500 font-bold uppercase tracking-widest">Driver Photo</span>
+                        </div>
+                        <h3 class="text-lg font-black uppercase text-white truncate" title="${name}">${name}</h3>
+                        <p class="text-xs text-gray-400 mt-1 truncate">Car #${racer.racer_number || racer.car_number || '--'}</p>
+                    </div>
+                    <a href="racer.html?driver=${encodeURIComponent(name)}" class="mt-6 text-xs font-black uppercase text-brand-gold block text-center bg-brand-bg py-2.5 rounded border border-brand-border hover:bg-brand-gold hover:text-black transition">View Racer Card →</a>
+                </div>
+            `;
+        }
+
+        function createEmptyPodium(rank, badgeBg, badgeText) {
+            return `
+                <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl opacity-60">
+                    <div>
+                        <div class="flex justify-between items-center mb-4"><span class="${badgeBg} ${badgeText} font-black text-xs px-3 py-1 rounded">#${rank} RANK</span></div>
+                        <div class="aspect-square bg-brand-bg rounded-lg mb-4 flex items-center justify-center border border-brand-border"><span class="text-xs text-gray-500 font-bold uppercase tracking-widest">Open Slot</span></div>
+                        <h3 class="text-lg font-black uppercase text-gray-400">Pending</h3>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTopList(container, items, unitLabel, colorClass, statKey = 'rating_points') {
+            container.innerHTML = '';
+            if (items.length === 0) {
+                container.innerHTML = `<div class="text-xs text-gray-500 text-center py-4">[ No data ]</div>`;
+                return;
+            }
+            items.forEach((item, idx) => {
+                const stat = statKey === 'wins' ? (item.wins || 0) : (item.rating_points || 0);
+                container.innerHTML += `
+                    <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded cursor-pointer hover:bg-black/50 transition" onclick="window.location='racer.html?driver=${encodeURIComponent(item.display_name)}'">
+                        <span class="${colorClass} font-black italic w-4">${idx + 1}.</span>
+                        <span class="text-white text-[11px] font-bold uppercase truncate flex-grow pl-1">${escapeHtml(item.display_name)}</span>
+                        <span class="text-[10px] text-gray-400 font-mono whitespace-nowrap">${stat.toLocaleString()} ${unitLabel}</span>
+                    </div>
+                `;
+            });
+        }
+
+        function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+
+        window.onload = initRacersHub;
     </script>
 </body>
 </html>
