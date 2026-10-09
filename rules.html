@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Rules & Conduct | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- MAIN PAGE HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html"><img src="logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform"></a>
+            </div>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Grid Regulations</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    SITE RULES & CONDUCT
+                </h1>
+            </div>                 
+        </div>
+    </header>
+
+    <!-- NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams Hub</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards</a>
+            <a href="faq.html" class="text-gray-300 hover:text-brand-gold transition">FAQ</a>
+            <a href="rules.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">Site Rules</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 space-y-8">
+        
+        <div class="text-center mb-10">
+            <h2 class="text-xl font-black uppercase text-white tracking-widest">Official Grid Code of Conduct</h2>
+            <p class="text-xs text-gray-400 mt-2">Fair play, telemetry integrity, and mutual respect across Gentle Storm Racing and Second Life sim racing.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <!-- Section 1: Track Etiquette -->
+            <div class="space-y-6">
+                <h3 class="text-sm font-black uppercase text-brand-gold border-b border-brand-border pb-2 tracking-widest flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-brand-gold"></span> Track & Racing Etiquette
+                </h3>
+                
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-gold transition">
+                    <h4 class="text-xs font-black uppercase text-white mb-2">1. Clean Racing & Contact</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Avoid deliberate ramming, blocking, or reckless driving during official league events. While aggressive overtakes and tactical door-to-door racing are permitted, intentional wrecking will result in telemetry penalties, point deductions, or race disqualification (DSQ).
+                    </p>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-gold transition">
+                    <h4 class="text-xs font-black uppercase text-white mb-2">2. LSL Telemetry Integrity</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Simulating or exploiting track infrastructure scripts, HUD timing triggers, or manipulating packet data to artificially alter lap times or damage metrics is strictly prohibited. All violations result in immediate permanent banishment from the global leaderboards.
+                    </p>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-gold transition">
+                    <h4 class="text-xs font-black uppercase text-white mb-2">3. Flag Rules & Marshalling</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Drivers must respect track marshals, official restart signals, and grid countdowns in Second Life. Failure to yield during blue-flag situations or unsafe re-entries across racing lines will incur review by league officials.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Section 2: Comms & Community Code -->
+            <div class="space-y-6">
+                <h3 class="text-sm font-black uppercase text-brand-blue border-b border-brand-border pb-2 tracking-widest flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue"></span> GSR Comms & Community
+                </h3>
+
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-blue transition">
+                    <h4 class="text-xs font-black uppercase text-white mb-2">4. Respectful Transmissions</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Harassment, hate speech, spamming, or toxic behavior across Global, Team, or Pro Plus chat channels will not be tolerated. Keep transmissions professional, competitive, and focused on racing camaraderie.
+                    </p>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-blue transition">
+                    <h4 class="text-xs font-black uppercase text-white mb-2">5. Syndicate & Roster Ethics</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Team Leaders and recruiting syndicates must maintain accurate public rosters. Poaching drivers through deceptive messaging or exploiting team application bugs will result in administrative intervention by grid command.
+                    </p>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-blue transition">
+                    <h4 class="text-xs font-black uppercase text-white mb-2">6. Media & Branding Standards</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Custom driver photos, logos, and team banners uploaded to profiles must adhere to safe-for-work guidelines and Second Life community standards. Inappropriate imagery will be unannounced and deleted by moderators.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Section 3: Enforcement & Penalties -->
+            <div class="space-y-6 md:col-span-2 mt-4">
+                <h3 class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-2 tracking-widest flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-brand-red"></span> Enforcement & Appeals
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-red transition">
+                        <h4 class="text-xs font-black uppercase text-white mb-2">7. The Three-Strike System</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            Minor infractions (chat spam, minor track clipping) result in formal warnings. Repeated safety violations escalate to race suspensions, point wipes, and permanent expulsion from official GSR championships.
+                        </p>
+                    </div>
+
+                    <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-red transition">
+                        <h4 class="text-xs font-black uppercase text-white mb-2">8. Dispute Resolution</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            If you believe a telemetry error, DSQ, or chat sanction was applied incorrectly, file an official review request through the Comms Hub with logged evidence or video capture. Grid officials evaluate protests weekly.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Acknowledgment Box -->
+        <div class="bg-[#111] border border-brand-border rounded-xl p-8 text-center mt-12">
+            <h3 class="text-sm font-black uppercase text-white mb-2 tracking-wider">Race Clean. Compete Hard.</h3>
+            <p class="text-xs text-gray-400 mb-6">Participation in any Gentle Storm Racing event or web portal implies complete agreement with these established rules.</p>
+            <a href="index.html" class="inline-block bg-brand-bg border border-brand-border hover:border-brand-gold text-white text-[10px] font-black uppercase px-6 py-3 rounded transition shadow-lg">Return to Main Menu</a>
+        </div>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
+
+</body>
+</html>
