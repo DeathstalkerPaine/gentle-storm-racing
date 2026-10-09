@@ -62,6 +62,10 @@
             <a href="teams_profiles.html" class="inline-flex items-center text-xs text-gray-400 hover:text-white transition uppercase font-bold">
                 &larr; Back to Directory
             </a>
+            <div class="bg-brand-card border border-brand-border px-4 py-2 rounded-lg shadow text-center hidden">
+                <span class="block text-[9px] uppercase font-bold text-gray-500">Syndicate Points</span>
+                <span class="text-xl font-black text-brand-gold">0 <span class="text-[10px] text-white uppercase">PTS</span></span>
+            </div>
         </div>
 
         <div class="card-foil-border rounded-2xl shadow-[0_0_40px_rgba(42,117,255,0.15)] relative">
@@ -270,8 +274,9 @@
             const grid = document.getElementById('teamRosterGrid');
             const leaderDisplay = document.getElementById('teamLeaderDisplay');
 
-            const { data: teamData } = await db.from('teams').select('id, name, leader_user_id').eq('name', pageTeamName).single();
-            if (!teamData) {
+            // FETCH ALL DATA INCLUDING is_recruiting
+            const { data: teamData, error: teamError } = await db.from('teams').select('*').eq('name', pageTeamName).single();
+            if (teamError || !teamData) {
                 grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Team not found ]</div>`;
                 return;
             }
@@ -279,12 +284,19 @@
             currentTeamId = teamData.id;
             currentLeaderId = teamData.leader_user_id;
 
-            const { data: drivers, error } = await db
+            // READ THE DATABASE STATUS (Defaults to true safely if the column is entirely missing)
+            if (teamData.is_recruiting !== undefined && teamData.is_recruiting !== null) {
+                teamIsRecruiting = teamData.is_recruiting;
+            } else {
+                teamIsRecruiting = true;
+            }
+
+            const { data: drivers, error: driverError } = await db
                 .from('racers')
                 .select('id, display_name, racer_number')
                 .eq('primary_team_id', currentTeamId);
 
-            if (error || !drivers || drivers.length === 0) {
+            if (driverError || !drivers || drivers.length === 0) {
                 grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ No drivers assigned to this team yet ]</div>`;
                 if (leaderDisplay) leaderDisplay.innerText = "UNASSIGNED";
                 return;
@@ -329,7 +341,7 @@
             }
         }
 
-        // --- 2. AUTHENTICATION (WORKING IDENTITY CHECK) ---
+        // --- 2. AUTHENTICATION ---
         async function initTeamCardPage() {
             await renderTeamRoster();
             loadTeamChatWidget(); 
@@ -337,6 +349,9 @@
             const { data: { session } } = await db.auth.getSession();
             if (session && session.user) {
                 await handleAuthUser(session.user);
+            } else {
+                updateHeaderAuthUI();
+                renderBannerControls();
             }
 
             db.auth.onAuthStateChange(async (event, session) => {
@@ -446,15 +461,14 @@
             container.innerHTML = html;
         }
 
-       async function toggleRecruitmentStatus() {
-    if (!isTeamLeader || !currentTeamId) return;
-    teamIsRecruiting = !teamIsRecruiting;
-    
-    // Save state directly to Supabase teams table
-    await db.from('teams').update({ is_recruiting: teamIsRecruiting }).eq('id', currentTeamId);
-    
-    renderBannerControls();
-}
+        // SAVE THE NEW STATUS DIRECTLY TO THE DATABASE
+        async function toggleRecruitmentStatus() {
+            if (!isTeamLeader || !currentTeamId) return;
+            teamIsRecruiting = !teamIsRecruiting;
+            
+            await db.from('teams').update({ is_recruiting: teamIsRecruiting }).eq('id', currentTeamId);
+            renderBannerControls();
+        }
 
         function openApplicationModal() {
             document.getElementById('applicantName').innerText = displayName;
