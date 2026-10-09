@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- MAIN PAGE HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html"><img src="logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform"></a>
+            </div>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Official Support Desk</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    CONTACT US
+                </h1>
+            </div>                 
+        </div>
+    </header>
+
+    <!-- NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams Hub</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards</a>
+            <a href="faq.html" class="text-gray-300 hover:text-brand-gold transition">FAQ</a>
+            <a href="contact.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">Contact Us</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-12 space-y-10">
+        
+        <div class="text-center space-y-3">
+            <h2 class="text-2xl font-black uppercase text-white tracking-widest">Get in Touch with Grid Command</h2>
+            <p class="text-xs text-gray-400 max-w-lg mx-auto">Have questions about telemetry tracking, syndicate applications, or league events? Send us a direct transmission.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Direct Email Info Card -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col justify-between space-y-4">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-brand-gold bg-amber-950 px-2 py-0.5 rounded border border-brand-gold/30 inline-block mb-3">Direct Dispatch</span>
+                    <h3 class="text-sm font-black uppercase text-white tracking-wide mb-1">Email Support</h3>
+                    <p class="text-xs text-gray-400">Prefer using your own client? Reach our administration desk directly.</p>
+                </div>
+                <a href="mailto:gentlestormracing@gmail.com" class="text-xs font-mono font-bold text-brand-gold hover:underline break-all bg-brand-bg border border-brand-border p-3 rounded block text-center">
+                    gentlestormracing@gmail.com
+                </a>
+            </div>
+
+            <!-- Inquiries Info Card -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col justify-between space-y-4">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-brand-blue bg-blue-950 px-2 py-0.5 rounded border border-brand-blue/30 inline-block mb-3">Sim Racing</span>
+                    <h3 class="text-sm font-black uppercase text-white tracking-wide mb-1">Telemetry & HUDs</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        For Second Life track script errors, HUD sync issues, or race marshal inquiries.
+                    </p>
+                </div>
+                <span class="text-[10px] font-bold uppercase text-gray-500 bg-brand-bg border border-brand-border p-3 rounded block text-center">
+                    Response Window: 24-48h
+                </span>
+            </div>
+
+            <!-- Comms Hub Info Card -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col justify-between space-y-4">
+                <div>
+                    <span class="text-[9px] font-black uppercase text-brand-green bg-emerald-950 px-2 py-0.5 rounded border border-brand-green/30 inline-block mb-3">Live Feed</span>
+                    <h3 class="text-sm font-black uppercase text-white tracking-wide mb-1">GSR Comms Hub</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Need immediate assistance? Jump into our live database chat channels.
+                    </p>
+                </div>
+                <a href="chats.html" class="text-[10px] font-black uppercase text-brand-green bg-brand-bg border border-brand-border hover:border-brand-green p-3 rounded block text-center transition">
+                    Open Comms Hub →
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Contact Form Section -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-8 shadow-2xl">
+            <h3 class="text-sm font-black uppercase text-white tracking-widest border-b border-brand-border pb-3 mb-6">Send a Message</h3>
+            
+            <form onsubmit="handleContactSubmit(event)" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase text-gray-400 tracking-wider">Your Name / SL Legacy Name</label>
+                        <input type="text" id="contactName" required placeholder="e.g. Deathstalker Paine" class="w-full bg-brand-bg border border-brand-border text-white text-xs px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition uppercase">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black uppercase text-gray-400 tracking-wider">Email Address</label>
+                        <input type="email" id="contactEmail" required placeholder="name@example.com" class="w-full bg-brand-bg border border-brand-border text-white text-xs px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition">
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-gray-400 tracking-wider">Inquiry Category</label>
+                    <select id="contactCategory" class="w-full bg-brand-bg border border-brand-border text-white text-xs px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition uppercase cursor-pointer">
+                        <option value="general">General Support / Question</option>
+                        <option value="telemetry">HUD / Telemetry Issue</option>
+                        <option value="syndicate">Team / Syndicate Dispute</option>
+                        <option value="media">Sponsorship / Media Inquiry</option>
+                    </select>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-gray-400 tracking-wider">Message Transmission</label>
+                    <textarea id="contactMessage" rows="5" required placeholder="Describe your issue or inquiry in detail..." class="w-full bg-brand-bg border border-brand-border text-white text-xs p-4 rounded-lg outline-none focus:border-brand-gold transition resize-none"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs py-4 rounded-lg transition shadow-lg cursor-pointer tracking-widest">
+                    Transmit Message to gentlestormracing@gmail.com →
+                </button>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
+
+    <script>
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const category = document.getElementById('contactCategory').value;
+            const message = document.getElementById('contactMessage').value;
+
+            // Opens user's mail client directly populated with their inquiry
+            const subject = encodeURIComponent(`[GSR Support Inquiry - ${category.toUpperCase()}] from ${name}`);
+            const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nCategory: ${category}\n\nMessage:\n${message}`);
+            
+            window.location.href = `mailto:gentlestormracing@gmail.com?subject=${subject}&body=${body}`;
+        }
+    </script>
+
+</body>
+</html>
