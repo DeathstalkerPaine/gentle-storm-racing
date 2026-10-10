@@ -585,79 +585,107 @@
         }
 
         window.saveCMSModal = async function() {
-            const container = document.querySelector(`[data-cms-id="${currentEditId}"]`);
-            const fields = Array.from(container.querySelectorAll('[data-cms-field]'));
-            let updateData = {};
-            
-            // Check if user chose to clear the image
-            const clearImageCheckbox = document.getElementById('cms_clear_image');
-            const fileInput = document.getElementById('cms_input_file');
-            
-            if (clearImageCheckbox && clearImageCheckbox.checked) {
-                updateData['image_url'] = '';
-                const imgTag = container.querySelector('[data-cms-field="image_url"]');
-                if (imgTag) {
-                    imgTag.src = '';
-                    imgTag.classList.add('hidden');
-                    const placeholder = imgTag.nextElementSibling;
-                    if (placeholder) placeholder.classList.remove('hidden');
-                }
-            } else if (fileInput && fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
-                
-                const { data: uploadData, error: uploadError } = await db.storage
-                    .from('admin-assets')
-                    .upload(fileName, file);
+    const container = document.querySelector(`[data-cms-id="${currentEditId}"]`);
+    const fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+    let updateData = {};
+    
+    const clearImageCheckbox = document.getElementById('cms_clear_image');
+    const fileInput = document.getElementById('cms_input_file');
+    const hiddenImg = document.getElementById('cms_input_image_url');
+    let oldImageUrl = hiddenImg ? hiddenImg.value : '';
 
-                if (uploadError) {
-                    alert("Media upload failed: " + uploadError.message);
-                    return;
-                }
-
-                const { data: publicUrlData } = db.storage
-                    .from('admin-assets')
-                    .getPublicUrl(fileName);
-
-                updateData['image_url'] = publicUrlData.publicUrl;
-                
-                const imgTag = container.querySelector('[data-cms-field="image_url"]');
-                if (imgTag) {
-                    imgTag.src = publicUrlData.publicUrl;
-                    imgTag.classList.remove('hidden');
-                    const placeholder = imgTag.nextElementSibling;
-                    if (placeholder) placeholder.classList.add('hidden');
-                }
-            } else {
-                const hiddenImg = document.getElementById('cms_input_image_url');
-                if (hiddenImg) updateData['image_url'] = hiddenImg.value;
+    // Helper function to extract filename from public URL for deletion
+    function getFileNameFromUrl(url) {
+        if (!url) return null;
+        try {
+            const parts = url.split('/');
+            return parts[parts.length - 1];
+        } catch (e) {
+            return null;
+        }
+    }
+    
+    if (clearImageCheckbox && clearImageCheckbox.checked) {
+        updateData['image_url'] = '';
+        
+        // Delete old file from Supabase storage if it exists
+        if (oldImageUrl) {
+            const oldFileName = getFileNameFromUrl(oldImageUrl);
+            if (oldFileName) {
+                await db.storage.from('admin-assets').remove([oldFileName]);
             }
+        }
 
-            fields.forEach(f => {
-                const fieldName = f.getAttribute('data-cms-field');
-                if (fieldName !== 'image_url') {
-                    const inputEl = document.getElementById(`cms_input_${fieldName}`);
-                    if (inputEl) {
-                        const newVal = inputEl.value;
-                        updateData[fieldName] = newVal;
-                        f.innerText = newVal;
-                    }
-                }
-            });
-            
-            const linkInput = document.getElementById('cms_input_link_url');
-            if (linkInput) {
-                updateData['link_url'] = linkInput.value;
-                container.setAttribute('href', linkInput.value);
+        const imgTag = container.querySelector('[data-cms-field="image_url"]');
+        if (imgTag) {
+            imgTag.src = '';
+            imgTag.classList.add('hidden');
+            const placeholder = imgTag.nextElementSibling;
+            if (placeholder) placeholder.classList.remove('hidden');
+        }
+    } else if (fileInput && fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+        
+        const { data: uploadData, error: uploadError } = await db.storage
+            .from('admin-assets')
+            .upload(fileName, file);
+
+        if (uploadError) {
+            alert("Media upload failed: " + uploadError.message);
+            return;
+        }
+
+        // Delete previous old file if replacing it
+        if (oldImageUrl) {
+            const oldFileName = getFileNameFromUrl(oldImageUrl);
+            if (oldFileName) {
+                await db.storage.from('admin-assets').remove([oldFileName]);
             }
-            
-            const { error } = await db.from('site_content').upsert([{
-                section_id: currentEditId,
-                content_value: JSON.stringify(updateData)
-            }]);
-            
-            if (error) alert("Save failed: " + error.message);
-            closeCMSModal();
+        }
+
+        const { data: publicUrlData } = db.storage
+            .from('admin-assets')
+            .getPublicUrl(fileName);
+
+        updateData['image_url'] = publicUrlData.publicUrl;
+        
+        const imgTag = container.querySelector('[data-cms-field="image_url"]');
+        if (imgTag) {
+            imgTag.src = publicUrlData.publicUrl;
+            imgTag.classList.remove('hidden');
+            const placeholder = imgTag.nextElementSibling;
+            if (placeholder) placeholder.classList.add('hidden');
+        }
+    } else {
+        if (hiddenImg) updateData['image_url'] = hiddenImg.value;
+    }
+
+    fields.forEach(f => {
+        const fieldName = f.getAttribute('data-cms-field');
+        if (fieldName !== 'image_url') {
+            const inputEl = document.getElementById(`cms_input_${fieldName}`);
+            if (inputEl) {
+                const newVal = inputEl.value;
+                updateData[fieldName] = newVal;
+                f.innerText = newVal;
+            }
+        }
+    });
+    
+    const linkInput = document.getElementById('cms_input_link_url');
+    if (linkInput) {
+        updateData['link_url'] = linkInput.value;
+        container.setAttribute('href', linkInput.value);
+    }
+    
+    const { error } = await db.from('site_content').upsert([{
+        section_id: currentEditId,
+        content_value: JSON.stringify(updateData)
+    }]);
+    
+    if (error) alert("Save failed: " + error.message);
+    closeCMSModal();
         }
 
         // ==========================
