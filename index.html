@@ -31,6 +31,7 @@
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
         .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        [data-cms-id] { opacity: 1; }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
@@ -79,11 +80,11 @@
         <!-- ROW 1: 3-COLUMN WEEKLY SPOTLIGHTS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
             
-            <!-- COLUMN 1: TEAM SPOTLIGHT (Unified Outer Box) -->
-            <div class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group h-full">
+            <!-- COLUMN 1: TEAM SPOTLIGHT (CMS Editable Outer Box) -->
+            <div data-cms-id="index:spotlight_team_box" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group h-full">
                 <div>
                     <div class="flex justify-between items-center mb-4">
-                        <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Spotlight</span>
+                        <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Spotlight</span>
                         <span id="st_top_pts" class="text-brand-gold font-mono text-[10px] font-bold">500 PTS</span>
                     </div>
 
@@ -107,21 +108,20 @@
                             <a href="teams.html" class="block w-full text-center border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black text-[10px] font-black uppercase py-2 rounded transition">View Team Profile →</a>
                         </div>
                     </div>
-                    <!-- END INNER EMBEDDED TEAM CARD -->
 
-                    <h3 class="text-lg font-black uppercase text-white group-hover:text-brand-gold transition">Team of the Week</h3>
-                    <p class="text-xs text-gray-400 mt-1 line-clamp-2">Shows an image of the Teams card. Click to open the full Teams Hub.</p>
+                    <h3 data-cms-field="title" class="text-lg font-black uppercase text-white group-hover:text-brand-gold transition">Team of the Week</h3>
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-1 line-clamp-2">Shows an image of the Teams card. Click to open the full Teams Hub.</p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <a href="teams.html" class="text-xs font-bold uppercase text-brand-gold hover:underline">Open Teams →</a>
+                    <a href="teams.html" data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold hover:underline">Open Teams →</a>
                 </div>
             </div>
 
-            <!-- COLUMN 2: RACER SPOTLIGHT (Unified Outer Box) -->
-            <div class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 transition flex flex-col justify-between group h-full">
+            <!-- COLUMN 2: RACER SPOTLIGHT (CMS Editable Outer Box) -->
+            <div data-cms-id="index:spotlight_racer_box" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 transition flex flex-col justify-between group h-full">
                 <div>
                     <div class="flex justify-between items-center mb-4">
-                        <span class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Spotlight</span>
+                        <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Spotlight</span>
                         <span id="sr_top_pts" class="text-brand-red font-mono text-[10px] font-bold">1,000 PTS</span>
                     </div>
 
@@ -140,24 +140,22 @@
                             <a href="racers_profiles.html" id="sr_inner_link" class="block w-full text-center border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black text-[10px] font-black uppercase py-2 rounded transition">View Full Profile →</a>
                         </div>
                     </div>
-                    <!-- END INNER EMBEDDED RACER CARD -->
 
-                    <h3 class="text-lg font-black uppercase text-white group-hover:text-brand-red transition">Racer of the Week</h3>
-                    <p class="text-xs text-gray-400 mt-1 line-clamp-2">Shows an image of the Racers card. Click to open the full Racers Hub.</p>
+                    <h3 data-cms-field="title" class="text-lg font-black uppercase text-white group-hover:text-brand-red transition">Racer of the Week</h3>
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-1 line-clamp-2">Shows an image of the Racers card. Click to open the full Racers Hub.</p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <a href="racers.html" class="text-xs font-bold uppercase text-brand-red hover:underline">Open Racers →</a>
+                    <a href="racers.html" data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-red hover:underline">Open Racers →</a>
                 </div>
             </div>
 
-            <!-- COLUMN 3: TRACK SPOTLIGHT (Unified Outer Box) -->
+            <!-- COLUMN 3: TRACK SPOTLIGHT (Manual CMS Editable) -->
             <a href="racetracks.html" data-cms-id="index:spotlight_track" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group h-full">
                 <div>
                     <div class="flex justify-between items-center mb-4">
                         <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-transparent border border-brand-gold text-brand-gold px-2 py-0.5 rounded">Spotlight</span>
                     </div>
                     
-                    <!-- INNER IMAGE BOX SIZED TO MATCH -->
                     <div class="bg-[#111] border border-brand-border rounded-xl flex flex-col mb-4 min-h-[296px] justify-center items-center overflow-hidden relative">
                         <img data-cms-field="image_url" src="" alt="Track of the Week" class="w-full h-full object-cover hidden absolute inset-0">
                         <span class="text-[10px] text-gray-600 uppercase font-mono z-10">[ NO MEDIA UPLOADED ]</span>
