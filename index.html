@@ -239,26 +239,26 @@
                 </div>
             </a>
 
-          <!-- DYNAMIC SPONSORS BLOCK -->
-<a href="sponsors.html" data-cms-id="index:sponsors" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
-    <div>
+        <!-- DYNAMIC SPONSORS BLOCK (HORIZONTAL SPLIT + FLEX-GROW HEIGHT) -->
+<a href="sponsors.html" data-cms-id="index:sponsors" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group h-full">
+    <div class="flex flex-col flex-grow">
         <h3 data-cms-field="title" class="text-lg font-black uppercase tracking-wider text-brand-gold group-hover:text-white transition">Sponsors</h3>
         <p data-cms-field="desc" class="text-xs text-gray-400 mt-0.5">Official Partners & League Sponsors</p>
 
-        <!-- FIXED HEIGHT CONTAINER (Locked to h-36 to match Magazine) -->
-        <div id="sponsorLogosContainer" class="my-3 h-36 w-full bg-brand-bg border border-brand-border rounded-lg flex flex-col items-center justify-center p-2 gap-1 overflow-hidden">
-            <div id="sponsorFallbackText" class="flex flex-col items-center justify-center gap-1 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center">
+        <!-- FLEX-GROW CONTAINER: Fills all vertical space down to the divider line -->
+        <div id="sponsorLogosContainer" class="my-3 flex-grow w-full min-h-[160px] bg-brand-bg border border-brand-border rounded-lg flex flex-row items-center justify-center p-2 gap-2 overflow-hidden">
+            <div id="sponsorFallbackText" class="flex flex-wrap justify-center items-center gap-4 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center">
                 <span>[ Second Life Motors ]</span>
                 <span>[ Linden Fuel Co. ]</span>
                 <span>[ StormTech HUDs ]</span>
             </div>
         </div>
     </div>
-    <div class="mt-2 pt-3 border-t border-brand-border text-right">
+    <div class="pt-3 border-t border-brand-border text-right shrink-0">
         <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">View Sponsors →</span>
     </div>
 </a>
-        </section>
+</section>
 
         <!-- ROW 4: 3-COLUMN STATS, EVENTS & HIGHLIGHTS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -563,7 +563,7 @@
                         try {
                             const content = JSON.parse(row.content_value);
 
-                           // SPECIAL HANDLING FOR INDEX SPONSORS (VERTICALLY STACKED AUTO-RESIZING LOGOS)
+                          // SPECIAL HANDLING FOR INDEX SPONSORS (HORIZONTAL SPLIT FILLING FULL HEIGHT)
 if (row.section_id === 'index:sponsors') {
     const logos = [];
     if (content.logo_1) logos.push(content.logo_1);
@@ -574,7 +574,7 @@ if (row.section_id === 'index:sponsors') {
     if (logos.length > 0 && sponsorBox) {
         sponsorBox.innerHTML = '';
         logos.forEach((url, i) => {
-            sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 w-full min-h-0 object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
+            sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 h-full w-full object-cover rounded filter drop-shadow hover:scale-105 transition duration-300">`;
         });
     }
 }
