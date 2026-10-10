@@ -1,254 +1,512 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gentle Storm Racing | Main Menu Hub</title>
-<script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
-<script>
-tailwind.config = {
-darkMode: 'class',
-theme: {
-extend: {
-colors: {
-brand: {
-bg: '#121212',
-card: '#1e1e1e',
-border: '#333333',
-gold: '#c5a059',
-red: '#ff2a2a',
-blue: '#2a75ff',
-green: '#10B981'
-}
-}
-}
-}
-}
-</script>
-<style>
-.gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 10px rgba(197, 160, 89, 0.2); }
-.red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 10px rgba(255, 42, 42, 0.2); }
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #121212; }
-::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #c5a059; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gentle Storm Racing | Main Menu Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#121212',
+                            card: '#1e1e1e',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a',
+                            blue: '#2a75ff',
+                            green: '#10B981'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 10px rgba(197, 160, 89, 0.2); }
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 10px rgba(255, 42, 42, 0.2); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+    </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
-<header class="bg-brand-card border-b border-brand-gold relative py-3 shadow-xl">
-<div class="max-w-7xl mx-auto px-4 relative flex items-center justify-center min-h-[110px] sm:min-h-[140px]">
-<div class="text-center py-1">
-<a href="index.html" class="inline-block">
-<img src="logo.png" alt="Gentle Storm Racing Logo" class="h-28 sm:h-36 md:h-44 w-auto max-w-full object-contain mx-auto drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] transition-transform duration-300">
-</a>
-</div>
-<div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2">
-<a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
-<a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
-</div>
-</div>
-</header>
-<nav class="bg-brand-bg border-b border-brand-border py-3">
-<div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
-<a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Pro Plus</a>
-<a href="store.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Store</a>
-<a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
-<a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers</a>
-<a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams</a>
-<a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">Leagues</a>
-<a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards</a>
-<a href="sponsors.html" class="text-gray-300 hover:text-brand-gold transition">Sponsors</a>
-<a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
-<a href="upcoming_events.html" class="text-gray-300 hover:text-brand-gold transition">Upcoming Events</a>
-<a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
-</div>
-</nav>
-<main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
-<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<div class="relative group h-full">
-<button onclick="openEditor('totw')" class="admin-edit-btn hidden absolute top-2 right-2 z-20 bg-brand-blue text-white text-[10px] font-black uppercase px-2 py-1 rounded shadow-lg hover:bg-blue-600 transition cursor-pointer">✏️ Edit</button>
-<a id="totw_linkHref" href="teams.html" class="block h-full bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between">
-<div>
-<span id="totw_label" class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Spotlight</span>
-<h3 id="totw_title" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Team of the Week</h3>
-<p id="totw_text" class="text-xs text-gray-400 mt-2">Shows an image of the Teams card. Click to open the full Teams Hub.</p>
-</div>
-<div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-<span id="totw_linkText" class="text-xs font-bold uppercase text-brand-gold">Open Teams →</span>
-</div>
-</a>
-</div>
-<div class="relative group h-full">
-<button onclick="openEditor('rotw')" class="admin-edit-btn hidden absolute top-2 right-2 z-20 bg-brand-blue text-white text-[10px] font-black uppercase px-2 py-1 rounded shadow-lg hover:bg-blue-600 transition cursor-pointer">✏️ Edit</button>
-<a id="rotw_linkHref" href="racers.html" class="block h-full bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between">
-<div>
-<span id="rotw_label" class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Spotlight</span>
-<h3 id="rotw_title" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Racer of the Week</h3>
-<p id="rotw_text" class="text-xs text-gray-400 mt-2">Shows an image of the Racers card. Click to open the full Racers Hub.</p>
-</div>
-<div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-<span id="rotw_linkText" class="text-xs font-bold uppercase text-brand-red">Open Racers →</span>
-</div>
-</a>
-</div>
-<div class="relative group h-full">
-<button onclick="openEditor('trotw')" class="admin-edit-btn hidden absolute top-2 right-2 z-20 bg-brand-blue text-white text-[10px] font-black uppercase px-2 py-1 rounded shadow-lg hover:bg-blue-600 transition cursor-pointer">✏️ Edit</button>
-<a id="trotw_linkHref" href="racetracks.html" class="block h-full bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between">
-<div>
-<span id="trotw_label" class="text-[10px] font-black uppercase tracking-widest bg-gray-800 border border-brand-gold text-brand-gold px-2 py-0.5 rounded">Spotlight</span>
-<h3 id="trotw_title" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Track of the Week</h3>
-<p id="trotw_text" class="text-xs text-gray-400 mt-2">Shows an image of the Track card. Click to open the full Racetracks Hub.</p>
-</div>
-<div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-<span id="trotw_linkText" class="text-xs font-bold uppercase text-brand-gold">Open Racetracks →</span>
-</div>
-</a>
-</div>
-</section>
-<section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div class="relative group h-full">
-<button onclick="openEditor('news')" class="admin-edit-btn hidden absolute top-2 right-2 z-20 bg-brand-blue text-white text-[10px] font-black uppercase px-2 py-1 rounded shadow-lg hover:bg-blue-600 transition cursor-pointer">✏️ Edit</button>
-<a id="news_linkHref" href="multimedia.html" class="block h-full bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between">
-<div>
-<span id="news_label" class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Latest Announcement</span>
-<h3 id="news_title" class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Current News</h3>
-<p id="news_text" class="text-xs text-gray-300 mt-2 leading-relaxed">Short news excerpt and announcement summary.</p>
-</div>
-<div class="mt-4 pt-3 border-t border-brand-border text-right">
-<span id="news_linkText" class="text-xs font-bold uppercase text-brand-gold">Read News →</span>
-</div>
-</a>
-</div>
-<div class="bg-brand-card border border-brand-border rounded-xl p-6 transition flex flex-col justify-between group">
-<div>
-<div class="flex justify-between items-center gap-2">
-<span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Live Discussion</span>
-<div class="flex items-center gap-2">
-<select id="indexChatSelect" onchange="switchIndexChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-brand-gold text-[10px] font-black uppercase px-2 py-1 rounded outline-none focus:border-brand-gold cursor-pointer">
-<option value="global" selected>🌐 Global</option>
-<option value="following">👥 Following</option>
-<option value="team">🛡️ Teams</option>
-<option value="pro_plus">⭐ Pro Plus</option>
-</select>
-<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"></span>
-</div>
-</div>
-<h3 class="text-lg font-black uppercase text-white mt-2">GSR Chats Threads</h3>
-<div id="mainMenuChatFeed" class="bg-brand-bg border border-brand-border rounded-lg p-3 my-3 space-y-2 h-28 overflow-hidden flex flex-col justify-end">
-<div class="text-[10px] text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
-</div>
-</div>
-<div class="pt-3 border-t border-brand-border flex justify-between items-center text-xs">
-<a href="chats.html" class="font-bold uppercase text-brand-gold hover:underline text-[10px]">Open Comms Hub →</a>
-<button onclick="toggleDrawer(true)" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">Open Drawer to Reply ↵</button>
-</div>
-</div>
-</section>
-</main>
-<div id="inlineEditorModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
-<div class="bg-brand-card border border-brand-gold rounded-xl p-6 w-full max-w-lg shadow-2xl relative">
-<h2 class="text-lg font-black uppercase text-white mb-4 border-b border-brand-border pb-2">Edit Block Content</h2>
-<input type="hidden" id="edit_block_id">
-<div class="space-y-4">
-<div><label class="text-[10px] font-black uppercase text-gray-400">Tag / Label</label><input type="text" id="edit_label" class="w-full bg-brand-bg border border-brand-border text-white text-xs px-3 py-2 rounded outline-none"></div>
-<div><label class="text-[10px] font-black uppercase text-gray-400">Main Title</label><input type="text" id="edit_title" class="w-full bg-brand-bg border border-brand-border text-white text-xs px-3 py-2 rounded outline-none"></div>
-<div><label class="text-[10px] font-black uppercase text-gray-400">Description Text</label><textarea id="edit_text" rows="2" class="w-full bg-brand-bg border border-brand-border text-white text-xs px-3 py-2 rounded outline-none"></textarea></div>
-<div id="edit_subText_container"><label class="text-[10px] font-black uppercase text-gray-400">Sub Text</label><input type="text" id="edit_subText" class="w-full bg-brand-bg border border-brand-border text-white text-xs px-3 py-2 rounded outline-none"></div>
-<div><label class="text-[10px] font-black uppercase text-gray-400">Button Text</label><input type="text" id="edit_linkText" class="w-full bg-brand-bg border border-brand-border text-white text-xs px-3 py-2 rounded outline-none"></div>
-<div><label class="text-[10px] font-black uppercase text-gray-400">Link Destination URL</label><input type="text" id="edit_linkHref" class="w-full bg-brand-bg border border-brand-border text-white text-xs px-3 py-2 rounded outline-none"></div>
-</div>
-<div class="mt-6 flex justify-end gap-3">
-<button onclick="closeEditor()" class="px-4 py-2 text-xs font-bold uppercase text-gray-400 hover:text-white">Cancel</button>
-<button onclick="saveEditorData()" class="bg-brand-gold hover:bg-yellow-600 text-black px-4 py-2 text-xs font-black uppercase rounded">Save Changes</button>
-</div>
-</div>
-</div>
-<script src="[https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2](https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2)"></script>
-<script>
-const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-const db = window.supabase.createClient(supabaseUrl, supabaseKey);
-let currentIndexChannel = 'global';
-let currentUser = null;
-let currentProfile = null;
-let isEditModeActive = false;
-let contentData = {
-totw: { label: "Spotlight", title: "Team of the Week", text: "Shows an image of the Teams card.", linkText: "Open Teams →", linkHref: "teams.html" },
-rotw: { label: "Spotlight", title: "Racer of the Week", text: "Shows an image of the Racers card.", linkText: "Open Racers →", linkHref: "racers.html" },
-trotw: { label: "Spotlight", title: "Track of the Week", text: "Shows an image of the Track card.", linkText: "Open Racetracks →", linkHref: "racetracks.html" },
-news: { label: "Latest Announcement", title: "Current News", text: "Short news excerpt and announcement summary.", linkText: "Read News →", linkHref: "multimedia.html" }
-};
-async function initMainMenu() {
-const { data: dbContent } = await db.from('site_content').select('*');
-if (dbContent) {
-dbContent.forEach(row => {
-try { if (contentData[row.section_id]) contentData[row.section_id] = JSON.parse(row.content_value); } catch(e){}
-});
-}
-applyContentToDOM();
-const { data: { session } } = await db.auth.getSession();
-if (session) {
-currentUser = session.user;
-const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, is_admin').eq('id', currentUser.id).single();
-currentProfile = profile;
-const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
-let navHTML = ⁠<div class="text-right hidden sm:block"><span class="block text-xs font-black text-white uppercase">${displayName}</span></div>⁠;
-if (profile?.is_admin) {
-navHTML += ⁠<button onclick="toggleEditMode()" id="editModeToggleBtn" class="bg-brand-blue text-white text-xs font-black uppercase px-3 py-1.5 rounded sm:ml-4">Enable Edit Mode</button>⁠;
-}
-navHTML += ⁠<button onclick="executeSignOut()" class="bg-brand-bg text-white text-xs font-black uppercase px-3 py-1.5 rounded sm:ml-2">Sign Out</button>⁠;
-document.getElementById('userNav').innerHTML = navHTML;
-}
-}
-function applyContentToDOM() {
-Object.keys(contentData).forEach(blockId => {
-const data = contentData[blockId];
-if (document.getElementById(⁠${blockId}_label⁠)) document.getElementById(⁠${blockId}_label⁠).innerText = data.label;
-if (document.getElementById(⁠${blockId}_title⁠)) document.getElementById(⁠${blockId}_title⁠).innerText = data.title;
-if (document.getElementById(⁠${blockId}_text⁠)) document.getElementById(⁠${blockId}_text⁠).innerText = data.text;
-if (document.getElementById(⁠${blockId}_linkText⁠)) document.getElementById(⁠${blockId}_linkText⁠).innerText = data.linkText;
-if (document.getElementById(⁠${blockId}_linkHref⁠)) document.getElementById(⁠${blockId}_linkHref⁠).href = data.linkHref;
-});
-}
-function toggleEditMode() {
-isEditModeActive = !isEditModeActive;
-const btn = document.getElementById('editModeToggleBtn');
-const editBtns = document.querySelectorAll('.admin-edit-btn');
-if (isEditModeActive) {
-btn.innerText = "Disable Edit Mode";
-editBtns.forEach(b => b.classList.remove('hidden'));
-} else {
-btn.innerText = "Enable Edit Mode";
-editBtns.forEach(b => b.classList.add('hidden'));
-}
-}
-function openEditor(blockId) {
-const data = contentData[blockId];
-document.getElementById('edit_block_id').value = blockId;
-document.getElementById('edit_label').value = data.label;
-document.getElementById('edit_title').value = data.title;
-document.getElementById('edit_text').value = data.text;
-document.getElementById('edit_linkText').value = data.linkText;
-document.getElementById('edit_linkHref').value = data.linkHref;
-document.getElementById('inlineEditorModal').classList.replace('hidden', 'flex');
-}
-function closeEditor() { document.getElementById('inlineEditorModal').classList.replace('flex', 'hidden'); }
-async function saveEditorData() {
-const blockId = document.getElementById('edit_block_id').value;
-const newData = {
-label: document.getElementById('edit_label').value,
-title: document.getElementById('edit_title').value,
-text: document.getElementById('edit_text').value,
-linkText: document.getElementById('edit_linkText').value,
-linkHref: document.getElementById('edit_linkHref').value
-};
-contentData[blockId] = newData;
-applyContentToDOM();
-closeEditor();
-await db.from('site_content').upsert([{ section_id: blockId, content_value: JSON.stringify(newData) }]);
-}
-async function executeSignOut() { await db.auth.signOut(); window.location.reload(); }
-window.onload = initMainMenu;
-</script>
+
+    <!-- TOP HEADER: CENTERED LOGO WITH DYNAMIC AUTH BUTTONS -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-3 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex items-center justify-center min-h-[110px] sm:min-h-[140px]">
+            
+            <!-- Centered Logo -->
+            <div class="text-center py-1">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-28 sm:h-36 md:h-44 w-auto max-w-full object-contain mx-auto drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] transition-transform duration-300">
+                </a>
+            </div>
+
+            <!-- Dynamic Auth Buttons Container -->
+            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2">
+                <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
+                <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR LINKS -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Pro Plus</a>
+            <a href="store.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Store</a>
+            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
+            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams</a>
+            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">Leagues</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards</a>
+            <a href="sponsors.html" class="text-gray-300 hover:text-brand-gold transition">Sponsors</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="upcoming_events.html" class="text-gray-300 hover:text-brand-gold transition">Upcoming Events</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <!-- MAIN MENU GRID LAYOUT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
+
+        <!-- ROW 1: 3-COLUMN WEEKLY SPOTLIGHTS -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Team of the Week -->
+            <a href="teams.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Spotlight</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Team of the Week</h3>
+                    <p class="text-xs text-gray-400 mt-2">Shows an image of the Teams card. Click to open the full Teams Hub.</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Open Teams →</span>
+                </div>
+            </a>
+
+            <!-- Racer of the Week -->
+            <a href="racers.html" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Spotlight</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Racer of the Week</h3>
+                    <p class="text-xs text-gray-400 mt-2">Shows an image of the Racers card. Click to open the full Racers Hub.</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <span class="text-xs font-bold uppercase text-brand-red">Open Racers →</span>
+                </div>
+            </a>
+
+            <!-- Track of the Week -->
+            <a href="racetracks.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-widest bg-gray-800 border border-brand-gold text-brand-gold px-2 py-0.5 rounded">Spotlight</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Track of the Week</h3>
+                    <p class="text-xs text-gray-400 mt-2">Shows an image of the Track card. Click to open the full Racetracks Hub.</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Open Racetracks →</span>
+                </div>
+            </a>
+        </section>
+
+        <!-- ROW 2: 2-COLUMN NEWS & LIVE CHAT PREVIEW WIDGET -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Current News -->
+            <a href="multimedia.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Latest Announcement</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Current News</h3>
+                    <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                        Short news excerpt and announcement summary. Click to read full news articles and official updates.
+                    </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border text-right">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Read News →</span>
+                </div>
+            </a>
+
+            <!-- GSR CHATS THREADS (LIVE CONNECTED WIDGET WITH DROPDOWN & DRAWER TRIGGER) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 transition flex flex-col justify-between group">
+                <div>
+                    <div class="flex justify-between items-center gap-2">
+                        <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Live Discussion</span>
+                        
+                        <div class="flex items-center gap-2">
+                            <!-- Channel Selector Dropdown -->
+                            <select id="indexChatSelect" onchange="switchIndexChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-brand-gold text-[10px] font-black uppercase px-2 py-1 rounded outline-none focus:border-brand-gold cursor-pointer">
+                                <option value="global" selected>🌐 Global</option>
+                                <option value="following">👥 Following</option>
+                                <option value="team">🛡️ Teams</option>
+                                <option value="pro_plus">⭐ Pro Plus</option>
+                            </select>
+                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"></span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-lg font-black uppercase text-white mt-2">GSR Chats Threads</h3>
+                    
+                    <!-- Dynamic Read-Only Feed Box -->
+                    <div id="mainMenuChatFeed" class="bg-brand-bg border border-brand-border rounded-lg p-3 my-3 space-y-2 h-28 overflow-hidden flex flex-col justify-end">
+                        <div class="text-[10px] text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
+                    </div>
+                </div>
+                
+                <div class="pt-3 border-t border-brand-border flex justify-between items-center text-xs">
+                    <a href="chats.html" class="font-bold uppercase text-brand-gold hover:underline text-[10px]">Open Comms Hub →</a>
+                    
+                    <!-- Drawer Trigger Button -->
+                    <button onclick="toggleDrawer(true)" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">
+                        Open Drawer to Reply ↵
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROW 3: MAGAZINE & SPONSORS -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Gentle Storm Racing Magazine -->
+            <a href="multimedia.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Publication</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Gentle Storm Racing Magazine</h3>
+                    <p class="text-xs text-gray-400 mt-2">Cover image preview. Click to open the digital magazine reader.</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border text-right">
+                    <span class="text-xs font-bold uppercase text-brand-gold">View Issue →</span>
+                </div>
+            </a>
+
+            <!-- Sponsors Banner -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-center items-center text-center">
+                <h3 class="text-xl font-black uppercase tracking-wider text-brand-gold mb-2">Sponsors</h3>
+                <p class="text-xs text-gray-400">Official Partners & League Sponsors</p>
+            </div>
+        </section>
+
+        <!-- ROW 4: 3-COLUMN STATS, EVENTS & HIGHLIGHTS -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Top 3 Racers Block -->
+            <a href="leaderboard_view.html?category=racer" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 flex flex-col justify-between transition group">
+                <div>
+                    <h3 class="text-base font-black uppercase text-white mb-3 group-hover:text-brand-gold transition">Top 3 Racers</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-gold"><span class="text-brand-gold font-black italic text-[10px] w-3">1</span><span class="text-white text-[10px] font-bold uppercase">Deathstalker Paine</span></div>
+                        <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-border"><span class="text-gray-400 font-black italic text-[10px] w-3">2</span><span class="text-gray-300 text-[10px] font-bold uppercase">Vortex_SL</span></div>
+                        <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-border"><span class="text-gray-500 font-black italic text-[10px] w-3">3</span><span class="text-gray-400 text-[10px] font-bold uppercase">BlazeRunner</span></div>
+                    </div>
+                </div>
+                <div class="mt-4 text-[10px] font-bold uppercase text-brand-gold group-hover:text-white transition">
+                    View Full Leaderboards →
+                </div>
+            </a>
+
+            <!-- Next Event -->
+            <a href="upcoming_events.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-brand-red tracking-wider">Schedule</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Next Event</h3>
+                    <p class="text-xs font-black text-brand-gold mt-1">Pro Plus Grand Prix Round 1</p>
+                    <p class="text-[11px] text-gray-400 mt-1">Oct 5, 2026 • 8:00 PM SLT • Ancient Rome</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border text-right">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Event Details →</span>
+                </div>
+            </a>
+
+            <!-- Race Highlights -->
+            <a href="multimedia.html" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Media</span>
+                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Race Highlights</h3>
+                    <p class="text-xs text-gray-400 mt-2">Featured video reels, text summaries, and photo galleries.</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border text-right">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Watch Replays →</span>
+                </div>
+            </a>
+        </section>
+
+        <!-- ROW 5: LEAGUES OVERVIEW & SYSTEM STATUS -->
+        <section class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- GSR Leagues (Spans 3 Columns) -->
+            <a href="leagues.html" class="lg:col-span-3 bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-8 transition flex flex-col justify-between group">
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Championships</span>
+                    <h2 class="text-2xl font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">GSR Leagues</h2>
+                    <p class="text-xs text-gray-300 mt-2">
+                        Compare Pro League vs. Amateur League standings, team statistics, and active season schedules.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <span class="text-xs font-bold uppercase text-brand-gold">Explore Leagues →</span>
+                </div>
+            </a>
+
+            <!-- GSR System Status (1 Column) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Infrastructure</span>
+                    <h3 class="text-base font-black uppercase text-white mt-2">GSR System Status</h3>
+                    <div class="mt-3 flex items-center space-x-2">
+                        <span class="h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="text-xs font-bold text-green-400 uppercase">All Systems Operational</span>
+                    </div>
+                </div>
+                <p class="text-[10px] text-gray-500 mt-4">Supabase DB & Cloudflare Workers Active</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
+    <!-- SLIDE-OUT DRAWER OVERLAY & PANEL -->
+    <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <div id="chatDrawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-brand-card border-l border-brand-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- Drawer Header -->
+        <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
+            <div>
+                <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
+                <p id="drawerChannelName" class="text-[10px] text-brand-gold uppercase">Channel: 🌐 Global</p>
+            </div>
+            <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Drawer Chat Messages Area -->
+        <div id="drawerMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-[#111]">
+             <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching logs... ]</div>
+        </div>
+
+        <!-- Drawer Input Area -->
+        <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
+            <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-gold transition">
+            <button onclick="sendDrawerMessage()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
+        </div>
+    </div>
+
+    <!-- SUPABASE NATIVE ENGINE FOR INDEX WITH BULLETPROOF DRAWER -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // Global Drawer Control (Exposed immediately to window)
+        window.toggleDrawer = function(show) {
+            const drawer = document.getElementById('chatDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+
+            if (!drawer || !overlay) {
+                console.error("GSR Drawer Error: Could not find #chatDrawer or #drawerOverlay in the HTML.");
+                alert("Drawer HTML elements are missing from the page.");
+                return;
+            }
+
+            if (show) {
+                overlay.classList.remove('hidden');
+                void overlay.offsetWidth; // Force CSS reflow for smooth fade transition
+                overlay.classList.remove('opacity-0');
+                drawer.classList.remove('translate-x-full');
+
+                const msgBox = document.getElementById('drawerMessages');
+                if (msgBox) msgBox.scrollTop = msgBox.scrollHeight;
+            } else {
+                overlay.classList.add('opacity-0');
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                }, 300);
+            }
+        };
+
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let currentIndexChannel = 'global';
+        let currentUser = null;
+        let currentProfile = null;
+
+        const channelNames = {
+            global: '🌐 Global',
+            following: '👥 Following',
+            team: '🛡️ Teams',
+            pro_plus: '⭐ Pro Plus'
+        };
+
+        async function initMainMenu() {
+            const { data: { session } } = await db.auth.getSession();
+            const userNav = document.getElementById('userNav');
+            const drawerInput = document.getElementById('drawerInput');
+
+            if (session) {
+                currentUser = session.user;
+                const { data: profile } = await db
+                    .from('gsr_profiles')
+                    .select('sl_legacy_name')
+                    .eq('id', currentUser.id)
+                    .single();
+
+                currentProfile = profile;
+                const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+                if (userNav) {
+                    userNav.innerHTML = `
+                        <div class="text-right hidden sm:block">
+                            <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                            <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
+                            </span>
+                        </div>
+                        <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
+                    `;
+                }
+                if (drawerInput) {
+                    drawerInput.placeholder = "Type message...";
+                    drawerInput.disabled = false;
+                }
+            } else {
+                if (drawerInput) {
+                    drawerInput.placeholder = "Sign in at Main Menu to chat...";
+                    drawerInput.disabled = true;
+                }
+            }
+
+            loadIndexChatWidget();
+            subscribeToIndexRealtime();
+        }
+
+        async function switchIndexChannel(channel) {
+            currentIndexChannel = channel;
+            const drawerTitle = document.getElementById('drawerChannelName');
+            if (drawerTitle) drawerTitle.innerText = `Channel: ${channelNames[channel] || channel}`;
+            
+            loadIndexChatWidget();
+        }
+
+        async function loadIndexChatWidget() {
+            const feed = document.getElementById('mainMenuChatFeed');
+            const drawerFeed = document.getElementById('drawerMessages');
+
+            const { data, error } = await db
+                .from('gsr_chats')
+                .select('*')
+                .eq('channel', currentIndexChannel)
+                .order('created_at', { ascending: false })
+                .limit(20);
+
+            if (error || !data || data.length === 0) {
+                const emptyMsg = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No active transmissions ]</div>`;
+                if (feed) feed.innerHTML = emptyMsg;
+                if (drawerFeed) drawerFeed.innerHTML = emptyMsg;
+                return;
+            }
+
+            const messages = data.reverse();
+
+            // 1. Populate Homepage Widget (Last 3)
+            if (feed) {
+                feed.innerHTML = '';
+                messages.slice(-3).forEach(msg => {
+                    feed.innerHTML += `
+                        <div class="text-[10px] leading-snug truncate">
+                            <span class="font-black text-brand-gold uppercase">[${escapeHtml(msg.display_name)}]:</span> 
+                            <span class="text-gray-300">${escapeHtml(msg.message)}</span>
+                        </div>
+                    `;
+                });
+                feed.scrollTop = feed.scrollHeight;
+            }
+
+            // 2. Populate Slide-Out Drawer (Full History)
+            if (drawerFeed) {
+                drawerFeed.innerHTML = '';
+                messages.forEach(msg => {
+                    const isMe = currentUser && msg.user_id === currentUser.id;
+                    const align = isMe ? 'items-end' : 'items-start';
+                    const bg = isMe ? 'bg-brand-gold/10 border-brand-gold text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200';
+
+                    drawerFeed.innerHTML += `
+                        <div class="flex flex-col ${align}">
+                            <span class="text-[9px] font-black uppercase text-gray-500 mb-0.5">${escapeHtml(msg.display_name)}</span>
+                            <div class="${bg} border px-3 py-2 rounded-lg text-xs max-w-[85%] break-words">
+                                ${escapeHtml(msg.message)}
+                            </div>
+                        </div>
+                    `;
+                });
+                drawerFeed.scrollTop = drawerFeed.scrollHeight;
+            }
+        }
+
+        async function sendDrawerMessage() {
+            if (!currentUser) {
+                alert("Sign in required to transmit messages.");
+                return;
+            }
+
+            const input = document.getElementById('drawerInput');
+            const val = input.value.trim();
+            if (!val) return;
+
+            const name = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+            const { error } = await db.from('gsr_chats').insert([{
+                user_id: currentUser.id,
+                display_name: name,
+                message: val,
+                channel: currentIndexChannel
+            }]);
+
+            if (error) {
+                alert("Transmission failed: " + error.message);
+            } else {
+                input.value = '';
+            }
+        }
+
+        function subscribeToIndexRealtime() {
+            db.channel('public:gsr_chats_index')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
+                    if (payload.new.channel === currentIndexChannel) {
+                        loadIndexChatWidget();
+                    }
+                })
+                .subscribe();
+        }
+
+        async function executeSignOut() {
+            await db.auth.signOut();
+            window.location.reload(); 
+        }
+
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+
+        document.getElementById('drawerInput')?.addEventListener('keypress', e => {
+            if (e.key === 'Enter') sendDrawerMessage();
+        });
+
+        window.onload = initMainMenu;
+    </script>
 </body>
 </html>
