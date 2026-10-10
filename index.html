@@ -38,18 +38,15 @@
     <!-- TOP HEADER -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col sm:flex-row items-center justify-center min-h-[120px]">
-            
             <div id="userNav" class="hidden sm:flex absolute right-4 top-4 items-center gap-2 z-10">
                 <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-xs px-4 py-2 rounded transition">Sign In</a>
                 <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-xs px-4 py-2 rounded transition shadow-lg">Sign Up</a>
             </div>
-
             <div class="text-center py-1">
                 <a href="index.html" class="inline-block">
                     <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-28 sm:h-36 md:h-44 w-auto max-w-full object-contain mx-auto drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] transition-transform duration-300">
                 </a>
             </div>
-
             <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 z-10 w-full">
                 <div class="flex items-center gap-2">
                     <a href="sign_in.html" class="bg-brand-bg border border-brand-border text-gray-300 font-black uppercase text-[10px] px-3 py-1.5 rounded">Sign In</a>
@@ -80,92 +77,99 @@
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
 
         <!-- ROW 1: 3-COLUMN WEEKLY SPOTLIGHTS -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
             
-            <!-- Dynamic Team Profile Replica Card -->
-            <div class="flex flex-col h-full">
-                <h2 class="text-[10px] font-black uppercase tracking-widest text-brand-gold mb-2 pl-1 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-gold animate-pulse"></span> Team Spotlight</h2>
-                
-                <div class="bg-brand-card border border-brand-gold rounded-xl p-4 flex flex-col justify-between group h-full hover:shadow-[0_0_15px_rgba(197,160,89,0.2)] transition">
-                    <div>
+            <!-- COLUMN 1: TEAM SPOTLIGHT (Unified Outer Box) -->
+            <div class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group h-full">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Spotlight</span>
+                        <span id="st_top_pts" class="text-brand-gold font-mono text-[10px] font-bold">500 PTS</span>
+                    </div>
+
+                    <!-- INNER EMBEDDED TEAM CARD -->
+                    <div class="bg-brand-bg border border-brand-border rounded-xl p-4 flex flex-col mb-4 hover:border-brand-gold transition shadow-md">
                         <div class="flex justify-between items-center mb-3">
                             <span class="bg-brand-red text-white text-[9px] font-black uppercase px-2 py-0.5 rounded">Pro Plus League</span>
                             <span class="text-brand-green text-[9px] font-black uppercase flex items-center gap-1 border border-brand-green px-1.5 py-0.5 rounded"><span class="w-1.5 h-1.5 rounded-full bg-brand-green"></span> <span id="st_status">Recruiting</span></span>
                         </div>
-                        
-                        <div class="h-32 w-full bg-brand-bg border border-brand-border rounded-lg flex items-center justify-center mb-4 overflow-hidden relative" id="st_img_container">
-                            <span class="text-xl font-black text-white uppercase tracking-widest text-center" id="st_img_text">Storm Riders</span>
+                        <div class="h-28 w-full bg-[#151515] border border-brand-border rounded-lg flex items-center justify-center mb-4 overflow-hidden relative" id="st_img_container">
+                            <span class="text-lg font-black text-white uppercase tracking-widest text-center" id="st_img_text">Storm Riders</span>
                         </div>
-                        
-                        <h3 class="text-base font-black uppercase text-white tracking-wide truncate" id="st_name">Storm Riders</h3>
-                        <p class="text-[10px] text-brand-red font-bold uppercase mt-1 truncate" id="st_leader">Leader: Deathstalker Paine</p>
-                        
-                        <div class="grid grid-cols-3 gap-2 mt-4 text-center">
-                            <div>
-                                <div class="text-[9px] text-gray-500 font-bold uppercase">Points</div>
-                                <div class="text-brand-gold font-mono font-bold text-sm" id="st_pts">0</div>
-                            </div>
-                            <div>
-                                <div class="text-[9px] text-gray-500 font-bold uppercase">Wins</div>
-                                <div class="text-brand-gold font-mono font-bold text-sm" id="st_wins">0</div>
-                            </div>
-                            <div>
-                                <div class="text-[9px] text-gray-500 font-bold uppercase">Roster</div>
-                                <div class="text-white font-mono font-bold text-sm" id="st_roster">1/10</div>
-                            </div>
+                        <h3 class="text-sm font-black uppercase text-white tracking-wide truncate" id="st_name">Storm Riders</h3>
+                        <p class="text-[9px] text-brand-red font-bold uppercase mt-1 truncate" id="st_leader">Leader: Deathstalker Paine</p>
+                        <div class="grid grid-cols-3 gap-2 mt-4 text-center border-t border-brand-border pt-3">
+                            <div><div class="text-[8px] text-gray-500 font-bold uppercase">Points</div><div class="text-brand-gold font-mono font-bold text-xs" id="st_pts">0</div></div>
+                            <div><div class="text-[8px] text-gray-500 font-bold uppercase">Wins</div><div class="text-brand-gold font-mono font-bold text-xs" id="st_wins">0</div></div>
+                            <div><div class="text-[8px] text-gray-500 font-bold uppercase">Roster</div><div class="text-white font-mono font-bold text-xs" id="st_roster">1/10</div></div>
+                        </div>
+                        <div class="mt-4">
+                            <a href="teams.html" class="block w-full text-center border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black text-[10px] font-black uppercase py-2 rounded transition">View Team Profile →</a>
                         </div>
                     </div>
-                    <div class="mt-4 pt-4 border-t border-brand-border">
-                        <a href="teams.html" class="block w-full text-center border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black text-xs font-black uppercase py-2 rounded transition">View Team Profile →</a>
-                    </div>
+                    <!-- END INNER EMBEDDED TEAM CARD -->
+
+                    <h3 class="text-lg font-black uppercase text-white group-hover:text-brand-gold transition">Team of the Week</h3>
+                    <p class="text-xs text-gray-400 mt-1 line-clamp-2">Shows an image of the Teams card. Click to open the full Teams Hub.</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <a href="teams.html" class="text-xs font-bold uppercase text-brand-gold hover:underline">Open Teams →</a>
                 </div>
             </div>
 
-            <!-- Dynamic Racer Profile Replica Card -->
-            <div class="flex flex-col h-full">
-                <h2 class="text-[10px] font-black uppercase tracking-widest text-brand-red mb-2 pl-1 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-red animate-pulse"></span> Racer Spotlight</h2>
-                
-                <div class="bg-brand-card border border-brand-gold rounded-xl p-4 flex flex-col justify-between group h-full hover:shadow-[0_0_15px_rgba(197,160,89,0.2)] transition">
-                    <div>
+            <!-- COLUMN 2: RACER SPOTLIGHT (Unified Outer Box) -->
+            <div class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 transition flex flex-col justify-between group h-full">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Spotlight</span>
+                        <span id="sr_top_pts" class="text-brand-red font-mono text-[10px] font-bold">1,000 PTS</span>
+                    </div>
+
+                    <!-- INNER EMBEDDED RACER CARD -->
+                    <div class="bg-brand-bg border border-brand-border rounded-xl p-4 flex flex-col mb-4 hover:border-brand-gold transition shadow-md">
                         <div class="flex justify-between items-center mb-3">
                             <span class="bg-brand-red text-white text-[9px] font-black uppercase px-2 py-0.5 rounded">Pro League</span>
                             <span class="text-brand-red text-xs font-black" id="sr_car">#13</span>
                         </div>
-                        
-                        <div class="h-48 w-full bg-brand-bg border border-brand-border rounded-lg flex items-center justify-center mb-4 overflow-hidden relative" id="sr_img_container">
-                            <span class="text-xs font-black text-brand-border uppercase tracking-widest" id="sr_img_text">Driver Photo</span>
+                        <div class="h-44 w-full bg-[#151515] border border-brand-border rounded-lg flex items-center justify-center mb-4 overflow-hidden relative" id="sr_img_container">
+                            <span class="text-[10px] font-black text-brand-border uppercase tracking-widest" id="sr_img_text">Driver Photo</span>
                         </div>
-                        
-                        <h3 class="text-base font-black uppercase text-white tracking-wide truncate" id="sr_name">Deathstalker Paine</h3>
-                        <p class="text-[10px] text-gray-500 font-bold uppercase mt-1 truncate" id="sr_team">Team: Storm Riders</p>
+                        <h3 class="text-sm font-black uppercase text-white tracking-wide truncate" id="sr_name">Deathstalker Paine</h3>
+                        <p class="text-[9px] text-gray-500 font-bold uppercase mt-1 truncate" id="sr_team">Team: Storm Riders</p>
+                        <div class="mt-4 border-t border-brand-border pt-3">
+                            <a href="racers_profiles.html" id="sr_inner_link" class="block w-full text-center border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black text-[10px] font-black uppercase py-2 rounded transition">View Full Profile →</a>
+                        </div>
                     </div>
-                    <div class="mt-4 pt-4 border-t border-brand-border">
-                        <a href="racers_profiles.html" id="sr_link" class="block w-full text-center border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black text-xs font-black uppercase py-2 rounded transition">View Full Profile →</a>
-                    </div>
+                    <!-- END INNER EMBEDDED RACER CARD -->
+
+                    <h3 class="text-lg font-black uppercase text-white group-hover:text-brand-red transition">Racer of the Week</h3>
+                    <p class="text-xs text-gray-400 mt-1 line-clamp-2">Shows an image of the Racers card. Click to open the full Racers Hub.</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <a href="racers.html" class="text-xs font-bold uppercase text-brand-red hover:underline">Open Racers →</a>
                 </div>
             </div>
 
-            <!-- Track Spotlight (Manual CMS Editable styled to match row uniformity) -->
-            <div class="flex flex-col h-full">
-                <h2 class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 pl-1 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-gray-500"></span> Track Spotlight</h2>
-                
-                <a href="racetracks.html" data-cms-id="index:spotlight_track" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-4 transition flex flex-col justify-between group h-full relative">
-                    <div>
-                        <div class="flex justify-between items-center mb-3">
-                            <span data-cms-field="label" class="bg-gray-800 border border-brand-gold text-brand-gold text-[9px] font-black uppercase px-2 py-0.5 rounded">Featured Circuit</span>
-                        </div>
-                        <div class="h-32 w-full bg-brand-bg border border-brand-border rounded-lg flex items-center justify-center mb-4 overflow-hidden relative">
-                            <img data-cms-field="image_url" src="" alt="Track of the Week" class="w-full h-full object-cover hidden">
-                            <span class="text-[10px] text-gray-600 uppercase font-mono">[ No Media Uploaded ]</span>
-                        </div>
-                        <h3 data-cms-field="title" class="text-base font-black uppercase text-white tracking-wide truncate group-hover:text-brand-gold transition">Track of the Week</h3>
-                        <p data-cms-field="desc" class="text-[10px] text-gray-400 mt-1 line-clamp-2">Featured circuit layout and lap records.</p>
+            <!-- COLUMN 3: TRACK SPOTLIGHT (Unified Outer Box) -->
+            <a href="racetracks.html" data-cms-id="index:spotlight_track" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group h-full">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-transparent border border-brand-gold text-brand-gold px-2 py-0.5 rounded">Spotlight</span>
                     </div>
-                    <div class="mt-4 pt-4 border-t border-brand-border">
-                        <span data-cms-field="link_text" class="block w-full text-center border border-brand-border text-brand-gold group-hover:border-brand-gold hover:bg-brand-gold hover:text-black text-xs font-black uppercase py-2 rounded transition">Open Racetracks →</span>
+                    
+                    <!-- INNER IMAGE BOX SIZED TO MATCH -->
+                    <div class="bg-[#111] border border-brand-border rounded-xl flex flex-col mb-4 min-h-[296px] justify-center items-center overflow-hidden relative">
+                        <img data-cms-field="image_url" src="" alt="Track of the Week" class="w-full h-full object-cover hidden absolute inset-0">
+                        <span class="text-[10px] text-gray-600 uppercase font-mono z-10">[ NO MEDIA UPLOADED ]</span>
                     </div>
-                </a>
-            </div>
+
+                    <h3 data-cms-field="title" class="text-lg font-black uppercase text-white group-hover:text-brand-gold transition">Track of the Week</h3>
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-1 line-clamp-2">Shows an image of the Track card. Click to open the full Racetracks Hub.</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
+                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">Open Racetracks →</span>
+                </div>
+            </a>
         </section>
 
         <!-- ROW 2: 2-COLUMN NEWS & LIVE CHAT PREVIEW WIDGET -->
@@ -188,7 +192,6 @@
                 <div>
                     <div class="flex justify-between items-center gap-2">
                         <span data-cms-field="label" class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Live Discussion</span>
-                        
                         <div class="flex items-center gap-2">
                             <select id="indexChatSelect" onchange="switchIndexChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-brand-gold text-[10px] font-black uppercase px-2 py-1 rounded outline-none focus:border-brand-gold cursor-pointer">
                                 <option value="global" selected>🌐 Global</option>
@@ -199,17 +202,13 @@
                             <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"></span>
                         </div>
                     </div>
-                    
                     <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-2">GSR Chats Threads</h3>
-                    
                     <div id="mainMenuChatFeed" class="bg-brand-bg border border-brand-border rounded-lg p-3 my-3 space-y-2 h-28 overflow-hidden flex flex-col justify-end">
                         <div class="text-[10px] text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
                     </div>
                 </div>
-                
                 <div class="pt-3 border-t border-brand-border flex justify-between items-center text-xs">
                     <a href="chats.html" data-cms-field="link_text" class="font-bold uppercase text-brand-gold hover:underline text-[10px]">Open Comms Hub →</a>
-                    
                     <button onclick="toggleDrawer(true)" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">
                         Open Drawer to Reply ↵
                     </button>
@@ -420,27 +419,29 @@
 
         async function loadDynamicWidgets() {
             try {
-                // 1. RACER OF THE WEEK & TOP 3 RACERS
+                // 1. RACER OF THE WEEK
                 const { data: racers } = await db.from('racers').select('*');
                 if (racers && racers.length > 0) {
                     const sortedRacers = [...racers].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
                     const topRacer = sortedRacers[0];
                     if (topRacer) {
                         const rName = topRacer.display_name || 'Deathstalker Paine';
-                        const rCar = topRacer.racer_number || topRacer.car_number || '--';
-                        const rTeam = topRacer.team || topRacer.team_name || 'Unassigned';
+                        const rCar = topRacer.racer_number || topRacer.car_number || '13'; 
+                        const rTeam = topRacer.team_name || topRacer.team || 'Storm Riders'; 
+                        const rPts = topRacer.rating_points || 1000;
                         const rPhoto = topRacer.driver_photo || topRacer.photo_url || topRacer.image_url || topRacer.avatar_url;
 
                         document.getElementById('sr_name').innerText = rName;
                         document.getElementById('sr_car').innerText = `#${rCar}`;
-                        document.getElementById('sr_team').innerText = `Team: ${rTeam}`;
-                        document.getElementById('sr_link').href = `racers_profiles.html?driver=${encodeURIComponent(rName)}`;
+                        document.getElementById('sr_team').innerText = `TEAM: ${rTeam}`;
+                        document.getElementById('sr_top_pts').innerText = `${rPts.toLocaleString()} PTS`;
+                        document.getElementById('sr_inner_link').href = `racers_profiles.html?driver=${encodeURIComponent(rName)}`;
 
                         const container = document.getElementById('sr_img_container');
                         if (rPhoto) {
                             container.innerHTML = `<img src="${rPhoto}" alt="${escapeHtml(rName)}" class="w-full h-full object-cover">`;
                         } else {
-                            container.innerHTML = `<span class="text-xs font-black text-brand-border uppercase tracking-widest">Driver Photo</span>`;
+                            container.innerHTML = `<span class="text-[10px] font-black text-brand-border uppercase tracking-widest">Driver Photo</span>`;
                         }
                     }
 
@@ -463,16 +464,23 @@
                 let topTeamPts = 0;
                 let topTeamLeader = 'Deathstalker Paine';
                 let topTeamWins = 0;
-
+                let rosterCount = '1/10'; 
+                let teamStatus = 'Recruiting';
+                
                 const { data: profiles } = await db.from('gsr_profiles').select('*');
                 if (profiles && profiles.length > 0) {
                     const teamMap = {};
                     profiles.forEach(p => {
                         const tName = p.team_name || p.team || p.syndicate;
                         if (tName && tName !== 'Unassigned' && tName.trim() !== '') {
-                            if (!teamMap[tName]) teamMap[tName] = { name: tName, pts: 0, wins: 0, leader: p.sl_legacy_name };
+                            if (!teamMap[tName]) teamMap[tName] = { name: tName, pts: 0, wins: 0, leader: p.sl_legacy_name, count: 0 };
                             teamMap[tName].pts += (p.rating || 500);
                             teamMap[tName].wins += (p.wins || 0);
+                            teamMap[tName].count += 1;
+                            if (p.is_admin || (p.rating > (teamMap[tName].leaderPts||0))) {
+                                teamMap[tName].leader = p.sl_legacy_name;
+                                teamMap[tName].leaderPts = p.rating;
+                            }
                         }
                     });
 
@@ -482,27 +490,25 @@
                         topTeamPts = teamsArray[0].pts;
                         topTeamLeader = teamsArray[0].leader || 'Deathstalker Paine';
                         topTeamWins = teamsArray[0].wins;
+                        rosterCount = `${teamsArray[0].count}/10`;
                     }
                 }
 
-                // Append additional robust stats directly from Teams table
                 const { data: teamsData } = await db.from('teams').select('*');
-                let rosterCount = '--/10';
-                let teamStatus = 'Recruiting';
                 let teamLogo = null;
-                
                 if (teamsData && teamsData.length > 0) {
                     const matchTeam = teamsData.find(t => (t.team_name || t.name || '').toLowerCase() === topTeamName.toLowerCase());
                     if (matchTeam) {
                         teamLogo = matchTeam.logo_url || matchTeam.image_url || matchTeam.team_logo || matchTeam.banner_url;
-                        rosterCount = matchTeam.roster_count || matchTeam.roster || '--/10';
-                        teamStatus = matchTeam.status || matchTeam.recruiting_status || 'Recruiting';
+                        if (matchTeam.roster_count) rosterCount = matchTeam.roster_count;
+                        if (matchTeam.status || matchTeam.recruiting_status) teamStatus = matchTeam.status || matchTeam.recruiting_status;
                     }
                 }
 
                 document.getElementById('st_name').innerText = topTeamName;
-                document.getElementById('st_leader').innerText = `Leader: ${topTeamLeader}`;
-                document.getElementById('st_pts').innerText = topTeamPts > 0 ? topTeamPts.toLocaleString() : '0';
+                document.getElementById('st_leader').innerText = `LEADER: ${topTeamLeader}`;
+                document.getElementById('st_pts').innerText = topTeamPts > 0 ? topTeamPts.toLocaleString() : '500';
+                document.getElementById('st_top_pts').innerText = topTeamPts > 0 ? `${topTeamPts.toLocaleString()} PTS` : `500 PTS`;
                 document.getElementById('st_wins').innerText = topTeamWins;
                 document.getElementById('st_roster').innerText = rosterCount.toString().includes('/') ? rosterCount : `${rosterCount}/10`;
                 document.getElementById('st_status').innerText = teamStatus;
@@ -511,7 +517,7 @@
                 if (teamLogo) {
                     stContainer.innerHTML = `<img src="${teamLogo}" alt="${escapeHtml(topTeamName)}" class="w-full h-full object-cover">`;
                 } else {
-                    stContainer.innerHTML = `<span class="text-xl font-black text-white uppercase tracking-widest text-center">${escapeHtml(topTeamName)}</span>`;
+                    stContainer.innerHTML = `<span class="text-lg font-black text-white uppercase tracking-widest text-center px-2">${escapeHtml(topTeamName)}</span>`;
                 }
 
             } catch (e) { console.warn("Dynamic widgets error:", e); }
