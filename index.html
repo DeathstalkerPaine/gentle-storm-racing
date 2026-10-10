@@ -213,7 +213,7 @@
         </section>
 
         <!-- ROW 3: MAGAZINE & SPONSORS -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
             <!-- GSRACING MAGAZINE AUTOMATIC COVER CARD -->
             <a href="magazine.html" data-cms-id="index:magazine" id="magazineWidget" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
@@ -239,15 +239,15 @@
                 </div>
             </a>
 
-            <!-- DYNAMIC SPONSORS BLOCK (VERTICAL STACK: 1ST ON TOP, 2ND MIDDLE, 3RD BOTTOM) -->
+            <!-- DYNAMIC SPONSORS BLOCK (FULL WIDTH STACKED SPONSOR BANNERS) -->
             <a href="sponsors.html" data-cms-id="index:sponsors" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
                     <h3 data-cms-field="title" class="text-lg font-black uppercase tracking-wider text-brand-gold group-hover:text-white transition">Sponsors</h3>
                     <p data-cms-field="desc" class="text-xs text-gray-400 mt-0.5">Official Partners & League Sponsors</p>
 
-                    <!-- VERTICAL FLEX CONTAINER (STACKS LOGOS TOP-TO-BOTTOM) -->
-                    <div id="sponsorLogosContainer" class="my-3 h-36 w-full bg-brand-bg border border-brand-border rounded-lg flex flex-col items-center justify-center p-2 gap-2 overflow-hidden">
-                        <div id="sponsorFallbackText" class="flex flex-col items-center justify-center gap-1 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center">
+                    <!-- FLEXIBLE CONTAINER (PRESERVES FULL WIDTH FOR EVERY SPONSOR LOGO) -->
+                    <div id="sponsorLogosContainer" class="my-3 min-h-[144px] w-full bg-brand-bg border border-brand-border rounded-lg flex flex-col items-center justify-center p-2 gap-2 overflow-hidden">
+                        <div id="sponsorFallbackText" class="flex flex-col items-center justify-center gap-1 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center py-6">
                             <span>[ Second Life Motors ]</span>
                             <span>[ Linden Fuel Co. ]</span>
                             <span>[ StormTech HUDs ]</span>
@@ -563,7 +563,7 @@
                         try {
                             const content = JSON.parse(row.content_value);
 
-                            // SPECIAL HANDLING FOR INDEX SPONSORS (VERTICALLY STACKED LOGOS)
+                            // SPECIAL HANDLING FOR INDEX SPONSORS (FULL-WIDTH STACKED BANNERS)
                             if (row.section_id === 'index:sponsors') {
                                 const logos = [];
                                 if (content.logo_1) logos.push(content.logo_1);
@@ -574,7 +574,7 @@
                                 if (logos.length > 0 && sponsorBox) {
                                     sponsorBox.innerHTML = '';
                                     logos.forEach((url, i) => {
-                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-h-0 max-w-full object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
+                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="w-full h-auto max-h-32 object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
                                     });
                                 }
                             }
@@ -657,7 +657,7 @@
 
                 formContainer.innerHTML += `
                     <div class="space-y-3 pt-3 border-t border-brand-border">
-                        <label class="text-[10px] font-black uppercase text-brand-gold tracking-wider block">Sponsor Logos (Up to 3 Vertical Logos)</label>
+                        <label class="text-[10px] font-black uppercase text-brand-gold tracking-wider block">Sponsor Logos (Up to 3 Full-Width Logos)</label>
                         
                         <div class="space-y-1">
                             <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 1 (Top)</span>
