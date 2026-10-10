@@ -704,4 +704,55 @@
             }
         };
 
-        async function switchIndexChannel(channel)
+        async function switchIndexChannel(channel) {
+            currentIndexChannel = channel;
+            document.getElementById('drawerChannelName').innerText = `Channel: ${channelNames[channel] || channel}`;
+            loadIndexChatWidget();
+        }
+
+        async function loadIndexChatWidget() {
+            const feed = document.getElementById('mainMenuChatFeed');
+            const drawerFeed = document.getElementById('drawerMessages');
+            const { data } = await db.from('gsr_chats').select('*').eq('channel', currentIndexChannel).order('created_at', { ascending: false }).limit(20);
+
+            if (!data || data.length === 0) return;
+            const messages = data.reverse();
+
+            if (feed) {
+                feed.innerHTML = '';
+                messages.slice(-3).forEach(msg => {
+                    feed.innerHTML += `<div class="text-[10px] leading-snug truncate"><span class="font-black text-brand-gold uppercase">[${escapeHtml(msg.display_name)}]:</span> <span class="text-gray-300">${escapeHtml(msg.message)}</span></div>`;
+                });
+            }
+
+            if (drawerFeed) {
+                drawerFeed.innerHTML = '';
+                messages.forEach(msg => {
+                    const isMe = currentUser && msg.user_id === currentUser.id;
+                    drawerFeed.innerHTML += `<div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}"><span class="text-[9px] font-black uppercase text-gray-500 mb-0.5">${escapeHtml(msg.display_name)}</span><div class="${isMe ? 'bg-brand-gold/10 border-brand-gold text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200'} border px-3 py-2 rounded-lg text-xs max-w-[85%] break-words">${escapeHtml(msg.message)}</div></div>`;
+                });
+            }
+        }
+
+        async function sendDrawerMessage() {
+            if (!currentUser) return;
+            const input = document.getElementById('drawerInput');
+            if (!input.value.trim()) return;
+            const name = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
+            await db.from('gsr_chats').insert([{ user_id: currentUser.id, display_name: name, message: input.value.trim(), channel: currentIndexChannel }]);
+            input.value = '';
+        }
+
+        function subscribeToIndexRealtime() {
+            db.channel('public:gsr_chats_index').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
+                if (payload.new.channel === currentIndexChannel) loadIndexChatWidget();
+            }).subscribe();
+        }
+
+        async function executeSignOut() { await db.auth.signOut(); window.location.reload(); }
+        function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+
+        window.onload = initMainMenu;
+    </script>
+</body>
+</html>
