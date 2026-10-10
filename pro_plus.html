@@ -77,23 +77,22 @@
     <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
 
-        <!-- ROW 0: SPONSORS BANNER -->
-        <section data-cms-id="pro_plus:sponsors" class="bg-brand-card border border-brand-border rounded-xl p-5 text-center shadow-lg transition flex flex-col justify-between group">
-            <div>
-                <span data-cms-field="label" class="text-[9px] font-black uppercase text-brand-gold tracking-[0.2em] block mb-1">Sponsors</span>
-                <p data-cms-field="desc" class="text-[11px] text-gray-400 font-bold uppercase">Official Pro Plus Partners & Title Sponsors</p>
+       <!-- ROW 0: SPONSORS BANNER (STRICT FIXED HEIGHT) -->
+<section data-cms-id="pro_plus:sponsors" class="bg-brand-card border border-brand-border rounded-xl p-5 text-center shadow-lg transition group">
+    <div>
+        <span data-cms-field="label" class="text-[9px] font-black uppercase text-brand-gold tracking-[0.2em] block mb-1">Sponsors</span>
+        <p data-cms-field="desc" class="text-[11px] text-gray-400 font-bold uppercase">Official Pro Plus Partners & Title Sponsors</p>
 
-                <!-- FLEX-GROW CONTAINER: Horizontal auto-split logos -->
-                <div id="proPlusSponsorLogosContainer" class="my-3 min-h-[100px] w-full bg-brand-bg border border-brand-border rounded-lg flex flex-row items-center justify-center p-2 gap-2 overflow-hidden">
-                    <div id="proPlusSponsorFallbackText" class="flex flex-wrap justify-center items-center gap-4 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center py-4">
-                        <span>[ Second Life Motors ]</span>
-                        <span>[ Linden Fuel Co. ]</span>
-                        <span>[ StormTech HUDs ]</span>
-                    </div>
-                </div>
+        <!-- STRICT FIXED HEIGHT (h-24 / 96px locked height matching fallback state) -->
+        <div id="proPlusSponsorLogosContainer" class="mt-3 h-24 w-full bg-brand-bg border border-brand-border rounded-lg flex flex-row items-center justify-center p-2 gap-3 overflow-hidden">
+            <div id="proPlusSponsorFallbackText" class="flex flex-wrap justify-center items-center gap-4 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center">
+                <span>[ SECOND LIFE MOTORS ]</span>
+                <span>[ LINDEN FUEL CO. ]</span>
+                <span>[ STORMTECH HUDS ]</span>
             </div>
-        </section>
-
+        </div>
+    </div>
+</section>
         <!-- ROW 1: 3-COLUMN FEATURE CARDS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
@@ -468,22 +467,21 @@
                         try {
                             const content = JSON.parse(row.content_value);
 
-                            // SPECIAL HANDLING FOR PRO PLUS SPONSORS (AUTO-RESIZING HORIZONTAL LOGOS)
-                            if (row.section_id === 'pro_plus:sponsors') {
-                                const logos = [];
-                                if (content.logo_1) logos.push(content.logo_1);
-                                if (content.logo_2) logos.push(content.logo_2);
-                                if (content.logo_3) logos.push(content.logo_3);
+                           // SPECIAL HANDLING FOR PRO PLUS SPONSORS (LOCKED COMPACT HEIGHT)
+if (row.section_id === 'pro_plus:sponsors') {
+    const logos = [];
+    if (content.logo_1) logos.push(content.logo_1);
+    if (content.logo_2) logos.push(content.logo_2);
+    if (content.logo_3) logos.push(content.logo_3);
 
-                                const sponsorBox = document.getElementById('proPlusSponsorLogosContainer');
-                                if (logos.length > 0 && sponsorBox) {
-                                    sponsorBox.innerHTML = '';
-                                    logos.forEach((url, i) => {
-                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 h-full w-full object-cover rounded filter drop-shadow hover:scale-105 transition duration-300">`;
-                                    });
-                                }
-                            }
-
+    const sponsorBox = document.getElementById('proPlusSponsorLogosContainer');
+    if (logos.length > 0 && sponsorBox) {
+        sponsorBox.innerHTML = '';
+        logos.forEach((url, i) => {
+            sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 h-full max-h-full object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
+        });
+    }
+}
                             Object.keys(content).forEach(key => {
                                 if (key === 'link_url') { container.setAttribute('href', content[key]); }
                                 else {
