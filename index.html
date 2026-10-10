@@ -440,12 +440,11 @@
         }
 
         // ==========================
-        // INLINE CMS ENGINE WITH MEDIA UPLOAD
+        // INLINE CMS ENGINE WITH MEDIA UPLOAD & CLEAR
         // ==========================
         async function loadCMSContent() {
             const { data, error } = await db.from('site_content').select('*').like('section_id', 'index:%');
             
-            // If data exists, apply it to the DOM
             if (!error && data) {
                 data.forEach(row => {
                     const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
@@ -466,7 +465,10 @@
                                         const placeholder = img.nextElementSibling;
                                         if (placeholder) placeholder.classList.add('hidden');
                                     } else {
+                                        img.src = '';
                                         img.classList.add('hidden');
+                                        const placeholder = img.nextElementSibling;
+                                        if (placeholder) placeholder.classList.remove('hidden');
                                     }
                                 }
                             } else {
@@ -478,7 +480,6 @@
                 });
             }
 
-            // CRITICAL: Fade in ALL blocks at the very end, whether data loaded or not
             document.querySelectorAll('[data-cms-id]').forEach(el => {
                 el.style.opacity = '1';
             });
@@ -534,11 +535,14 @@
                 
                 if (fieldName === 'image_url') {
                     const currentImgSrc = container.querySelector('[data-cms-field="image_url"]')?.src || '';
+                    const hasImage = currentImgSrc && !currentImgSrc.includes(location.host) && currentImgSrc.length > 10;
+                    
                     formContainer.innerHTML += `
-                        <div class="space-y-1">
+                        <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Upload Image / Video</label>
                             <input type="file" id="cms_input_file" accept="image/*,video/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-2 rounded outline-none focus:border-brand-gold file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-bold file:bg-brand-gold file:text-black cursor-pointer">
-                            <input type="hidden" id="cms_input_image_url" value="${escapeHtml(currentImgSrc.includes(location.host) ? '' : currentImgSrc)}">
+                            <input type="hidden" id="cms_input_image_url" value="${escapeHtml(hasImage ? currentImgSrc : '')}">
+                            ${hasImage ? `<label class="flex items-center gap-2 mt-2 text-xs text-brand-red cursor-pointer"><input type="checkbox" id="cms_clear_image" class="rounded bg-brand-bg border-brand-border text-brand-red focus:ring-0"> Remove existing image/video</label>` : ''}
                         </div>
                     `;
                 } else {
@@ -585,9 +589,20 @@
             const fields = Array.from(container.querySelectorAll('[data-cms-field]'));
             let updateData = {};
             
-            // Check for file upload
+            // Check if user chose to clear the image
+            const clearImageCheckbox = document.getElementById('cms_clear_image');
             const fileInput = document.getElementById('cms_input_file');
-            if (fileInput && fileInput.files.length > 0) {
+            
+            if (clearImageCheckbox && clearImageCheckbox.checked) {
+                updateData['image_url'] = '';
+                const imgTag = container.querySelector('[data-cms-field="image_url"]');
+                if (imgTag) {
+                    imgTag.src = '';
+                    imgTag.classList.add('hidden');
+                    const placeholder = imgTag.nextElementSibling;
+                    if (placeholder) placeholder.classList.remove('hidden');
+                }
+            } else if (fileInput && fileInput.files.length > 0) {
                 const file = fileInput.files[0];
                 const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
                 
