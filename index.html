@@ -36,24 +36,21 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- TOP HEADER: CENTERED LOGO WITH RESPONSIVE AUTH POSITIONING -->
+    <!-- TOP HEADER -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col sm:flex-row items-center justify-center min-h-[120px]">
             
-            <!-- Desktop / iPad Auth & Admin Controls (Absolute Top-Right Corner) -->
             <div id="userNav" class="hidden sm:flex absolute right-4 top-4 items-center gap-2 z-10">
                 <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-xs px-4 py-2 rounded transition">Sign In</a>
                 <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-xs px-4 py-2 rounded transition shadow-lg">Sign Up</a>
             </div>
 
-            <!-- Centered Logo (Stays dead center) -->
             <div class="text-center py-1">
                 <a href="index.html" class="inline-block">
                     <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-28 sm:h-36 md:h-44 w-auto max-w-full object-contain mx-auto drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] transition-transform duration-300">
                 </a>
             </div>
 
-            <!-- Mobile Auth & Admin Controls (Stacked below logo on small screens) -->
             <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 z-10 w-full">
                 <div class="flex items-center gap-2">
                     <a href="sign_in.html" class="bg-brand-bg border border-brand-border text-gray-300 font-black uppercase text-[10px] px-3 py-1.5 rounded">Sign In</a>
@@ -86,36 +83,45 @@
         <!-- ROW 1: 3-COLUMN WEEKLY SPOTLIGHTS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
-            <!-- Dynamic Team of the Week Card -->
+            <!-- Dynamic Team of the Week Card (Automatic from Database) -->
             <div id="spotlightTeamCard" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
                 <div>
                     <div class="flex justify-between items-center mb-3">
                         <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Team Spotlight</span>
                         <span id="spotlightTeamPts" class="text-brand-gold font-mono text-[10px] font-bold">-- PTS</span>
                     </div>
-                    <div id="spotlightTeamLogoContainer" class="my-3 h-32 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
-                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ Storm Riders ]</span>
+                    
+                    <!-- Dynamic Team Card Frame -->
+                    <div id="spotlightTeamLogoContainer" class="my-3 h-36 w-full bg-[#151515] border border-brand-border rounded-lg overflow-hidden flex flex-col items-center justify-center p-4 relative group-hover:border-brand-gold/50 transition">
+                        <span id="spotlightTeamLogoText" class="text-xl font-black text-brand-gold uppercase tracking-widest text-center drop-shadow">Storm Riders</span>
+                        <span id="spotlightTeamSub" class="text-[10px] font-mono text-gray-400 uppercase mt-1">#1 Syndicate</span>
                     </div>
+
                     <h3 id="spotlightTeamTitle" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Storm Riders</h3>
-                    <p id="spotlightTeamMeta" class="text-xs text-gray-400 mt-1">Leader: Deathstalker Paine</p>
+                    <p id="spotlightTeamMeta" class="text-xs text-gray-400 mt-1">Leader: Deathstalker Paine • 0 Team Wins</p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
                     <a href="teams.html" class="text-xs font-bold uppercase text-brand-gold hover:underline">Open Teams Hub →</a>
                 </div>
             </div>
 
-            <!-- Dynamic Racer of the Week Card -->
+            <!-- Dynamic Racer of the Week Card (Automatic from Database) -->
             <div id="spotlightRacerCard" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between group">
                 <div>
                     <div class="flex justify-between items-center mb-3">
                         <span class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Racer Spotlight</span>
-                        <span id="spotlightRacerPts" class="text-brand-gold font-mono text-[10px] font-bold">-- PTS</span>
+                        <span id="spotlightRacerPts" class="text-brand-gold font-mono text-[10px] font-bold">1,000 PTS</span>
                     </div>
-                    <div id="spotlightRacerPhotoContainer" class="my-3 h-32 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
-                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ Deathstalker Paine ]</span>
+                    
+                    <!-- Dynamic Driver Card Frame -->
+                    <div id="spotlightRacerPhotoContainer" class="my-3 h-36 w-full bg-[#151515] border border-brand-border rounded-lg overflow-hidden flex flex-col items-center justify-center p-4 relative group-hover:border-brand-red/50 transition">
+                        <div id="spotlightRacerNumberBadge" class="bg-brand-red/20 border border-brand-red text-brand-red text-xs font-black px-2 py-0.5 rounded mb-1">#13</div>
+                        <span id="spotlightRacerCardName" class="text-lg font-black text-white uppercase tracking-wider text-center">Deathstalker Paine</span>
+                        <span id="spotlightRacerCardTeam" class="text-[10px] font-mono text-gray-400 uppercase mt-1">Storm Riders</span>
                     </div>
+
                     <h3 id="spotlightRacerName" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Deathstalker Paine</h3>
-                    <p id="spotlightRacerMeta" class="text-xs text-gray-400 mt-1">Car #13 • Storm Riders</p>
+                    <p id="spotlightRacerMeta" class="text-xs text-gray-400 mt-1">Car #13 • 0 Wins</p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
                     <a id="spotlightRacerLink" href="racers.html" class="text-xs font-bold uppercase text-brand-red hover:underline">Open Racers Hub →</a>
@@ -126,7 +132,7 @@
             <a href="racetracks.html" data-cms-id="index:spotlight_track" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
                 <div>
                     <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-gray-800 border border-brand-gold text-brand-gold px-2 py-0.5 rounded">Track Spotlight</span>
-                    <div class="my-3 h-32 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
+                    <div class="my-3 h-36 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
                         <img data-cms-field="image_url" src="" alt="Track of the Week" class="w-full h-full object-cover hidden">
                         <span class="text-[10px] text-gray-600 uppercase font-mono">[ No Media Uploaded ]</span>
                     </div>
@@ -141,7 +147,6 @@
 
         <!-- ROW 2: 2-COLUMN NEWS & LIVE CHAT PREVIEW WIDGET -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Current News (Manual CMS Editable) -->
             <a href="multimedia.html" data-cms-id="index:news" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
                     <span data-cms-field="label" class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Latest Announcement</span>
@@ -191,7 +196,6 @@
 
         <!-- ROW 3: MAGAZINE & SPONSORS -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
             <a href="multimedia.html" id="magazineWidget" data-cms-id="index:magazine" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
                     <div class="flex justify-between items-center">
@@ -223,7 +227,6 @@
 
         <!-- ROW 4: 3-COLUMN STATS, EVENTS & HIGHLIGHTS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between transition group">
                 <div>
                     <div class="flex justify-between items-center mb-3">
@@ -372,7 +375,6 @@
             try {
                 const { data: { session } } = await db.auth.getSession();
                 const userNav = document.getElementById('userNav');
-                const userNavMobile = document.getElementById('userNavMobile');
 
                 if (session) {
                     currentUser = session.user;
@@ -387,23 +389,42 @@
                 }
             } catch (e) { console.warn("Auth init bypassed", e); }
 
-            loadDynamicWidgets();
-            loadCMSContent();
+            await loadCMSContent();
+            await loadDynamicWidgets();
             loadIndexChatWidget();
             subscribeToIndexRealtime();
         }
 
         async function loadDynamicWidgets() {
             try {
+                // 1. RACER OF THE WEEK & TOP 3 RACERS
                 const { data: racers } = await db.from('racers').select('*');
                 if (racers && racers.length > 0) {
                     const sortedRacers = [...racers].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
                     const topRacer = sortedRacers[0];
                     if (topRacer) {
-                        document.getElementById('spotlightRacerName').innerText = topRacer.display_name;
-                        document.getElementById('spotlightRacerPts').innerText = `${(topRacer.rating_points || 0).toLocaleString()} PTS`;
-                        document.getElementById('spotlightRacerMeta').innerText = `Car #${topRacer.racer_number || topRacer.car_number || '13'} • ${topRacer.wins || 0} Wins`;
-                        document.getElementById('spotlightRacerLink').href = `racers_profiles.html?driver=${encodeURIComponent(topRacer.display_name)}`;
+                        const rName = topRacer.display_name || 'Deathstalker Paine';
+                        const rCar = topRacer.racer_number || topRacer.car_number || '13';
+                        const rWins = topRacer.wins || 0;
+                        const rPts = topRacer.rating_points || 1000;
+                        const rTeam = topRacer.team || topRacer.team_name || 'Storm Riders';
+                        const rPhoto = topRacer.driver_photo || topRacer.photo_url || topRacer.image_url || topRacer.avatar_url;
+
+                        document.getElementById('spotlightRacerName').innerText = rName;
+                        document.getElementById('spotlightRacerPts').innerText = `${rPts.toLocaleString()} PTS`;
+                        document.getElementById('spotlightRacerMeta').innerText = `Car #${rCar} • ${rWins} Wins`;
+                        document.getElementById('spotlightRacerLink').href = `racers_profiles.html?driver=${encodeURIComponent(rName)}`;
+
+                        const container = document.getElementById('spotlightRacerPhotoContainer');
+                        if (rPhoto) {
+                            container.innerHTML = `<img src="${rPhoto}" alt="${escapeHtml(rName)}" class="w-full h-full object-cover">`;
+                        } else {
+                            container.innerHTML = `
+                                <div class="bg-brand-red/20 border border-brand-red text-brand-red text-xs font-black px-2 py-0.5 rounded mb-1">#${escapeHtml(rCar)}</div>
+                                <span class="text-lg font-black text-white uppercase tracking-wider text-center">${escapeHtml(rName)}</span>
+                                <span class="text-[10px] font-mono text-gray-400 uppercase mt-1">${escapeHtml(rTeam)}</span>
+                            `;
+                        }
                     }
 
                     const top3Box = document.getElementById('top3RacersContainer');
@@ -419,7 +440,58 @@
                         });
                     }
                 }
-            } catch (e) { console.warn("Dynamic widgets bypassed", e); }
+
+                // 2. TEAM OF THE WEEK
+                let topTeamName = 'Storm Riders';
+                let topTeamPts = 500;
+                let topTeamLeader = 'Deathstalker Paine';
+                let topTeamWins = 0;
+                let topTeamLogo = null;
+
+                const { data: profiles } = await db.from('gsr_profiles').select('*');
+                if (profiles && profiles.length > 0) {
+                    const teamMap = {};
+                    profiles.forEach(p => {
+                        const tName = p.team_name || p.team || p.syndicate;
+                        if (tName && tName !== 'Unassigned' && tName.trim() !== '') {
+                            if (!teamMap[tName]) teamMap[tName] = { name: tName, pts: 0, wins: 0, leader: p.sl_legacy_name };
+                            teamMap[tName].pts += (p.rating || 500);
+                            teamMap[tName].wins += (p.wins || 0);
+                        }
+                    });
+
+                    const teamsArray = Object.values(teamMap).sort((a,b) => b.pts - a.pts);
+                    if (teamsArray.length > 0) {
+                        topTeamName = teamsArray[0].name;
+                        topTeamPts = teamsArray[0].pts;
+                        topTeamLeader = teamsArray[0].leader || 'Deathstalker Paine';
+                        topTeamWins = teamsArray[0].wins;
+                    }
+                }
+
+                const { data: teamsData } = await db.from('teams').select('*');
+                if (teamsData && teamsData.length > 0) {
+                    const matchTeam = teamsData.find(t => (t.team_name || t.name || '').toLowerCase() === topTeamName.toLowerCase());
+                    if (matchTeam) {
+                        topTeamLogo = matchTeam.logo_url || matchTeam.image_url || matchTeam.team_logo || matchTeam.banner_url;
+                    }
+                }
+
+                document.getElementById('spotlightTeamTitle').innerText = topTeamName;
+                document.getElementById('spotlightTeamPts').innerText = `${topTeamPts.toLocaleString()} PTS`;
+                document.getElementById('spotlightTeamMeta').innerText = `Leader: ${topTeamLeader} • ${topTeamWins} Team Wins`;
+
+                const teamContainer = document.getElementById('spotlightTeamLogoContainer');
+                if (topTeamLogo) {
+                    teamContainer.innerHTML = `<img src="${topTeamLogo}" alt="${escapeHtml(topTeamName)}" class="w-full h-full object-cover">`;
+                } else {
+                    teamContainer.innerHTML = `
+                        <span class="text-xl font-black text-brand-gold uppercase tracking-widest text-center drop-shadow">${escapeHtml(topTeamName)}</span>
+                        <span class="text-[10px] font-mono text-gray-400 uppercase mt-1">Syndicate Leader: ${escapeHtml(topTeamLeader)}</span>
+                    `;
+                }
+
+            } catch (e) { console.warn("Dynamic widgets error:", e); }
         }
 
         async function loadCMSContent() {
@@ -492,7 +564,7 @@
                 if (fieldName === 'image_url') {
                     const currentImgSrc = container.querySelector('[data-cms-field="image_url"]')?.src || '';
                     const hasImage = currentImgSrc && !currentImgSrc.includes(location.host);
-                    formContainer.innerHTML += `<div class="space-y-2"><label class="text-[10px] font-black uppercase text-gray-400">Upload Image / Video</label><input type="file" id="cms_input_file" accept="image/*,video/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-2 rounded"><input type="hidden" id="cms_input_image_url" value="${escapeHtml(hasImage ? currentImgSrc : '')}">${hasImage ? `<label class="flex items-center gap-2 mt-2 text-xs text-brand-red"><input type="checkbox" id="cms_clear_image"> Remove existing media</label>` : ''}</div>`;
+                    formContainer.innerHTML += `<div class="space-y-2"><label class="text-[10px] font-black uppercase text-gray-400">Upload Media</label><input type="file" id="cms_input_file" accept="image/*,video/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-2 rounded"><input type="hidden" id="cms_input_image_url" value="${escapeHtml(hasImage ? currentImgSrc : '')}">${hasImage ? `<label class="flex items-center gap-2 mt-2 text-xs text-brand-red"><input type="checkbox" id="cms_clear_image"> Remove existing media</label>` : ''}</div>`;
                 } else {
                     formContainer.innerHTML += `<div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">${fieldName.replace('_', ' ')}</label><textarea id="cms_input_${fieldName}" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(f.innerText)}</textarea></div>`;
                 }
