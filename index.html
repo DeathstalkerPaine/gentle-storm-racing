@@ -239,25 +239,25 @@
                 </div>
             </a>
 
-            <!-- DYNAMIC SPONSORS BLOCK (FULL WIDTH STACKED SPONSOR BANNERS) -->
-            <a href="sponsors.html" data-cms-id="index:sponsors" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
-                <div>
-                    <h3 data-cms-field="title" class="text-lg font-black uppercase tracking-wider text-brand-gold group-hover:text-white transition">Sponsors</h3>
-                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-0.5">Official Partners & League Sponsors</p>
+          <!-- DYNAMIC SPONSORS BLOCK -->
+<a href="sponsors.html" data-cms-id="index:sponsors" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
+    <div>
+        <h3 data-cms-field="title" class="text-lg font-black uppercase tracking-wider text-brand-gold group-hover:text-white transition">Sponsors</h3>
+        <p data-cms-field="desc" class="text-xs text-gray-400 mt-0.5">Official Partners & League Sponsors</p>
 
-                    <!-- FLEXIBLE CONTAINER (PRESERVES FULL WIDTH FOR EVERY SPONSOR LOGO) -->
-                    <div id="sponsorLogosContainer" class="my-3 min-h-[144px] w-full bg-brand-bg border border-brand-border rounded-lg flex flex-col items-center justify-center p-2 gap-2 overflow-hidden">
-                        <div id="sponsorFallbackText" class="flex flex-col items-center justify-center gap-1 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center py-6">
-                            <span>[ Second Life Motors ]</span>
-                            <span>[ Linden Fuel Co. ]</span>
-                            <span>[ StormTech HUDs ]</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-2 pt-3 border-t border-brand-border text-right">
-                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">View Sponsors →</span>
-                </div>
-            </a>
+        <!-- FIXED HEIGHT CONTAINER (Locked to h-36 to match Magazine) -->
+        <div id="sponsorLogosContainer" class="my-3 h-36 w-full bg-brand-bg border border-brand-border rounded-lg flex flex-col items-center justify-center p-2 gap-1 overflow-hidden">
+            <div id="sponsorFallbackText" class="flex flex-col items-center justify-center gap-1 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center">
+                <span>[ Second Life Motors ]</span>
+                <span>[ Linden Fuel Co. ]</span>
+                <span>[ StormTech HUDs ]</span>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 pt-3 border-t border-brand-border text-right">
+        <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">View Sponsors →</span>
+    </div>
+</a>
         </section>
 
         <!-- ROW 4: 3-COLUMN STATS, EVENTS & HIGHLIGHTS -->
@@ -563,22 +563,21 @@
                         try {
                             const content = JSON.parse(row.content_value);
 
-                            // SPECIAL HANDLING FOR INDEX SPONSORS (FULL-WIDTH STACKED BANNERS)
-                            if (row.section_id === 'index:sponsors') {
-                                const logos = [];
-                                if (content.logo_1) logos.push(content.logo_1);
-                                if (content.logo_2) logos.push(content.logo_2);
-                                if (content.logo_3) logos.push(content.logo_3);
+                           // SPECIAL HANDLING FOR INDEX SPONSORS (VERTICALLY STACKED AUTO-RESIZING LOGOS)
+if (row.section_id === 'index:sponsors') {
+    const logos = [];
+    if (content.logo_1) logos.push(content.logo_1);
+    if (content.logo_2) logos.push(content.logo_2);
+    if (content.logo_3) logos.push(content.logo_3);
 
-                                const sponsorBox = document.getElementById('sponsorLogosContainer');
-                                if (logos.length > 0 && sponsorBox) {
-                                    sponsorBox.innerHTML = '';
-                                    logos.forEach((url, i) => {
-                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="w-full h-auto max-h-32 object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
-                                    });
-                                }
-                            }
-
+    const sponsorBox = document.getElementById('sponsorLogosContainer');
+    if (logos.length > 0 && sponsorBox) {
+        sponsorBox.innerHTML = '';
+        logos.forEach((url, i) => {
+            sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 w-full min-h-0 object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
+        });
+    }
+}
                             Object.keys(content).forEach(key => {
                                 if (key === 'link_url') { container.setAttribute('href', content[key]); }
                                 else if (key === 'image_url') {
