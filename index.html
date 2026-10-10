@@ -32,9 +32,6 @@
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
-        
-        /* Smooth UI Fade-In for CMS & Dynamic Blocks */
-        [data-cms-id], .dynamic-block { opacity: 0; transition: opacity 0.4s ease-in-out; }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
@@ -90,17 +87,17 @@
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             <!-- Dynamic Team of the Week Card -->
-            <div id="spotlightTeamCard" class="dynamic-block bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
+            <div id="spotlightTeamCard" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
                 <div>
                     <div class="flex justify-between items-center mb-3">
                         <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Team Spotlight</span>
                         <span id="spotlightTeamPts" class="text-brand-gold font-mono text-[10px] font-bold">-- PTS</span>
                     </div>
                     <div id="spotlightTeamLogoContainer" class="my-3 h-32 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
-                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ Syncing #1 Team... ]</span>
+                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ Storm Riders ]</span>
                     </div>
-                    <h3 id="spotlightTeamTitle" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Loading Team...</h3>
-                    <p id="spotlightTeamMeta" class="text-xs text-gray-400 mt-1">Aggregating weekly Syndicate telemetry...</p>
+                    <h3 id="spotlightTeamTitle" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Storm Riders</h3>
+                    <p id="spotlightTeamMeta" class="text-xs text-gray-400 mt-1">Leader: Deathstalker Paine</p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
                     <a href="teams.html" class="text-xs font-bold uppercase text-brand-gold hover:underline">Open Teams Hub →</a>
@@ -108,17 +105,17 @@
             </div>
 
             <!-- Dynamic Racer of the Week Card -->
-            <div id="spotlightRacerCard" class="dynamic-block bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between group">
+            <div id="spotlightRacerCard" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between group">
                 <div>
                     <div class="flex justify-between items-center mb-3">
                         <span class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Racer Spotlight</span>
                         <span id="spotlightRacerPts" class="text-brand-gold font-mono text-[10px] font-bold">-- PTS</span>
                     </div>
                     <div id="spotlightRacerPhotoContainer" class="my-3 h-32 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
-                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ Syncing #1 Driver... ]</span>
+                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ Deathstalker Paine ]</span>
                     </div>
-                    <h3 id="spotlightRacerName" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Loading Driver...</h3>
-                    <p id="spotlightRacerMeta" class="text-xs text-gray-400 mt-1">Aggregating weekly grid telemetry...</p>
+                    <h3 id="spotlightRacerName" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Deathstalker Paine</h3>
+                    <p id="spotlightRacerMeta" class="text-xs text-gray-400 mt-1">Car #13 • Storm Riders</p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
                     <a id="spotlightRacerLink" href="racers.html" class="text-xs font-bold uppercase text-brand-red hover:underline">Open Racers Hub →</a>
@@ -158,14 +155,13 @@
                 </div>
             </a>
 
-            <!-- GSR CHATS THREADS (LIVE CONNECTED WIDGET WITH DROPDOWN & DRAWER TRIGGER) -->
+            <!-- GSR CHATS THREADS -->
             <div data-cms-id="index:chats" class="bg-brand-card border border-brand-border rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
                     <div class="flex justify-between items-center gap-2">
                         <span data-cms-field="label" class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Live Discussion</span>
                         
                         <div class="flex items-center gap-2">
-                            <!-- Channel Selector Dropdown -->
                             <select id="indexChatSelect" onchange="switchIndexChannel(this.value)" class="bg-[#0a0a0a] border border-brand-border text-brand-gold text-[10px] font-black uppercase px-2 py-1 rounded outline-none focus:border-brand-gold cursor-pointer">
                                 <option value="global" selected>🌐 Global</option>
                                 <option value="following">👥 Following</option>
@@ -178,7 +174,6 @@
                     
                     <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-2">GSR Chats Threads</h3>
                     
-                    <!-- Dynamic Read-Only Feed Box -->
                     <div id="mainMenuChatFeed" class="bg-brand-bg border border-brand-border rounded-lg p-3 my-3 space-y-2 h-28 overflow-hidden flex flex-col justify-end">
                         <div class="text-[10px] text-gray-500 text-center block my-auto">[ Connecting to frequency... ]</div>
                     </div>
@@ -187,7 +182,6 @@
                 <div class="pt-3 border-t border-brand-border flex justify-between items-center text-xs">
                     <a href="chats.html" data-cms-field="link_text" class="font-bold uppercase text-brand-gold hover:underline text-[10px]">Open Comms Hub →</a>
                     
-                    <!-- Drawer Trigger Button -->
                     <button onclick="toggleDrawer(true)" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">
                         Open Drawer to Reply ↵
                     </button>
@@ -198,7 +192,6 @@
         <!-- ROW 3: MAGAZINE & SPONSORS -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
-            <!-- Dynamic Magazine Block (CMS Editable) -->
             <a href="multimedia.html" id="magazineWidget" data-cms-id="index:magazine" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
                     <div class="flex justify-between items-center">
@@ -217,7 +210,6 @@
                 </div>
             </a>
 
-            <!-- Sponsors Banner (Manual CMS Editable) -->
             <div data-cms-id="index:sponsors" class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-center items-center text-center">
                 <h3 data-cms-field="title" class="text-xl font-black uppercase tracking-wider text-brand-gold mb-2">Sponsors</h3>
                 <p data-cms-field="desc" class="text-xs text-gray-400">Official Partners & League Sponsors</p>
@@ -232,15 +224,14 @@
         <!-- ROW 4: 3-COLUMN STATS, EVENTS & HIGHLIGHTS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
-            <!-- Dynamic Top 3 Racers Leaderboard Box -->
-            <div class="dynamic-block bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between transition group">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between transition group">
                 <div>
                     <div class="flex justify-between items-center mb-3">
                         <h3 class="text-base font-black uppercase text-white">Top 3 Racers</h3>
                         <span class="text-[9px] font-black uppercase text-brand-gold">Overall Standings</span>
                     </div>
                     <div id="top3RacersContainer" class="space-y-2">
-                        <div class="text-xs text-gray-500 font-mono text-center py-4">[ Querying driver stats... ]</div>
+                        <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-gold cursor-pointer"><span class="text-brand-gold font-black italic text-[10px] w-3">1</span><span class="text-white text-[10px] font-bold uppercase flex-grow truncate">Deathstalker Paine</span></div>
                     </div>
                 </div>
                 <div class="mt-4 pt-3 border-t border-brand-border">
@@ -248,20 +239,18 @@
                 </div>
             </div>
 
-            <!-- Dynamic Next Event (Synced to Calendar) -->
             <a href="upcoming_events.html" data-cms-id="index:next_event" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
                     <span id="indexNextEventTag" data-cms-field="label" class="text-[10px] font-black uppercase text-brand-red bg-red-950/60 border border-brand-red/30 px-2 py-0.5 rounded tracking-wider">Schedule</span>
                     <h3 data-cms-field="title" id="indexNextEventTitle" class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Next Event</h3>
-                    <p data-cms-field="event_name" id="indexNextEventSub" class="text-xs font-black text-brand-gold mt-1">Loading Schedule...</p>
-                    <p data-cms-field="event_details" id="indexNextEventDesc" class="text-[11px] text-gray-400 mt-1">Querying official calendar schedule...</p>
+                    <p data-cms-field="event_name" id="indexNextEventSub" class="text-xs font-black text-brand-gold mt-1">Pro Plus Grand Prix Round 1</p>
+                    <p data-cms-field="event_details" id="indexNextEventDesc" class="text-[11px] text-gray-400 mt-1">Oct 15, 2026 • 8:00 PM SLT • Ancient Rome</p>
                 </div>
                 <div class="mt-4 pt-3 border-t border-brand-border text-right">
                     <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">View Calendar →</span>
                 </div>
             </a>
 
-            <!-- Race Highlights (Manual CMS Editable) -->
             <a href="multimedia.html" data-cms-id="index:highlights" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
                     <span data-cms-field="label" class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Media</span>
@@ -276,7 +265,6 @@
 
         <!-- ROW 5: LEAGUES OVERVIEW & LIVE SYSTEM STATUS -->
         <section class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            <!-- GSR Leagues (Spans 3 Columns, CMS Editable) -->
             <a href="leagues.html" data-cms-id="index:leagues" class="lg:col-span-3 bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-8 transition flex flex-col justify-between group">
                 <div>
                     <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Championships</span>
@@ -290,17 +278,16 @@
                 </div>
             </a>
 
-            <!-- GSR System Status (LIVE ACTIVE MONITOR) -->
-            <div id="systemStatusCard" class="dynamic-block bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
+            <div id="systemStatusCard" class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
                 <div>
                     <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Infrastructure</span>
                     <h3 class="text-base font-black uppercase text-white mt-2">GSR System Status</h3>
                     <div class="mt-3 flex items-center space-x-2">
-                        <span id="systemStatusBadge" class="h-2.5 w-2.5 rounded-full bg-yellow-500 animate-pulse"></span>
-                        <span id="systemStatusText" class="text-xs font-bold text-yellow-400 uppercase">Testing Telemetry...</span>
+                        <span id="systemStatusBadge" class="h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse"></span>
+                        <span id="systemStatusText" class="text-xs font-bold text-green-400 uppercase">All Systems Operational</span>
                     </div>
                 </div>
-                <p id="systemStatusPing" class="text-[10px] text-gray-500 font-mono mt-4">Pinging Supabase DB & Cloudflare Workers...</p>
+                <p id="systemStatusPing" class="text-[10px] text-gray-500 font-mono mt-4">Supabase DB & Cloudflare Workers Active</p>
             </div>
         </section>
 
@@ -312,4 +299,338 @@
             <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
                 <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
                 <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
-                <a href="https://youtube.com" target="_blank" class="hover:
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
+    <!-- SLIDE-OUT DRAWER OVERLAY & PANEL -->
+    <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <div id="chatDrawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-brand-card border-l border-brand-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
+            <div>
+                <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
+                <p id="drawerChannelName" class="text-[10px] text-brand-gold uppercase">Channel: 🌐 Global</p>
+            </div>
+            <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <div id="drawerMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-[#111]">
+             <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching logs... ]</div>
+        </div>
+
+        <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
+            <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-gold transition">
+            <button onclick="sendDrawerMessage()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
+        </div>
+    </div>
+
+    <!-- INLINE CMS EDIT MODAL -->
+    <div id="cmsModalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="cmsModal" class="bg-brand-card border border-brand-gold shadow-[0_0_30px_rgba(197,160,89,0.15)] rounded-xl w-full max-w-md transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
+            <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center rounded-t-xl shrink-0">
+                <h2 class="text-sm font-black uppercase text-brand-gold tracking-wide flex items-center gap-2">
+                    <span>✏️ Edit Content Block</span>
+                </h2>
+                <button onclick="closeCMSModal()" class="text-gray-500 hover:text-brand-red p-1 transition cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div id="cmsModalFields" class="p-6 space-y-4 overflow-y-auto grow"></div>
+            
+            <div class="bg-brand-bg border-t border-brand-border p-4 flex justify-end gap-3 rounded-b-xl shrink-0">
+                <button onclick="closeCMSModal()" class="text-xs font-bold uppercase text-gray-400 hover:text-white px-4 py-2 transition cursor-pointer">Cancel</button>
+                <button onclick="saveCMSModal()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-6 py-2 rounded transition shadow cursor-pointer">Save to Live</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPABASE NATIVE ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        let currentIndexChannel = 'global';
+        let currentUser = null;
+        let currentProfile = null;
+        let isEditModeActive = false;
+        let currentEditId = null;
+
+        const channelNames = { global: '🌐 Global', following: '👥 Following', team: '🛡️ Teams', pro_plus: '⭐ Pro Plus' };
+
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function initMainMenu() {
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                const userNav = document.getElementById('userNav');
+                const userNavMobile = document.getElementById('userNavMobile');
+
+                if (session) {
+                    currentUser = session.user;
+                    const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, is_admin').eq('id', currentUser.id).maybeSingle();
+                    currentProfile = profile;
+                    const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+                    if (userNav) {
+                        let adminBtnHTML = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-xs uppercase font-black px-3 py-2 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
+                        userNav.innerHTML = `<div class="flex flex-col items-end gap-1.5"><div class="flex items-center gap-2"><div class="text-right"><span class="block text-xs font-black text-white uppercase">${displayName}</span><span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1"><span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In</span></div><button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-xs uppercase font-black px-3 py-2 rounded transition shadow cursor-pointer">Sign Out</button></div>${adminBtnHTML}</div>`;
+                    }
+                }
+            } catch (e) { console.warn("Auth init bypassed", e); }
+
+            loadDynamicWidgets();
+            loadCMSContent();
+            loadIndexChatWidget();
+            subscribeToIndexRealtime();
+        }
+
+        async function loadDynamicWidgets() {
+            try {
+                const { data: racers } = await db.from('racers').select('*');
+                if (racers && racers.length > 0) {
+                    const sortedRacers = [...racers].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
+                    const topRacer = sortedRacers[0];
+                    if (topRacer) {
+                        document.getElementById('spotlightRacerName').innerText = topRacer.display_name;
+                        document.getElementById('spotlightRacerPts').innerText = `${(topRacer.rating_points || 0).toLocaleString()} PTS`;
+                        document.getElementById('spotlightRacerMeta').innerText = `Car #${topRacer.racer_number || topRacer.car_number || '13'} • ${topRacer.wins || 0} Wins`;
+                        document.getElementById('spotlightRacerLink').href = `racers_profiles.html?driver=${encodeURIComponent(topRacer.display_name)}`;
+                    }
+
+                    const top3Box = document.getElementById('top3RacersContainer');
+                    if (top3Box) {
+                        top3Box.innerHTML = '';
+                        sortedRacers.slice(0, 3).forEach((r, idx) => {
+                            top3Box.innerHTML += `
+                                <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-border cursor-pointer hover:border-brand-gold transition" onclick="window.location='racers_profiles.html?driver=${encodeURIComponent(r.display_name)}'">
+                                    <span class="text-brand-gold font-black italic text-[10px] w-3">${idx + 1}</span>
+                                    <span class="text-white text-[10px] font-bold uppercase flex-grow truncate">${escapeHtml(r.display_name)}</span>
+                                    <span class="text-[9px] text-gray-400 font-mono">${(r.rating_points || 0).toLocaleString()} PTS</span>
+                                </div>`;
+                        });
+                    }
+                }
+            } catch (e) { console.warn("Dynamic widgets bypassed", e); }
+        }
+
+        async function loadCMSContent() {
+            try {
+                const { data, error } = await db.from('site_content').select('*').like('section_id', 'index:%');
+                if (!error && data) {
+                    data.forEach(row => {
+                        const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
+                        if (!container) return;
+                        try {
+                            const content = JSON.parse(row.content_value);
+                            Object.keys(content).forEach(key => {
+                                if (key === 'link_url') { container.setAttribute('href', content[key]); }
+                                else if (key === 'image_url') {
+                                    const img = container.querySelector(`[data-cms-field="image_url"]`);
+                                    if (img && content[key]) {
+                                        img.src = content[key];
+                                        img.classList.remove('hidden');
+                                        if (img.nextElementSibling) img.nextElementSibling.classList.add('hidden');
+                                    }
+                                } else {
+                                    const el = container.querySelector(`[data-cms-field="${key}"]`);
+                                    if (el) el.innerText = content[key];
+                                }
+                            });
+                        } catch (e) {}
+                    });
+                }
+            } catch (e) { console.warn("CMS Content bypassed", e); }
+        }
+
+        window.toggleEditMode = function() {
+            isEditModeActive = !isEditModeActive;
+            const btns = document.querySelectorAll('#editModeBtn, button[onclick="toggleEditMode()"]');
+            btns.forEach(btn => {
+                btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
+                btn.classList.toggle('bg-brand-blue', !isEditModeActive);
+                btn.classList.toggle('bg-brand-red', isEditModeActive);
+            });
+
+            document.querySelectorAll('[data-cms-id]').forEach(block => {
+                if (isEditModeActive) {
+                    block.classList.add('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative');
+                    if (!block.querySelector('.cms-trigger-btn')) {
+                        const editBtn = document.createElement('button');
+                        editBtn.className = 'cms-trigger-btn absolute top-2 right-2 bg-brand-blue text-white text-[10px] font-black uppercase px-2 py-1 rounded shadow-lg z-30 cursor-pointer';
+                        editBtn.innerHTML = '✏️ Edit Block';
+                        editBtn.onclick = (e) => openCMSModal(block.getAttribute('data-cms-id'), e);
+                        block.appendChild(editBtn);
+                    }
+                } else {
+                    block.classList.remove('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative');
+                    const btn = block.querySelector('.cms-trigger-btn');
+                    if (btn) btn.remove();
+                }
+            });
+        }
+
+        window.openCMSModal = function(cmsId, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            currentEditId = cmsId;
+            const container = document.querySelector(`[data-cms-id="${cmsId}"]`);
+            const fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+            const formContainer = document.getElementById('cmsModalFields');
+            formContainer.innerHTML = '';
+            
+            fields.forEach(f => {
+                const fieldName = f.getAttribute('data-cms-field');
+                if (fieldName === 'image_url') {
+                    const currentImgSrc = container.querySelector('[data-cms-field="image_url"]')?.src || '';
+                    const hasImage = currentImgSrc && !currentImgSrc.includes(location.host);
+                    formContainer.innerHTML += `<div class="space-y-2"><label class="text-[10px] font-black uppercase text-gray-400">Upload Image / Video</label><input type="file" id="cms_input_file" accept="image/*,video/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-2 rounded"><input type="hidden" id="cms_input_image_url" value="${escapeHtml(hasImage ? currentImgSrc : '')}">${hasImage ? `<label class="flex items-center gap-2 mt-2 text-xs text-brand-red"><input type="checkbox" id="cms_clear_image"> Remove existing media</label>` : ''}</div>`;
+                } else {
+                    formContainer.innerHTML += `<div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">${fieldName.replace('_', ' ')}</label><textarea id="cms_input_${fieldName}" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(f.innerText)}</textarea></div>`;
+                }
+            });
+
+            if (container.tagName === 'A' || container.getAttribute('href')) {
+                formContainer.innerHTML += `<div class="space-y-1 mt-2 pt-2 border-t border-brand-border"><label class="text-[10px] font-black uppercase text-gray-400">Link URL</label><input type="text" id="cms_input_link_url" value="${escapeHtml(container.getAttribute('href') || '')}" class="w-full bg-[#0a0a0a] border border-brand-border text-brand-blue text-xs px-3 py-2 rounded"></div>`;
+            }
+
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        window.closeCMSModal = function() {
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
+        window.saveCMSModal = async function() {
+            const container = document.querySelector(`[data-cms-id="${currentEditId}"]`);
+            const fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+            let updateData = {};
+            
+            const clearImageCheckbox = document.getElementById('cms_clear_image');
+            const fileInput = document.getElementById('cms_input_file');
+            const hiddenImg = document.getElementById('cms_input_image_url');
+            let oldImageUrl = hiddenImg ? hiddenImg.value : '';
+
+            if (clearImageCheckbox && clearImageCheckbox.checked) {
+                updateData['image_url'] = '';
+                if (oldImageUrl) {
+                    const oldFileName = oldImageUrl.split('/').pop();
+                    if (oldFileName) await db.storage.from('admin-assets').remove([oldFileName]);
+                }
+                const imgTag = container.querySelector('[data-cms-field="image_url"]');
+                if (imgTag) { imgTag.src = ''; imgTag.classList.add('hidden'); if (imgTag.nextElementSibling) imgTag.nextElementSibling.classList.remove('hidden'); }
+            } else if (fileInput && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+                const { error: uploadError } = await db.storage.from('admin-assets').upload(fileName, file);
+                if (uploadError) { alert("Upload failed: " + uploadError.message); return; }
+
+                if (oldImageUrl) {
+                    const oldFileName = oldImageUrl.split('/').pop();
+                    if (oldFileName) await db.storage.from('admin-assets').remove([oldFileName]);
+                }
+
+                const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                updateData['image_url'] = publicUrlData.publicUrl;
+                const imgTag = container.querySelector('[data-cms-field="image_url"]');
+                if (imgTag) { imgTag.src = publicUrlData.publicUrl; imgTag.classList.remove('hidden'); if (imgTag.nextElementSibling) imgTag.nextElementSibling.classList.add('hidden'); }
+            } else {
+                if (hiddenImg) updateData['image_url'] = hiddenImg.value;
+            }
+
+            fields.forEach(f => {
+                const fieldName = f.getAttribute('data-cms-field');
+                if (fieldName !== 'image_url') {
+                    const inputEl = document.getElementById(`cms_input_${fieldName}`);
+                    if (inputEl) { updateData[fieldName] = inputEl.value; f.innerText = inputEl.value; }
+                }
+            });
+            
+            const linkInput = document.getElementById('cms_input_link_url');
+            if (linkInput) { updateData['link_url'] = linkInput.value; container.setAttribute('href', linkInput.value); }
+            
+            await db.from('site_content').upsert([{ section_id: currentEditId, content_value: JSON.stringify(updateData) }]);
+            closeCMSModal();
+        }
+
+        window.toggleDrawer = function(show) {
+            const drawer = document.getElementById('chatDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            if (!drawer || !overlay) return;
+            if (show) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => { overlay.classList.remove('opacity-0'); drawer.classList.remove('translate-x-full'); }, 10);
+            } else {
+                overlay.classList.add('opacity-0');
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+            }
+        };
+
+        async function switchIndexChannel(channel) {
+            currentIndexChannel = channel;
+            document.getElementById('drawerChannelName').innerText = `Channel: ${channelNames[channel] || channel}`;
+            loadIndexChatWidget();
+        }
+
+        async function loadIndexChatWidget() {
+            const feed = document.getElementById('mainMenuChatFeed');
+            const drawerFeed = document.getElementById('drawerMessages');
+            const { data } = await db.from('gsr_chats').select('*').eq('channel', currentIndexChannel).order('created_at', { ascending: false }).limit(20);
+
+            if (!data || data.length === 0) return;
+            const messages = data.reverse();
+
+            if (feed) {
+                feed.innerHTML = '';
+                messages.slice(-3).forEach(msg => {
+                    feed.innerHTML += `<div class="text-[10px] leading-snug truncate"><span class="font-black text-brand-gold uppercase">[${escapeHtml(msg.display_name)}]:</span> <span class="text-gray-300">${escapeHtml(msg.message)}</span></div>`;
+                });
+            }
+
+            if (drawerFeed) {
+                drawerFeed.innerHTML = '';
+                messages.forEach(msg => {
+                    const isMe = currentUser && msg.user_id === currentUser.id;
+                    drawerFeed.innerHTML += `<div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}"><span class="text-[9px] font-black uppercase text-gray-500 mb-0.5">${escapeHtml(msg.display_name)}</span><div class="${isMe ? 'bg-brand-gold/10 border-brand-gold text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200'} border px-3 py-2 rounded-lg text-xs max-w-[85%] break-words">${escapeHtml(msg.message)}</div></div>`;
+                });
+            }
+        }
+
+        async function sendDrawerMessage() {
+            if (!currentUser) return;
+            const input = document.getElementById('drawerInput');
+            if (!input.value.trim()) return;
+            const name = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
+            await db.from('gsr_chats').insert([{ user_id: currentUser.id, display_name: name, message: input.value.trim(), channel: currentIndexChannel }]);
+            input.value = '';
+        }
+
+        function subscribeToIndexRealtime() {
+            db.channel('public:gsr_chats_index').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
+                if (payload.new.channel === currentIndexChannel) loadIndexChatWidget();
+            }).subscribe();
+        }
+
+        async function executeSignOut() { await db.auth.signOut(); window.location.reload(); }
+        function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+
+        window.onload = initMainMenu;
+    </script>
+</body>
+</html>
