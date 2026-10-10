@@ -36,7 +36,7 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-              <!-- TOP HEADER: CENTERED LOGO WITH RESPONSIVE AUTH POSITIONING -->
+    <!-- TOP HEADER: CENTERED LOGO WITH RESPONSIVE AUTH POSITIONING -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col sm:flex-row items-center justify-center min-h-[120px]">
             
@@ -204,7 +204,6 @@
                 <div>
                     <h3 data-cms-field="title" class="text-base font-black uppercase text-white mb-3 group-hover:text-brand-gold transition">Top 3 Racers</h3>
                     <div class="space-y-2">
-                        <!-- Dynamic Leaderboard Content - Not Tagged for CMS -->
                         <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-gold"><span class="text-brand-gold font-black italic text-[10px] w-3">1</span><span class="text-white text-[10px] font-bold uppercase">Deathstalker Paine</span></div>
                         <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-border"><span class="text-gray-400 font-black italic text-[10px] w-3">2</span><span class="text-gray-300 text-[10px] font-bold uppercase">Vortex_SL</span></div>
                         <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-border"><span class="text-gray-500 font-black italic text-[10px] w-3">3</span><span class="text-gray-400 text-[10px] font-bold uppercase">BlazeRunner</span></div>
@@ -340,7 +339,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-        // Global Variables
         let currentIndexChannel = 'global';
         let currentUser = null;
         let currentProfile = null;
@@ -359,34 +357,55 @@
         async function initMainMenu() {
             const { data: { session } } = await db.auth.getSession();
             const userNav = document.getElementById('userNav');
+            const userNavMobile = document.getElementById('userNavMobile');
             const drawerInput = document.getElementById('drawerInput');
 
             if (session) {
                 currentUser = session.user;
                 const { data: profile } = await db
                     .from('gsr_profiles')
-                    .select('sl_legacy_name, is_admin') // Added is_admin fetch for CMS
+                    .select('sl_legacy_name, is_admin')
                     .eq('id', currentUser.id)
                     .single();
 
                 currentProfile = profile;
                 const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
 
+                // Desktop Nav HTML (Grouped in top right)
                 if (userNav) {
-                    // Admin Tools Toggle Injector
-                    let adminBtnHTML = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg mr-2 cursor-pointer">✏️ Enable Edit Mode</button>` : '';
+                    let adminBtnHTML = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-xs uppercase font-black px-3 py-2 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
 
                     userNav.innerHTML = `
-                        ${adminBtnHTML}
-                        <div class="text-right hidden sm:block">
-                            <span class="block text-xs font-black text-white uppercase">${displayName}</span>
-                            <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
-                            </span>
+                        <div class="flex flex-col items-end gap-1.5">
+                            <div class="flex items-center gap-2">
+                                <div class="text-right">
+                                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                                    <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
+                                    </span>
+                                </div>
+                                <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-xs uppercase font-black px-3 py-2 rounded transition shadow cursor-pointer">Sign Out</button>
+                            </div>
+                            ${adminBtnHTML}
                         </div>
-                        <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
                     `;
                 }
+
+                // Mobile Nav HTML (Stacked below logo)
+                if (userNavMobile) {
+                    let adminBtnMobileHTML = profile?.is_admin ? `<button onclick="toggleEditMode()" class="bg-brand-blue text-white text-[10px] uppercase font-black px-3 py-1.5 rounded shadow cursor-pointer">✏️ Edit Mode</button>` : '';
+
+                    userNavMobile.innerHTML = `
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-black text-white uppercase">${displayName}</span>
+                                <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border text-white text-[10px] uppercase font-black px-3 py-1.5 rounded cursor-pointer">Sign Out</button>
+                            </div>
+                            ${adminBtnMobileHTML}
+                        </div>
+                    `;
+                }
+
                 if (drawerInput) {
                     drawerInput.placeholder = "Type message...";
                     drawerInput.disabled = false;
@@ -431,17 +450,17 @@
 
         window.toggleEditMode = function() {
             isEditModeActive = !isEditModeActive;
-            const btn = document.getElementById('editModeBtn');
+            const btns = document.querySelectorAll('#editModeBtn, button[onclick="toggleEditMode()"]');
             
-            if (isEditModeActive) {
-                btn.innerHTML = '❌ Disable Edit Mode';
-                btn.classList.replace('bg-brand-blue', 'bg-brand-red');
-                btn.classList.replace('hover:bg-blue-600', 'hover:bg-red-700');
-            } else {
-                btn.innerHTML = '✏️ Enable Edit Mode';
-                btn.classList.replace('bg-brand-red', 'bg-brand-blue');
-                btn.classList.replace('hover:bg-red-700', 'hover:bg-blue-600');
-            }
+            btns.forEach(btn => {
+                if (isEditModeActive) {
+                    btn.innerHTML = '❌ Disable Edit Mode';
+                    btn.classList.replace('bg-brand-blue', 'bg-brand-red');
+                } else {
+                    btn.innerHTML = '✏️ Edit Mode';
+                    btn.classList.replace('bg-brand-red', 'bg-brand-blue');
+                }
+            });
 
             const blocks = document.querySelectorAll('[data-cms-id]');
             blocks.forEach(block => {
@@ -511,9 +530,7 @@
             overlay.classList.add('opacity-0');
             modal.classList.add('scale-95', 'opacity-0');
             
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-            }, 300);
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
         }
 
         window.saveCMSModal = async function() {
@@ -521,7 +538,6 @@
             const fields = Array.from(container.querySelectorAll('[data-cms-field]'));
             let updateData = {};
             
-            // Read from inputs & update DOM instantly
             fields.forEach(f => {
                 const fieldName = f.getAttribute('data-cms-field');
                 const newVal = document.getElementById(`cms_input_${fieldName}`).value;
@@ -535,14 +551,12 @@
                 container.setAttribute('href', linkInput.value);
             }
             
-            // Push JSON payload to Supabase
             const { error } = await db.from('site_content').upsert([{
                 section_id: currentEditId,
                 content_value: JSON.stringify(updateData)
             }]);
             
             if (error) alert("Save failed: " + error.message);
-            
             closeCMSModal();
         }
 
