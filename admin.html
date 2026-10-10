@@ -94,10 +94,8 @@
 
     </main>
 
-    <!-- UNIVERSAL FOOTER -->
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
 
-    <!-- SUPABASE ADMIN ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
@@ -106,9 +104,8 @@
 
         async function initAdmin() {
             const { data: { session } } = await db.auth.getSession();
-            if (!session) return; // Leaves lock box visible
+            if (!session) return;
 
-            // Check if user is admin in gsr_profiles
             const { data: profile } = await db
                 .from('gsr_profiles')
                 .select('is_admin')
@@ -123,7 +120,6 @@
         }
 
         async function loadAdminData() {
-            // 1. Load Site Content inputs
             const { data: contentData } = await db.from('site_content').select('*');
             if (contentData) {
                 contentData.forEach(item => {
@@ -132,7 +128,6 @@
                 });
             }
 
-            // 2. Load Pending Queue
             const { data: queue } = await db.from('pending_approvals').select('*').eq('status', 'pending');
             const tableBody = document.getElementById('pendingQueueTable');
             if (!tableBody) return;
