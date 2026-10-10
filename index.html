@@ -214,7 +214,7 @@
 
         <!-- ROW 3: MAGAZINE & SPONSORS -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- GSRACING MAGAZINE AUTOMATIC COVER CARD (NO CMS IMAGE OVERRIDE) -->
+            <!-- GSRACING MAGAZINE AUTOMATIC COVER CARD -->
             <a href="magazine.html" data-cms-id="index:magazine" id="magazineWidget" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
                     <div class="flex justify-between items-center">
@@ -222,7 +222,6 @@
                         <span id="magIssueTag" class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">October 2026 • Vol 1</span>
                     </div>
 
-                    <!-- INNER DYNAMIC COVER DISPLAY FRAME (Mirrors magazine.html Cover Page) -->
                     <div id="magCoverContainer" class="my-3 h-36 w-full bg-[#18181b] border border-brand-border rounded-lg overflow-hidden flex flex-col justify-between p-4 relative shadow-inner group-hover:border-brand-gold/50 transition">
                         <span id="magVolumeBadge" class="text-[8px] font-black uppercase tracking-widest text-brand-red bg-brand-red/10 border border-brand-red/30 px-1.5 py-0.5 rounded self-start">Volume 1 • Issue 1</span>
                         <div class="text-center my-auto">
@@ -240,15 +239,25 @@
                 </div>
             </a>
 
-            <div data-cms-id="index:sponsors" class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-center items-center text-center">
-                <h3 data-cms-field="title" class="text-xl font-black uppercase tracking-wider text-brand-gold mb-2">Sponsors</h3>
-                <p data-cms-field="desc" class="text-xs text-gray-400">Official Partners & League Sponsors</p>
-                <div class="flex flex-wrap justify-center items-center gap-6 mt-4 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest">
-                    <span>[ Second Life Motors ]</span>
-                    <span>[ Linden Fuel Co. ]</span>
-                    <span>[ StormTech HUDs ]</span>
+            <!-- DYNAMIC SPONSORS BLOCK (AUTO HORIZONTAL SPLIT) -->
+            <a href="sponsors.html" data-cms-id="index:sponsors" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
+                <div>
+                    <h3 data-cms-field="title" class="text-lg font-black uppercase tracking-wider text-brand-gold group-hover:text-white transition">Sponsors</h3>
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-0.5">Official Partners & League Sponsors</p>
+
+                    <!-- DYNAMIC FLEX CONTAINER (DIVIDES HORIZONTAL SPACE EVENLY WITHOUT INCREASING BLOCK HEIGHT) -->
+                    <div id="sponsorLogosContainer" class="my-3 h-36 w-full bg-brand-bg border border-brand-border rounded-lg flex items-center justify-center p-3 gap-3 overflow-hidden">
+                        <div id="sponsorFallbackText" class="flex flex-wrap justify-center items-center gap-4 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest">
+                            <span>[ Second Life Motors ]</span>
+                            <span>[ Linden Fuel Co. ]</span>
+                            <span>[ StormTech HUDs ]</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div class="mt-2 pt-3 border-t border-brand-border text-right">
+                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">View Sponsors →</span>
+                </div>
+            </a>
         </section>
 
         <!-- ROW 4: 3-COLUMN STATS, EVENTS & HIGHLIGHTS -->
@@ -553,14 +562,33 @@
                         if (!container) return;
                         try {
                             const content = JSON.parse(row.content_value);
+
+                            // SPECIAL HANDLING FOR INDEX SPONSORS (AUTO FLEX-SPLIT LOGOS)
+                            if (row.section_id === 'index:sponsors') {
+                                const logos = [];
+                                if (content.logo_1) logos.push(content.logo_1);
+                                if (content.logo_2) logos.push(content.logo_2);
+                                if (content.logo_3) logos.push(content.logo_3);
+
+                                const sponsorBox = document.getElementById('sponsorLogosContainer');
+                                if (logos.length > 0 && sponsorBox) {
+                                    sponsorBox.innerHTML = '';
+                                    logos.forEach((url, i) => {
+                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 max-h-full object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
+                                    });
+                                }
+                            }
+
                             Object.keys(content).forEach(key => {
                                 if (key === 'link_url') { container.setAttribute('href', content[key]); }
                                 else if (key === 'image_url') {
-                                    const img = container.querySelector(`[data-cms-field="image_url"]`);
-                                    if (img && content[key]) {
-                                        img.src = content[key];
-                                        img.classList.remove('hidden');
-                                        if (img.nextElementSibling) img.nextElementSibling.classList.add('hidden');
+                                    if (row.section_id !== 'index:magazine' && row.section_id !== 'index:sponsors') {
+                                        const img = container.querySelector(`[data-cms-field="image_url"]`);
+                                        if (img && content[key]) {
+                                            img.src = content[key];
+                                            img.classList.remove('hidden');
+                                            if (img.nextElementSibling) img.nextElementSibling.classList.add('hidden');
+                                        }
                                     }
                                 } else {
                                     const el = container.querySelector(`[data-cms-field="${key}"]`);
@@ -600,25 +628,63 @@
             });
         }
 
-        window.openCMSModal = function(cmsId, event) {
+        window.openCMSModal = async function(cmsId, event) {
             event.preventDefault();
             event.stopPropagation();
             currentEditId = cmsId;
             const container = document.querySelector(`[data-cms-id="${cmsId}"]`);
-            const fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+            
+            let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+            if (cmsId === 'index:magazine' || cmsId === 'index:sponsors') {
+                fields = fields.filter(f => f.getAttribute('data-cms-field') !== 'image_url');
+            }
+
             const formContainer = document.getElementById('cmsModalFields');
             formContainer.innerHTML = '';
             
             fields.forEach(f => {
                 const fieldName = f.getAttribute('data-cms-field');
-                if (fieldName === 'image_url') {
-                    const currentImgSrc = container.querySelector('[data-cms-field="image_url"]')?.src || '';
-                    const hasImage = currentImgSrc && !currentImgSrc.includes(location.host);
-                    formContainer.innerHTML += `<div class="space-y-2"><label class="text-[10px] font-black uppercase text-gray-400">Upload Media</label><input type="file" id="cms_input_file" accept="image/*,video/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-2 rounded"><input type="hidden" id="cms_input_image_url" value="${escapeHtml(hasImage ? currentImgSrc : '')}">${hasImage ? `<label class="flex items-center gap-2 mt-2 text-xs text-brand-red"><input type="checkbox" id="cms_clear_image"> Remove existing media</label>` : ''}</div>`;
-                } else {
-                    formContainer.innerHTML += `<div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">${fieldName.replace('_', ' ')}</label><textarea id="cms_input_${fieldName}" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(f.innerText)}</textarea></div>`;
-                }
+                formContainer.innerHTML += `<div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">${fieldName.replace('_', ' ')}</label><textarea id="cms_input_${fieldName}" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(f.innerText)}</textarea></div>`;
             });
+
+            // SPECIAL UPLOAD FIELDS FOR INDEX SPONSORS
+            if (cmsId === 'index:sponsors') {
+                let existingLogos = {};
+                try {
+                    const { data } = await db.from('site_content').select('content_value').eq('section_id', 'index:sponsors').maybeSingle();
+                    if (data && data.content_value) existingLogos = JSON.parse(data.content_value);
+                } catch(e) {}
+
+                formContainer.innerHTML += `
+                    <div class="space-y-3 pt-3 border-t border-brand-border">
+                        <label class="text-[10px] font-black uppercase text-brand-gold tracking-wider block">Sponsor Logos (Up to 3 Horizontal Logos)</label>
+                        
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 1</span>
+                            <input type="file" id="cms_sponsor_file_1" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_1" value="${existingLogos.logo_1 || ''}">
+                            ${existingLogos.logo_1 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_1"> Remove Logo 1</label>` : ''}
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 2</span>
+                            <input type="file" id="cms_sponsor_file_2" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_2" value="${existingLogos.logo_2 || ''}">
+                            ${existingLogos.logo_2 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_2"> Remove Logo 2</label>` : ''}
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 3</span>
+                            <input type="file" id="cms_sponsor_file_3" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_3" value="${existingLogos.logo_3 || ''}">
+                            ${existingLogos.logo_3 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_3"> Remove Logo 3</label>` : ''}
+                        </div>
+                    </div>`;
+            } else if (cmsId !== 'index:magazine') {
+                const currentImgSrc = container.querySelector('[data-cms-field="image_url"]')?.src || '';
+                const hasImage = currentImgSrc && !currentImgSrc.includes(location.host);
+                formContainer.innerHTML += `<div class="space-y-2 mt-2 pt-2 border-t border-brand-border"><label class="text-[10px] font-black uppercase text-gray-400">Upload Block Image</label><input type="file" id="cms_input_file" accept="image/*,video/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-2 rounded"><input type="hidden" id="cms_input_image_url" value="${escapeHtml(hasImage ? currentImgSrc : '')}">${hasImage ? `<label class="flex items-center gap-2 mt-2 text-xs text-brand-red"><input type="checkbox" id="cms_clear_image"> Remove existing media</label>` : ''}</div>`;
+            }
 
             if (container.tagName === 'A' || container.getAttribute('href')) {
                 formContainer.innerHTML += `<div class="space-y-1 mt-2 pt-2 border-t border-brand-border"><label class="text-[10px] font-black uppercase text-gray-400">Link URL</label><input type="text" id="cms_input_link_url" value="${escapeHtml(container.getAttribute('href') || '')}" class="w-full bg-[#0a0a0a] border border-brand-border text-brand-blue text-xs px-3 py-2 rounded"></div>`;
@@ -640,39 +706,66 @@
 
         window.saveCMSModal = async function() {
             const container = document.querySelector(`[data-cms-id="${currentEditId}"]`);
-            const fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+            let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+            if (currentEditId === 'index:magazine' || currentEditId === 'index:sponsors') {
+                fields = fields.filter(f => f.getAttribute('data-cms-field') !== 'image_url');
+            }
+
             let updateData = {};
             
-            const clearImageCheckbox = document.getElementById('cms_clear_image');
-            const fileInput = document.getElementById('cms_input_file');
-            const hiddenImg = document.getElementById('cms_input_image_url');
-            let oldImageUrl = hiddenImg ? hiddenImg.value : '';
+            // SPECIAL SPONSOR LOGOS SAVING LOGIC
+            if (currentEditId === 'index:sponsors') {
+                for (let i = 1; i <= 3; i++) {
+                    const clearCheckbox = document.getElementById(`cms_clear_sponsor_${i}`);
+                    const fileInput = document.getElementById(`cms_sponsor_file_${i}`);
+                    const urlInput = document.getElementById(`cms_sponsor_url_${i}`);
+                    let logoUrl = urlInput ? urlInput.value : '';
 
-            if (clearImageCheckbox && clearImageCheckbox.checked) {
-                updateData['image_url'] = '';
-                if (oldImageUrl) {
-                    const oldFileName = oldImageUrl.split('/').pop();
-                    if (oldFileName) await db.storage.from('admin-assets').remove([oldFileName]);
+                    if (clearCheckbox && clearCheckbox.checked) {
+                        logoUrl = '';
+                    } else if (fileInput && fileInput.files.length > 0) {
+                        const file = fileInput.files[0];
+                        const fileName = `sponsor_${i}_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+                        const { error: uploadError } = await db.storage.from('admin-assets').upload(fileName, file);
+                        if (!uploadError) {
+                            const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                            logoUrl = publicUrlData.publicUrl;
+                        }
+                    }
+                    if (logoUrl) updateData[`logo_${i}`] = logoUrl;
                 }
-                const imgTag = container.querySelector('[data-cms-field="image_url"]');
-                if (imgTag) { imgTag.src = ''; imgTag.classList.add('hidden'); if (imgTag.nextElementSibling) imgTag.nextElementSibling.classList.remove('hidden'); }
-            } else if (fileInput && fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
-                const { error: uploadError } = await db.storage.from('admin-assets').upload(fileName, file);
-                if (uploadError) { alert("Upload failed: " + uploadError.message); return; }
+            } else if (currentEditId !== 'index:magazine') {
+                const clearImageCheckbox = document.getElementById('cms_clear_image');
+                const fileInput = document.getElementById('cms_input_file');
+                const hiddenImg = document.getElementById('cms_input_image_url');
+                let oldImageUrl = hiddenImg ? hiddenImg.value : '';
 
-                if (oldImageUrl) {
-                    const oldFileName = oldImageUrl.split('/').pop();
-                    if (oldFileName) await db.storage.from('admin-assets').remove([oldFileName]);
+                if (clearImageCheckbox && clearImageCheckbox.checked) {
+                    updateData['image_url'] = '';
+                    if (oldImageUrl) {
+                        const oldFileName = oldImageUrl.split('/').pop();
+                        if (oldFileName) await db.storage.from('admin-assets').remove([oldFileName]);
+                    }
+                    const imgTag = container.querySelector('[data-cms-field="image_url"]');
+                    if (imgTag) { imgTag.src = ''; imgTag.classList.add('hidden'); if (imgTag.nextElementSibling) imgTag.nextElementSibling.classList.remove('hidden'); }
+                } else if (fileInput && fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+                    const { error: uploadError } = await db.storage.from('admin-assets').upload(fileName, file);
+                    if (uploadError) { alert("Upload failed: " + uploadError.message); return; }
+
+                    if (oldImageUrl) {
+                        const oldFileName = oldImageUrl.split('/').pop();
+                        if (oldFileName) await db.storage.from('admin-assets').remove([oldFileName]);
+                    }
+
+                    const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                    updateData['image_url'] = publicUrlData.publicUrl;
+                    const imgTag = container.querySelector('[data-cms-field="image_url"]');
+                    if (imgTag) { imgTag.src = publicUrlData.publicUrl; imgTag.classList.remove('hidden'); if (imgTag.nextElementSibling) imgTag.nextElementSibling.classList.remove('hidden'); }
+                } else {
+                    if (hiddenImg) updateData['image_url'] = hiddenImg.value;
                 }
-
-                const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
-                updateData['image_url'] = publicUrlData.publicUrl;
-                const imgTag = container.querySelector('[data-cms-field="image_url"]');
-                if (imgTag) { imgTag.src = publicUrlData.publicUrl; imgTag.classList.remove('hidden'); if (imgTag.nextElementSibling) imgTag.nextElementSibling.classList.remove('hidden'); }
-            } else {
-                if (hiddenImg) updateData['image_url'] = hiddenImg.value;
             }
 
             fields.forEach(f => {
@@ -687,6 +780,7 @@
             if (linkInput) { updateData['link_url'] = linkInput.value; container.setAttribute('href', linkInput.value); }
             
             await db.from('site_content').upsert([{ section_id: currentEditId, content_value: JSON.stringify(updateData) }]);
+            await loadCMSContent();
             closeCMSModal();
         }
 
