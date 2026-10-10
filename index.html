@@ -80,7 +80,7 @@
         <!-- ROW 1: 3-COLUMN WEEKLY SPOTLIGHTS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
             
-            <!-- COLUMN 1: TEAM SPOTLIGHT (CMS Editable Outer Box) -->
+            <!-- COLUMN 1: TEAM SPOTLIGHT -->
             <div data-cms-id="index:spotlight_team_box" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group h-full">
                 <div>
                     <div class="flex justify-between items-center mb-4">
@@ -88,7 +88,6 @@
                         <span id="st_top_pts" class="text-brand-gold font-mono text-[10px] font-bold">500 PTS</span>
                     </div>
 
-                    <!-- INNER EMBEDDED TEAM CARD -->
                     <div class="bg-brand-bg border border-brand-border rounded-xl p-4 flex flex-col mb-4 hover:border-brand-gold transition shadow-md">
                         <div class="flex justify-between items-center mb-3">
                             <span class="bg-brand-red text-white text-[9px] font-black uppercase px-2 py-0.5 rounded">Pro Plus League</span>
@@ -117,7 +116,7 @@
                 </div>
             </div>
 
-            <!-- COLUMN 2: RACER SPOTLIGHT (CMS Editable Outer Box) -->
+            <!-- COLUMN 2: RACER SPOTLIGHT -->
             <div data-cms-id="index:spotlight_racer_box" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 transition flex flex-col justify-between group h-full">
                 <div>
                     <div class="flex justify-between items-center mb-4">
@@ -125,7 +124,6 @@
                         <span id="sr_top_pts" class="text-brand-red font-mono text-[10px] font-bold">1,000 PTS</span>
                     </div>
 
-                    <!-- INNER EMBEDDED RACER CARD -->
                     <div class="bg-brand-bg border border-brand-border rounded-xl p-4 flex flex-col mb-4 hover:border-brand-gold transition shadow-md">
                         <div class="flex justify-between items-center mb-3">
                             <span class="bg-brand-red text-white text-[9px] font-black uppercase px-2 py-0.5 rounded">Pro League</span>
@@ -149,7 +147,7 @@
                 </div>
             </div>
 
-            <!-- COLUMN 3: TRACK SPOTLIGHT (Manual CMS Editable) -->
+            <!-- COLUMN 3: TRACK SPOTLIGHT -->
             <a href="racetracks.html" data-cms-id="index:spotlight_track" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group h-full">
                 <div>
                     <div class="flex justify-between items-center mb-4">
@@ -216,18 +214,26 @@
 
         <!-- ROW 3: MAGAZINE & SPONSORS -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <a href="multimedia.html" id="magazineWidget" data-cms-id="index:magazine" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
+            <!-- GSRACING MAGAZINE AUTOMATIC COVER CARD (NO CMS IMAGE OVERRIDE) -->
+            <a href="magazine.html" data-cms-id="index:magazine" id="magazineWidget" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
                     <div class="flex justify-between items-center">
                         <span data-cms-field="label" class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Publication</span>
-                        <span id="magIssueTag" class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">Latest Issue</span>
+                        <span id="magIssueTag" class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">October 2026 • Vol 1</span>
                     </div>
-                    <div class="my-3 h-36 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
-                        <img data-cms-field="image_url" id="magCoverImg" src="" alt="Magazine Cover" class="w-full h-full object-cover hidden">
-                        <span id="magCoverPlaceholder" class="text-[10px] text-gray-600 uppercase font-mono">[ MAGAZINE COVER PREVIEW ]</span>
+
+                    <!-- INNER DYNAMIC COVER DISPLAY FRAME (Mirrors magazine.html Cover Page) -->
+                    <div id="magCoverContainer" class="my-3 h-36 w-full bg-[#18181b] border border-brand-border rounded-lg overflow-hidden flex flex-col justify-between p-4 relative shadow-inner group-hover:border-brand-gold/50 transition">
+                        <span id="magVolumeBadge" class="text-[8px] font-black uppercase tracking-widest text-brand-red bg-brand-red/10 border border-brand-red/30 px-1.5 py-0.5 rounded self-start">Volume 1 • Issue 1</span>
+                        <div class="text-center my-auto">
+                            <span id="magCoverHeader" class="block text-base font-black uppercase text-white font-serif italic tracking-wide">GSRACING MAGAZINE</span>
+                            <span id="magCoverSub" class="block text-[9px] text-gray-400 uppercase tracking-widest mt-0.5">Official Monthly Publication</span>
+                        </div>
+                        <span id="magPublishDate" class="text-[8px] text-gray-500 font-mono uppercase text-right">October 2026</span>
                     </div>
-                    <h3 data-cms-field="title" id="magTitle" class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Gentle Storm Racing Magazine</h3>
-                    <p data-cms-field="desc" id="magDesc" class="text-xs text-gray-400 mt-2">Explore driver interviews, tech breakdowns of the Pro Plus telemetry framework, and expert circuit guides.</p>
+
+                    <h3 data-cms-field="title" id="magTitle" class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">GSRacing Magazine</h3>
+                    <p data-cms-field="desc" id="magDesc" class="text-xs text-gray-400 mt-2 line-clamp-2">Welcome to the official monthly publication of Gentle Storm Racing. Built for elite drivers and syndicates across Second Life.</p>
                 </div>
                 <div class="mt-4 pt-3 border-t border-brand-border text-right">
                     <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">Read Issue →</span>
@@ -518,6 +524,23 @@
                     stContainer.innerHTML = `<span class="text-lg font-black text-white uppercase tracking-widest text-center px-2">${escapeHtml(topTeamName)}</span>`;
                 }
 
+                // 3. MAGAZINE COVER AUTOMATIC SYNC
+                try {
+                    const { data: magContent } = await db.from('site_content').select('*').eq('section_id', 'magazine:current_issue').maybeSingle();
+                    if (magContent && magContent.content_value) {
+                        const parsed = JSON.parse(magContent.content_value);
+                        if (parsed.cover_bg) {
+                            const magBox = document.getElementById('magCoverContainer');
+                            magBox.style.backgroundImage = `linear-gradient(rgba(18,18,18,0.7), rgba(18,18,18,0.7)), url('${parsed.cover_bg}')`;
+                            magBox.style.backgroundSize = 'cover';
+                            magBox.style.backgroundPosition = 'center';
+                        }
+                        if (parsed.issue_title) document.getElementById('magIssueTag').innerText = parsed.issue_title;
+                        if (parsed.vol_badge) document.getElementById('magVolumeBadge').innerText = parsed.vol_badge;
+                        if (parsed.pub_date) document.getElementById('magPublishDate').innerText = parsed.pub_date;
+                    }
+                } catch(e) {}
+
             } catch (e) { console.warn("Dynamic widgets error:", e); }
         }
 
@@ -647,7 +670,7 @@
                 const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
                 updateData['image_url'] = publicUrlData.publicUrl;
                 const imgTag = container.querySelector('[data-cms-field="image_url"]');
-                if (imgTag) { imgTag.src = publicUrlData.publicUrl; imgTag.classList.remove('hidden'); if (imgTag.nextElementSibling) imgTag.nextElementSibling.classList.add('hidden'); }
+                if (imgTag) { imgTag.src = publicUrlData.publicUrl; imgTag.classList.remove('hidden'); if (imgTag.nextElementSibling) imgTag.nextElementSibling.classList.remove('hidden'); }
             } else {
                 if (hiddenImg) updateData['image_url'] = hiddenImg.value;
             }
