@@ -33,8 +33,8 @@
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
         
-        /* Smooth UI Fade-In for CMS Blocks */
-        [data-cms-id] { opacity: 0; transition: opacity 0.4s ease-in-out; }
+        /* Smooth UI Fade-In for CMS & Dynamic Blocks */
+        [data-cms-id], .dynamic-block { opacity: 0; transition: opacity 0.4s ease-in-out; }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
@@ -88,48 +88,53 @@
 
         <!-- ROW 1: 3-COLUMN WEEKLY SPOTLIGHTS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Team of the Week -->
-            <a href="teams.html" data-cms-id="index:spotlight_team" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
+            
+            <!-- Dynamic Team of the Week Card -->
+            <div id="spotlightTeamCard" class="dynamic-block bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
                 <div>
-                    <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Spotlight</span>
-                    <div class="my-3 h-32 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
-                        <img data-cms-field="image_url" src="" alt="Team of the Week" class="w-full h-full object-cover hidden">
-                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ No Media Uploaded ]</span>
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Team Spotlight</span>
+                        <span id="spotlightTeamPts" class="text-brand-gold font-mono text-[10px] font-bold">-- PTS</span>
                     </div>
-                    <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Team of the Week</h3>
-                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Shows an image of the Teams card. Click to open the full Teams Hub.</p>
+                    <div id="spotlightTeamLogoContainer" class="my-3 h-32 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
+                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ Syncing #1 Team... ]</span>
+                    </div>
+                    <h3 id="spotlightTeamTitle" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Loading Team...</h3>
+                    <p id="spotlightTeamMeta" class="text-xs text-gray-400 mt-1">Aggregating weekly Syndicate telemetry...</p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">Open Teams →</span>
+                    <a href="teams.html" class="text-xs font-bold uppercase text-brand-gold hover:underline">Open Teams Hub →</a>
                 </div>
-            </a>
+            </div>
 
-            <!-- Racer of the Week -->
-            <a href="racers.html" data-cms-id="index:spotlight_racer" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between group">
+            <!-- Dynamic Racer of the Week Card -->
+            <div id="spotlightRacerCard" class="dynamic-block bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between group">
                 <div>
-                    <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Spotlight</span>
-                    <div class="my-3 h-32 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
-                        <img data-cms-field="image_url" src="" alt="Racer of the Week" class="w-full h-full object-cover hidden">
-                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ No Media Uploaded ]</span>
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Racer Spotlight</span>
+                        <span id="spotlightRacerPts" class="text-brand-gold font-mono text-[10px] font-bold">-- PTS</span>
                     </div>
-                    <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Racer of the Week</h3>
-                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Shows an image of the Racers card. Click to open the full Racers Hub.</p>
+                    <div id="spotlightRacerPhotoContainer" class="my-3 h-32 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
+                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ Syncing #1 Driver... ]</span>
+                    </div>
+                    <h3 id="spotlightRacerName" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Loading Driver...</h3>
+                    <p id="spotlightRacerMeta" class="text-xs text-gray-400 mt-1">Aggregating weekly grid telemetry...</p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-red">Open Racers →</span>
+                    <a id="spotlightRacerLink" href="racers.html" class="text-xs font-bold uppercase text-brand-red hover:underline">Open Racers Hub →</a>
                 </div>
-            </a>
+            </div>
 
-            <!-- Track of the Week -->
+            <!-- Track of the Week (Manual CMS Editable) -->
             <a href="racetracks.html" data-cms-id="index:spotlight_track" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
                 <div>
-                    <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-gray-800 border border-brand-gold text-brand-gold px-2 py-0.5 rounded">Spotlight</span>
+                    <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-gray-800 border border-brand-gold text-brand-gold px-2 py-0.5 rounded">Track Spotlight</span>
                     <div class="my-3 h-32 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
                         <img data-cms-field="image_url" src="" alt="Track of the Week" class="w-full h-full object-cover hidden">
                         <span class="text-[10px] text-gray-600 uppercase font-mono">[ No Media Uploaded ]</span>
                     </div>
                     <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Track of the Week</h3>
-                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Shows an image of the Track card. Click to open the full Racetracks Hub.</p>
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Featured circuit layout and lap records. Click to open Racetracks Hub.</p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
                     <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">Open Racetracks →</span>
@@ -139,7 +144,7 @@
 
         <!-- ROW 2: 2-COLUMN NEWS & LIVE CHAT PREVIEW WIDGET -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Current News -->
+            <!-- Current News (Manual CMS Editable) -->
             <a href="multimedia.html" data-cms-id="index:news" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
                     <span data-cms-field="label" class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Latest Announcement</span>
@@ -192,66 +197,76 @@
 
         <!-- ROW 3: MAGAZINE & SPONSORS -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Gentle Storm Racing Magazine -->
-            <a href="multimedia.html" data-cms-id="index:magazine" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
+            
+            <!-- Dynamic Magazine Block (Connected to Publication Data / CMS Fallback) -->
+            <a href="multimedia.html" id="magazineWidget" data-cms-id="index:magazine" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
-                    <span data-cms-field="label" class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Publication</span>
-                    <div class="my-3 h-36 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
-                        <img data-cms-field="image_url" src="" alt="Magazine Cover" class="w-full h-full object-cover hidden">
-                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ No Cover Uploaded ]</span>
+                    <div class="flex justify-between items-center">
+                        <span data-cms-field="label" class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Publication</span>
+                        <span id="magIssueTag" class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">Latest Issue</span>
                     </div>
-                    <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Gentle Storm Racing Magazine</h3>
-                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Cover image preview. Click to open the digital magazine reader.</p>
+                    <div class="my-3 h-36 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
+                        <img data-cms-field="image_url" id="magCoverImg" src="" alt="Magazine Cover" class="w-full h-full object-cover hidden">
+                        <span id="magCoverPlaceholder" class="text-[10px] text-gray-600 uppercase font-mono">[ MAGAZINE COVER PREVIEW ]</span>
+                    </div>
+                    <h3 data-cms-field="title" id="magTitle" class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Gentle Storm Racing Magazine</h3>
+                    <p data-cms-field="desc" id="magDesc" class="text-xs text-gray-400 mt-2">Explore driver interviews, tech breakdowns of the Pro Plus telemetry framework, and expert circuit guides.</p>
                 </div>
                 <div class="mt-4 pt-3 border-t border-brand-border text-right">
-                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">View Issue →</span>
+                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">Read Issue →</span>
                 </div>
             </a>
 
-            <!-- Sponsors Banner -->
+            <!-- Sponsors Banner (Manual CMS Editable) -->
             <div data-cms-id="index:sponsors" class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-center items-center text-center">
                 <h3 data-cms-field="title" class="text-xl font-black uppercase tracking-wider text-brand-gold mb-2">Sponsors</h3>
                 <p data-cms-field="desc" class="text-xs text-gray-400">Official Partners & League Sponsors</p>
+                <div class="flex flex-wrap justify-center items-center gap-6 mt-4 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest">
+                    <span>[ Second Life Motors ]</span>
+                    <span>[ Linden Fuel Co. ]</span>
+                    <span>[ StormTech HUDs ]</span>
+                </div>
             </div>
         </section>
 
         <!-- ROW 4: 3-COLUMN STATS, EVENTS & HIGHLIGHTS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
-            <!-- Top 3 Racers Block -->
-            <a href="leaderboard_view.html?category=racer" data-cms-id="index:top_racers" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 flex flex-col justify-between transition group">
+            <!-- Dynamic Top 3 Racers Leaderboard Box -->
+            <div class="dynamic-block bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between transition group">
                 <div>
-                    <h3 data-cms-field="title" class="text-base font-black uppercase text-white mb-3 group-hover:text-brand-gold transition">Top 3 Racers</h3>
-                    <div class="space-y-2">
-                        <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-gold"><span class="text-brand-gold font-black italic text-[10px] w-3">1</span><span class="text-white text-[10px] font-bold uppercase">Deathstalker Paine</span></div>
-                        <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-border"><span class="text-gray-400 font-black italic text-[10px] w-3">2</span><span class="text-gray-300 text-[10px] font-bold uppercase">Vortex_SL</span></div>
-                        <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-border"><span class="text-gray-500 font-black italic text-[10px] w-3">3</span><span class="text-gray-400 text-[10px] font-bold uppercase">BlazeRunner</span></div>
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-base font-black uppercase text-white">Top 3 Racers</h3>
+                        <span class="text-[9px] font-black uppercase text-brand-gold">Overall Standings</span>
+                    </div>
+                    <div id="top3RacersContainer" class="space-y-2">
+                        <div class="text-xs text-gray-500 font-mono text-center py-4">[ Querying driver stats... ]</div>
                     </div>
                 </div>
-                <div class="mt-4 text-[10px] font-bold uppercase text-brand-gold group-hover:text-white transition">
-                    <span data-cms-field="link_text">View Full Leaderboards →</span>
+                <div class="mt-4 pt-3 border-t border-brand-border">
+                    <a href="leaderboard_view.html?category=racer" class="text-[10px] font-bold uppercase text-brand-gold hover:text-white transition block text-right">View Full Leaderboard →</a>
                 </div>
-            </a>
+            </div>
 
-            <!-- Next Event -->
+            <!-- Dynamic Next Event (Synced to Calendar) -->
             <a href="upcoming_events.html" data-cms-id="index:next_event" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
-                    <span data-cms-field="label" class="text-[10px] font-black uppercase text-brand-red tracking-wider">Schedule</span>
-                    <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Next Event</h3>
-                    <p data-cms-field="event_name" class="text-xs font-black text-brand-gold mt-1">Pro Plus Grand Prix Round 1</p>
-                    <p data-cms-field="event_details" class="text-[11px] text-gray-400 mt-1">Oct 5, 2026 • 8:00 PM SLT • Ancient Rome</p>
+                    <span id="indexNextEventTag" data-cms-field="label" class="text-[10px] font-black uppercase text-brand-red bg-red-950/60 border border-brand-red/30 px-2 py-0.5 rounded tracking-wider">Schedule</span>
+                    <h3 data-cms-field="title" id="indexNextEventTitle" class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Next Event</h3>
+                    <p data-cms-field="event_name" id="indexNextEventSub" class="text-xs font-black text-brand-gold mt-1">Loading Schedule...</p>
+                    <p data-cms-field="event_details" id="indexNextEventDesc" class="text-[11px] text-gray-400 mt-1">Querying official calendar schedule...</p>
                 </div>
                 <div class="mt-4 pt-3 border-t border-brand-border text-right">
-                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">Event Details →</span>
+                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">View Calendar →</span>
                 </div>
             </a>
 
-            <!-- Race Highlights -->
+            <!-- Race Highlights (Manual CMS Editable) -->
             <a href="multimedia.html" data-cms-id="index:highlights" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
                     <span data-cms-field="label" class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Media</span>
                     <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Race Highlights</h3>
-                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Featured video reels, text summaries, and photo galleries.</p>
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Featured video reels, text summaries, and photo galleries from recent events.</p>
                 </div>
                 <div class="mt-4 pt-3 border-t border-brand-border text-right">
                     <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">Watch Replays →</span>
@@ -259,9 +274,9 @@
             </a>
         </section>
 
-        <!-- ROW 5: LEAGUES OVERVIEW & SYSTEM STATUS -->
+        <!-- ROW 5: LEAGUES OVERVIEW & LIVE SYSTEM STATUS -->
         <section class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            <!-- GSR Leagues (Spans 3 Columns) -->
+            <!-- GSR Leagues (Spans 3 Columns, CMS Editable) -->
             <a href="leagues.html" data-cms-id="index:leagues" class="lg:col-span-3 bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-8 transition flex flex-col justify-between group">
                 <div>
                     <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Championships</span>
@@ -275,17 +290,17 @@
                 </div>
             </a>
 
-            <!-- GSR System Status (1 Column) -->
-            <div data-cms-id="index:system_status" class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
+            <!-- GSR System Status (LIVE ACTIVE MONITOR) -->
+            <div id="systemStatusCard" class="dynamic-block bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between">
                 <div>
-                    <span data-cms-field="label" class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Infrastructure</span>
-                    <h3 data-cms-field="title" class="text-base font-black uppercase text-white mt-2">GSR System Status</h3>
+                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Infrastructure</span>
+                    <h3 class="text-base font-black uppercase text-white mt-2">GSR System Status</h3>
                     <div class="mt-3 flex items-center space-x-2">
-                        <span class="h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse"></span>
-                        <span data-cms-field="status" class="text-xs font-bold text-green-400 uppercase">All Systems Operational</span>
+                        <span id="systemStatusBadge" class="h-2.5 w-2.5 rounded-full bg-yellow-500 animate-pulse"></span>
+                        <span id="systemStatusText" class="text-xs font-bold text-yellow-400 uppercase">Testing Telemetry...</span>
                     </div>
                 </div>
-                <p data-cms-field="desc" class="text-[10px] text-gray-500 mt-4">Supabase DB & Cloudflare Workers Active</p>
+                <p id="systemStatusPing" class="text-[10px] text-gray-500 font-mono mt-4">Pinging Supabase DB & Cloudflare Workers...</p>
             </div>
         </section>
 
@@ -371,7 +386,7 @@
         const db = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         // ==========================
-        // UI & AUTH INITIALIZATION
+        // MAIN INITIALIZATION
         // ==========================
         async function initMainMenu() {
             const { data: { session } } = await db.auth.getSession();
@@ -434,9 +449,125 @@
                 }
             }
 
-            loadCMSContent();
+            // Load all site components
+            await loadDynamicWidgets();
+            await loadCMSContent();
             loadIndexChatWidget();
             subscribeToIndexRealtime();
+            checkLiveSystemStatus();
+        }
+
+        // ==========================
+        // DYNAMIC STATS & WIDGET LOADERS
+        // ==========================
+        async function loadDynamicWidgets() {
+            // 1. RACER OF THE WEEK & TOP 3 RACERS
+            const { data: racers } = await db.from('racers').select('*');
+            if (racers && racers.length > 0) {
+                const sortedRacers = [...racers].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
+                
+                // Racer of the week (#1)
+                const topRacer = sortedRacers[0];
+                if (topRacer) {
+                    document.getElementById('spotlightRacerName').innerText = topRacer.display_name;
+                    document.getElementById('spotlightRacerPts').innerText = `${(topRacer.rating_points || 0).toLocaleString()} PTS`;
+                    document.getElementById('spotlightRacerMeta').innerText = `Car #${topRacer.racer_number || topRacer.car_number || '--'} • ${topRacer.wins || 0} Wins`;
+                    document.getElementById('spotlightRacerLink').href = `racer.html?driver=${encodeURIComponent(topRacer.display_name)}`;
+                    
+                    const photoBox = document.getElementById('spotlightRacerPhotoContainer');
+                    if (topRacer.driver_photo || topRacer.photo_url) {
+                        photoBox.innerHTML = `<img src="${topRacer.driver_photo || topRacer.photo_url}" alt="${escapeHtml(topRacer.display_name)}" class="w-full h-full object-cover">`;
+                    } else {
+                        photoBox.innerHTML = `<span class="text-xs text-gray-500 font-bold uppercase tracking-widest">[ ${escapeHtml(topRacer.display_name)} ]</span>`;
+                    }
+                }
+
+                // Top 3 Racers Leaderboard Box
+                const top3Box = document.getElementById('top3RacersContainer');
+                if (top3Box) {
+                    top3Box.innerHTML = '';
+                    const borderColors = ['border-brand-gold', 'border-brand-border', 'border-brand-border'];
+                    const rankColors = ['text-brand-gold', 'text-gray-400', 'text-gray-500'];
+                    
+                    sortedRacers.slice(0, 3).forEach((r, idx) => {
+                        top3Box.innerHTML += `
+                            <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border ${borderColors[idx] || 'border-brand-border'} cursor-pointer hover:border-brand-gold transition" onclick="window.location='racer.html?driver=${encodeURIComponent(r.display_name)}'">
+                                <span class="${rankColors[idx]} font-black italic text-[10px] w-3">${idx + 1}</span>
+                                <span class="text-white text-[10px] font-bold uppercase flex-grow truncate">${escapeHtml(r.display_name)}</span>
+                                <span class="text-[9px] text-gray-400 font-mono">${(r.rating_points || 0).toLocaleString()} PTS</span>
+                            </div>
+                        `;
+                    });
+                }
+            }
+
+            // 2. TEAM OF THE WEEK (Aggregated from gsr_profiles)
+            const { data: profiles } = await db.from('gsr_profiles').select('*');
+            if (profiles && profiles.length > 0) {
+                const teamMap = {};
+                profiles.forEach(p => {
+                    const tName = p.team_name || p.team || 'Unassigned';
+                    if (tName !== 'Unassigned' && tName.trim() !== '') {
+                        if (!teamMap[tName]) teamMap[tName] = { name: tName, pts: 0, wins: 0, leader: p.sl_legacy_name };
+                        teamMap[tName].pts += (p.rating || 500);
+                        teamMap[tName].wins += (p.wins || 0);
+                    }
+                });
+
+                const teamsArray = Object.values(teamMap).sort((a,b) => b.pts - a.pts);
+                if (teamsArray.length > 0) {
+                    const topTeam = teamsArray[0];
+                    document.getElementById('spotlightTeamTitle').innerText = topTeam.name;
+                    document.getElementById('spotlightTeamPts').innerText = `${topTeam.pts.toLocaleString()} PTS`;
+                    document.getElementById('spotlightTeamMeta').innerText = `Leader: ${topTeam.leader || 'Active'} • ${topTeam.wins} Team Wins`;
+                    
+                    const logoBox = document.getElementById('spotlightTeamLogoContainer');
+                    logoBox.innerHTML = `<span class="text-sm font-black text-brand-gold uppercase tracking-widest">[ ${escapeHtml(topTeam.name)} ]</span>`;
+                }
+            }
+
+            // 3. NEXT CALENDAR EVENT
+            const todayStr = new Date().toISOString().split('T')[0];
+            const { data: events } = await db.from('gsr_events').select('*').gte('event_date', todayStr).order('event_date', { ascending: true }).limit(1);
+
+            if (events && events.length > 0) {
+                const ev = events[0];
+                document.getElementById('indexNextEventTag').innerText = `${ev.event_date} • ${ev.event_time || 'TBD'}`;
+                document.getElementById('indexNextEventSub').innerText = ev.title;
+                document.getElementById('indexNextEventDesc').innerText = ev.description || ev.category || 'Official League Sanctioned Round';
+            } else {
+                document.getElementById('indexNextEventTag').innerText = "Schedule Notice";
+                document.getElementById('indexNextEventSub').innerText = "No Upcoming Events";
+                document.getElementById('indexNextEventDesc').innerText = "Check back soon or open the calendar to view full season schedule.";
+            }
+
+            // Reveal all dynamic blocks smoothly
+            document.querySelectorAll('.dynamic-block').forEach(el => el.style.opacity = '1');
+        }
+
+        // ==========================
+        // LIVE SYSTEM STATUS MONITOR
+        // ==========================
+        async function checkLiveSystemStatus() {
+            const statusText = document.getElementById('systemStatusText');
+            const statusBadge = document.getElementById('systemStatusBadge');
+            const statusPing = document.getElementById('systemStatusPing');
+
+            const start = Date.now();
+            try {
+                const { error } = await db.from('site_content').select('section_id').limit(1);
+                const latency = Date.now() - start;
+
+                if (!error) {
+                    if (statusText) { statusText.innerText = "All Systems Operational"; statusText.className = "text-xs font-bold text-green-400 uppercase"; }
+                    if (statusBadge) { statusBadge.className = "h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse"; }
+                    if (statusPing) { statusPing.innerText = `Supabase DB & Cloudflare Workers Active (${latency}ms)`; }
+                } else { throw error; }
+            } catch (e) {
+                if (statusText) { statusText.innerText = "Degraded Performance"; statusText.className = "text-xs font-bold text-red-400 uppercase"; }
+                if (statusBadge) { statusBadge.className = "h-2.5 w-2.5 rounded-full bg-red-500 animate-pulse"; }
+                if (statusPing) { statusPing.innerText = "DB Connection Timeout detected"; }
+            }
         }
 
         // ==========================
@@ -585,107 +716,98 @@
         }
 
         window.saveCMSModal = async function() {
-    const container = document.querySelector(`[data-cms-id="${currentEditId}"]`);
-    const fields = Array.from(container.querySelectorAll('[data-cms-field]'));
-    let updateData = {};
-    
-    const clearImageCheckbox = document.getElementById('cms_clear_image');
-    const fileInput = document.getElementById('cms_input_file');
-    const hiddenImg = document.getElementById('cms_input_image_url');
-    let oldImageUrl = hiddenImg ? hiddenImg.value : '';
+            const container = document.querySelector(`[data-cms-id="${currentEditId}"]`);
+            const fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+            let updateData = {};
+            
+            const clearImageCheckbox = document.getElementById('cms_clear_image');
+            const fileInput = document.getElementById('cms_input_file');
+            const hiddenImg = document.getElementById('cms_input_image_url');
+            let oldImageUrl = hiddenImg ? hiddenImg.value : '';
 
-    // Helper function to extract filename from public URL for deletion
-    function getFileNameFromUrl(url) {
-        if (!url) return null;
-        try {
-            const parts = url.split('/');
-            return parts[parts.length - 1];
-        } catch (e) {
-            return null;
-        }
-    }
-    
-    if (clearImageCheckbox && clearImageCheckbox.checked) {
-        updateData['image_url'] = '';
-        
-        // Delete old file from Supabase storage if it exists
-        if (oldImageUrl) {
-            const oldFileName = getFileNameFromUrl(oldImageUrl);
-            if (oldFileName) {
-                await db.storage.from('admin-assets').remove([oldFileName]);
+            function getFileNameFromUrl(url) {
+                if (!url) return null;
+                try {
+                    const parts = url.split('/');
+                    return parts[parts.length - 1];
+                } catch (e) { return null; }
             }
-        }
+            
+            if (clearImageCheckbox && clearImageCheckbox.checked) {
+                updateData['image_url'] = '';
+                
+                if (oldImageUrl) {
+                    const oldFileName = getFileNameFromUrl(oldImageUrl);
+                    if (oldFileName) { await db.storage.from('admin-assets').remove([oldFileName]); }
+                }
 
-        const imgTag = container.querySelector('[data-cms-field="image_url"]');
-        if (imgTag) {
-            imgTag.src = '';
-            imgTag.classList.add('hidden');
-            const placeholder = imgTag.nextElementSibling;
-            if (placeholder) placeholder.classList.remove('hidden');
-        }
-    } else if (fileInput && fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
-        
-        const { data: uploadData, error: uploadError } = await db.storage
-            .from('admin-assets')
-            .upload(fileName, file);
+                const imgTag = container.querySelector('[data-cms-field="image_url"]');
+                if (imgTag) {
+                    imgTag.src = '';
+                    imgTag.classList.add('hidden');
+                    const placeholder = imgTag.nextElementSibling;
+                    if (placeholder) placeholder.classList.remove('hidden');
+                }
+            } else if (fileInput && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+                
+                const { data: uploadData, error: uploadError } = await db.storage
+                    .from('admin-assets')
+                    .upload(fileName, file);
 
-        if (uploadError) {
-            alert("Media upload failed: " + uploadError.message);
-            return;
-        }
+                if (uploadError) {
+                    alert("Media upload failed: " + uploadError.message);
+                    return;
+                }
 
-        // Delete previous old file if replacing it
-        if (oldImageUrl) {
-            const oldFileName = getFileNameFromUrl(oldImageUrl);
-            if (oldFileName) {
-                await db.storage.from('admin-assets').remove([oldFileName]);
+                if (oldImageUrl) {
+                    const oldFileName = getFileNameFromUrl(oldImageUrl);
+                    if (oldFileName) { await db.storage.from('admin-assets').remove([oldFileName]); }
+                }
+
+                const { data: publicUrlData } = db.storage
+                    .from('admin-assets')
+                    .getPublicUrl(fileName);
+
+                updateData['image_url'] = publicUrlData.publicUrl;
+                
+                const imgTag = container.querySelector('[data-cms-field="image_url"]');
+                if (imgTag) {
+                    imgTag.src = publicUrlData.publicUrl;
+                    imgTag.classList.remove('hidden');
+                    const placeholder = imgTag.nextElementSibling;
+                    if (placeholder) placeholder.classList.add('hidden');
+                }
+            } else {
+                if (hiddenImg) updateData['image_url'] = hiddenImg.value;
             }
-        }
 
-        const { data: publicUrlData } = db.storage
-            .from('admin-assets')
-            .getPublicUrl(fileName);
-
-        updateData['image_url'] = publicUrlData.publicUrl;
-        
-        const imgTag = container.querySelector('[data-cms-field="image_url"]');
-        if (imgTag) {
-            imgTag.src = publicUrlData.publicUrl;
-            imgTag.classList.remove('hidden');
-            const placeholder = imgTag.nextElementSibling;
-            if (placeholder) placeholder.classList.add('hidden');
-        }
-    } else {
-        if (hiddenImg) updateData['image_url'] = hiddenImg.value;
-    }
-
-    fields.forEach(f => {
-        const fieldName = f.getAttribute('data-cms-field');
-        if (fieldName !== 'image_url') {
-            const inputEl = document.getElementById(`cms_input_${fieldName}`);
-            if (inputEl) {
-                const newVal = inputEl.value;
-                updateData[fieldName] = newVal;
-                f.innerText = newVal;
+            fields.forEach(f => {
+                const fieldName = f.getAttribute('data-cms-field');
+                if (fieldName !== 'image_url') {
+                    const inputEl = document.getElementById(`cms_input_${fieldName}`);
+                    if (inputEl) {
+                        const newVal = inputEl.value;
+                        updateData[fieldName] = newVal;
+                        f.innerText = newVal;
+                    }
+                }
+            });
+            
+            const linkInput = document.getElementById('cms_input_link_url');
+            if (linkInput) {
+                updateData['link_url'] = linkInput.value;
+                container.setAttribute('href', linkInput.value);
             }
-        }
-    });
-    
-    const linkInput = document.getElementById('cms_input_link_url');
-    if (linkInput) {
-        updateData['link_url'] = linkInput.value;
-        container.setAttribute('href', linkInput.value);
-    }
-    
-    const { error } = await db.from('site_content').upsert([{
-        section_id: currentEditId,
-        content_value: JSON.stringify(updateData)
-    }]);
-    
-    if (error) alert("Save failed: " + error.message);
-    closeCMSModal();
+            
+            const { error } = await db.from('site_content').upsert([{
+                section_id: currentEditId,
+                content_value: JSON.stringify(updateData)
+            }]);
+            
+            if (error) alert("Save failed: " + error.message);
+            closeCMSModal();
         }
 
         // ==========================
