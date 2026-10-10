@@ -89,6 +89,10 @@
             <a href="teams.html" data-cms-id="index:spotlight_team" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
                 <div>
                     <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Spotlight</span>
+                    <div class="my-3 h-32 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
+                        <img data-cms-field="image_url" src="" alt="Team of the Week" class="w-full h-full object-cover hidden">
+                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ No Media Uploaded ]</span>
+                    </div>
                     <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Team of the Week</h3>
                     <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Shows an image of the Teams card. Click to open the full Teams Hub.</p>
                 </div>
@@ -101,6 +105,10 @@
             <a href="racers.html" data-cms-id="index:spotlight_racer" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 red-border-glow transition flex flex-col justify-between group">
                 <div>
                     <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Spotlight</span>
+                    <div class="my-3 h-32 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
+                        <img data-cms-field="image_url" src="" alt="Racer of the Week" class="w-full h-full object-cover hidden">
+                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ No Media Uploaded ]</span>
+                    </div>
                     <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Racer of the Week</h3>
                     <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Shows an image of the Racers card. Click to open the full Racers Hub.</p>
                 </div>
@@ -113,6 +121,10 @@
             <a href="racetracks.html" data-cms-id="index:spotlight_track" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 gold-border-glow transition flex flex-col justify-between group">
                 <div>
                     <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-gray-800 border border-brand-gold text-brand-gold px-2 py-0.5 rounded">Spotlight</span>
+                    <div class="my-3 h-32 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
+                        <img data-cms-field="image_url" src="" alt="Track of the Week" class="w-full h-full object-cover hidden">
+                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ No Media Uploaded ]</span>
+                    </div>
                     <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Track of the Week</h3>
                     <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Shows an image of the Track card. Click to open the full Racetracks Hub.</p>
                 </div>
@@ -181,6 +193,10 @@
             <a href="multimedia.html" data-cms-id="index:magazine" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
                     <span data-cms-field="label" class="text-[10px] font-black uppercase text-brand-gold tracking-wider">Publication</span>
+                    <div class="my-3 h-36 w-full bg-brand-bg border border-brand-border rounded-lg overflow-hidden flex items-center justify-center">
+                        <img data-cms-field="image_url" src="" alt="Magazine Cover" class="w-full h-full object-cover hidden">
+                        <span class="text-[10px] text-gray-600 uppercase font-mono">[ No Cover Uploaded ]</span>
+                    </div>
                     <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Gentle Storm Racing Magazine</h3>
                     <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Cover image preview. Click to open the digital magazine reader.</p>
                 </div>
@@ -371,7 +387,6 @@
                 currentProfile = profile;
                 const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
 
-                // Desktop Nav HTML (Grouped in top right)
                 if (userNav) {
                     let adminBtnHTML = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-xs uppercase font-black px-3 py-2 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
 
@@ -391,7 +406,6 @@
                     `;
                 }
 
-                // Mobile Nav HTML (Stacked below logo)
                 if (userNavMobile) {
                     let adminBtnMobileHTML = profile?.is_admin ? `<button onclick="toggleEditMode()" class="bg-brand-blue text-white text-[10px] uppercase font-black px-3 py-1.5 rounded shadow cursor-pointer">✏️ Edit Mode</button>` : '';
 
@@ -423,7 +437,7 @@
         }
 
         // ==========================
-        // INLINE CMS ENGINE
+        // INLINE CMS ENGINE WITH MEDIA UPLOAD
         // ==========================
         async function loadCMSContent() {
             const { data, error } = await db.from('site_content').select('*').like('section_id', 'index:%');
@@ -439,6 +453,18 @@
                     Object.keys(content).forEach(key => {
                         if (key === 'link_url') {
                             container.setAttribute('href', content[key]);
+                        } else if (key === 'image_url') {
+                            const img = container.querySelector(`[data-cms-field="image_url"]`);
+                            if (img) {
+                                if (content[key]) {
+                                    img.src = content[key];
+                                    img.classList.remove('hidden');
+                                    const placeholder = img.nextElementSibling;
+                                    if (placeholder) placeholder.classList.add('hidden');
+                                } else {
+                                    img.classList.add('hidden');
+                                }
+                            }
                         } else {
                             const el = container.querySelector(`[data-cms-field="${key}"]`);
                             if (el) el.innerText = content[key];
@@ -495,14 +521,25 @@
             
             fields.forEach(f => {
                 const fieldName = f.getAttribute('data-cms-field');
-                const currentText = f.innerText;
                 
-                formContainer.innerHTML += `
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-black uppercase text-gray-400 tracking-wider">${fieldName.replace('_', ' ')}</label>
-                        <textarea id="cms_input_${fieldName}" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded outline-none focus:border-brand-gold resize-none">${escapeHtml(currentText)}</textarea>
-                    </div>
-                `;
+                if (fieldName === 'image_url') {
+                    const currentImgSrc = container.querySelector('[data-cms-field="image_url"]')?.src || '';
+                    formContainer.innerHTML += `
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black uppercase text-gray-400 tracking-wider">Upload Image / Video</label>
+                            <input type="file" id="cms_input_file" accept="image/*,video/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-2 rounded outline-none focus:border-brand-gold file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-bold file:bg-brand-gold file:text-black cursor-pointer">
+                            <input type="hidden" id="cms_input_image_url" value="${escapeHtml(currentImgSrc.includes(location.host) ? '' : currentImgSrc)}">
+                        </div>
+                    `;
+                } else {
+                    const currentText = f.innerText;
+                    formContainer.innerHTML += `
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black uppercase text-gray-400 tracking-wider">${fieldName.replace('_', ' ')}</label>
+                            <textarea id="cms_input_${fieldName}" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded outline-none focus:border-brand-gold resize-none">${escapeHtml(currentText)}</textarea>
+                        </div>
+                    `;
+                }
             });
             
             if (container.tagName === 'A' || container.getAttribute('href')) {
@@ -538,11 +575,49 @@
             const fields = Array.from(container.querySelectorAll('[data-cms-field]'));
             let updateData = {};
             
+            // Check for file upload
+            const fileInput = document.getElementById('cms_input_file');
+            if (fileInput && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+                
+                const { data: uploadData, error: uploadError } = await db.storage
+                    .from('admin-assets')
+                    .upload(fileName, file);
+
+                if (uploadError) {
+                    alert("Media upload failed: " + uploadError.message);
+                    return;
+                }
+
+                const { data: publicUrlData } = db.storage
+                    .from('admin-assets')
+                    .getPublicUrl(fileName);
+
+                updateData['image_url'] = publicUrlData.publicUrl;
+                
+                const imgTag = container.querySelector('[data-cms-field="image_url"]');
+                if (imgTag) {
+                    imgTag.src = publicUrlData.publicUrl;
+                    imgTag.classList.remove('hidden');
+                    const placeholder = imgTag.nextElementSibling;
+                    if (placeholder) placeholder.classList.add('hidden');
+                }
+            } else {
+                const hiddenImg = document.getElementById('cms_input_image_url');
+                if (hiddenImg) updateData['image_url'] = hiddenImg.value;
+            }
+
             fields.forEach(f => {
                 const fieldName = f.getAttribute('data-cms-field');
-                const newVal = document.getElementById(`cms_input_${fieldName}`).value;
-                updateData[fieldName] = newVal;
-                f.innerText = newVal;
+                if (fieldName !== 'image_url') {
+                    const inputEl = document.getElementById(`cms_input_${fieldName}`);
+                    if (inputEl) {
+                        const newVal = inputEl.value;
+                        updateData[fieldName] = newVal;
+                        f.innerText = newVal;
+                    }
+                }
             });
             
             const linkInput = document.getElementById('cms_input_link_url');
