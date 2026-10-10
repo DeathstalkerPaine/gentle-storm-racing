@@ -3,165 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GSR Admin Portal | Method A</title>
+    <title>Admin Control Center | Gentle Storm Racing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            bg: '#121212',
-                            card: '#1e1e1e',
-                            border: '#333333',
-                            gold: '#c5a059',
-                            red: '#ff2a2a'
-                        }
-                    }
-                }
-            }
-        }
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
     </script>
     <style>
-        .drag-handle { cursor: grab; }
-        .drag-handle:active { cursor: grabbing; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- TOP ADMIN NAV -->
-    <header class="bg-brand-card border-b border-brand-gold sticky top-0 z-50">
-        <div class="max-w-screen-2xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-                <span class="text-xl font-black tracking-widest uppercase text-white">GSR<span class="text-brand-red">ADMIN</span></span>
-                
-                <!-- Page Selector -->
-                <div class="hidden md:flex items-center space-x-2 border-l border-brand-border pl-4">
-                    <span class="text-xs uppercase font-bold text-gray-400">Page:</span>
-                    <select id="page-selector" class="bg-brand-bg border border-brand-border rounded px-3 py-1 text-sm font-bold text-brand-gold focus:outline-none focus:border-brand-gold">
-                        <option value="main_menu">GSR Main Menu</option>
-                        <option value="pro_plus_hub">Pro Plus Hub</option>
-                        <option value="pro_league">GSR Pro League</option>
-                        <option value="racetracks">Racetracks</option>
-                        <option value="faq">FAQ & TOS</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Tab Modes -->
-            <div class="flex items-center space-x-2 bg-brand-bg p-1 rounded border border-brand-border">
-                <button onclick="switchTab('content-tab')" id="btn-content-tab" class="admin-tab active bg-brand-card text-brand-gold px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider transition">✏️ Edit Content</button>
-                <button onclick="switchTab('approval-tab')" id="btn-approval-tab" class="admin-tab hover:bg-brand-card text-gray-400 px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider transition">📥 Approvals <span class="bg-brand-red text-white px-1.5 py-0.5 rounded ml-1">3</span></button>
-                <button onclick="switchTab('store-tab')" id="btn-store-tab" class="admin-tab hover:bg-brand-card text-gray-400 px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider transition">🛒 Store Mgr</button>
-            </div>
-
-            <!-- Publish Button -->
+    <!-- ADMIN HEADER -->
+    <header class="bg-brand-card border-b border-brand-red relative py-6 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
             <div>
-                <button onclick="publishLive()" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase tracking-widest text-xs px-6 py-2 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition">
-                    Publish Live
-                </button>
+                <span class="text-[10px] font-black uppercase tracking-[0.3em] text-brand-red">Restricted Access</span>
+                <h1 class="text-2xl font-black uppercase tracking-wider text-white">Grid Command Control Panel</h1>
             </div>
+            <a href="index.html" class="text-xs font-bold uppercase bg-brand-bg border border-brand-border px-4 py-2 rounded hover:border-brand-gold transition">Exit to Main Site →</a>
         </div>
     </header>
 
-    <main class="flex-grow max-w-screen-xl w-full mx-auto px-4 py-8">
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 space-y-12">
 
-        <!-- TAB 1: CONTENT EDITOR -->
-        <div id="content-tab" class="tab-content space-y-6">
-            <div id="editor-sections" class="space-y-6">
-                <div class="bg-brand-card border border-brand-border rounded-lg flex shadow-lg relative group">
-                    <div class="w-12 bg-black/40 flex items-center justify-center border-r border-brand-border rounded-l-lg drag-handle text-gray-500 hover:text-brand-gold transition">
-                        ⋮⋮
+        <!-- ACCESS LOCK MESSAGE (Hidden if Admin) -->
+        <div id="authLockBox" class="bg-brand-card border border-brand-red rounded-xl p-12 text-center space-y-4">
+            <h2 class="text-xl font-black uppercase text-brand-red tracking-widest">Authentication Required</h2>
+            <p class="text-xs text-gray-400">You must be signed in with an authorized administrator account to access this terminal.</p>
+            <a href="index.html" class="inline-block bg-brand-bg border border-brand-border text-white text-xs font-bold uppercase px-6 py-3 rounded hover:border-brand-gold transition">Return Home</a>
+        </div>
+
+        <!-- ACTUAL ADMIN PANEL (Visible ONLY to Admins) -->
+        <div id="adminPanelContent" class="space-y-10 hidden">
+            
+            <!-- SECTION 1: LIVE CONTENT EDITOR -->
+            <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl space-y-6">
+                <div>
+                    <h2 class="text-sm font-black uppercase text-brand-gold tracking-widest">Live Page Content Manager</h2>
+                    <p class="text-xs text-gray-400 mt-1">Modify headline banners and notices instantly across the live web portal without redeploying code.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Home Main Headline</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="content_home_main_headline" class="flex-grow bg-brand-bg border border-brand-border text-white text-xs px-3 py-2 rounded outline-none focus:border-brand-gold">
+                            <button onclick="saveContent('home_main_headline')" class="bg-brand-gold text-black font-black uppercase text-[10px] px-4 py-2 rounded cursor-pointer hover:bg-yellow-600 transition">Save</button>
+                        </div>
                     </div>
-                    <div class="p-6 flex-grow flex items-center justify-between">
-                        <div class="space-y-2 w-full">
-                            <label class="text-xs uppercase font-bold text-gray-400">Section: Header Graphic</label>
-                            <div class="flex items-center space-x-4">
-                                <div class="h-20 w-64 bg-brand-bg border border-dashed border-gray-600 rounded flex flex-col items-center justify-center text-gray-500 hover:text-brand-gold hover:border-brand-gold transition cursor-pointer">
-                                    <span class="text-xl">📷</span>
-                                    <span class="text-[10px] uppercase mt-1">Upload Photo</span>
-                                </div>
-                                <div class="flex-grow">
-                                    <input type="text" value="GSR Pro League" class="w-full bg-brand-bg border border-brand-border rounded p-3 text-lg font-black text-white focus:outline-none focus:border-brand-gold" placeholder="CSS Header Fallback Text">
-                                </div>
-                            </div>
+
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Home Sub Headline</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="content_home_sub_headline" class="flex-grow bg-brand-bg border border-brand-border text-white text-xs px-3 py-2 rounded outline-none focus:border-brand-gold">
+                            <button onclick="saveContent('home_sub_headline')" class="bg-brand-gold text-black font-black uppercase text-[10px] px-4 py-2 rounded cursor-pointer hover:bg-yellow-600 transition">Save</button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="bg-brand-bg border-2 border-dashed border-brand-border rounded-lg p-6 text-center space-y-4">
-                <h3 class="text-sm font-black uppercase text-gray-400 tracking-wider">+ Add New Content Row</h3>
-                <div class="flex justify-center space-x-4">
-                    <button onclick="addSection('hero')" class="bg-brand-card hover:bg-[#2a2a2a] border border-gray-600 px-4 py-2 rounded text-xs font-bold uppercase text-white transition">Full Width Banner</button>
-                    <button onclick="addSection('2col')" class="bg-brand-card hover:bg-[#2a2a2a] border border-gray-600 px-4 py-2 rounded text-xs font-bold uppercase text-white transition">2-Column Cards</button>
-                    <button onclick="addSection('3col')" class="bg-brand-card hover:bg-[#2a2a2a] border border-gray-600 px-4 py-2 rounded text-xs font-bold uppercase text-white transition">3-Column Cards</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 2: APPROVALS QUEUE -->
-        <div id="approval-tab" class="tab-content hidden space-y-6">
-            <div class="flex justify-between items-end border-b border-brand-border pb-4">
+            <!-- SECTION 2: PENDING RACER & TEAM APPROVAL QUEUE -->
+            <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl space-y-6">
                 <div>
-                    <h2 class="text-2xl font-black uppercase tracking-wider text-white">Pending Approvals</h2>
-                    <p class="text-xs text-gray-400">Review driver and team updates before they go live.</p>
+                    <h2 class="text-sm font-black uppercase text-brand-blue tracking-widest">Racer & Syndicate Approval Queue</h2>
+                    <p class="text-xs text-gray-400 mt-1">Review profile edits, headshots, and stat changes submitted by community members.</p>
                 </div>
-            </div>
 
-            <div class="bg-brand-card border border-brand-border rounded-lg p-6 shadow-lg">
-                <div class="flex justify-between items-start mb-4">
-                    <div class="flex items-center space-x-3">
-                        <span class="bg-brand-gold text-black text-[10px] font-black uppercase px-2 py-1 rounded">Driver Bio</span>
-                        <h3 class="font-bold text-white uppercase tracking-wider">Deathstalker Paine</h3>
-                    </div>
-                    <span class="text-xs text-gray-500">Submitted: 2 hrs ago</span>
+                <div class="bg-brand-bg border border-brand-border rounded-xl overflow-hidden">
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="bg-[#111] text-gray-400 uppercase font-black border-b border-brand-border">
+                                <th class="py-3 px-4">Racer / User</th>
+                                <th class="py-3 px-4">Update Type</th>
+                                <th class="py-3 px-4">Proposed Value</th>
+                                <th class="py-3 px-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pendingQueueTable" class="divide-y divide-brand-border text-gray-300">
+                            <tr><td colspan="4" class="py-6 text-center text-gray-500 font-mono">[ Scanning queue... ]</td></tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="flex justify-end space-x-3 mt-4">
-                    <button class="bg-brand-bg border border-gray-600 hover:border-brand-red hover:text-brand-red text-gray-400 text-xs font-bold uppercase px-4 py-2 rounded transition">Reject</button>
-                    <button class="bg-brand-gold hover:bg-yellow-500 text-black text-xs font-black uppercase tracking-wider px-6 py-2 rounded transition">Approve & Publish</button>
-                </div>
-            </div>
-        </div>
+            </section>
 
-        <!-- TAB 3: STORE MANAGER -->
-        <div id="store-tab" class="tab-content hidden space-y-6">
-            <div class="flex justify-between items-end border-b border-brand-border pb-4">
-                <div>
-                    <h2 class="text-2xl font-black uppercase tracking-wider text-white">GSRacing Store Manager</h2>
-                    <p class="text-xs text-gray-400">Publish vehicles, parts, and merchandise to the Second Life Catalog.</p>
-                </div>
-            </div>
         </div>
 
     </main>
 
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
+
+    <!-- SUPABASE ADMIN ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
-            document.getElementById(tabId).classList.remove('hidden');
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-            document.querySelectorAll('.admin-tab').forEach(btn => {
-                btn.classList.remove('bg-brand-card', 'text-brand-gold');
-                btn.classList.add('text-gray-400');
+        async function initAdmin() {
+            const { data: { session } } = await db.auth.getSession();
+            if (!session) return; // Leaves lock box visible
+
+            // Check if user is admin in gsr_profiles
+            const { data: profile } = await db
+                .from('gsr_profiles')
+                .select('is_admin')
+                .eq('id', session.user.id)
+                .single();
+
+            if (profile && profile.is_admin === true) {
+                document.getElementById('authLockBox').classList.add('hidden');
+                document.getElementById('adminPanelContent').classList.remove('hidden');
+                loadAdminData();
+            }
+        }
+
+        async function loadAdminData() {
+            // 1. Load Site Content inputs
+            const { data: contentData } = await db.from('site_content').select('*');
+            if (contentData) {
+                contentData.forEach(item => {
+                    const input = document.getElementById(`content_${item.section_id}`);
+                    if (input) input.value = item.content_value;
+                });
+            }
+
+            // 2. Load Pending Queue
+            const { data: queue } = await db.from('pending_approvals').select('*').eq('status', 'pending');
+            const tableBody = document.getElementById('pendingQueueTable');
+            if (!tableBody) return;
+
+            if (!queue || queue.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-gray-500 font-mono">[ Queue is currently empty ]</td></tr>`;
+                return;
+            }
+
+            tableBody.innerHTML = '';
+            queue.forEach(item => {
+                tableBody.innerHTML += `
+                    <tr class="hover:bg-white/5 transition">
+                        <td class="py-3 px-4 font-bold uppercase">${escapeHtml(item.sl_legacy_name || 'Unknown')}</td>
+                        <td class="py-3 px-4 uppercase text-brand-gold">${escapeHtml(item.update_type)}</td>
+                        <td class="py-3 px-4 truncate max-w-xs">${escapeHtml(item.new_value)}</td>
+                        <td class="py-3 px-4 text-right space-x-2">
+                            <button onclick="resolveRequest('${item.id}', 'approved')" class="bg-brand-green/20 border border-brand-green text-brand-green px-2 py-1 rounded font-bold uppercase text-[10px] hover:bg-brand-green hover:text-black transition">Approve</button>
+                            <button onclick="resolveRequest('${item.id}', 'rejected')" class="bg-brand-red/20 border border-brand-red text-brand-red px-2 py-1 rounded font-bold uppercase text-[10px] hover:bg-brand-red hover:text-white transition">Reject</button>
+                        </td>
+                    </tr>
+                `;
             });
-            const activeBtn = document.getElementById(`btn-${tabId}`);
-            activeBtn.classList.remove('text-gray-400');
-            activeBtn.classList.add('bg-brand-card', 'text-brand-gold');
         }
 
-        function addSection(type) {
-            alert(`Added new ${type} layout row.`);
+        async function saveContent(sectionId) {
+            const val = document.getElementById(`content_${sectionId}`).value;
+            const { error } = await db.from('site_content').upsert([{ section_id: sectionId, content_value: val }]);
+            if (error) alert("Error saving content: " + error.message);
+            else alert("Content updated live successfully!");
         }
 
-        function publishLive() {
-            alert('Draft pushed to live website!');
+        async function resolveRequest(id, status) {
+            const { error } = await db.from('pending_approvals').update({ status: status }).eq('id', id);
+            if (error) alert("Failed to update status: " + error.message);
+            else loadAdminData();
         }
+
+        function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+
+        window.onload = initAdmin;
     </script>
 </body>
 </html>
