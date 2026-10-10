@@ -25,6 +25,8 @@
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        [data-cms-id] { opacity: 1; }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
@@ -76,66 +78,77 @@
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
 
         <!-- ROW 0: SPONSORS BANNER -->
-        <section class="bg-brand-card border border-brand-border rounded-xl p-5 text-center shadow-lg">
-            <span class="text-[9px] font-black uppercase text-brand-gold tracking-[0.2em] block mb-1">Sponsors</span>
-            <p class="text-[11px] text-gray-400 font-bold uppercase">Official Pro Plus Partners & Title Sponsors</p>
+        <section data-cms-id="pro_plus:sponsors" class="bg-brand-card border border-brand-border rounded-xl p-5 text-center shadow-lg transition flex flex-col justify-between group">
+            <div>
+                <span data-cms-field="label" class="text-[9px] font-black uppercase text-brand-gold tracking-[0.2em] block mb-1">Sponsors</span>
+                <p data-cms-field="desc" class="text-[11px] text-gray-400 font-bold uppercase">Official Pro Plus Partners & Title Sponsors</p>
+
+                <!-- FLEX-GROW CONTAINER: Horizontal auto-split logos -->
+                <div id="proPlusSponsorLogosContainer" class="my-3 min-h-[100px] w-full bg-brand-bg border border-brand-border rounded-lg flex flex-row items-center justify-center p-2 gap-2 overflow-hidden">
+                    <div id="proPlusSponsorFallbackText" class="flex flex-wrap justify-center items-center gap-4 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center py-4">
+                        <span>[ Second Life Motors ]</span>
+                        <span>[ Linden Fuel Co. ]</span>
+                        <span>[ StormTech HUDs ]</span>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- ROW 1: 3-COLUMN FEATURE CARDS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             <!-- Story Campaign -->
-            <div class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 flex flex-col justify-between shadow-xl transition group">
+            <a href="story_campaign.html" data-cms-id="pro_plus:campaign" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 flex flex-col justify-between shadow-xl transition group">
                 <div>
-                    <span class="text-[9px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Campaign</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Story Campaign</h3>
-                    <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+                    <span data-cms-field="label" class="text-[9px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Campaign</span>
+                    <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-gold transition">Story Campaign</h3>
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2 leading-relaxed">
                         Features campaign artwork along with a short text summarizing the Chapter. Clicking here opens a new page on the entire Story Campaign.
                     </p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <a href="story_campaign.html" class="text-xs font-bold uppercase text-brand-gold hover:text-white transition">Open Campaign →</a>
+                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">Open Campaign →</span>
                 </div>
-            </div>
+            </a>
 
             <!-- Skill Tree -->
-            <div class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 flex flex-col justify-between shadow-xl transition group red-border-glow">
+            <a href="skill_tree.html" data-cms-id="pro_plus:skill_tree" class="bg-brand-card border border-brand-border hover:border-brand-red rounded-xl p-6 flex flex-col justify-between shadow-xl transition group red-border-glow">
                 <div>
-                    <span class="text-[9px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Progression</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Skill Tree</h3>
-                    <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+                    <span data-cms-field="label" class="text-[9px] font-black uppercase tracking-widest bg-brand-red text-white px-2 py-0.5 rounded">Progression</span>
+                    <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-red transition">Skill Tree</h3>
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2 leading-relaxed">
                         Will show the Skill Tree progression. Click here to open a new page to see full Skill Tree unlocks and pit crew bonuses.
                     </p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <a href="skill_tree.html" class="text-xs font-bold uppercase text-brand-red hover:text-white transition">View Skill Tree →</a>
+                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-red">View Skill Tree →</span>
                 </div>
-            </div>
+            </a>
 
             <!-- What is GSR Pro Plus -->
-            <div class="bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl p-6 flex flex-col justify-between shadow-xl transition group blue-border-glow">
+            <a href="pro_plus_details.html" data-cms-id="pro_plus:overview" class="bg-brand-card border border-brand-border hover:border-brand-blue rounded-xl p-6 flex flex-col justify-between shadow-xl transition group blue-border-glow">
                 <div>
-                    <span class="text-[9px] font-black uppercase tracking-widest bg-brand-blue text-white px-2 py-0.5 rounded">Overview</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-blue transition">What is GSR Pro Plus?</h3>
-                    <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+                    <span data-cms-field="label" class="text-[9px] font-black uppercase tracking-widest bg-brand-blue text-white px-2 py-0.5 rounded">Overview</span>
+                    <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-3 group-hover:text-brand-blue transition">What is GSR Pro Plus?</h3>
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2 leading-relaxed">
                         Shows an image and text stating quick detail on GSR Pro Plus. Clicking here takes to full detail on all that encompasses what GSR Pro Plus is.
                     </p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-end">
-                    <a href="pro_plus_details.html" class="text-xs font-bold uppercase text-brand-blue hover:text-white transition">Full Details →</a>
+                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-blue">Full Details →</span>
                 </div>
-            </div>
+            </a>
 
         </section>
 
         <!-- WIDE GSR CHATS PREVIEW (LIVE CONNECTED WIDGET) -->
         <section class="w-full">
-            <div class="bg-brand-card border border-brand-border hover:border-brand-gold transition rounded-xl p-6 shadow-xl flex flex-col relative group">
+            <div data-cms-id="pro_plus:chats" class="bg-brand-card border border-brand-border hover:border-brand-gold transition rounded-xl p-6 shadow-xl flex flex-col relative group">
                 
                 <!-- Header Row -->
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 border-b border-brand-border pb-4 gap-4">
                     <div class="flex items-center gap-3">
-                        <span class="text-lg font-black uppercase text-white flex items-center gap-2">
+                        <span data-cms-field="title" class="text-lg font-black uppercase text-white flex items-center gap-2">
                             💬 GSR Chats Thread
                         </span>
                         <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
@@ -152,7 +165,7 @@
                             <option value="team">🛡️ Team Chat</option>
                             <option value="following">👥 Following</option>
                         </select>
-                        <span class="text-[9px] font-black uppercase bg-brand-gold/20 text-brand-gold px-2 py-1 rounded hidden sm:block">Live Discussion</span>
+                        <span data-cms-field="label" class="text-[9px] font-black uppercase bg-brand-gold/20 text-brand-gold px-2 py-1 rounded hidden sm:block">Live Discussion</span>
                     </div>
                 </div>
 
@@ -163,7 +176,7 @@
 
                 <!-- Footer Links & Drawer Button -->
                 <div class="mt-4 pt-4 border-t border-brand-border flex justify-between items-center text-xs">
-                    <a href="chats.html" class="text-xs font-bold uppercase text-brand-gold hover:underline">
+                    <a href="chats.html" data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold hover:underline">
                         Open GSR Chats →
                     </a>
                     
@@ -174,41 +187,41 @@
             </div>
         </section>
 
-        <!-- ROW 3: 2-COLUMN (Magazine & Top Racers Standings) -->
+        <!-- ROW 3: 2-COLUMN (Magazine & Top Pro Plus Racers Standings) -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
             <!-- GSR Magazine -->
-            <div class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 flex flex-col justify-between shadow-xl transition group">
+            <a href="multimedia.html" data-cms-id="pro_plus:magazine" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 flex flex-col justify-between shadow-xl transition group">
                 <div>
-                    <span class="text-[9px] font-black uppercase text-brand-gold tracking-wider">Publication</span>
-                    <h3 class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">GSR Magazine</h3>
-                    <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+                    <span data-cms-field="label" class="text-[9px] font-black uppercase text-brand-gold tracking-wider">Publication</span>
+                    <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">GSR Magazine</h3>
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2 leading-relaxed">
                         Features digital issue covers and driver spotlights. Click to open full magazine articles and driver stories.
                     </p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-brand-border text-right">
-                    <a href="multimedia.html" class="text-xs font-bold uppercase text-brand-gold hover:text-white transition">Read Magazine →</a>
+                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">Read Magazine →</span>
                 </div>
-            </div>
+            </a>
 
-            <!-- STANDINGS: TOP 5 PRO PLUS RACERS (DYNAMIC FROM DATABASE) -->
+            <!-- STANDINGS: TOP 3 PRO PLUS RACERS (DYNAMIC FROM DATABASE) -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between h-full relative group shadow-xl">
                 <div>
                     <!-- Header -->
                     <div class="flex justify-between items-end mb-3 border-b border-brand-border pb-3">
                         <div>
                             <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest">Standings</span>
-                            <h3 class="text-lg font-black uppercase text-white mt-1">Top Racers</h3>
+                            <h3 class="text-lg font-black uppercase text-white mt-1">Top 3 Pro Plus Racers</h3>
                         </div>
-                        <span class="text-[8px] text-gray-500 uppercase tracking-widest text-right">Supabase Synced</span>
+                        <span class="text-[8px] text-gray-500 uppercase tracking-widest text-right">Live Telemetry</span>
                     </div>
                     
                     <p class="text-[10px] text-gray-400 mb-4 italic leading-relaxed">
-                        Top racers based on live driver ratings and active telemetry.
+                        Leading Pro Plus division drivers based on overall rating points and official league performance.
                     </p>
 
-                    <!-- Top 5 List Container -->
-                    <div id="topRacersContainer" class="space-y-2">
+                    <!-- Top 3 List Container -->
+                    <div id="topRacersContainer" class="space-y-2.5">
                         <div class="text-xs text-gray-500 text-center font-mono py-6">[ Fetching driver telemetry... ]</div>
                     </div>
                 </div>
@@ -224,18 +237,18 @@
         </section>
 
         <!-- ROW 4: CURRENT NEWS -->
-        <section class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 shadow-xl transition group">
+        <a href="multimedia.html" data-cms-id="pro_plus:news" class="block bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 shadow-xl transition group">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-brand-border pb-3 mb-3 gap-2">
-                <h3 class="text-lg font-black uppercase text-white tracking-wide group-hover:text-brand-gold transition">Current News</h3>
-                <span class="text-[9px] font-black uppercase text-gray-400">Official Announcements</span>
+                <h3 data-cms-field="title" class="text-lg font-black uppercase text-white tracking-wide group-hover:text-brand-gold transition">Current News</h3>
+                <span data-cms-field="label" class="text-[9px] font-black uppercase text-gray-400">Official Announcements</span>
             </div>
-            <p class="text-xs text-gray-300 leading-relaxed">
+            <p data-cms-field="desc" class="text-xs text-gray-300 leading-relaxed">
                 Official announcements, patch notes, and campaign updates. Click to read full news releases.
             </p>
             <div class="mt-4 pt-3 border-t border-brand-border text-right">
-                <a href="multimedia.html" class="text-xs font-bold uppercase text-brand-gold hover:text-white transition">Read Full News →</a>
+                <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">Read Full News →</span>
             </div>
-        </section>
+        </a>
 
     </main>
 
@@ -280,45 +293,36 @@
         </div>
     </div>
 
-    <!-- SUPABASE NATIVE ENGINE FOR PRO PLUS WITH DYNAMIC RACERS -->
+    <!-- INLINE CMS EDIT MODAL -->
+    <div id="cmsModalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="cmsModal" class="bg-brand-card border border-brand-gold shadow-[0_0_30px_rgba(197,160,89,0.15)] rounded-xl w-full max-w-md transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
+            <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center rounded-t-xl shrink-0">
+                <h2 class="text-sm font-black uppercase text-brand-gold tracking-wide flex items-center gap-2">
+                    <span>✏️ Edit Pro Plus Block</span>
+                </h2>
+                <button onclick="closeCMSModal()" class="text-gray-500 hover:text-brand-red p-1 transition cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div id="cmsModalFields" class="p-6 space-y-4 overflow-y-auto grow"></div>
+            
+            <div class="bg-brand-bg border-t border-brand-border p-4 flex justify-end gap-3 rounded-b-xl shrink-0">
+                <button onclick="closeCMSModal()" class="text-xs font-bold uppercase text-gray-400 hover:text-white px-4 py-2 transition cursor-pointer">Cancel</button>
+                <button onclick="saveCMSModal()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-6 py-2 rounded transition shadow cursor-pointer">Save to Live</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPABASE NATIVE ENGINE FOR PRO PLUS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-        // Global Drawer Control
-        window.toggleDrawer = function(show) {
-            const drawer = document.getElementById('chatDrawer');
-            const overlay = document.getElementById('drawerOverlay');
-
-            if (!drawer || !overlay) {
-                console.error("GSR Drawer Error: Could not find #chatDrawer or #drawerOverlay in the HTML.");
-                alert("Drawer HTML elements are missing from the page.");
-                return;
-            }
-
-            if (show) {
-                overlay.classList.remove('hidden');
-                void overlay.offsetWidth;
-                overlay.classList.remove('opacity-0');
-                drawer.classList.remove('translate-x-full');
-
-                const msgBox = document.getElementById('drawerMessages');
-                if (msgBox) msgBox.scrollTop = msgBox.scrollHeight;
-            } else {
-                overlay.classList.add('opacity-0');
-                drawer.classList.add('translate-x-full');
-                setTimeout(() => {
-                    overlay.classList.add('hidden');
-                }, 300);
-            }
-        };
-
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
-
         let currentWideChannel = 'pro_plus';
         let currentUser = null;
         let currentProfile = null;
+        let isEditModeActive = false;
+        let currentEditId = null;
 
         const channelNames = {
             pro_plus: '⭐ Pro Plus',
@@ -327,49 +331,60 @@
             following: '👥 Following'
         };
 
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
         async function initProPlusPage() {
-            // 1. Check Auth Session
-            const { data: { session } } = await db.auth.getSession();
-            const userNav = document.getElementById('userNav');
-            const drawerInput = document.getElementById('drawerInput');
+            try {
+                // 1. Check Auth Session & Admin Permissions
+                const { data: { session } } = await db.auth.getSession();
+                const userNav = document.getElementById('userNav');
+                const drawerInput = document.getElementById('drawerInput');
 
-            if (session) {
-                currentUser = session.user;
-                const { data: profile } = await db
-                    .from('gsr_profiles')
-                    .select('sl_legacy_name')
-                    .eq('id', currentUser.id)
-                    .single();
+                if (session) {
+                    currentUser = session.user;
+                    const { data: profile } = await db
+                        .from('gsr_profiles')
+                        .select('sl_legacy_name, is_admin')
+                        .eq('id', currentUser.id)
+                        .maybeSingle();
 
-                currentProfile = profile;
-                const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+                    currentProfile = profile;
+                    const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
 
-                if (userNav) {
-                    userNav.innerHTML = `
-                        <div class="text-right hidden sm:block">
-                            <span class="block text-xs font-black text-white uppercase">${displayName}</span>
-                            <span class="text-[9px] text-brand-gold uppercase font-mono tracking-widest flex items-center justify-end gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse"></span> Pro Member
-                            </span>
-                        </div>
-                        <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
-                    `;
+                    if (userNav) {
+                        let adminBtnHTML = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
+                        userNav.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <div class="text-right hidden sm:block">
+                                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                                    <span class="text-[9px] text-brand-gold uppercase font-mono tracking-widest flex items-center justify-end gap-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse"></span> Pro Member
+                                    </span>
+                                </div>
+                                <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow cursor-pointer">Sign Out</button>
+                                ${adminBtnHTML}
+                            </div>
+                        `;
+                    }
+                    if (drawerInput) {
+                        drawerInput.placeholder = "Type message...";
+                        drawerInput.disabled = false;
+                    }
+                } else {
+                    if (drawerInput) {
+                        drawerInput.placeholder = "Sign in at Main Menu to chat...";
+                        drawerInput.disabled = true;
+                    }
                 }
-                if (drawerInput) {
-                    drawerInput.placeholder = "Type message...";
-                    drawerInput.disabled = false;
-                }
-            } else {
-                if (drawerInput) {
-                    drawerInput.placeholder = "Sign in at Main Menu to chat...";
-                    drawerInput.disabled = true;
-                }
-            }
+            } catch (e) { console.warn("Auth check bypassed", e); }
 
-            // 2. Load Top 5 Racers from Supabase Database
-            loadTopProPlusRacers();
+            // 2. Load CMS Content & Dynamic Standings
+            await loadCMSContent();
+            await loadTopProPlusRacers();
 
-            // 3. Load Chat & Start Realtime
+            // 3. Load Chat & Realtime
             loadWideChatWidget();
             subscribeToProPlusRealtime();
         }
@@ -378,58 +393,264 @@
             const container = document.getElementById('topRacersContainer');
             if (!container) return;
 
-            const { data: drivers, error } = await db
-                .from('gsr_profiles')
-                .select('*')
-                .order('rating', { ascending: false })
-                .limit(5);
-
-            if (error || !drivers || drivers.length === 0) {
-                container.innerHTML = `<div class="text-xs text-gray-500 text-center font-mono py-4">[ No registered drivers found ]</div>`;
-                return;
-            }
-
-            container.innerHTML = '';
-            drivers.forEach((driver, idx) => {
-                const rank = idx + 1;
-                const name = driver.sl_legacy_name || 'RATING DRIVER';
-                const rating = driver.rating || 500;
-                const wins = driver.wins || 0;
-                const team = driver.team || driver.team_name || 'Independent';
-                
-                // Color formatting for top 3 badges
-                let rankBadgeBg = "bg-brand-bg/50 text-gray-500 border border-brand-border/50";
-                let rankNumColor = "text-gray-600";
-                let cardStyle = "bg-brand-bg/50 border border-brand-border/50";
-
-                if (rank === 1) {
-                    rankBadgeBg = "bg-brand-gold text-black";
-                    rankNumColor = "text-black";
-                    cardStyle = "bg-brand-bg border border-brand-gold shadow-md";
-                } else if (rank === 2) {
-                    rankBadgeBg = "bg-gray-300 text-black";
-                    rankNumColor = "text-black";
-                    cardStyle = "bg-[#111] border border-brand-border";
-                } else if (rank === 3) {
-                    rankBadgeBg = "bg-amber-700 text-white";
-                    rankNumColor = "text-white";
-                    cardStyle = "bg-[#111] border border-brand-border";
+            try {
+                let drivers = [];
+                // Check racers table for Pro Plus class drivers
+                const { data: racerData } = await db.from('racers').select('*');
+                if (racerData && racerData.length > 0) {
+                    const proPlusRacers = racerData.filter(r => (r.class || r.league || '').toLowerCase().includes('pro'));
+                    const targetList = proPlusRacers.length > 0 ? proPlusRacers : racerData;
+                    drivers = targetList.sort((a,b) => (b.rating_points || b.points || 0) - (a.rating_points || a.points || 0)).slice(0, 3);
                 }
 
-                container.innerHTML += `
-                    <div class="flex justify-between items-center px-3 py-2 rounded ${cardStyle}">
-                        <div class="flex items-center gap-3 truncate">
-                            <span class="${rankBadgeBg} font-black text-[10px] w-5 h-5 flex items-center justify-center rounded-full shrink-0">${rank}</span>
-                            <div class="truncate">
-                                <a href="racer.html?driver=${encodeURIComponent(name)}" class="text-white text-[10px] font-black uppercase hover:text-brand-gold transition truncate block">${escapeHtml(name)}</a>
-                                <span class="text-gray-500 text-[8px] uppercase font-mono block mt-0.5 truncate">Team: ${escapeHtml(team)} • 🏆 ${wins} Wins</span>
+                // Fallback to gsr_profiles
+                if (drivers.length === 0) {
+                    const { data: profileData } = await db.from('gsr_profiles').select('*').order('rating', { ascending: false }).limit(3);
+                    if (profileData && profileData.length > 0) {
+                        drivers = profileData.map(p => ({
+                            display_name: p.sl_legacy_name || 'Racer',
+                            rating_points: p.rating || 500,
+                            wins: p.wins || 0,
+                            team_name: p.team || p.team_name || 'Independent'
+                        }));
+                    }
+                }
+
+                if (drivers.length === 0) {
+                    container.innerHTML = `<div class="text-xs text-gray-500 text-center font-mono py-4">[ No registered Pro Plus drivers found ]</div>`;
+                    return;
+                }
+
+                container.innerHTML = '';
+                drivers.forEach((driver, idx) => {
+                    const rank = idx + 1;
+                    const name = driver.display_name || driver.sl_legacy_name || 'Pro Plus Driver';
+                    const pts = driver.rating_points || driver.rating || 1000;
+                    const wins = driver.wins || 0;
+                    const team = driver.team_name || driver.team || 'Independent';
+
+                    let rankBadgeBg = "bg-brand-gold text-black";
+                    let cardStyle = "bg-brand-bg border border-brand-gold shadow-md";
+
+                    if (rank === 2) {
+                        rankBadgeBg = "bg-gray-300 text-black";
+                        cardStyle = "bg-[#111] border border-brand-border";
+                    } else if (rank === 3) {
+                        rankBadgeBg = "bg-amber-700 text-white";
+                        cardStyle = "bg-[#111] border border-brand-border";
+                    }
+
+                    container.innerHTML += `
+                        <div class="flex justify-between items-center px-3.5 py-2.5 rounded ${cardStyle} transition hover:border-brand-gold">
+                            <div class="flex items-center gap-3 truncate">
+                                <span class="${rankBadgeBg} font-black text-[10px] w-6 h-6 flex items-center justify-center rounded-full shrink-0">${rank}</span>
+                                <div class="truncate">
+                                    <a href="racers_profiles.html?driver=${encodeURIComponent(name)}" class="text-white text-xs font-black uppercase hover:text-brand-gold transition truncate block">${escapeHtml(name)}</a>
+                                    <span class="text-gray-400 text-[9px] uppercase font-mono block mt-0.5 truncate">Team: ${escapeHtml(team)} • 🏆 ${wins} Wins</span>
+                                </div>
                             </div>
+                            <span class="text-brand-gold text-xs font-black shrink-0 font-mono">${pts.toLocaleString()} PTS</span>
                         </div>
-                        <span class="text-brand-gold text-[10px] font-black shrink-0 font-mono">${rating.toLocaleString()} PTS</span>
-                    </div>
-                `;
+                    `;
+                });
+            } catch (e) {
+                console.warn("Error loading top racers", e);
+            }
+        }
+
+        async function loadCMSContent() {
+            try {
+                const { data, error } = await db.from('site_content').select('*').like('section_id', 'pro_plus:%');
+                if (!error && data) {
+                    data.forEach(row => {
+                        const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
+                        if (!container) return;
+                        try {
+                            const content = JSON.parse(row.content_value);
+
+                            // SPECIAL HANDLING FOR PRO PLUS SPONSORS (AUTO-RESIZING HORIZONTAL LOGOS)
+                            if (row.section_id === 'pro_plus:sponsors') {
+                                const logos = [];
+                                if (content.logo_1) logos.push(content.logo_1);
+                                if (content.logo_2) logos.push(content.logo_2);
+                                if (content.logo_3) logos.push(content.logo_3);
+
+                                const sponsorBox = document.getElementById('proPlusSponsorLogosContainer');
+                                if (logos.length > 0 && sponsorBox) {
+                                    sponsorBox.innerHTML = '';
+                                    logos.forEach((url, i) => {
+                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 h-full w-full object-cover rounded filter drop-shadow hover:scale-105 transition duration-300">`;
+                                    });
+                                }
+                            }
+
+                            Object.keys(content).forEach(key => {
+                                if (key === 'link_url') { container.setAttribute('href', content[key]); }
+                                else {
+                                    const el = container.querySelector(`[data-cms-field="${key}"]`);
+                                    if (el) el.innerText = content[key];
+                                }
+                            });
+                        } catch (e) {}
+                    });
+                }
+            } catch (e) { console.warn("CMS Content error", e); }
+        }
+
+        window.toggleEditMode = function() {
+            isEditModeActive = !isEditModeActive;
+            const btns = document.querySelectorAll('#editModeBtn');
+            btns.forEach(btn => {
+                btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
+                btn.classList.toggle('bg-brand-blue', !isEditModeActive);
+                btn.classList.toggle('bg-brand-red', isEditModeActive);
+            });
+
+            document.querySelectorAll('[data-cms-id]').forEach(block => {
+                if (isEditModeActive) {
+                    block.classList.add('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative');
+                    if (!block.querySelector('.cms-trigger-btn')) {
+                        const editBtn = document.createElement('button');
+                        editBtn.className = 'cms-trigger-btn absolute top-2 right-2 bg-brand-blue text-white text-[10px] font-black uppercase px-2 py-1 rounded shadow-lg z-30 cursor-pointer';
+                        editBtn.innerHTML = '✏️ Edit Block';
+                        editBtn.onclick = (e) => openCMSModal(block.getAttribute('data-cms-id'), e);
+                        block.appendChild(editBtn);
+                    }
+                } else {
+                    block.classList.remove('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative');
+                    const btn = block.querySelector('.cms-trigger-btn');
+                    if (btn) btn.remove();
+                }
             });
         }
+
+        window.openCMSModal = async function(cmsId, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            currentEditId = cmsId;
+            const container = document.querySelector(`[data-cms-id="${cmsId}"]`);
+            
+            let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+
+            const formContainer = document.getElementById('cmsModalFields');
+            formContainer.innerHTML = '';
+            
+            fields.forEach(f => {
+                const fieldName = f.getAttribute('data-cms-field');
+                formContainer.innerHTML += `<div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">${fieldName.replace('_', ' ')}</label><textarea id="cms_input_${fieldName}" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(f.innerText)}</textarea></div>`;
+            });
+
+            // SPECIAL UPLOAD FIELDS FOR PRO PLUS SPONSORS
+            if (cmsId === 'pro_plus:sponsors') {
+                let existingLogos = {};
+                try {
+                    const { data } = await db.from('site_content').select('content_value').eq('section_id', 'pro_plus:sponsors').maybeSingle();
+                    if (data && data.content_value) existingLogos = JSON.parse(data.content_value);
+                } catch(e) {}
+
+                formContainer.innerHTML += `
+                    <div class="space-y-3 pt-3 border-t border-brand-border">
+                        <label class="text-[10px] font-black uppercase text-brand-gold tracking-wider block">Sponsor Logos (Up to 3 Horizontal Logos)</label>
+                        
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 1</span>
+                            <input type="file" id="cms_sponsor_file_1" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_1" value="${existingLogos.logo_1 || ''}">
+                            ${existingLogos.logo_1 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_1"> Remove Logo 1</label>` : ''}
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 2</span>
+                            <input type="file" id="cms_sponsor_file_2" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_2" value="${existingLogos.logo_2 || ''}">
+                            ${existingLogos.logo_2 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_2"> Remove Logo 2</label>` : ''}
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 3</span>
+                            <input type="file" id="cms_sponsor_file_3" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_3" value="${existingLogos.logo_3 || ''}">
+                            ${existingLogos.logo_3 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_3"> Remove Logo 3</label>` : ''}
+                        </div>
+                    </div>`;
+            }
+
+            if (container.tagName === 'A' || container.getAttribute('href')) {
+                formContainer.innerHTML += `<div class="space-y-1 mt-2 pt-2 border-t border-brand-border"><label class="text-[10px] font-black uppercase text-gray-400">Link URL</label><input type="text" id="cms_input_link_url" value="${escapeHtml(container.getAttribute('href') || '')}" class="w-full bg-[#0a0a0a] border border-brand-border text-brand-blue text-xs px-3 py-2 rounded"></div>`;
+            }
+
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        window.closeCMSModal = function() {
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
+        window.saveCMSModal = async function() {
+            const container = document.querySelector(`[data-cms-id="${currentEditId}"]`);
+            let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+
+            let updateData = {};
+            
+            // SPECIAL SPONSOR LOGOS SAVING LOGIC
+            if (currentEditId === 'pro_plus:sponsors') {
+                for (let i = 1; i <= 3; i++) {
+                    const clearCheckbox = document.getElementById(`cms_clear_sponsor_${i}`);
+                    const fileInput = document.getElementById(`cms_sponsor_file_${i}`);
+                    const urlInput = document.getElementById(`cms_sponsor_url_${i}`);
+                    let logoUrl = urlInput ? urlInput.value : '';
+
+                    if (clearCheckbox && clearCheckbox.checked) {
+                        logoUrl = '';
+                    } else if (fileInput && fileInput.files.length > 0) {
+                        const file = fileInput.files[0];
+                        const fileName = `pro_plus_sponsor_${i}_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+                        const { error: uploadError } = await db.storage.from('admin-assets').upload(fileName, file);
+                        if (!uploadError) {
+                            const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                            logoUrl = publicUrlData.publicUrl;
+                        }
+                    }
+                    if (logoUrl) updateData[`logo_${i}`] = logoUrl;
+                }
+            }
+
+            fields.forEach(f => {
+                const fieldName = f.getAttribute('data-cms-field');
+                const inputEl = document.getElementById(`cms_input_${fieldName}`);
+                if (inputEl) { updateData[fieldName] = inputEl.value; f.innerText = inputEl.value; }
+            });
+            
+            const linkInput = document.getElementById('cms_input_link_url');
+            if (linkInput) { updateData['link_url'] = linkInput.value; container.setAttribute('href', linkInput.value); }
+            
+            await db.from('site_content').upsert([{ section_id: currentEditId, content_value: JSON.stringify(updateData) }]);
+            await loadCMSContent();
+            closeCMSModal();
+        }
+
+        window.toggleDrawer = function(show) {
+            const drawer = document.getElementById('chatDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+
+            if (!drawer || !overlay) return;
+
+            if (show) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => { overlay.classList.remove('opacity-0'); drawer.classList.remove('translate-x-full'); }, 10);
+            } else {
+                overlay.classList.add('opacity-0');
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+            }
+        };
 
         async function switchWideWidgetChannel(channel) {
             currentWideChannel = channel;
@@ -459,7 +680,6 @@
 
             const messages = data.reverse();
 
-            // Populate Widget (Last 3)
             if (feedContainer) {
                 feedContainer.innerHTML = '';
                 messages.slice(-3).forEach(msg => {
@@ -473,7 +693,6 @@
                 feedContainer.scrollTop = feedContainer.scrollHeight;
             }
 
-            // Populate Drawer (Full History)
             if (drawerFeed) {
                 drawerFeed.innerHTML = '';
                 messages.forEach(msg => {
@@ -545,6 +764,5 @@
 
         window.onload = initProPlusPage;
     </script>
-
 </body>
 </html>
