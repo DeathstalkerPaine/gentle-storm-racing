@@ -574,7 +574,7 @@ if (row.section_id === 'index:sponsors') {
     if (logos.length > 0 && sponsorBox) {
         sponsorBox.innerHTML = '';
         logos.forEach((url, i) => {
-            sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 h-full w-full object-cover rounded filter drop-shadow hover:scale-105 transition duration-300">`;
+            sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 h-full w-full object-contain rounded filter drop-shadow hover:scale-105 transition duration-300">`;
         });
     }
 }
