@@ -36,11 +36,11 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-       <!-- TOP HEADER: CENTERED LOGO WITH RESPONSIVE AUTH POSITIONING -->
+           <!-- TOP HEADER: CENTERED LOGO WITH RESPONSIVE AUTH POSITIONING -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col sm:flex-row items-center justify-center min-h-[120px]">
             
-            <!-- Desktop / iPad Auth Buttons Container (Top Right Corner) -->
+            <!-- Desktop / iPad Auth & Admin Controls (Absolute Top-Right Corner) -->
             <div id="userNav" class="hidden sm:flex absolute right-4 top-4 items-center gap-2 z-10">
                 <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-xs px-4 py-2 rounded transition">Sign In</a>
                 <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-xs px-4 py-2 rounded transition shadow-lg">Sign Up</a>
@@ -53,11 +53,12 @@
                 </a>
             </div>
 
-            <!-- Mobile Auth Buttons Container (Stacked below logo on small screens) -->
-            <div id="userNavMobile" class="flex sm:hidden items-center justify-center gap-2 mt-3 z-10">
-                <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[10px] px-3 py-1.5 rounded transition">Sign In</a>
-                <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] px-3 py-1.5 rounded transition shadow-lg">Sign Up</a>
-            </div>
+            <!-- Mobile Auth & Admin Controls (Stacked below logo on small screens) -->
+            <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 z-10 w-full">
+                <div class="flex items-center gap-2">
+                    <a href="sign_in.html" class="bg-brand-bg border border-brand-border text-gray-300 font-black uppercase text-[10px] px-3 py-1.5 rounded">Sign In</a>
+                    <a href="sign_up.html" class="bg-brand-red text-white font-black uppercase text-[10px] px-3 py-1.5 rounded">Sign Up</a>
+                </div>
         </div>
     </header>
 
