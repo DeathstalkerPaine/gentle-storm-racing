@@ -32,6 +32,9 @@
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+        
+        /* Smooth UI Fade-In for CMS Blocks */
+        [data-cms-id] { opacity: 0; transition: opacity 0.4s ease-in-out; }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
@@ -441,36 +444,43 @@
         // ==========================
         async function loadCMSContent() {
             const { data, error } = await db.from('site_content').select('*').like('section_id', 'index:%');
-            if (error || !data) return;
             
-            data.forEach(row => {
-                const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
-                if (!container) return;
-                
-                try {
-                    const content = JSON.parse(row.content_value);
+            // If data exists, apply it to the DOM
+            if (!error && data) {
+                data.forEach(row => {
+                    const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
+                    if (!container) return;
                     
-                    Object.keys(content).forEach(key => {
-                        if (key === 'link_url') {
-                            container.setAttribute('href', content[key]);
-                        } else if (key === 'image_url') {
-                            const img = container.querySelector(`[data-cms-field="image_url"]`);
-                            if (img) {
-                                if (content[key]) {
-                                    img.src = content[key];
-                                    img.classList.remove('hidden');
-                                    const placeholder = img.nextElementSibling;
-                                    if (placeholder) placeholder.classList.add('hidden');
-                                } else {
-                                    img.classList.add('hidden');
+                    try {
+                        const content = JSON.parse(row.content_value);
+                        
+                        Object.keys(content).forEach(key => {
+                            if (key === 'link_url') {
+                                container.setAttribute('href', content[key]);
+                            } else if (key === 'image_url') {
+                                const img = container.querySelector(`[data-cms-field="image_url"]`);
+                                if (img) {
+                                    if (content[key]) {
+                                        img.src = content[key];
+                                        img.classList.remove('hidden');
+                                        const placeholder = img.nextElementSibling;
+                                        if (placeholder) placeholder.classList.add('hidden');
+                                    } else {
+                                        img.classList.add('hidden');
+                                    }
                                 }
+                            } else {
+                                const el = container.querySelector(`[data-cms-field="${key}"]`);
+                                if (el) el.innerText = content[key];
                             }
-                        } else {
-                            const el = container.querySelector(`[data-cms-field="${key}"]`);
-                            if (el) el.innerText = content[key];
-                        }
-                    });
-                } catch (e) { console.warn('Failed to parse CMS JSON for', row.section_id); }
+                        });
+                    } catch (e) { console.warn('Failed to parse CMS JSON for', row.section_id); }
+                });
+            }
+
+            // CRITICAL: Fade in ALL blocks at the very end, whether data loaded or not
+            document.querySelectorAll('[data-cms-id]').forEach(el => {
+                el.style.opacity = '1';
             });
         }
 
