@@ -239,15 +239,15 @@
                 </div>
             </a>
 
-            <!-- DYNAMIC SPONSORS BLOCK (AUTO HORIZONTAL SPLIT) -->
+            <!-- DYNAMIC SPONSORS BLOCK (VERTICAL STACK: 1ST ON TOP, 2ND MIDDLE, 3RD BOTTOM) -->
             <a href="sponsors.html" data-cms-id="index:sponsors" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
                     <h3 data-cms-field="title" class="text-lg font-black uppercase tracking-wider text-brand-gold group-hover:text-white transition">Sponsors</h3>
                     <p data-cms-field="desc" class="text-xs text-gray-400 mt-0.5">Official Partners & League Sponsors</p>
 
-                    <!-- DYNAMIC FLEX CONTAINER (DIVIDES HORIZONTAL SPACE EVENLY WITHOUT INCREASING BLOCK HEIGHT) -->
-                    <div id="sponsorLogosContainer" class="my-3 h-36 w-full bg-brand-bg border border-brand-border rounded-lg flex items-center justify-center p-3 gap-3 overflow-hidden">
-                        <div id="sponsorFallbackText" class="flex flex-wrap justify-center items-center gap-4 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest">
+                    <!-- VERTICAL FLEX CONTAINER (STACKS LOGOS TOP-TO-BOTTOM) -->
+                    <div id="sponsorLogosContainer" class="my-3 h-36 w-full bg-brand-bg border border-brand-border rounded-lg flex flex-col items-center justify-center p-2 gap-2 overflow-hidden">
+                        <div id="sponsorFallbackText" class="flex flex-col items-center justify-center gap-1 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center">
                             <span>[ Second Life Motors ]</span>
                             <span>[ Linden Fuel Co. ]</span>
                             <span>[ StormTech HUDs ]</span>
@@ -563,7 +563,7 @@
                         try {
                             const content = JSON.parse(row.content_value);
 
-                            // SPECIAL HANDLING FOR INDEX SPONSORS (AUTO FLEX-SPLIT LOGOS)
+                            // SPECIAL HANDLING FOR INDEX SPONSORS (VERTICALLY STACKED LOGOS)
                             if (row.section_id === 'index:sponsors') {
                                 const logos = [];
                                 if (content.logo_1) logos.push(content.logo_1);
@@ -574,7 +574,7 @@
                                 if (logos.length > 0 && sponsorBox) {
                                     sponsorBox.innerHTML = '';
                                     logos.forEach((url, i) => {
-                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 max-h-full object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
+                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-h-0 max-w-full object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
                                     });
                                 }
                             }
@@ -657,24 +657,24 @@
 
                 formContainer.innerHTML += `
                     <div class="space-y-3 pt-3 border-t border-brand-border">
-                        <label class="text-[10px] font-black uppercase text-brand-gold tracking-wider block">Sponsor Logos (Up to 3 Horizontal Logos)</label>
+                        <label class="text-[10px] font-black uppercase text-brand-gold tracking-wider block">Sponsor Logos (Up to 3 Vertical Logos)</label>
                         
                         <div class="space-y-1">
-                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 1</span>
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 1 (Top)</span>
                             <input type="file" id="cms_sponsor_file_1" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
                             <input type="hidden" id="cms_sponsor_url_1" value="${existingLogos.logo_1 || ''}">
                             ${existingLogos.logo_1 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_1"> Remove Logo 1</label>` : ''}
                         </div>
 
                         <div class="space-y-1">
-                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 2</span>
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 2 (Middle)</span>
                             <input type="file" id="cms_sponsor_file_2" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
                             <input type="hidden" id="cms_sponsor_url_2" value="${existingLogos.logo_2 || ''}">
                             ${existingLogos.logo_2 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_2"> Remove Logo 2</label>` : ''}
                         </div>
 
                         <div class="space-y-1">
-                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 3</span>
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 3 (Bottom)</span>
                             <input type="file" id="cms_sponsor_file_3" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
                             <input type="hidden" id="cms_sponsor_url_3" value="${existingLogos.logo_3 || ''}">
                             ${existingLogos.logo_3 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_3"> Remove Logo 3</label>` : ''}
