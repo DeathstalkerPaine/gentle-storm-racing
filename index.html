@@ -394,7 +394,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-        let currentIndexChannel = 'global';
+               let currentIndexChannel = 'global';
         let currentUser = null;
         let currentProfile = null;
         let isEditModeActive = false;
@@ -410,6 +410,7 @@
             try {
                 const { data: { session } } = await db.auth.getSession();
                 const userNav = document.getElementById('userNav');
+                const userNavMobile = document.getElementById('userNavMobile');
 
                 if (session) {
                     currentUser = session.user;
@@ -420,6 +421,22 @@
                     if (userNav) {
                         let adminBtnHTML = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-xs uppercase font-black px-3 py-2 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
                         userNav.innerHTML = `<div class="flex flex-col items-end gap-1.5"><div class="flex items-center gap-2"><div class="text-right"><span class="block text-xs font-black text-white uppercase">${displayName}</span><span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1"><span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In</span></div><button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-xs uppercase font-black px-3 py-2 rounded transition shadow cursor-pointer">Sign Out</button></div>${adminBtnHTML}</div>`;
+                    }
+
+                    if (userNavMobile) {
+                        let adminBtnMobile = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtnMobile" class="bg-brand-blue border border-brand-border text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
+                        userNavMobile.innerHTML = `
+                            <div class="flex flex-col items-center gap-2 w-full mt-2">
+                                <div class="text-center">
+                                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                                    <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">Sign Out</button>
+                                    ${adminBtnMobile}
+                                </div>
+                            </div>
+                        `;
                     }
                 }
             } catch (e) { console.warn("Auth init bypassed", e); }
@@ -563,21 +580,21 @@
                         try {
                             const content = JSON.parse(row.content_value);
 
-                          // SPECIAL HANDLING FOR INDEX SPONSORS (HORIZONTAL SPLIT FILLING FULL HEIGHT)
-if (row.section_id === 'index:sponsors') {
-    const logos = [];
-    if (content.logo_1) logos.push(content.logo_1);
-    if (content.logo_2) logos.push(content.logo_2);
-    if (content.logo_3) logos.push(content.logo_3);
+                            if (row.section_id === 'index:sponsors') {
+                                const logos = [];
+                                if (content.logo_1) logos.push(content.logo_1);
+                                if (content.logo_2) logos.push(content.logo_2);
+                                if (content.logo_3) logos.push(content.logo_3);
 
-    const sponsorBox = document.getElementById('sponsorLogosContainer');
-    if (logos.length > 0 && sponsorBox) {
-        sponsorBox.innerHTML = '';
-        logos.forEach((url, i) => {
-            sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 h-full w-full object-contain rounded filter drop-shadow hover:scale-105 transition duration-300">`;
-        });
-    }
-}
+                                const sponsorBox = document.getElementById('sponsorLogosContainer');
+                                if (logos.length > 0 && sponsorBox) {
+                                    sponsorBox.innerHTML = '';
+                                    logos.forEach((url, i) => {
+                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="w-full h-auto max-h-32 object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
+                                    });
+                                }
+                            }
+
                             Object.keys(content).forEach(key => {
                                 if (key === 'link_url') { container.setAttribute('href', content[key]); }
                                 else if (key === 'image_url') {
@@ -602,7 +619,7 @@ if (row.section_id === 'index:sponsors') {
 
         window.toggleEditMode = function() {
             isEditModeActive = !isEditModeActive;
-            const btns = document.querySelectorAll('#editModeBtn, button[onclick="toggleEditMode()"]');
+            const btns = document.querySelectorAll('#editModeBtn, #editModeBtnMobile, button[onclick="toggleEditMode()"]');
             btns.forEach(btn => {
                 btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
                 btn.classList.toggle('bg-brand-blue', !isEditModeActive);
@@ -646,7 +663,6 @@ if (row.section_id === 'index:sponsors') {
                 formContainer.innerHTML += `<div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">${fieldName.replace('_', ' ')}</label><textarea id="cms_input_${fieldName}" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(f.innerText)}</textarea></div>`;
             });
 
-            // SPECIAL UPLOAD FIELDS FOR INDEX SPONSORS
             if (cmsId === 'index:sponsors') {
                 let existingLogos = {};
                 try {
@@ -712,7 +728,6 @@ if (row.section_id === 'index:sponsors') {
 
             let updateData = {};
             
-            // SPECIAL SPONSOR LOGOS SAVING LOGIC
             if (currentEditId === 'index:sponsors') {
                 for (let i = 1; i <= 3; i++) {
                     const clearCheckbox = document.getElementById(`cms_clear_sponsor_${i}`);
@@ -846,6 +861,7 @@ if (row.section_id === 'index:sponsors') {
         function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
 
         window.onload = initMainMenu;
+
     </script>
 </body>
 </html>
