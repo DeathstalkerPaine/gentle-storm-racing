@@ -57,7 +57,7 @@
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-12">
         
-        <!-- ROW 1: TOP 3 ALL TIME RACERS (Interactive Dropdown & Live DB Sync) -->
+        <!-- ROW 1: TOP 3 ALL TIME RACERS (Scaled 25-30% Smaller + Interactive Dropdown & Live DB Sync) -->
         <section class="space-y-6">
             <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl flex flex-col sm:flex-row justify-between items-center gap-4 relative group transition" data-cms-id="racers:podium_header">
                 <div>
@@ -71,8 +71,11 @@
                 </select>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2" id="podiumGrid">
-                <div class="col-span-full text-center text-xs text-gray-500 font-mono py-10">[ Syncing live podium data... ]</div>
+            <!-- Constrained max-width container to shrink card sizes across screen sizes -->
+            <div class="max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2" id="podiumGrid">
+                    <div class="col-span-full text-center text-xs text-gray-500 font-mono py-10">[ Syncing live podium data... ]</div>
+                </div>
             </div>
         </section>
 
@@ -535,7 +538,7 @@
             // Card 1 (#1 Rank)
             const r1 = filteredRacers[0];
             grid.innerHTML += r1 
-                ? createPodiumCard(r1, 1, 'bg-brand-gold', 'text-black', 'border-brand-gold', 'shadow-[0_0_20px_rgba(197,160,89,0.3)] transform lg:-translate-y-3') 
+                ? createPodiumCard(r1, 1, 'bg-brand-gold', 'text-black', 'border-brand-gold', 'shadow-[0_0_15px_rgba(197,160,89,0.3)] transform lg:-translate-y-2') 
                 : createEmptyPodium(1, 'bg-brand-gold', 'text-black');
 
             // Card 2 (#2 Rank)
@@ -551,7 +554,7 @@
                 : createEmptyPodium(3, 'bg-amber-700', 'text-white');
         }
 
-        // --- STANDARD PROFILES PAGE CARD STYLE FOR PODIUM ---
+        // --- 25-30% SMALLER PODIUM CARD (PROFILES PAGE CARDS STYLED & FITTED) ---
         function createPodiumCard(racer, rank, badgeBg, badgeText, borderClass, extraClasses) {
             const name = escapeHtml(racer.display_name);
             const pts = (racer.rating_points || 0).toLocaleString();
@@ -577,55 +580,56 @@
 
             const imageUrl = racer.avatar_url || racer.profile_image_url;
             const imageHTML = imageUrl 
-                ? `<img src="${imageUrl}" alt="${name}" class="w-full h-full object-cover rounded-lg">` 
-                : `<span class="text-[9px] text-gray-600 font-bold uppercase tracking-widest">DRIVER PHOTO</span>`;
+                ? `<img src="${imageUrl}" alt="${name}" class="w-full h-full object-cover rounded-md">` 
+                : `<span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest">PHOTO</span>`;
 
             return `
-                <div class="bg-[#0a0a0a] border ${borderClass} rounded-xl p-4 flex flex-col justify-between group shadow-[0_0_15px_rgba(197,160,89,0.1)] relative ${extraClasses}">
+                <div class="bg-[#0a0a0a] border ${borderClass} rounded-xl p-3 flex flex-col justify-between group shadow-md relative ${extraClasses}">
                     
-                    <!-- Floating Rank Badge -->
-                    <div class="absolute -top-3 -right-3 ${badgeBg} ${badgeText} text-[10px] font-black px-3 py-1 rounded shadow-lg border border-brand-bg tracking-wider z-10">
-                        #${rank} RANK - ${pts} PTS
+                    <!-- Floating Rank Badge (Reduced Scale) -->
+                    <div class="absolute -top-2.5 -right-2.5 ${badgeBg} ${badgeText} text-[8px] font-black px-2 py-0.5 rounded shadow border border-brand-bg tracking-wider z-10">
+                        #${rank} - ${pts} PTS
                     </div>
                     
                     <div>
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="${classBadgeBg} text-white text-[8px] font-black uppercase px-2 py-0.5 rounded">${classBadge}</span>
-                            <span class="text-brand-red font-mono font-black text-xs">#${carNum}</span>
+                        <div class="flex justify-between items-center mb-2 mt-0.5">
+                            <span class="${classBadgeBg} text-white text-[7px] font-black uppercase px-1.5 py-0.5 rounded">${classBadge}</span>
+                            <span class="text-brand-red font-mono font-black text-[10px]">#${carNum}</span>
                         </div>
                         
-                        <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-4 group-hover:border-brand-gold transition cursor-pointer overflow-hidden" onclick="window.location='racer.html?driver=${encodeURIComponent(racer.display_name)}'">
+                        <!-- Reduced Square Aspect Image Box -->
+                        <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2.5 group-hover:border-brand-gold transition cursor-pointer overflow-hidden" onclick="window.location='racer.html?driver=${encodeURIComponent(racer.display_name)}'">
                             ${imageHTML}
                         </div>
                         
-                        <h3 class="text-sm font-black uppercase text-white tracking-wider truncate" title="${name}">${name}</h3>
-                        <span class="text-[9px] text-gray-500 uppercase mt-1 block tracking-wider truncate">Team: <span class="text-gray-300">${escapeHtml(teamName)}</span></span>
+                        <h3 class="text-xs font-black uppercase text-white tracking-wider truncate" title="${name}">${name}</h3>
+                        <span class="text-[8px] text-gray-500 uppercase mt-0.5 block tracking-wider truncate">Team: <span class="text-gray-300">${escapeHtml(teamName)}</span></span>
                     </div>
                     
-                    <a href="racer.html?driver=${encodeURIComponent(racer.display_name)}" class="mt-4 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[9px] font-black uppercase py-2.5 rounded tracking-widest">VIEW FULL PROFILE →</a>
+                    <a href="racer.html?driver=${encodeURIComponent(racer.display_name)}" class="mt-3 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[8px] font-black uppercase py-2 rounded tracking-widest">VIEW PROFILE →</a>
                 </div>
             `;
         }
 
         function createEmptyPodium(rank, badgeBg, badgeText) {
             return `
-                <div class="bg-[#0a0a0a] border border-brand-border rounded-xl p-4 flex flex-col justify-between opacity-50 relative">
-                    <div class="absolute -top-3 -right-3 ${badgeBg} ${badgeText} text-[10px] font-black px-3 py-1 rounded shadow-lg border border-brand-bg tracking-wider z-10">
+                <div class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 flex flex-col justify-between opacity-50 relative">
+                    <div class="absolute -top-2.5 -right-2.5 ${badgeBg} ${badgeText} text-[8px] font-black px-2 py-0.5 rounded shadow border border-brand-bg tracking-wider z-10">
                         #${rank} RANK
                     </div>
                     <div>
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="bg-[#1a1a1a] text-gray-500 text-[8px] font-black uppercase px-2 py-0.5 rounded border border-brand-border">ROOKIE</span>
-                            <span class="text-gray-600 font-mono font-black text-xs">#--</span>
+                        <div class="flex justify-between items-center mb-2 mt-0.5">
+                            <span class="bg-[#1a1a1a] text-gray-500 text-[7px] font-black uppercase px-1.5 py-0.5 rounded border border-brand-border">ROOKIE</span>
+                            <span class="text-gray-600 font-mono font-black text-[10px]">#--</span>
                         </div>
-                        <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-4">
-                            <span class="text-[9px] text-gray-700 font-bold uppercase tracking-widest">OPEN SLOT</span>
+                        <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2.5">
+                            <span class="text-[8px] text-gray-700 font-bold uppercase tracking-widest">OPEN SLOT</span>
                         </div>
-                        <h3 class="text-sm font-black uppercase text-gray-500 tracking-wider">PENDING DRIVER</h3>
-                        <span class="text-[9px] text-gray-600 uppercase mt-1 block h-3">UNASSIGNED</span>
+                        <h3 class="text-xs font-black uppercase text-gray-500 tracking-wider">PENDING DRIVER</h3>
+                        <span class="text-[8px] text-gray-600 uppercase mt-0.5 block h-3">UNASSIGNED</span>
                     </div>
                     
-                    <button disabled class="mt-4 block w-full text-center bg-[#111] border border-brand-border text-gray-600 text-[9px] font-black uppercase py-2.5 rounded tracking-widest cursor-not-allowed">SLOT AVAILABLE</button>
+                    <button disabled class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-600 text-[8px] font-black uppercase py-2 rounded tracking-widest cursor-not-allowed">SLOT AVAILABLE</button>
                 </div>
             `;
         }
