@@ -57,15 +57,42 @@
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-12">
         
-        <!-- ROW 1: TOP 3 PODIUM (Live DB Sync) -->
-        <section class="space-y-6">
-            <div class="text-center transition group relative" data-cms-id="racers:podium_title">
-                <h2 data-cms-field="title" class="text-2xl font-black uppercase text-white tracking-widest">Current Top 3 Racers</h2>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4" id="podiumGrid">
-                <div class="col-span-full text-center text-xs text-gray-500 font-mono py-10">[ Syncing live podium data... ]</div>
-            </div>
-        </section>
+        <!-- TRIPLE PODIUM SECTIONS (25% Smaller via max-w-4xl) -->
+        <div class="space-y-12">
+            
+            <!-- 1. AMATEUR PODIUM -->
+            <section class="max-w-4xl mx-auto">
+                <div class="text-center transition group relative mb-4" data-cms-id="racers:podium_amateur_title">
+                    <h2 data-cms-field="title" class="text-lg font-black uppercase text-gray-300 tracking-widest">Top 3 Amateur Racers</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2" id="podiumAmateurGrid">
+                    <div class="col-span-full text-center text-[10px] text-gray-500 font-mono py-10">[ Syncing live amateur data... ]</div>
+                </div>
+            </section>
+
+            <!-- 2. PRO PODIUM -->
+            <section class="max-w-4xl mx-auto">
+                <div class="text-center transition group relative mb-4" data-cms-id="racers:podium_pro_title">
+                    <h2 data-cms-field="title" class="text-lg font-black uppercase text-brand-blue tracking-widest">Top 3 Pro Racers</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2" id="podiumProGrid">
+                    <div class="col-span-full text-center text-[10px] text-gray-500 font-mono py-10">[ Syncing live pro data... ]</div>
+                </div>
+            </section>
+
+            <!-- 3. PRO PLUS PODIUM -->
+            <section class="max-w-4xl mx-auto">
+                <div class="text-center transition group relative mb-4" data-cms-id="racers:podium_proplus_title">
+                    <h2 data-cms-field="title" class="text-lg font-black uppercase text-brand-red tracking-widest">Top 3 Pro Plus Racers</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2" id="podiumProPlusGrid">
+                    <div class="col-span-full text-center text-[10px] text-gray-500 font-mono py-10">[ Syncing live pro plus data... ]</div>
+                </div>
+            </section>
+
+        </div>
+
+        <hr class="border-brand-border">
 
         <!-- ROW 2: 3-COLUMN TOP 5 LISTS (Live DB Sync) -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -306,16 +333,16 @@
 
             document.querySelectorAll('[data-cms-id]').forEach(block => {
                 if (isEditModeActive) {
-                    block.classList.add('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative');
+                    block.classList.add('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative', 'rounded-xl');
                     if (!block.querySelector('.cms-trigger-btn')) {
                         const editBtn = document.createElement('button');
-                        editBtn.className = 'cms-trigger-btn absolute top-2 right-2 bg-brand-blue text-white text-[10px] font-black uppercase px-2 py-1 rounded shadow-lg z-30 cursor-pointer';
+                        editBtn.className = 'cms-trigger-btn absolute top-1 right-1 bg-brand-blue text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow-lg z-30 cursor-pointer';
                         editBtn.innerHTML = '✏️ Edit Block';
                         editBtn.onclick = (e) => openCMSModal(block.getAttribute('data-cms-id'), e);
                         block.appendChild(editBtn);
                     }
                 } else {
-                    block.classList.remove('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative');
+                    block.classList.remove('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative', 'rounded-xl');
                     const btn = block.querySelector('.cms-trigger-btn');
                     if (btn) btn.remove();
                 }
@@ -439,35 +466,28 @@
 
             if (!racers || racers.length === 0) return;
 
-            // Sort all by rating points descending
+            // Sort all racers by points once for convenience
             const sortedByPts = [...racers].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
 
-            // --- RENDER PODIUM (Top 3) USING PROFILE CARD STYLE ---
-            const podiumGrid = document.getElementById('podiumGrid');
-            if (podiumGrid) {
-                podiumGrid.innerHTML = '';
-                
-                // #1
-                const r1 = sortedByPts[0];
-                podiumGrid.innerHTML += r1 ? createPodiumCard(r1, 1, 'bg-brand-gold', 'text-black', 'border-brand-gold', 'shadow-[0_0_20px_rgba(197,160,89,0.3)] transform lg:-translate-y-4') : createEmptyPodium(1, 'bg-brand-gold', 'text-black');
-                
-                // #2
-                const r2 = sortedByPts[1];
-                podiumGrid.innerHTML += r2 ? createPodiumCard(r2, 2, 'bg-gray-300', 'text-black', 'border-gray-500', 'opacity-90 hover:opacity-100 transition') : createEmptyPodium(2, 'bg-gray-300', 'text-black');
-                
-                // #3
-                const r3 = sortedByPts[2];
-                podiumGrid.innerHTML += r3 ? createPodiumCard(r3, 3, 'bg-amber-700', 'text-white', 'border-amber-800', 'opacity-80 hover:opacity-100 transition') : createEmptyPodium(3, 'bg-amber-700', 'text-white');
-            }
+            // Determine Classes (if league_class doesn't strictly exist, simulated using points threshold)
+            // Amateur: Under 500 | Pro: 500-1499 | Pro Plus: 1500+
+            let amateurRacers = racers.filter(r => (r.league_class || '').toLowerCase() === 'amateur' || (!r.league_class && (r.rating_points || 0) < 500));
+            let proRacers = racers.filter(r => (r.league_class || '').toLowerCase() === 'pro' || (!r.league_class && (r.rating_points || 0) >= 500 && (r.rating_points || 0) < 1500));
+            let proPlusRacers = racers.filter(r => (r.league_class || '').toLowerCase() === 'pro_plus' || (!r.league_class && (r.rating_points || 0) >= 1500));
+
+            // RENDER TRIPLE PODIUMS (Targeted specifically to match 25% smaller profile-card styling)
+            renderPodium(amateurRacers, 'podiumAmateurGrid', 'bg-gray-400', 'border-gray-500');
+            renderPodium(proRacers, 'podiumProGrid', 'bg-brand-blue', 'border-brand-blue');
+            renderPodium(proPlusRacers, 'podiumProPlusGrid', 'bg-brand-red', 'border-brand-red');
 
             // --- RENDER TOP 5 LISTS ---
             const proPlusBox = document.getElementById('topProPlusBox');
             const amateurBox = document.getElementById('topAmateurBox');
             const winsBox = document.getElementById('topWinsBox');
 
-            if (proPlusBox) renderTopList(proPlusBox, sortedByPts.slice(0, 5), 'PT', 'text-brand-red');
-            const sortedAmateur = [...racers].filter(r => r.rating_points > 0).sort((a,b) => (a.rating_points || 0) - (b.rating_points || 0));
-            if (amateurBox) renderTopList(amateurBox, sortedAmateur.slice(0, 5), 'PT', 'text-gray-300');
+            if (proPlusBox) renderTopList(proPlusBox, proPlusRacers.slice(0, 5), 'PT', 'text-brand-red');
+            if (amateurBox) renderTopList(amateurBox, amateurRacers.slice(0, 5), 'PT', 'text-gray-300');
+            
             const sortedByWins = [...racers].sort((a,b) => (b.wins || 0) - (a.wins || 0));
             if (winsBox) renderTopList(winsBox, sortedByWins.slice(0, 5), 'Wins', 'text-brand-blue', 'wins');
 
@@ -508,7 +528,28 @@
             }
         }
 
-        // --- NEW CREATE PODIUM CARD (MATCHING PROFILES PAGE STYLE) ---
+        // Dedicated render function for each of the 3 podium grids
+        function renderPodium(racerList, containerId, highlightColorClass, borderClass) {
+            const sorted = [...racerList].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
+            const grid = document.getElementById(containerId);
+            if (!grid) return;
+            
+            grid.innerHTML = '';
+            
+            // #1 Racer
+            const r1 = sorted[0];
+            grid.innerHTML += r1 ? createPodiumCard(r1, 1, 'bg-brand-gold', 'text-black', 'border-brand-gold', 'shadow-[0_0_20px_rgba(197,160,89,0.3)] transform lg:-translate-y-2') : createEmptyPodium(1, 'bg-brand-gold', 'text-black');
+            
+            // #2 Racer
+            const r2 = sorted[1];
+            grid.innerHTML += r2 ? createPodiumCard(r2, 2, 'bg-gray-300', 'text-black', 'border-brand-border hover:' + borderClass, 'opacity-90 hover:opacity-100 transition') : createEmptyPodium(2, 'bg-gray-300', 'text-black');
+            
+            // #3 Racer
+            const r3 = sorted[2];
+            grid.innerHTML += r3 ? createPodiumCard(r3, 3, 'bg-amber-700', 'text-white', 'border-brand-border hover:' + borderClass, 'opacity-80 hover:opacity-100 transition') : createEmptyPodium(3, 'bg-amber-700', 'text-white');
+        }
+
+        // --- NEW CREATE PODIUM CARD (MATCHING 25% SMALLER PROFILES PAGE STYLE) ---
         function createPodiumCard(racer, rank, badgeBg, badgeText, borderClass, extraClasses) {
             const name = escapeHtml(racer.display_name);
             const pts = (racer.rating_points || 0).toLocaleString();
@@ -525,52 +566,52 @@
             const imageUrl = racer.avatar_url || racer.profile_image_url;
             const imageHTML = imageUrl 
                 ? `<img src="${imageUrl}" alt="${name}" class="w-full h-full object-cover rounded-lg">` 
-                : `<span class="text-[9px] text-gray-600 font-bold uppercase tracking-widest">DRIVER PHOTO</span>`;
+                : `<span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest">DRIVER PHOTO</span>`;
 
-            // Proper Racer Card Styling mixed with Podium Badging
+            // Proper Racer Card Styling mixed with Podium Badging, padding reduced from p-4 to p-3 to fit the 25% shrink
             return `
-                <div class="bg-[#0a0a0a] border ${borderClass} rounded-xl p-4 flex flex-col group shadow-[0_0_15px_rgba(197,160,89,0.1)] relative ${extraClasses}">
+                <div class="bg-[#0a0a0a] border ${borderClass} rounded-xl p-3 flex flex-col group shadow-[0_0_15px_rgba(197,160,89,0.1)] relative ${extraClasses}">
                     
                     <!-- Floating Rank Badge -->
-                    <div class="absolute -top-3 -right-3 ${badgeBg} ${badgeText} text-[10px] font-black px-3 py-1 rounded shadow-lg border border-brand-bg tracking-wider">
-                        #${rank} RANK - ${pts} PTS
+                    <div class="absolute -top-2 -right-2 ${badgeBg} ${badgeText} text-[9px] font-black px-2 py-0.5 rounded shadow-lg border border-brand-bg tracking-wider z-10">
+                        #${rank} - ${pts} PTS
                     </div>
                     
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="${isPro ? 'bg-brand-red' : 'bg-brand-blue'} text-white text-[8px] font-black uppercase px-2 py-0.5 rounded">${isPro ? 'PRO LEAGUE' : 'AMATEUR'}</span>
-                        <span class="text-brand-red font-mono font-black text-xs">#${carNum}</span>
+                    <div class="flex justify-between items-center mb-2 mt-1">
+                        <span class="${isPro ? 'bg-brand-red' : 'bg-brand-blue'} text-white text-[7px] font-black uppercase px-2 py-0.5 rounded">${isPro ? 'PRO LEAGUE' : 'AMATEUR'}</span>
+                        <span class="text-brand-red font-mono font-black text-[10px]">#${carNum}</span>
                     </div>
                     
-                    <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-4 group-hover:border-brand-gold transition cursor-pointer overflow-hidden" onclick="window.location='racer.html?driver=${encodeURIComponent(racer.display_name)}'">
+                    <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-3 group-hover:border-brand-gold transition cursor-pointer overflow-hidden" onclick="window.location='racer.html?driver=${encodeURIComponent(racer.display_name)}'">
                         ${imageHTML}
                     </div>
                     
-                    <h3 class="text-sm font-black uppercase text-white tracking-wider truncate" title="${name}">${name}</h3>
-                    <span class="text-[9px] text-gray-500 uppercase mt-1 block tracking-wider truncate">Team: <span class="text-gray-300">${escapeHtml(teamName)}</span></span>
+                    <h3 class="text-xs font-black uppercase text-white tracking-wider truncate" title="${name}">${name}</h3>
+                    <span class="text-[8px] text-gray-500 uppercase mt-0.5 block tracking-wider truncate">Team: <span class="text-gray-300">${escapeHtml(teamName)}</span></span>
                     
-                    <a href="racer.html?driver=${encodeURIComponent(racer.display_name)}" class="mt-4 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[9px] font-black uppercase py-2.5 rounded tracking-widest">VIEW FULL PROFILE →</a>
+                    <a href="racer.html?driver=${encodeURIComponent(racer.display_name)}" class="mt-3 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[8px] font-black uppercase py-1.5 rounded tracking-widest">VIEW PROFILE →</a>
                 </div>
             `;
         }
 
-        // --- NEW CREATE EMPTY PODIUM CARD (MATCHING PROFILES PAGE STYLE) ---
+        // --- NEW CREATE EMPTY PODIUM CARD (MATCHING 25% SMALLER PROFILES PAGE STYLE) ---
         function createEmptyPodium(rank, badgeBg, badgeText) {
             return `
-                <div class="bg-[#0a0a0a] border border-brand-border rounded-xl p-4 flex flex-col opacity-60 relative">
-                    <div class="absolute -top-3 -right-3 ${badgeBg} ${badgeText} text-[10px] font-black px-3 py-1 rounded shadow-lg border border-brand-bg tracking-wider">
+                <div class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 flex flex-col opacity-50 relative">
+                    <div class="absolute -top-2 -right-2 ${badgeBg} ${badgeText} text-[9px] font-black px-2 py-0.5 rounded shadow-lg border border-brand-bg tracking-wider z-10">
                         #${rank} RANK
                     </div>
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="bg-[#1a1a1a] text-gray-500 text-[8px] font-black uppercase px-2 py-0.5 rounded border border-brand-border">ROOKIE</span>
-                        <span class="text-gray-600 font-mono font-black text-xs">#--</span>
+                    <div class="flex justify-between items-center mb-2 mt-1">
+                        <span class="bg-[#1a1a1a] text-gray-500 text-[7px] font-black uppercase px-2 py-0.5 rounded border border-brand-border">ROOKIE</span>
+                        <span class="text-gray-600 font-mono font-black text-[10px]">#--</span>
                     </div>
-                    <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-4">
-                        <span class="text-[9px] text-gray-700 font-bold uppercase tracking-widest">OPEN SLOT</span>
+                    <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-3">
+                        <span class="text-[8px] text-gray-700 font-bold uppercase tracking-widest">OPEN SLOT</span>
                     </div>
-                    <h3 class="text-sm font-black uppercase text-gray-500 tracking-wider">PENDING DRIVER</h3>
-                    <span class="text-[9px] text-gray-600 uppercase mt-1 block h-3">UNASSIGNED</span>
+                    <h3 class="text-xs font-black uppercase text-gray-500 tracking-wider">PENDING DRIVER</h3>
+                    <span class="text-[8px] text-gray-600 uppercase mt-0.5 block h-3">UNASSIGNED</span>
                     
-                    <button disabled class="mt-4 block w-full text-center bg-[#111] border border-brand-border text-gray-600 text-[9px] font-black uppercase py-2.5 rounded tracking-widest cursor-not-allowed">SLOT AVAILABLE</button>
+                    <button disabled class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-600 text-[8px] font-black uppercase py-1.5 rounded tracking-widest cursor-not-allowed">SLOT AVAILABLE</button>
                 </div>
             `;
         }
