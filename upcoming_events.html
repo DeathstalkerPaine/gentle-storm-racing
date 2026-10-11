@@ -98,15 +98,18 @@
 
     <!-- EVENT VIEW / DETAIL MODAL -->
     <div id="eventModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-        <div class="bg-brand-card border border-brand-gold rounded-xl max-w-2xl w-full p-6 shadow-2xl relative gold-border-glow space-y-4">
+        <div class="bg-brand-card border border-brand-gold rounded-xl max-w-2xl w-full p-6 shadow-2xl relative gold-border-glow space-y-4 max-h-[90vh] overflow-y-auto">
             <button onclick="closeEventModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg font-black uppercase cursor-pointer">✕</button>
             <div>
                 <span id="modalDateTag" class="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-brand-gold text-black font-bold">Category</span>
                 <h2 id="modalTitle" class="text-xl font-black uppercase text-white mt-2">Event Title</h2>
             </div>
-            <div class="aspect-video bg-black border border-brand-border rounded-lg overflow-hidden flex items-center justify-center relative">
+            
+            <!-- Dynamic Media Preview Box -->
+            <div id="modalMediaContainer" class="aspect-video bg-black border border-brand-border rounded-lg overflow-hidden flex items-center justify-center relative">
                 <span id="modalMediaPlaceholder" class="text-xs text-gray-500 font-mono uppercase text-center p-4">[ EVENT IMAGE / VIDEO PREVIEW ]</span>
             </div>
+
             <div>
                 <p id="modalDescription" class="text-xs text-gray-300 leading-relaxed whitespace-pre-wrap">Detailed event description loads here.</p>
             </div>
@@ -124,13 +127,14 @@
 
     <!-- ADMIN EVENT EDITOR / CREATOR MODAL -->
     <div id="eventEditorModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-        <div class="bg-brand-card border border-brand-gold rounded-xl max-w-xl w-full p-6 shadow-2xl relative gold-border-glow space-y-4">
+        <div class="bg-brand-card border border-brand-gold rounded-xl max-w-xl w-full p-6 shadow-2xl relative gold-border-glow space-y-4 max-h-[90vh] overflow-y-auto">
             <button onclick="closeEventEditorModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg font-black uppercase cursor-pointer">✕</button>
             
             <h2 id="editorModalTitle" class="text-lg font-black uppercase text-brand-gold tracking-wider border-b border-brand-border pb-2">➕ Add New Event</h2>
             
             <form id="eventForm" onsubmit="saveEventToDatabase(event)" class="space-y-4 text-xs">
                 <input type="hidden" id="edit_event_id" value="">
+                <input type="hidden" id="edit_media_url_existing" value="">
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -162,9 +166,22 @@
                     </div>
                 </div>
 
-                <div>
-                    <label class="block font-black uppercase text-gray-400 mb-1">Media Placeholder Label</label>
-                    <input type="text" id="edit_event_media_label" placeholder="CIRCUIT PREVIEW" class="w-full bg-[#0a0a0a] border border-brand-border text-white px-3 py-2 rounded outline-none focus:border-brand-gold">
+                <!-- MEDIA UPLOAD & LINK FIELDS -->
+                <div class="space-y-3 pt-2 border-t border-brand-border">
+                    <div>
+                        <label class="block font-black uppercase text-brand-gold mb-1">Upload Banner / Track Photo</label>
+                        <input type="file" id="edit_media_file" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white px-3 py-1.5 rounded text-xs">
+                    </div>
+
+                    <div>
+                        <label class="block font-black uppercase text-gray-400 mb-1">Or Direct Media / Video URL (YouTube, MP4, image link)</label>
+                        <input type="url" id="edit_media_url_input" placeholder="https://..." class="w-full bg-[#0a0a0a] border border-brand-border text-white px-3 py-2 rounded outline-none focus:border-brand-gold">
+                    </div>
+
+                    <div>
+                        <label class="block font-black uppercase text-gray-400 mb-1">Media Placeholder Label (Fallback Text)</label>
+                        <input type="text" id="edit_event_media_label" placeholder="CIRCUIT PREVIEW" class="w-full bg-[#0a0a0a] border border-brand-border text-white px-3 py-2 rounded outline-none focus:border-brand-gold">
+                    </div>
                 </div>
 
                 <div>
@@ -350,8 +367,21 @@
         function openEventModal(ev) {
             document.getElementById('modalDateTag').innerText = ev.category || 'EVENT';
             document.getElementById('modalTitle').innerText = ev.title;
-            document.getElementById('modalMediaPlaceholder').innerText = ev.media_label || "[ PREVIEW ]";
             document.getElementById('modalDescription').innerText = `${ev.event_date} • ${ev.event_time}\n\n${ev.description || ''}`;
+
+            const mediaContainer = document.getElementById('modalMediaContainer');
+            if (ev.media_url) {
+                if (ev.media_url.includes('youtube.com') || ev.media_url.includes('youtu.be')) {
+                    const ytId = ev.media_url.split('v=')[1] || ev.media_url.split('/').pop();
+                    mediaContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}" class="w-full h-full rounded-lg" frameborder="0" allowfullscreen></iframe>`;
+                } else if (ev.media_url.endsWith('.mp4') || ev.media_url.endsWith('.webm')) {
+                    mediaContainer.innerHTML = `<video src="${ev.media_url}" controls class="w-full h-full object-cover rounded-lg"></video>`;
+                } else {
+                    mediaContainer.innerHTML = `<img src="${ev.media_url}" alt="${escapeHtml(ev.title)}" class="w-full h-full object-cover rounded-lg">`;
+                }
+            } else {
+                mediaContainer.innerHTML = `<span class="text-xs text-gray-500 font-mono uppercase text-center p-4">[ ${escapeHtml(ev.media_label || 'NO MEDIA SCHEDULED')} ]</span>`;
+            }
 
             const adminBtns = document.getElementById('modalAdminBtns');
             if (isEditModeActive && adminBtns) {
@@ -370,7 +400,7 @@
         function openEmptyModal(dateKey) {
             document.getElementById('modalDateTag').innerText = "Schedule Notice";
             document.getElementById('modalTitle').innerText = `No Events on ${dateKey}`;
-            document.getElementById('modalMediaPlaceholder').innerText = "[ NO MEDIA SCHEDULED ]";
+            document.getElementById('modalMediaContainer').innerHTML = `<span class="text-xs text-gray-500 font-mono uppercase text-center p-4">[ NO MEDIA SCHEDULED ]</span>`;
             document.getElementById('modalDescription').innerText = "There are currently no official races, concerts, or live events scheduled for this specific date.";
 
             const adminBtns = document.getElementById('modalAdminBtns');
@@ -391,10 +421,12 @@
         function openEventEditorModalForDate(dateKey) {
             document.getElementById('editorModalTitle').innerText = `➕ Add Event on ${dateKey}`;
             document.getElementById('edit_event_id').value = "";
+            document.getElementById('edit_media_url_existing').value = "";
             document.getElementById('edit_event_date').value = dateKey;
             document.getElementById('edit_event_time').value = "8:00 PM SLT";
             document.getElementById('edit_event_title').value = "";
             document.getElementById('edit_event_category').value = "Pro League";
+            document.getElementById('edit_media_url_input').value = "";
             document.getElementById('edit_event_media_label').value = "CIRCUIT PREVIEW";
             document.getElementById('edit_event_description').value = "";
 
@@ -406,10 +438,12 @@
         function openEventEditorModalForEdit(ev) {
             document.getElementById('editorModalTitle').innerText = `✏️ Edit Event`;
             document.getElementById('edit_event_id').value = ev.id || "";
+            document.getElementById('edit_media_url_existing').value = ev.media_url || "";
             document.getElementById('edit_event_date').value = ev.event_date;
             document.getElementById('edit_event_time').value = ev.event_time;
             document.getElementById('edit_event_title').value = ev.title;
             document.getElementById('edit_event_category').value = ev.category || "Pro League";
+            document.getElementById('edit_media_url_input').value = ev.media_url || "";
             document.getElementById('edit_event_media_label').value = ev.media_label || "";
             document.getElementById('edit_event_description').value = ev.description || "";
 
@@ -437,6 +471,20 @@
             const category = document.getElementById('edit_event_category').value;
             const media_label = document.getElementById('edit_event_media_label').value;
             const description = document.getElementById('edit_event_description').value;
+            
+            let media_url = document.getElementById('edit_media_url_input').value || document.getElementById('edit_media_url_existing').value;
+
+            // Handle file upload if present
+            const fileInput = document.getElementById('edit_media_file');
+            if (fileInput && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const fileName = `event_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+                const { error: uploadErr } = await db.storage.from('admin-assets').upload(fileName, file);
+                if (!uploadErr) {
+                    const { data: pubData } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                    media_url = pubData.publicUrl;
+                }
+            }
 
             const payload = {
                 event_date,
@@ -444,6 +492,7 @@
                 title,
                 category,
                 media_label,
+                media_url,
                 description
             };
 
