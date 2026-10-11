@@ -356,4 +356,186 @@
                         `;
                     }
                 }
-            } catch (e) { console.warn("Auth check
+            } catch (e) { console.warn("Auth check bypassed", e); }
+
+            await loadCMSContent();
+        }
+
+        async function loadCMSContent() {
+            try {
+                const { data, error } = await db.from('site_content').select('*').like('section_id', 'skill:%');
+                if (!error && data) {
+                    data.forEach(row => {
+                        const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
+                        if (!container) return;
+                        try {
+                            const content = JSON.parse(row.content_value);
+
+                            if (row.section_id === 'skill:sponsors') {
+                                const logos = [];
+                                if (content.logo_1) logos.push(content.logo_1);
+                                if (content.logo_2) logos.push(content.logo_2);
+                                if (content.logo_3) logos.push(content.logo_3);
+
+                                const sponsorBox = document.getElementById('skillSponsorLogosContainer');
+                                if (logos.length > 0 && sponsorBox) {
+                                    sponsorBox.innerHTML = '';
+                                    logos.forEach((url, i) => {
+                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 h-full w-full object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
+                                    });
+                                }
+                            }
+
+                            Object.keys(content).forEach(key => {
+                                const el = container.querySelector(`[data-cms-field="${key}"]`);
+                                if (el) el.innerText = content[key];
+                            });
+                        } catch (e) {}
+                    });
+                }
+            } catch (e) { console.warn("CMS Content error", e); }
+        }
+
+        window.toggleEditMode = function() {
+            isEditModeActive = !isEditModeActive;
+            const btns = document.querySelectorAll('#editModeBtn, #editModeBtnMobile');
+            btns.forEach(btn => {
+                btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
+                btn.classList.toggle('bg-brand-blue', !isEditModeActive);
+                btn.classList.toggle('bg-brand-red', isEditModeActive);
+            });
+
+            document.querySelectorAll('[data-cms-id]').forEach(block => {
+                if (isEditModeActive) {
+                    block.classList.add('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative');
+                    if (!block.querySelector('.cms-trigger-btn')) {
+                        const editBtn = document.createElement('button');
+                        editBtn.className = 'cms-trigger-btn absolute top-2 right-2 bg-brand-blue text-white text-[10px] font-black uppercase px-2 py-1 rounded shadow-lg z-30 cursor-pointer';
+                        editBtn.innerHTML = '✏️ Edit Block';
+                        editBtn.onclick = (e) => openCMSModal(block.getAttribute('data-cms-id'), e);
+                        block.appendChild(editBtn);
+                    }
+                } else {
+                    block.classList.remove('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative');
+                    const btn = block.querySelector('.cms-trigger-btn');
+                    if (btn) btn.remove();
+                }
+            });
+        }
+
+        window.openCMSModal = async function(cmsId, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            currentEditId = cmsId;
+            const container = document.querySelector(`[data-cms-id="${cmsId}"]`);
+            
+            let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+
+            const formContainer = document.getElementById('cmsModalFields');
+            formContainer.innerHTML = '';
+            
+            fields.forEach(f => {
+                const fieldName = f.getAttribute('data-cms-field');
+                formContainer.innerHTML += `<div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">${fieldName.replace('_', ' ')}</label><textarea id="cms_input_${fieldName}" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(f.innerText)}</textarea></div>`;
+            });
+
+            if (cmsId === 'skill:sponsors') {
+                let existingLogos = {};
+                try {
+                    const { data } = await db.from('site_content').select('content_value').eq('section_id', 'skill:sponsors').maybeSingle();
+                    if (data && data.content_value) existingLogos = JSON.parse(data.content_value);
+                } catch(e) {}
+
+                formContainer.innerHTML += `
+                    <div class="space-y-3 pt-3 border-t border-brand-border">
+                        <label class="text-[10px] font-black uppercase text-brand-gold tracking-wider block">Sponsor Logos (Up to 3 Horizontal Logos)</label>
+                        
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 1</span>
+                            <input type="file" id="cms_sponsor_file_1" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_1" value="${existingLogos.logo_1 || ''}">
+                            ${existingLogos.logo_1 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_1"> Remove Logo 1</label>` : ''}
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 2</span>
+                            <input type="file" id="cms_sponsor_file_2" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_2" value="${existingLogos.logo_2 || ''}">
+                            ${existingLogos.logo_2 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_2"> Remove Logo 2</label>` : ''}
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 3</span>
+                            <input type="file" id="cms_sponsor_file_3" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_3" value="${existingLogos.logo_3 || ''}">
+                            ${existingLogos.logo_3 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_3"> Remove Logo 3</label>` : ''}
+                        </div>
+                    </div>`;
+            }
+
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        window.closeCMSModal = function() {
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
+        window.saveCMSModal = async function() {
+            const container = document.querySelector(`[data-cms-id="${currentEditId}"]`);
+            let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+
+            let updateData = {};
+            
+            if (currentEditId === 'skill:sponsors') {
+                for (let i = 1; i <= 3; i++) {
+                    const clearCheckbox = document.getElementById(`cms_clear_sponsor_${i}`);
+                    const fileInput = document.getElementById(`cms_sponsor_file_${i}`);
+                    const urlInput = document.getElementById(`cms_sponsor_url_${i}`);
+                    let logoUrl = urlInput ? urlInput.value : '';
+
+                    if (clearCheckbox && clearCheckbox.checked) {
+                        logoUrl = '';
+                    } else if (fileInput && fileInput.files.length > 0) {
+                        const file = fileInput.files[0];
+                        const fileName = `skill_sponsor_${i}_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+                        const { error: uploadError } = await db.storage.from('admin-assets').upload(fileName, file);
+                        if (!uploadError) {
+                            const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                            logoUrl = publicUrlData.publicUrl;
+                        }
+                    }
+                    if (logoUrl) updateData[`logo_${i}`] = logoUrl;
+                }
+            }
+
+            fields.forEach(f => {
+                const fieldName = f.getAttribute('data-cms-field');
+                const inputEl = document.getElementById(`cms_input_${fieldName}`);
+                if (inputEl) { updateData[fieldName] = inputEl.value; f.innerText = inputEl.value; }
+            });
+            
+            await db.from('site_content').upsert([{ section_id: currentEditId, content_value: JSON.stringify(updateData) }]);
+            await loadCMSContent();
+            closeCMSModal();
+        }
+
+        async function executeSignOut() {
+            await db.auth.signOut();
+            window.location.reload(); 
+        }
+
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+
+        window.onload = initSkillPage;
+    </script>
+</body>
+</html>
