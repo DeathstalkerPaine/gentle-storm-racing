@@ -241,31 +241,31 @@
         const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
         const db = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        const storeDatabase = [
-            { type: 'car', subType: 'car_model', name: 'StormDrift GT-1 (Car 1)', price: 'L$2,499', desc: 'High-performance drift chassis with custom LSL telemetry gauges.', link: 'secondlife://...' },
-            { type: 'car', subType: 'car_model', name: 'Viper Apex GT (Car 2)', price: 'L$2,799', desc: 'Aerodynamic time-trial track specialist built for cornering speed.', link: 'secondlife://...' },
-            { type: 'car', subType: 'car_model', name: 'Phantom V8 Coupe (Car 3)', price: 'L$2,650', desc: 'Classic muscle styling with modern track-tuned suspension scripts.', link: 'secondlife://...' },
-            { type: 'car', subType: 'car_model', name: 'Eclipse XR-9 (Car 4)', price: 'L$2,899', desc: 'Futuristic cyberpunk racer with integrated neon strip lighting.', link: 'secondlife://...' },
-            { type: 'car', subType: 'car_model', name: 'Thunderbolt S-Type (Car 5)', price: 'L$2,399', desc: 'Lightweight endurance racer optimized for long-distance circuits.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'hood', name: 'Carbon Fiber Vented Hood (Car Part)', price: 'L$499', desc: 'Reduces vehicle drag and improves cooling telemetry.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'hood', name: 'Aggressive Cowl Induction Hood (Car Part)', price: 'L$450', desc: 'High-clearance racing hood with matte black finish.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'rim', name: 'Forged Deep-Dish Rims (Car Part)', price: 'L$599', desc: 'Customizable multi-piece rim set with high-gloss shine.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'rim', name: 'Monoblock Split-Spoke Rims (Car Part)', price: 'L$549', desc: 'Lightweight track wheels designed for minimal rotational mass.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'tire', name: 'Racing Slick Compounds (Car Part)', price: 'L$399', desc: 'Maximum dry-track grip compound for superior cornering.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'tire', name: 'Semi-Slick All-Weather Tires (Car Part)', price: 'L$350', desc: 'Reliable traction across wet or dry asphalt surfaces.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'bumper', name: 'Widebody Aero Front Bumper (Car Part)', price: 'L$649', desc: 'Generates heavy front downforce on tight hairpins.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'bumper', name: 'Carbon Diffuser Rear Bumper (Car Part)', price: 'L$699', desc: 'Smooths out trailing wake turbulence at high speeds.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'exhaust', name: 'Titanium Quad-Tip Exhaust System (Car Part)', price: 'L$549', desc: 'Custom exhaust audio note and backfire particle scripts.', link: 'secondlife://...' },
-            { type: 'car_part', subType: 'exhaust', name: 'Side-Exit Racing Exhaust (Car Part)', price: 'L$499', desc: 'Short-path high-flow exhaust for maximum horsepower output.', link: 'secondlife://...' },
-            { type: 'bike', subType: 'bike_model', name: 'Cyclone Apex Superbike (Bike 1)', price: 'L$1,899', desc: 'Agile two-wheel racer featuring advanced lean angle physics.', link: 'secondlife://...' },
-            { type: 'bike', subType: 'bike_model', name: 'Stalker Streetfighter (Bike 2)', price: 'L$1,750', desc: 'Raw naked-bike styling with incredible acceleration curves.', link: 'secondlife://...' },
-            { type: 'bike', subType: 'bike_model', name: 'Vortex Lightning RR (Bike 3)', price: 'L$1,999', desc: 'Top-tier championship superbike with digital HUD integration.', link: 'secondlife://...' },
-            { type: 'bike', subType: 'bike_model', name: 'Shadow Cruiser X (Bike 4)', price: 'L$1,650', desc: 'Custom low-slung cruiser built for scenic estate tours.', link: 'secondlife://...' },
-            { type: 'bike', subType: 'bike_model', name: 'Ignition Moto-GP Spec (Bike 5)', price: 'L$2,100', desc: 'Strictly engineered for professional closed-circuit racing.', link: 'secondlife://...' },
-            { type: 'bike_part', subType: 'fairing', name: 'Carbon Race Fairings Kit (Bike Part)', price: 'L$449', desc: 'Lightweight body kit designed for maximum straight-line speed.', link: 'secondlife://...' },
-            { type: 'bike_part', subType: 'handlebar', name: 'Clip-On Racing Handlebars (Bike Part)', price: 'L$299', desc: 'Lowered aggressive riding posture for tighter turns.', link: 'secondlife://...' },
-            { type: 'gentle_storm', subType: 'decor', name: 'Handcrafted Stone Mosaic Art', price: 'L$999', desc: 'Custom slate and travertine framed mosaic artwork for your estate.', link: 'secondlife://...' },
-            { type: 'gentle_storm', subType: 'decor', name: 'Dragonwood Display Frame', price: 'L$499', desc: 'Hand-carved wooden display mount for collectibles.', link: 'secondlife://...' }
+        let storeDatabase = [
+            { id: 'item_car_1', type: 'car', subType: 'car_model', name: 'StormDrift GT-1 (Car 1)', price: 'L$2,499', desc: 'High-performance drift chassis with custom LSL telemetry gauges.', link: 'secondlife://...' },
+            { id: 'item_car_2', type: 'car', subType: 'car_model', name: 'Viper Apex GT (Car 2)', price: 'L$2,799', desc: 'Aerodynamic time-trial track specialist built for cornering speed.', link: 'secondlife://...' },
+            { id: 'item_car_3', type: 'car', subType: 'car_model', name: 'Phantom V8 Coupe (Car 3)', price: 'L$2,650', desc: 'Classic muscle styling with modern track-tuned suspension scripts.', link: 'secondlife://...' },
+            { id: 'item_car_4', type: 'car', subType: 'car_model', name: 'Eclipse XR-9 (Car 4)', price: 'L$2,899', desc: 'Futuristic cyberpunk racer with integrated neon strip lighting.', link: 'secondlife://...' },
+            { id: 'item_car_5', type: 'car', subType: 'car_model', name: 'Thunderbolt S-Type (Car 5)', price: 'L$2,399', desc: 'Lightweight endurance racer optimized for long-distance circuits.', link: 'secondlife://...' },
+            { id: 'item_car_part_1', type: 'car_part', subType: 'hood', name: 'Carbon Fiber Vented Hood (Car Part)', price: 'L$499', desc: 'Reduces vehicle drag and improves cooling telemetry.', link: 'secondlife://...' },
+            { id: 'item_car_part_2', type: 'car_part', subType: 'hood', name: 'Aggressive Cowl Induction Hood (Car Part)', price: 'L$450', desc: 'High-clearance racing hood with matte black finish.', link: 'secondlife://...' },
+            { id: 'item_car_part_3', type: 'car_part', subType: 'rim', name: 'Forged Deep-Dish Rims (Car Part)', price: 'L$599', desc: 'Customizable multi-piece rim set with high-gloss shine.', link: 'secondlife://...' },
+            { id: 'item_car_part_4', type: 'car_part', subType: 'rim', name: 'Monoblock Split-Spoke Rims (Car Part)', price: 'L$549', desc: 'Lightweight track wheels designed for minimal rotational mass.', link: 'secondlife://...' },
+            { id: 'item_car_part_5', type: 'car_part', subType: 'tire', name: 'Racing Slick Compounds (Car Part)', price: 'L$399', desc: 'Maximum dry-track grip compound for superior cornering.', link: 'secondlife://...' },
+            { id: 'item_car_part_6', type: 'car_part', subType: 'tire', name: 'Semi-Slick All-Weather Tires (Car Part)', price: 'L$350', desc: 'Reliable traction across wet or dry asphalt surfaces.', link: 'secondlife://...' },
+            { id: 'item_car_part_7', type: 'car_part', subType: 'bumper', name: 'Widebody Aero Front Bumper (Car Part)', price: 'L$649', desc: 'Generates heavy front downforce on tight hairpins.', link: 'secondlife://...' },
+            { id: 'item_car_part_8', type: 'car_part', subType: 'bumper', name: 'Carbon Diffuser Rear Bumper (Car Part)', price: 'L$699', desc: 'Smooths out trailing wake turbulence at high speeds.', link: 'secondlife://...' },
+            { id: 'item_car_part_9', type: 'car_part', subType: 'exhaust', name: 'Titanium Quad-Tip Exhaust System (Car Part)', price: 'L$549', desc: 'Custom exhaust audio note and backfire particle scripts.', link: 'secondlife://...' },
+            { id: 'item_car_part_10', type: 'car_part', subType: 'exhaust', name: 'Side-Exit Racing Exhaust (Car Part)', price: 'L$499', desc: 'Short-path high-flow exhaust for maximum horsepower output.', link: 'secondlife://...' },
+            { id: 'item_bike_1', type: 'bike', subType: 'bike_model', name: 'Cyclone Apex Superbike (Bike 1)', price: 'L$1,899', desc: 'Agile two-wheel racer featuring advanced lean angle physics.', link: 'secondlife://...' },
+            { id: 'item_bike_2', type: 'bike', subType: 'bike_model', name: 'Stalker Streetfighter (Bike 2)', price: 'L$1,750', desc: 'Raw naked-bike styling with incredible acceleration curves.', link: 'secondlife://...' },
+            { id: 'item_bike_3', type: 'bike', subType: 'bike_model', name: 'Vortex Lightning RR (Bike 3)', price: 'L$1,999', desc: 'Top-tier championship superbike with digital HUD integration.', link: 'secondlife://...' },
+            { id: 'item_bike_4', type: 'bike', subType: 'bike_model', name: 'Shadow Cruiser X (Bike 4)', price: 'L$1,650', desc: 'Custom low-slung cruiser built for scenic estate tours.', link: 'secondlife://...' },
+            { id: 'item_bike_5', type: 'bike', subType: 'bike_model', name: 'Ignition Moto-GP Spec (Bike 5)', price: 'L$2,100', desc: 'Strictly engineered for professional closed-circuit racing.', link: 'secondlife://...' },
+            { id: 'item_bike_part_1', type: 'bike_part', subType: 'fairing', name: 'Carbon Race Fairings Kit (Bike Part)', price: 'L$449', desc: 'Lightweight body kit designed for maximum straight-line speed.', link: 'secondlife://...' },
+            { id: 'item_bike_part_2', type: 'bike_part', subType: 'handlebar', name: 'Clip-On Racing Handlebars (Bike Part)', price: 'L$299', desc: 'Lowered aggressive riding posture for tighter turns.', link: 'secondlife://...' },
+            { id: 'item_gentle_1', type: 'gentle_storm', subType: 'decor', name: 'Handcrafted Stone Mosaic Art', price: 'L$999', desc: 'Custom slate and travertine framed mosaic artwork for your estate.', link: 'secondlife://...' },
+            { id: 'item_gentle_2', type: 'gentle_storm', subType: 'decor', name: 'Dragonwood Display Frame', price: 'L$499', desc: 'Hand-carved wooden display mount for collectibles.', link: 'secondlife://...' }
         ];
 
         let activeMainCategory = 'car';
@@ -326,9 +326,19 @@
                 if (!error && data) {
                     data.forEach(row => {
                         const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
-                        if (!container) return;
                         try {
                             const content = JSON.parse(row.content_value);
+
+                            if (row.section_id.startsWith('store:item_')) {
+                                const targetId = row.section_id.replace('store:', '');
+                                const itemObj = storeDatabase.find(i => i.id === targetId);
+                                if (itemObj) {
+                                    if (content.name) itemObj.name = content.name;
+                                    if (content.price) itemObj.price = content.price;
+                                    if (content.desc) itemObj.desc = content.desc;
+                                    if (content.link) itemObj.link = content.link;
+                                }
+                            }
 
                             if (row.section_id === 'store:sponsors') {
                                 const logos = [];
@@ -345,10 +355,12 @@
                                 }
                             }
 
-                            Object.keys(content).forEach(key => {
-                                const el = container.querySelector(`[data-cms-field="${key}"]`);
-                                if (el) el.innerText = content[key];
-                            });
+                            if (container) {
+                                Object.keys(content).forEach(key => {
+                                    const el = container.querySelector(`[data-cms-field="${key}"]`);
+                                    if (el) el.innerText = content[key];
+                                });
+                            }
                         } catch (e) {}
                     });
                 }
@@ -388,15 +400,27 @@
             currentEditId = cmsId;
             const container = document.querySelector(`[data-cms-id="${cmsId}"]`);
             
-            let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
-
             const formContainer = document.getElementById('cmsModalFields');
             formContainer.innerHTML = '';
-            
-            fields.forEach(f => {
-                const fieldName = f.getAttribute('data-cms-field');
-                formContainer.innerHTML += `<div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">${fieldName.replace('_', ' ')}</label><textarea id="cms_input_${fieldName}" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(f.innerText)}</textarea></div>`;
-            });
+
+            if (cmsId.startsWith('store:item_')) {
+                const itemId = cmsId.replace('store:', '');
+                const itemObj = storeDatabase.find(i => i.id === itemId);
+                if (itemObj) {
+                    formContainer.innerHTML = `
+                        <div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">Name</label><textarea id="cms_input_name" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(itemObj.name)}</textarea></div>
+                        <div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">Price</label><textarea id="cms_input_price" rows="1" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(itemObj.price)}</textarea></div>
+                        <div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">Description</label><textarea id="cms_input_desc" rows="3" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(itemObj.desc)}</textarea></div>
+                        <div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">SLURL Link</label><textarea id="cms_input_link" rows="1" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(itemObj.link)}</textarea></div>
+                    `;
+                }
+            } else if (container) {
+                let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+                fields.forEach(f => {
+                    const fieldName = f.getAttribute('data-cms-field');
+                    formContainer.innerHTML += `<div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">${fieldName.replace('_', ' ')}</label><textarea id="cms_input_${fieldName}" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(f.innerText)}</textarea></div>`;
+                });
+            }
 
             if (cmsId === 'store:sponsors') {
                 let existingLogos = {};
@@ -447,41 +471,54 @@
         }
 
         window.saveCMSModal = async function() {
-            const container = document.querySelector(`[data-cms-id="${currentEditId}"]`);
-            let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
-
             let updateData = {};
             
-            if (currentEditId === 'store:sponsors') {
-                for (let i = 1; i <= 3; i++) {
-                    const clearCheckbox = document.getElementById(`cms_clear_sponsor_${i}`);
-                    const fileInput = document.getElementById(`cms_sponsor_file_${i}`);
-                    const urlInput = document.getElementById(`cms_sponsor_url_${i}`);
-                    let logoUrl = urlInput ? urlInput.value : '';
-
-                    if (clearCheckbox && clearCheckbox.checked) {
-                        logoUrl = '';
-                    } else if (fileInput && fileInput.files.length > 0) {
-                        const file = fileInput.files[0];
-                        const fileName = `store_sponsor_${i}_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
-                        const { error: uploadError } = await db.storage.from('admin-assets').upload(fileName, file);
-                        if (!uploadError) {
-                            const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
-                            logoUrl = publicUrlData.publicUrl;
-                        }
-                    }
-                    if (logoUrl) updateData[`logo_${i}`] = logoUrl;
+            if (currentEditId.startsWith('store:item_')) {
+                const itemId = currentEditId.replace('store:', '');
+                const itemObj = storeDatabase.find(i => i.id === itemId);
+                if (itemObj) {
+                    itemObj.name = document.getElementById('cms_input_name').value;
+                    itemObj.price = document.getElementById('cms_input_price').value;
+                    itemObj.desc = document.getElementById('cms_input_desc').value;
+                    itemObj.link = document.getElementById('cms_input_link').value;
+                    updateData = { name: itemObj.name, price: itemObj.price, desc: itemObj.desc, link: itemObj.link };
                 }
-            }
+            } else {
+                const container = document.querySelector(`[data-cms-id="${currentEditId}"]`);
+                let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
 
-            fields.forEach(f => {
-                const fieldName = f.getAttribute('data-cms-field');
-                const inputEl = document.getElementById(`cms_input_${fieldName}`);
-                if (inputEl) { updateData[fieldName] = inputEl.value; f.innerText = inputEl.value; }
-            });
+                if (currentEditId === 'store:sponsors') {
+                    for (let i = 1; i <= 3; i++) {
+                        const clearCheckbox = document.getElementById(`cms_clear_sponsor_${i}`);
+                        const fileInput = document.getElementById(`cms_sponsor_file_${i}`);
+                        const urlInput = document.getElementById(`cms_sponsor_url_${i}`);
+                        let logoUrl = urlInput ? urlInput.value : '';
+
+                        if (clearCheckbox && clearCheckbox.checked) {
+                            logoUrl = '';
+                        } else if (fileInput && fileInput.files.length > 0) {
+                            const file = fileInput.files[0];
+                            const fileName = `store_sponsor_${i}_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+                            const { error: uploadError } = await db.storage.from('admin-assets').upload(fileName, file);
+                            if (!uploadError) {
+                                const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                                logoUrl = publicUrlData.publicUrl;
+                            }
+                        }
+                        if (logoUrl) updateData[`logo_${i}`] = logoUrl;
+                    }
+                }
+
+                fields.forEach(f => {
+                    const fieldName = f.getAttribute('data-cms-field');
+                    const inputEl = document.getElementById(`cms_input_${fieldName}`);
+                    if (inputEl) { updateData[fieldName] = inputEl.value; f.innerText = inputEl.value; }
+                });
+            }
             
             await db.from('site_content').upsert([{ section_id: currentEditId, content_value: JSON.stringify(updateData) }]);
             await loadCMSContent();
+            filterCatalog();
             closeCMSModal();
         }
 
@@ -517,10 +554,21 @@
 
             filtered.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 shadow-xl flex flex-col justify-between transition group cursor-pointer";
-                card.onclick = () => openItemModal(item);
+                card.setAttribute('data-cms-id', `store:${item.id}`);
+                card.className = `bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 shadow-xl flex flex-col justify-between transition group cursor-pointer ${isEditModeActive ? 'ring-2 ring-brand-blue ring-offset-4 ring-offset-brand-bg relative' : ''}`;
+                
+                card.onclick = (e) => {
+                    if (isEditModeActive) {
+                        openCMSModal(`store:${item.id}`, e);
+                    } else {
+                        openItemModal(item);
+                    }
+                };
+
+                let editBtnHTML = isEditModeActive ? `<button onclick="openCMSModal('store:${item.id}', event)" class="cms-trigger-btn absolute top-2 right-2 bg-brand-blue text-white text-[10px] font-black uppercase px-2 py-1 rounded shadow-lg z-30 cursor-pointer">✏️ Edit Block</button>` : '';
 
                 card.innerHTML = `
+                    ${editBtnHTML}
                     <div>
                         <div class="flex justify-between items-center mb-3">
                             <span class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">${item.price}</span>
