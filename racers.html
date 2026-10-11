@@ -549,13 +549,12 @@
             grid.innerHTML += r3 ? createPodiumCard(r3, 3, 'bg-amber-700', 'text-white', 'border-brand-border hover:' + borderClass, 'opacity-80 hover:opacity-100 transition') : createEmptyPodium(3, 'bg-amber-700', 'text-white');
         }
 
-        // --- NEW CREATE PODIUM CARD (MATCHING 25% SMALLER PROFILES PAGE STYLE) ---
+                // --- UPDATED: HALF-SIZE PODIUM CARD ---
         function createPodiumCard(racer, rank, badgeBg, badgeText, borderClass, extraClasses) {
             const name = escapeHtml(racer.display_name);
             const pts = (racer.rating_points || 0).toLocaleString();
             const carNum = racer.racer_number || racer.car_number || '--';
             
-            // Resolve Team Name
             let teamName = 'INDEPENDENT';
             if (racer.primary_team_id) {
                 const foundTeam = allTeams.find(t => t.id === racer.primary_team_id);
@@ -565,57 +564,54 @@
             const isPro = (racer.rating_points || 0) >= 1000 || racer.league_class === 'pro';
             const imageUrl = racer.avatar_url || racer.profile_image_url;
             const imageHTML = imageUrl 
-                ? `<img src="${imageUrl}" alt="${name}" class="w-full h-full object-cover rounded-lg">` 
-                : `<span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest">DRIVER PHOTO</span>`;
+                ? `<img src="${imageUrl}" alt="${name}" class="w-full h-full object-cover rounded">` 
+                : `<span class="text-[6px] text-gray-600 font-bold uppercase tracking-widest">PHOTO</span>`;
 
-            // Proper Racer Card Styling mixed with Podium Badging, padding reduced from p-4 to p-3 to fit the 25% shrink
             return `
-                <div class="bg-[#0a0a0a] border ${borderClass} rounded-xl p-3 flex flex-col group shadow-[0_0_15px_rgba(197,160,89,0.1)] relative ${extraClasses}">
+                <div class="bg-[#0a0a0a] border ${borderClass} rounded-lg p-2 flex flex-col group shadow-[0_0_10px_rgba(197,160,89,0.1)] relative text-[10px] ${extraClasses}">
                     
-                    <!-- Floating Rank Badge -->
-                    <div class="absolute -top-2 -right-2 ${badgeBg} ${badgeText} text-[9px] font-black px-2 py-0.5 rounded shadow-lg border border-brand-bg tracking-wider z-10">
-                        #${rank} - ${pts} PTS
+                    <div class="absolute -top-1.5 -right-1.5 ${badgeBg} ${badgeText} text-[7px] font-black px-1.5 py-0.5 rounded shadow border border-brand-bg tracking-wider z-10">
+                        #${rank} - ${pts} P
                     </div>
                     
-                    <div class="flex justify-between items-center mb-2 mt-1">
-                        <span class="${isPro ? 'bg-brand-red' : 'bg-brand-blue'} text-white text-[7px] font-black uppercase px-2 py-0.5 rounded">${isPro ? 'PRO LEAGUE' : 'AMATEUR'}</span>
-                        <span class="text-brand-red font-mono font-black text-[10px]">#${carNum}</span>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="${isPro ? 'bg-brand-red' : 'bg-brand-blue'} text-white text-[6px] font-black uppercase px-1.5 py-0.2 rounded">${isPro ? 'PRO' : 'AM'}</span>
+                        <span class="text-brand-red font-mono font-black text-[9px]">#${carNum}</span>
                     </div>
                     
-                    <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-3 group-hover:border-brand-gold transition cursor-pointer overflow-hidden" onclick="window.location='racer.html?driver=${encodeURIComponent(racer.display_name)}'">
+                    <div class="w-16 h-16 mx-auto bg-[#111] rounded border border-brand-border flex items-center justify-center mb-1.5 group-hover:border-brand-gold transition cursor-pointer overflow-hidden" onclick="window.location='racer.html?driver=${encodeURIComponent(racer.display_name)}'">
                         ${imageHTML}
                     </div>
                     
-                    <h3 class="text-xs font-black uppercase text-white tracking-wider truncate" title="${name}">${name}</h3>
-                    <span class="text-[8px] text-gray-500 uppercase mt-0.5 block tracking-wider truncate">Team: <span class="text-gray-300">${escapeHtml(teamName)}</span></span>
+                    <h3 class="text-[10px] font-black uppercase text-white tracking-wider truncate text-center" title="${name}">${name}</h3>
+                    <span class="text-[7px] text-gray-500 uppercase block tracking-wider truncate text-center">Team: <span class="text-gray-300">${escapeHtml(teamName)}</span></span>
                     
-                    <a href="racer.html?driver=${encodeURIComponent(racer.display_name)}" class="mt-3 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[8px] font-black uppercase py-1.5 rounded tracking-widest">VIEW PROFILE →</a>
+                    <a href="racer.html?driver=${encodeURIComponent(racer.display_name)}" class="mt-2 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[7px] font-black uppercase py-1 rounded tracking-widest">PROFILE →</a>
                 </div>
             `;
         }
 
-        // --- NEW CREATE EMPTY PODIUM CARD (MATCHING 25% SMALLER PROFILES PAGE STYLE) ---
+        // --- UPDATED: HALF-SIZE EMPTY CARD ---
         function createEmptyPodium(rank, badgeBg, badgeText) {
             return `
-                <div class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 flex flex-col opacity-50 relative">
-                    <div class="absolute -top-2 -right-2 ${badgeBg} ${badgeText} text-[9px] font-black px-2 py-0.5 rounded shadow-lg border border-brand-bg tracking-wider z-10">
-                        #${rank} RANK
+                <div class="bg-[#0a0a0a] border border-brand-border rounded-lg p-2 flex flex-col opacity-40 relative text-[10px]">
+                    <div class="absolute -top-1.5 -right-1.5 ${badgeBg} ${badgeText} text-[7px] font-black px-1.5 py-0.5 rounded shadow border border-brand-bg tracking-wider z-10">
+                        #${rank}
                     </div>
-                    <div class="flex justify-between items-center mb-2 mt-1">
-                        <span class="bg-[#1a1a1a] text-gray-500 text-[7px] font-black uppercase px-2 py-0.5 rounded border border-brand-border">ROOKIE</span>
-                        <span class="text-gray-600 font-mono font-black text-[10px]">#--</span>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="bg-[#1a1a1a] text-gray-500 text-[6px] font-black uppercase px-1 rounded border border-brand-border">OPEN</span>
+                        <span class="text-gray-600 font-mono font-black text-[9px]">#--</span>
                     </div>
-                    <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-3">
-                        <span class="text-[8px] text-gray-700 font-bold uppercase tracking-widest">OPEN SLOT</span>
+                    <div class="w-16 h-16 mx-auto bg-[#111] rounded border border-brand-border flex items-center justify-center mb-1.5">
+                        <span class="text-[6px] text-gray-700 font-bold uppercase tracking-widest">SLOT</span>
                     </div>
-                    <h3 class="text-xs font-black uppercase text-gray-500 tracking-wider">PENDING DRIVER</h3>
-                    <span class="text-[8px] text-gray-600 uppercase mt-0.5 block h-3">UNASSIGNED</span>
+                    <h3 class="text-[10px] font-black uppercase text-gray-500 tracking-wider text-center">PENDING</h3>
+                    <span class="text-[7px] text-gray-600 uppercase block h-2 text-center">--</span>
                     
-                    <button disabled class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-600 text-[8px] font-black uppercase py-1.5 rounded tracking-widest cursor-not-allowed">SLOT AVAILABLE</button>
+                    <button disabled class="mt-2 block w-full text-center bg-[#111] border border-brand-border text-gray-600 text-[7px] font-black uppercase py-1 rounded tracking-widest cursor-not-allowed">EMPTY</button>
                 </div>
             `;
         }
-
         function renderTopList(container, items, unitLabel, colorClass, statKey = 'rating_points') {
             container.innerHTML = '';
             if (items.length === 0) {
