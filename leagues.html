@@ -110,13 +110,13 @@
             </div>
         </section>
 
-        <!-- ROW 2: SPONSORS BANNER (CMS Editable) -->
+        <!-- ROW 2: SPONSORS BANNER (PROMINENT & ENLARGED) -->
         <section data-cms-id="leagues:sponsors" class="bg-brand-card border border-brand-border rounded-xl p-6 text-center shadow-xl transition group relative">
-            <span data-cms-field="label" class="text-[10px] font-black uppercase text-gray-500 tracking-widest block mb-2">League Sponsors</span>
-            <div id="leaguesSponsorLogosContainer" class="flex flex-wrap justify-center items-center gap-10 py-2 opacity-75">
-                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Second Life Motors ]</span>
-                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Linden Fuel Co. ]</span>
-                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ StormTech HUDs ]</span>
+            <span data-cms-field="label" class="text-xs font-black uppercase text-brand-gold tracking-[0.2em] block mb-4">Official League Sponsors</span>
+            <div id="leaguesSponsorLogosContainer" class="flex flex-wrap justify-center items-center gap-10 py-4">
+                <span class="text-base sm:text-lg font-black text-gray-400 uppercase tracking-widest font-mono">[ SECOND LIFE MOTORS ]</span>
+                <span class="text-base sm:text-lg font-black text-gray-400 uppercase tracking-widest font-mono">[ LINDEN FUEL CO. ]</span>
+                <span class="text-base sm:text-lg font-black text-gray-400 uppercase tracking-widest font-mono">[ STORMTECH HUDS ]</span>
             </div>
         </section>
 
@@ -284,7 +284,7 @@
                                 if (logos.length > 0 && sponsorBox) {
                                     sponsorBox.innerHTML = '';
                                     logos.forEach((url, i) => {
-                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="h-10 w-auto object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
+                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="h-20 sm:h-24 md:h-28 max-h-28 w-auto object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
                                     });
                                 }
                             }
