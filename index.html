@@ -239,26 +239,26 @@
                 </div>
             </a>
 
-        <!-- DYNAMIC SPONSORS BLOCK (HORIZONTAL SPLIT + FLEX-GROW HEIGHT) -->
-<a href="sponsors.html" data-cms-id="index:sponsors" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group h-full">
-    <div class="flex flex-col flex-grow">
-        <h3 data-cms-field="title" class="text-lg font-black uppercase tracking-wider text-brand-gold group-hover:text-white transition">Sponsors</h3>
-        <p data-cms-field="desc" class="text-xs text-gray-400 mt-0.5">Official Partners & League Sponsors</p>
+            <!-- DYNAMIC SPONSORS BLOCK (HORIZONTAL SPLIT + FLEX-GROW HEIGHT) -->
+            <a href="sponsors.html" data-cms-id="index:sponsors" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group h-full">
+                <div class="flex flex-col flex-grow">
+                    <h3 data-cms-field="title" class="text-lg font-black uppercase tracking-wider text-brand-gold group-hover:text-white transition">Sponsors</h3>
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-0.5">Official Partners & League Sponsors</p>
 
-        <!-- FLEX-GROW CONTAINER: Fills all vertical space down to the divider line -->
-        <div id="sponsorLogosContainer" class="my-3 flex-grow w-full min-h-[160px] bg-brand-bg border border-brand-border rounded-lg flex flex-row items-center justify-center p-2 gap-2 overflow-hidden">
-            <div id="sponsorFallbackText" class="flex flex-wrap justify-center items-center gap-4 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center">
-                <span>[ Second Life Motors ]</span>
-                <span>[ Linden Fuel Co. ]</span>
-                <span>[ StormTech HUDs ]</span>
-            </div>
-        </div>
-    </div>
-    <div class="pt-3 border-t border-brand-border text-right shrink-0">
-        <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">View Sponsors →</span>
-    </div>
-</a>
-</section>
+                    <!-- FLEX-GROW CONTAINER: Fills all vertical space down to the divider line -->
+                    <div id="sponsorLogosContainer" class="my-3 flex-grow w-full min-h-[160px] bg-brand-bg border border-brand-border rounded-lg flex flex-row items-center justify-center p-2 gap-2 overflow-hidden">
+                        <div id="sponsorFallbackText" class="flex flex-wrap justify-center items-center gap-4 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center">
+                            <span>[ Second Life Motors ]</span>
+                            <span>[ Linden Fuel Co. ]</span>
+                            <span>[ StormTech HUDs ]</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-3 border-t border-brand-border text-right shrink-0">
+                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">View Sponsors →</span>
+                </div>
+            </a>
+        </section>
 
         <!-- ROW 4: 3-COLUMN STATS, EVENTS & HIGHLIGHTS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -277,12 +277,13 @@
                 </div>
             </div>
 
+            <!-- LIVE CONNECTED NEXT EVENT BLOCK -->
             <a href="upcoming_events.html" data-cms-id="index:next_event" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 transition flex flex-col justify-between group">
                 <div>
                     <span id="indexNextEventTag" data-cms-field="label" class="text-[10px] font-black uppercase text-brand-red bg-red-950/60 border border-brand-red/30 px-2 py-0.5 rounded tracking-wider">Schedule</span>
                     <h3 data-cms-field="title" id="indexNextEventTitle" class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">Next Event</h3>
-                    <p data-cms-field="event_name" id="indexNextEventSub" class="text-xs font-black text-brand-gold mt-1">Pro Plus Grand Prix Round 1</p>
-                    <p data-cms-field="event_details" id="indexNextEventDesc" class="text-[11px] text-gray-400 mt-1">Oct 15, 2026 • 8:00 PM SLT • Ancient Rome</p>
+                    <p data-cms-field="event_name" id="indexNextEventSub" class="text-xs font-black text-brand-gold mt-1">Loading schedule...</p>
+                    <p data-cms-field="event_details" id="indexNextEventDesc" class="text-[11px] text-gray-400 mt-1 line-clamp-2">Querying live calendar...</p>
                 </div>
                 <div class="mt-4 pt-3 border-t border-brand-border text-right">
                     <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">View Calendar →</span>
@@ -394,7 +395,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-               let currentIndexChannel = 'global';
+        let currentIndexChannel = 'global';
         let currentUser = null;
         let currentProfile = null;
         let isEditModeActive = false;
@@ -566,6 +567,26 @@
                         if (parsed.pub_date) document.getElementById('magPublishDate').innerText = parsed.pub_date;
                     }
                 } catch(e) {}
+
+                // 4. NEXT UPCOMING EVENT FROM GSR_EVENTS TABLE
+                try {
+                    const todayStr = new Date().toISOString().split('T')[0];
+                    const { data: events } = await db.from('gsr_events').select('*').gte('event_date', todayStr).order('event_date', { ascending: true }).limit(1);
+
+                    const tagEl = document.getElementById('indexNextEventTag');
+                    const subEl = document.getElementById('indexNextEventSub');
+                    const descEl = document.getElementById('indexNextEventDesc');
+
+                    if (events && events.length > 0) {
+                        const ev = events[0];
+                        if (tagEl) tagEl.innerText = ev.category || 'Schedule';
+                        if (subEl) subEl.innerText = ev.title;
+                        if (descEl) descEl.innerText = `${ev.event_date} • ${ev.event_time}${ev.description ? ' • ' + ev.description : ''}`;
+                    } else {
+                        if (subEl) subEl.innerText = "No Upcoming Events Scheduled";
+                        if (descEl) descEl.innerText = "Check back soon or open the calendar for updates.";
+                    }
+                } catch(e) { console.warn("Next event sync error:", e); }
 
             } catch (e) { console.warn("Dynamic widgets error:", e); }
         }
