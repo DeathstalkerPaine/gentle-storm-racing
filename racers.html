@@ -57,42 +57,24 @@
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-12">
         
-        <!-- TRIPLE PODIUM SECTIONS (25% Smaller via max-w-4xl) -->
-        <div class="space-y-12">
-            
-            <!-- 1. AMATEUR PODIUM -->
-            <section class="max-w-4xl mx-auto">
-                <div class="text-center transition group relative mb-4" data-cms-id="racers:podium_amateur_title">
-                    <h2 data-cms-field="title" class="text-lg font-black uppercase text-gray-300 tracking-widest">Top 3 Amateur Racers</h2>
+        <!-- ROW 1: TOP 3 ALL TIME RACERS (Interactive Dropdown & Live DB Sync) -->
+        <section class="space-y-6">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl flex flex-col sm:flex-row justify-between items-center gap-4 relative group transition" data-cms-id="racers:podium_header">
+                <div>
+                    <h2 data-cms-field="title" class="text-xl font-black uppercase text-white tracking-widest">Top 3 All Time Racers</h2>
+                    <p data-cms-field="subtitle" class="text-xs text-gray-400 mt-1">Select a class division to filter live telemetry standings.</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2" id="podiumAmateurGrid">
-                    <div class="col-span-full text-center text-[10px] text-gray-500 font-mono py-10">[ Syncing live amateur data... ]</div>
-                </div>
-            </section>
+                <select id="podiumClassSelect" onchange="updatePodiumDisplay()" class="bg-[#0a0a0a] border border-brand-gold text-brand-gold text-xs font-black uppercase px-4 py-3 rounded-lg outline-none focus:ring-2 focus:ring-brand-gold transition cursor-pointer w-full sm:w-auto">
+                    <option value="amateur">Amateur Racers</option>
+                    <option value="pro" selected>Pro Racers (Default)</option>
+                    <option value="pro_plus">Pro Plus Racers</option>
+                </select>
+            </div>
 
-            <!-- 2. PRO PODIUM -->
-            <section class="max-w-4xl mx-auto">
-                <div class="text-center transition group relative mb-4" data-cms-id="racers:podium_pro_title">
-                    <h2 data-cms-field="title" class="text-lg font-black uppercase text-brand-blue tracking-widest">Top 3 Pro Racers</h2>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2" id="podiumProGrid">
-                    <div class="col-span-full text-center text-[10px] text-gray-500 font-mono py-10">[ Syncing live pro data... ]</div>
-                </div>
-            </section>
-
-            <!-- 3. PRO PLUS PODIUM -->
-            <section class="max-w-4xl mx-auto">
-                <div class="text-center transition group relative mb-4" data-cms-id="racers:podium_proplus_title">
-                    <h2 data-cms-field="title" class="text-lg font-black uppercase text-brand-red tracking-widest">Top 3 Pro Plus Racers</h2>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2" id="podiumProPlusGrid">
-                    <div class="col-span-full text-center text-[10px] text-gray-500 font-mono py-10">[ Syncing live pro plus data... ]</div>
-                </div>
-            </section>
-
-        </div>
-
-        <hr class="border-brand-border">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2" id="podiumGrid">
+                <div class="col-span-full text-center text-xs text-gray-500 font-mono py-10">[ Syncing live podium data... ]</div>
+            </div>
+        </section>
 
         <!-- ROW 2: 3-COLUMN TOP 5 LISTS (Live DB Sync) -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -233,7 +215,8 @@
         let isEditModeActive = false;
         let currentEditId = null;
         
-        let allTeams = []; // Cache for team names
+        let allRacers = [];
+        let allTeams = [];
 
         async function initRacersPage() {
             try {
@@ -462,25 +445,20 @@
             // 1. Fetch Racers and Teams
             const { data: racers } = await db.from('racers').select('*');
             const { data: teams } = await db.from('teams').select('id, name');
+            if (racers) allRacers = racers;
             if (teams) allTeams = teams;
 
-            if (!racers || racers.length === 0) return;
+            if (!allRacers || allRacers.length === 0) return;
 
-            // Sort all racers by points once for convenience
-            const sortedByPts = [...racers].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
-
-            // Determine Classes (if league_class doesn't strictly exist, simulated using points threshold)
-            // Amateur: Under 500 | Pro: 500-1499 | Pro Plus: 1500+
-            let amateurRacers = racers.filter(r => (r.league_class || '').toLowerCase() === 'amateur' || (!r.league_class && (r.rating_points || 0) < 500));
-            let proRacers = racers.filter(r => (r.league_class || '').toLowerCase() === 'pro' || (!r.league_class && (r.rating_points || 0) >= 500 && (r.rating_points || 0) < 1500));
-            let proPlusRacers = racers.filter(r => (r.league_class || '').toLowerCase() === 'pro_plus' || (!r.league_class && (r.rating_points || 0) >= 1500));
-
-            // RENDER TRIPLE PODIUMS (Targeted specifically to match 25% smaller profile-card styling)
-            renderPodium(amateurRacers, 'podiumAmateurGrid', 'bg-gray-400', 'border-gray-500');
-            renderPodium(proRacers, 'podiumProGrid', 'bg-brand-blue', 'border-brand-blue');
-            renderPodium(proPlusRacers, 'podiumProPlusGrid', 'bg-brand-red', 'border-brand-red');
+            // Render default Podium (Pro Racers)
+            updatePodiumDisplay();
 
             // --- RENDER TOP 5 LISTS ---
+            const sortedByPts = [...allRacers].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
+            
+            let proPlusRacers = allRacers.filter(r => (r.league_class || '').toLowerCase() === 'pro_plus' || (!r.league_class && (r.rating_points || 0) >= 1500));
+            let amateurRacers = allRacers.filter(r => (r.league_class || '').toLowerCase() === 'amateur' || (!r.league_class && (r.rating_points || 0) < 500));
+
             const proPlusBox = document.getElementById('topProPlusBox');
             const amateurBox = document.getElementById('topAmateurBox');
             const winsBox = document.getElementById('topWinsBox');
@@ -488,7 +466,7 @@
             if (proPlusBox) renderTopList(proPlusBox, proPlusRacers.slice(0, 5), 'PT', 'text-brand-red');
             if (amateurBox) renderTopList(amateurBox, amateurRacers.slice(0, 5), 'PT', 'text-gray-300');
             
-            const sortedByWins = [...racers].sort((a,b) => (b.wins || 0) - (a.wins || 0));
+            const sortedByWins = [...allRacers].sort((a,b) => (b.wins || 0) - (a.wins || 0));
             if (winsBox) renderTopList(winsBox, sortedByWins.slice(0, 5), 'Wins', 'text-brand-blue', 'wins');
 
             // --- RENDER WEEKLY / MONTHLY ---
@@ -528,28 +506,52 @@
             }
         }
 
-        // Dedicated render function for each of the 3 podium grids
-        function renderPodium(racerList, containerId, highlightColorClass, borderClass) {
-            const sorted = [...racerList].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
-            const grid = document.getElementById(containerId);
+        // --- DYNAMIC PODIUM DROPDOWN UPDATE ENGINE ---
+        function updatePodiumDisplay() {
+            const selectedClass = document.getElementById('podiumClassSelect').value;
+            const grid = document.getElementById('podiumGrid');
             if (!grid) return;
-            
+
+            // Filter racers based on selection
+            let filteredRacers = allRacers.filter(r => {
+                const rClass = (r.league_class || '').toLowerCase();
+                const pts = r.rating_points || 0;
+                
+                if (selectedClass === 'amateur') {
+                    return rClass === 'amateur' || (!rClass && pts < 500);
+                } else if (selectedClass === 'pro_plus') {
+                    return rClass === 'pro_plus' || (!rClass && pts >= 1500);
+                } else {
+                    // Default Pro Racers
+                    return rClass === 'pro' || (!rClass && pts >= 500 && pts < 1500);
+                }
+            });
+
+            // Sort by points descending
+            filteredRacers.sort((a, b) => (b.rating_points || 0) - (a.rating_points || 0));
+
             grid.innerHTML = '';
-            
-            // #1 Racer
-            const r1 = sorted[0];
-            grid.innerHTML += r1 ? createPodiumCard(r1, 1, 'bg-brand-gold', 'text-black', 'border-brand-gold', 'shadow-[0_0_20px_rgba(197,160,89,0.3)] transform lg:-translate-y-2') : createEmptyPodium(1, 'bg-brand-gold', 'text-black');
-            
-            // #2 Racer
-            const r2 = sorted[1];
-            grid.innerHTML += r2 ? createPodiumCard(r2, 2, 'bg-gray-300', 'text-black', 'border-brand-border hover:' + borderClass, 'opacity-90 hover:opacity-100 transition') : createEmptyPodium(2, 'bg-gray-300', 'text-black');
-            
-            // #3 Racer
-            const r3 = sorted[2];
-            grid.innerHTML += r3 ? createPodiumCard(r3, 3, 'bg-amber-700', 'text-white', 'border-brand-border hover:' + borderClass, 'opacity-80 hover:opacity-100 transition') : createEmptyPodium(3, 'bg-amber-700', 'text-white');
+
+            // Card 1 (#1 Rank)
+            const r1 = filteredRacers[0];
+            grid.innerHTML += r1 
+                ? createPodiumCard(r1, 1, 'bg-brand-gold', 'text-black', 'border-brand-gold', 'shadow-[0_0_20px_rgba(197,160,89,0.3)] transform lg:-translate-y-3') 
+                : createEmptyPodium(1, 'bg-brand-gold', 'text-black');
+
+            // Card 2 (#2 Rank)
+            const r2 = filteredRacers[1];
+            grid.innerHTML += r2 
+                ? createPodiumCard(r2, 2, 'bg-gray-300', 'text-black', 'border-gray-500', 'opacity-90 hover:opacity-100 transition') 
+                : createEmptyPodium(2, 'bg-gray-300', 'text-black');
+
+            // Card 3 (#3 Rank)
+            const r3 = filteredRacers[2];
+            grid.innerHTML += r3 
+                ? createPodiumCard(r3, 3, 'bg-amber-700', 'text-white', 'border-amber-800', 'opacity-80 hover:opacity-100 transition') 
+                : createEmptyPodium(3, 'bg-amber-700', 'text-white');
         }
 
-                // --- UPDATED: HALF-SIZE PODIUM CARD ---
+        // --- STANDARD PROFILES PAGE CARD STYLE FOR PODIUM ---
         function createPodiumCard(racer, rank, badgeBg, badgeText, borderClass, extraClasses) {
             const name = escapeHtml(racer.display_name);
             const pts = (racer.rating_points || 0).toLocaleString();
@@ -561,57 +563,73 @@
                 if (foundTeam) teamName = foundTeam.name;
             }
 
-            const isPro = (racer.rating_points || 0) >= 1000 || racer.league_class === 'pro';
+            const rawClass = (racer.league_class || 'pro').toLowerCase();
+            let classBadge = 'PRO LEAGUE';
+            let classBadgeBg = 'bg-brand-blue';
+
+            if (rawClass === 'pro_plus') {
+                classBadge = 'PRO PLUS';
+                classBadgeBg = 'bg-brand-red';
+            } else if (rawClass === 'amateur') {
+                classBadge = 'AMATEUR';
+                classBadgeBg = 'bg-gray-600';
+            }
+
             const imageUrl = racer.avatar_url || racer.profile_image_url;
             const imageHTML = imageUrl 
-                ? `<img src="${imageUrl}" alt="${name}" class="w-full h-full object-cover rounded">` 
-                : `<span class="text-[6px] text-gray-600 font-bold uppercase tracking-widest">PHOTO</span>`;
+                ? `<img src="${imageUrl}" alt="${name}" class="w-full h-full object-cover rounded-lg">` 
+                : `<span class="text-[9px] text-gray-600 font-bold uppercase tracking-widest">DRIVER PHOTO</span>`;
 
             return `
-                <div class="bg-[#0a0a0a] border ${borderClass} rounded-lg p-2 flex flex-col group shadow-[0_0_10px_rgba(197,160,89,0.1)] relative text-[10px] ${extraClasses}">
+                <div class="bg-[#0a0a0a] border ${borderClass} rounded-xl p-4 flex flex-col justify-between group shadow-[0_0_15px_rgba(197,160,89,0.1)] relative ${extraClasses}">
                     
-                    <div class="absolute -top-1.5 -right-1.5 ${badgeBg} ${badgeText} text-[7px] font-black px-1.5 py-0.5 rounded shadow border border-brand-bg tracking-wider z-10">
-                        #${rank} - ${pts} P
+                    <!-- Floating Rank Badge -->
+                    <div class="absolute -top-3 -right-3 ${badgeBg} ${badgeText} text-[10px] font-black px-3 py-1 rounded shadow-lg border border-brand-bg tracking-wider z-10">
+                        #${rank} RANK - ${pts} PTS
                     </div>
                     
-                    <div class="flex justify-between items-center mb-1">
-                        <span class="${isPro ? 'bg-brand-red' : 'bg-brand-blue'} text-white text-[6px] font-black uppercase px-1.5 py-0.2 rounded">${isPro ? 'PRO' : 'AM'}</span>
-                        <span class="text-brand-red font-mono font-black text-[9px]">#${carNum}</span>
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="${classBadgeBg} text-white text-[8px] font-black uppercase px-2 py-0.5 rounded">${classBadge}</span>
+                            <span class="text-brand-red font-mono font-black text-xs">#${carNum}</span>
+                        </div>
+                        
+                        <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-4 group-hover:border-brand-gold transition cursor-pointer overflow-hidden" onclick="window.location='racer.html?driver=${encodeURIComponent(racer.display_name)}'">
+                            ${imageHTML}
+                        </div>
+                        
+                        <h3 class="text-sm font-black uppercase text-white tracking-wider truncate" title="${name}">${name}</h3>
+                        <span class="text-[9px] text-gray-500 uppercase mt-1 block tracking-wider truncate">Team: <span class="text-gray-300">${escapeHtml(teamName)}</span></span>
                     </div>
                     
-                    <div class="w-16 h-16 mx-auto bg-[#111] rounded border border-brand-border flex items-center justify-center mb-1.5 group-hover:border-brand-gold transition cursor-pointer overflow-hidden" onclick="window.location='racer.html?driver=${encodeURIComponent(racer.display_name)}'">
-                        ${imageHTML}
-                    </div>
-                    
-                    <h3 class="text-[10px] font-black uppercase text-white tracking-wider truncate text-center" title="${name}">${name}</h3>
-                    <span class="text-[7px] text-gray-500 uppercase block tracking-wider truncate text-center">Team: <span class="text-gray-300">${escapeHtml(teamName)}</span></span>
-                    
-                    <a href="racer.html?driver=${encodeURIComponent(racer.display_name)}" class="mt-2 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[7px] font-black uppercase py-1 rounded tracking-widest">PROFILE →</a>
+                    <a href="racer.html?driver=${encodeURIComponent(racer.display_name)}" class="mt-4 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[9px] font-black uppercase py-2.5 rounded tracking-widest">VIEW FULL PROFILE →</a>
                 </div>
             `;
         }
 
-        // --- UPDATED: HALF-SIZE EMPTY CARD ---
         function createEmptyPodium(rank, badgeBg, badgeText) {
             return `
-                <div class="bg-[#0a0a0a] border border-brand-border rounded-lg p-2 flex flex-col opacity-40 relative text-[10px]">
-                    <div class="absolute -top-1.5 -right-1.5 ${badgeBg} ${badgeText} text-[7px] font-black px-1.5 py-0.5 rounded shadow border border-brand-bg tracking-wider z-10">
-                        #${rank}
+                <div class="bg-[#0a0a0a] border border-brand-border rounded-xl p-4 flex flex-col justify-between opacity-50 relative">
+                    <div class="absolute -top-3 -right-3 ${badgeBg} ${badgeText} text-[10px] font-black px-3 py-1 rounded shadow-lg border border-brand-bg tracking-wider z-10">
+                        #${rank} RANK
                     </div>
-                    <div class="flex justify-between items-center mb-1">
-                        <span class="bg-[#1a1a1a] text-gray-500 text-[6px] font-black uppercase px-1 rounded border border-brand-border">OPEN</span>
-                        <span class="text-gray-600 font-mono font-black text-[9px]">#--</span>
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-[#1a1a1a] text-gray-500 text-[8px] font-black uppercase px-2 py-0.5 rounded border border-brand-border">ROOKIE</span>
+                            <span class="text-gray-600 font-mono font-black text-xs">#--</span>
+                        </div>
+                        <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-4">
+                            <span class="text-[9px] text-gray-700 font-bold uppercase tracking-widest">OPEN SLOT</span>
+                        </div>
+                        <h3 class="text-sm font-black uppercase text-gray-500 tracking-wider">PENDING DRIVER</h3>
+                        <span class="text-[9px] text-gray-600 uppercase mt-1 block h-3">UNASSIGNED</span>
                     </div>
-                    <div class="w-16 h-16 mx-auto bg-[#111] rounded border border-brand-border flex items-center justify-center mb-1.5">
-                        <span class="text-[6px] text-gray-700 font-bold uppercase tracking-widest">SLOT</span>
-                    </div>
-                    <h3 class="text-[10px] font-black uppercase text-gray-500 tracking-wider text-center">PENDING</h3>
-                    <span class="text-[7px] text-gray-600 uppercase block h-2 text-center">--</span>
                     
-                    <button disabled class="mt-2 block w-full text-center bg-[#111] border border-brand-border text-gray-600 text-[7px] font-black uppercase py-1 rounded tracking-widest cursor-not-allowed">EMPTY</button>
+                    <button disabled class="mt-4 block w-full text-center bg-[#111] border border-brand-border text-gray-600 text-[9px] font-black uppercase py-2.5 rounded tracking-widest cursor-not-allowed">SLOT AVAILABLE</button>
                 </div>
             `;
         }
+
         function renderTopList(container, items, unitLabel, colorClass, statKey = 'rating_points') {
             container.innerHTML = '';
             if (items.length === 0) {
