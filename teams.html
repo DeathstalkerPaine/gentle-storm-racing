@@ -73,7 +73,7 @@
             <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">RACERS HUB</a>
             <a href="teams.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">TEAMS HUB</a>
             <a href="teams_profiles.html" class="text-gray-300 hover:text-brand-gold transition">TEAMS PROFILE</a>
-            <a href="leaderboard_view.html?category=team" class="text-gray-300 hover:text-brand-gold transition">TEAM LEADERBOARDS</a>
+            <a href="leaderboards.html?category=team" class="text-gray-300 hover:text-brand-gold transition">TEAM LEADERBOARDS</a>
             <a href="upcoming_events.html" class="text-gray-300 hover:text-brand-gold transition">UPCOMING EVENTS</a>
             <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">LEAGUE</a>
             <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">MULTI MEDIA</a>
@@ -84,7 +84,7 @@
     <!-- MAIN MENU LAYOUT -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
 
-        <!-- ROW 1: 3-COLUMN LEADERBOARD SUMMARY GRIDS -->
+        <!-- ROW 1: 3-COLUMN LEADERBOARD SUMMARY GRIDS (5 SLOTS FIXED DISPLAY) -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             <!-- TOP 5 LEAGUE TEAMS -->
@@ -93,12 +93,12 @@
                     <h3 data-cms-field="title" class="text-sm font-black uppercase text-center text-white tracking-widest border-b border-brand-border pb-3 mb-4">
                         TOP 5 LEAGUE TEAMS
                     </h3>
-                    <div id="topLeagueTeamsList" class="space-y-2 min-h-[120px] flex flex-col justify-center">
-                        <div class="text-[10px] text-gray-500 text-center font-mono">[ Querying live team data... ]</div>
+                    <div id="topLeagueTeamsList" class="space-y-3 flex-grow">
+                        <div class="text-[10px] text-gray-500 text-center font-mono py-4">[ Querying live team data... ]</div>
                     </div>
                 </div>
                 <div class="mt-6 pt-3 border-t border-brand-border text-center">
-                    <a href="leaderboard_view.html?category=team" class="text-[10px] font-bold uppercase text-brand-gold hover:underline">
+                    <a href="leaderboards.html?category=team" class="text-[10px] font-bold uppercase text-brand-gold hover:underline">
                         VIEW FULL LEADERBOARD →
                     </a>
                 </div>
@@ -110,8 +110,8 @@
                     <h3 data-cms-field="title" class="text-sm font-black uppercase text-center text-white tracking-widest border-b border-brand-border pb-3 mb-4">
                         TOP 5 TEAM RACERS
                     </h3>
-                    <div id="topTeamRacersList" class="space-y-2 min-h-[120px] flex flex-col justify-center">
-                        <div class="text-[10px] text-gray-500 text-center font-mono">[ Fetching driver telemetry... ]</div>
+                    <div id="topTeamRacersList" class="space-y-3 flex-grow">
+                        <div class="text-[10px] text-gray-500 text-center font-mono py-4">[ Fetching driver telemetry... ]</div>
                     </div>
                 </div>
                 <div class="mt-6 pt-3 border-t border-brand-border text-center">
@@ -127,12 +127,12 @@
                     <h3 data-cms-field="title" class="text-sm font-black uppercase text-center text-white tracking-widest border-b border-brand-border pb-3 mb-4">
                         TOP 5 ALL-TIME TEAMS
                     </h3>
-                    <div id="topAllTimeTeamsList" class="space-y-2 min-h-[120px] flex flex-col justify-center">
-                        <div class="text-[10px] text-gray-500 text-center font-mono">[ Querying history... ]</div>
+                    <div id="topAllTimeTeamsList" class="space-y-3 flex-grow">
+                        <div class="text-[10px] text-gray-500 text-center font-mono py-4">[ Querying history... ]</div>
                     </div>
                 </div>
                 <div class="mt-6 pt-3 border-t border-brand-border text-center">
-                    <a href="leaderboard_view.html?category=team" class="text-[10px] font-bold uppercase text-brand-gold hover:underline">
+                    <a href="leaderboards.html?category=team" class="text-[10px] font-bold uppercase text-brand-gold hover:underline">
                         VIEW ALL-TIME STATS →
                     </a>
                 </div>
@@ -171,7 +171,7 @@
             </div>
         </section>
 
-        <!-- ROW 4: 2-COLUMN WEEKLY / MONTHLY TOP 5 -->
+        <!-- ROW 4: 2-COLUMN WEEKLY / MONTHLY TOP 5 (5 SLOTS FIXED DISPLAY) -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             <!-- TOP 5 TEAMS OF THE WEEK -->
@@ -179,8 +179,8 @@
                 <h3 data-cms-field="title" class="text-xs sm:text-sm font-black uppercase text-center text-brand-gold tracking-widest mb-4">
                     TOP 5 TEAMS OF THE WEEK
                 </h3>
-                <div id="topTeamsWeek" class="bg-brand-bg border border-brand-border rounded-lg p-4 min-h-[60px] flex flex-col gap-2">
-                    <div class="text-[10px] text-gray-500 font-mono text-center">[ Standings updating... ]</div>
+                <div id="topTeamsWeek" class="space-y-3 flex-grow">
+                    <div class="text-[10px] text-gray-500 font-mono text-center py-4">[ Standings updating... ]</div>
                 </div>
             </div>
 
@@ -189,8 +189,8 @@
                 <h3 data-cms-field="title" class="text-xs sm:text-sm font-black uppercase text-center text-brand-gold tracking-widest mb-4">
                     TOP 5 TEAMS OF THE MONTH
                 </h3>
-                <div id="topTeamsMonth" class="bg-brand-bg border border-brand-border rounded-lg p-4 min-h-[60px] flex flex-col gap-2">
-                    <div class="text-[10px] text-gray-500 font-mono text-center">[ Standings updating... ]</div>
+                <div id="topTeamsMonth" class="space-y-3 flex-grow">
+                    <div class="text-[10px] text-gray-500 font-mono text-center py-4">[ Standings updating... ]</div>
                 </div>
             </div>
 
@@ -529,74 +529,19 @@
             const topTeamsWeekBox = document.getElementById('topTeamsWeek');
             const topTeamsMonthBox = document.getElementById('topTeamsMonth');
 
-            if (allTeamsCache && allTeamsCache.length > 0) {
-                // Sort by points/wins descending
-                const sortedTeams = [...allTeamsCache].sort((a,b) => (b.points || b.total_points || b.rating_points || 0) - (a.points || a.total_points || a.rating_points || 0));
+            const sortedTeams = [...allTeamsCache].sort((a,b) => (b.points || b.total_points || b.rating_points || 0) - (a.points || a.total_points || a.rating_points || 0));
 
-                if (topTeamsBox) {
-                    topTeamsBox.innerHTML = '';
-                    sortedTeams.slice(0, 5).forEach((t, index) => {
-                        const pts = (t.points || t.total_points || t.rating_points || 0).toLocaleString();
-                        topTeamsBox.innerHTML += `
-                            <div class="flex items-center justify-between bg-brand-bg px-3 py-2 rounded border border-brand-border">
-                                <span class="text-brand-gold font-black italic text-xs">#${index + 1}</span>
-                                <a href="teams_profiles.html?name=${encodeURIComponent(t.name)}" class="text-xs font-bold uppercase text-white hover:text-brand-gold transition truncate flex-grow px-2">${escapeHtml(t.name)}</a>
-                                <span class="text-[10px] text-gray-400 font-mono">${pts} PTS</span>
-                            </div>
-                        `;
-                    });
-                }
-
-                if (topAllTimeBox) {
-                    topAllTimeBox.innerHTML = topTeamsBox ? topTeamsBox.innerHTML : '';
-                }
-
-                if (topTeamsWeekBox && topTeamsMonthBox) {
-                    topTeamsWeekBox.innerHTML = '';
-                    topTeamsMonthBox.innerHTML = '';
-                    sortedTeams.slice(0, 5).forEach((t, idx) => {
-                        const row = `
-                            <div class="flex justify-between items-center px-3 py-1.5 text-xs cursor-pointer hover:bg-black/30 rounded transition border-l-2 ${idx === 0 ? 'border-brand-gold' : 'border-transparent'}" onclick="window.location='teams_profiles.html?name=${encodeURIComponent(t.name)}'">
-                                <span class="text-white uppercase font-bold text-xs"><span class="text-gray-500 mr-2">#${idx+1}</span>${escapeHtml(t.name)}</span>
-                                <span class="text-brand-gold font-mono text-[10px]">${(t.points || t.total_points || 0).toLocaleString()} PTS</span>
-                            </div>
-                        `;
-                        topTeamsWeekBox.innerHTML += row;
-                        topTeamsMonthBox.innerHTML += row;
-                    });
-                }
-            } else {
-                if (topTeamsBox) topTeamsBox.innerHTML = `<div class="text-[10px] text-gray-500 text-center font-mono py-4">[ No registered teams ]</div>`;
-                if (topAllTimeBox) topAllTimeBox.innerHTML = `<div class="text-[10px] text-gray-500 text-center font-mono py-4">[ No registered teams ]</div>`;
-            }
+            // Render 5 fixed slots for Teams
+            if (topTeamsBox) renderTop5FixedTeams(topTeamsBox, sortedTeams.slice(0, 5));
+            if (topAllTimeBox) renderTop5FixedTeams(topAllTimeBox, sortedTeams.slice(0, 5));
+            if (topTeamsWeekBox) renderTop5FixedTeams(topTeamsWeekBox, sortedTeams.slice(0, 5));
+            if (topTeamsMonthBox) renderTop5FixedTeams(topTeamsMonthBox, sortedTeams.slice(0, 5));
 
             // 2. Fetch Top 5 Racers with Team Names joined
             const { data: racers } = await db.from('racers').select('*').order('rating_points', { ascending: false }).limit(5);
             const racersBox = document.getElementById('topTeamRacersList');
-            if (racers && racers.length > 0 && racersBox) {
-                racersBox.innerHTML = '';
-                racers.forEach((r, index) => {
-                    let teamName = 'UNASSIGNED';
-                    if (r.primary_team_id) {
-                        const foundTeam = allTeamsCache.find(t => t.id === r.primary_team_id);
-                        if (foundTeam) teamName = foundTeam.name;
-                    }
-
-                    racersBox.innerHTML += `
-                        <div class="flex items-center justify-between bg-brand-bg px-3 py-2 rounded border border-brand-border cursor-pointer hover:border-brand-gold transition" onclick="window.location='racer.html?driver=${encodeURIComponent(r.display_name)}'">
-                            <div class="flex items-center gap-3 min-w-0">
-                                <span class="text-brand-red font-black italic text-xs shrink-0">${index + 1}</span>
-                                <div class="min-w-0">
-                                    <a href="racer.html?driver=${encodeURIComponent(r.display_name)}" class="block text-xs font-black uppercase text-white hover:text-brand-gold transition truncate">${escapeHtml(r.display_name)}</a>
-                                    <span class="block text-[9px] text-gray-500 font-mono uppercase truncate">${escapeHtml(teamName)}</span>
-                                </div>
-                            </div>
-                            <span class="text-[10px] text-brand-gold font-mono shrink-0">${(r.rating_points || 0).toLocaleString()} PTS</span>
-                        </div>
-                    `;
-                });
-            } else if (racersBox) {
-                racersBox.innerHTML = `<div class="text-[10px] text-gray-500 text-center font-mono py-4">[ No driver telemetry found ]</div>`;
+            if (racersBox) {
+                renderTop5FixedRacers(racersBox, racers || []);
             }
 
             // 3. Load Next Event Notice
@@ -617,6 +562,75 @@
             // 4. Load Team Comms Chat
             await loadTeamsChat();
             subscribeToTeamsChat();
+        }
+
+        // --- RENDER FIXED TOP 5 LIST FOR TEAMS (5 SLOTS DISPLAYED) ---
+        function renderTop5FixedTeams(container, items, unitLabel = 'PTS') {
+            container.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const item = items[i];
+                if (item) {
+                    const stat = (item.points || item.total_points || item.rating_points || 0);
+                    container.innerHTML += `
+                        <div class="flex items-center justify-between bg-brand-bg px-3 py-2 rounded border ${i === 0 ? 'border-brand-gold' : 'border-brand-border'} cursor-pointer hover:border-brand-gold transition" onclick="window.location='teams_profiles.html?name=${encodeURIComponent(item.name)}'">
+                            <span class="text-brand-gold font-black italic text-xs w-4">#${i + 1}</span>
+                            <span class="text-xs font-bold uppercase text-white hover:text-brand-gold transition truncate flex-grow px-2">${escapeHtml(item.name)}</span>
+                            <span class="text-[10px] text-gray-400 font-mono">${stat.toLocaleString()} ${unitLabel}</span>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML += `
+                        <div class="flex items-center justify-between bg-brand-bg px-3 py-2 rounded border border-brand-border/50 opacity-40">
+                            <span class="text-gray-600 font-black italic text-xs w-4">#${i + 1}</span>
+                            <span class="text-xs font-bold uppercase text-gray-500 truncate flex-grow px-2">Pending Team</span>
+                            <span class="text-[10px] text-gray-600 font-mono">---</span>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // --- RENDER FIXED TOP 5 LIST FOR RACERS IN TEAMS HUB ---
+        function renderTop5FixedRacers(container, items) {
+            container.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const item = items[i];
+                if (item) {
+                    let teamName = 'UNASSIGNED';
+                    if (item.primary_team_id) {
+                        const foundTeam = allTeamsCache.find(t => t.id === item.primary_team_id);
+                        if (foundTeam) teamName = foundTeam.name;
+                    } else if (item.team_name || item.team) {
+                        teamName = item.team_name || item.team;
+                    }
+
+                    container.innerHTML += `
+                        <div class="flex items-center justify-between bg-brand-bg px-3 py-2 rounded border border-brand-border cursor-pointer hover:border-brand-gold transition" onclick="window.location='racers_profiles.html?driver=${encodeURIComponent(item.display_name)}'">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <span class="text-brand-red font-black italic text-xs shrink-0">#${i + 1}</span>
+                                <div class="min-w-0">
+                                    <span class="block text-xs font-black uppercase text-white hover:text-brand-gold transition truncate">${escapeHtml(item.display_name)}</span>
+                                    <span class="block text-[9px] text-gray-500 font-mono uppercase truncate">${escapeHtml(teamName)}</span>
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-brand-gold font-mono shrink-0">${(item.rating_points || 0).toLocaleString()} PTS</span>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML += `
+                        <div class="flex items-center justify-between bg-brand-bg px-3 py-2 rounded border border-brand-border/50 opacity-40">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <span class="text-gray-600 font-black italic text-xs shrink-0">#${i + 1}</span>
+                                <div class="min-w-0">
+                                    <span class="block text-xs font-bold uppercase text-gray-500 truncate">Pending Driver</span>
+                                    <span class="block text-[9px] text-gray-600 font-mono uppercase">UNASSIGNED</span>
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-gray-600 font-mono shrink-0">---</span>
+                        </div>
+                    `;
+                }
+            }
         }
 
         async function loadTeamsChat() {
