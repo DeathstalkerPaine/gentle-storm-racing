@@ -150,7 +150,15 @@
                     </div>
                     <div>
                         <label class="block font-black uppercase text-gray-400 mb-1">Category / Tag</label>
-                        <input type="text" id="edit_event_category" placeholder="Leagues / Seasons" required class="w-full bg-[#0a0a0a] border border-brand-border text-white px-3 py-2 rounded outline-none focus:border-brand-gold">
+                        <select id="edit_event_category" required class="w-full bg-[#0a0a0a] border border-brand-border text-white px-3 py-2 rounded outline-none focus:border-brand-gold cursor-pointer font-bold">
+                            <option value="Amateur">Amateur</option>
+                            <option value="Amateur League">Amateur League</option>
+                            <option value="Pro" selected>Pro</option>
+                            <option value="Pro League">Pro League</option>
+                            <option value="Pro Plus">Pro Plus</option>
+                            <option value="NightClub Event">NightClub Event</option>
+                            <option value="Special Event">Special Event</option>
+                        </select>
                     </div>
                 </div>
 
@@ -194,7 +202,6 @@
             try {
                 const { data: { session } } = await db.auth.getSession();
                 const userNav = document.getElementById('userNav');
-                const userNavMobile = document.getElementById('userNavMobile');
 
                 if (session) {
                     currentUser = session.user;
@@ -387,7 +394,7 @@
             document.getElementById('edit_event_date').value = dateKey;
             document.getElementById('edit_event_time').value = "8:00 PM SLT";
             document.getElementById('edit_event_title').value = "";
-            document.getElementById('edit_event_category').value = "Leagues / Seasons";
+            document.getElementById('edit_event_category').value = "Pro League";
             document.getElementById('edit_event_media_label').value = "CIRCUIT PREVIEW";
             document.getElementById('edit_event_description').value = "";
 
@@ -402,7 +409,7 @@
             document.getElementById('edit_event_date').value = ev.event_date;
             document.getElementById('edit_event_time').value = ev.event_time;
             document.getElementById('edit_event_title').value = ev.title;
-            document.getElementById('edit_event_category').value = ev.category;
+            document.getElementById('edit_event_category').value = ev.category || "Pro League";
             document.getElementById('edit_event_media_label').value = ev.media_label || "";
             document.getElementById('edit_event_description').value = ev.description || "";
 
