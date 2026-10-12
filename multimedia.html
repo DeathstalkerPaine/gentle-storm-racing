@@ -101,13 +101,13 @@
 
         </section>
 
-        <!-- ROW 2: SPONSORS BANNER -->
-        <section class="bg-brand-card border border-brand-border rounded-xl p-6 text-center shadow-xl relative" data-cms-id="media:sponsors">
-            <h3 data-cms-field="title" class="text-sm font-black uppercase text-brand-gold tracking-[0.3em] mb-2 font-serif italic text-lg">Official Sponsors</h3>
-            <div class="flex flex-wrap justify-center items-center gap-8 py-2 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest">
-                <span data-cms-field="sponsor_1">[ Second Life Motors ]</span>
-                <span data-cms-field="sponsor_2">[ Linden Fuel Co. ]</span>
-                <span data-cms-field="sponsor_3">[ StormTech HUDs ]</span>
+        <!-- ROW 2: SPONSORS BANNER (WITH IMAGE SUPPORT) -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 text-center shadow-xl relative transition group" data-cms-id="media:sponsors">
+            <h3 data-cms-field="title" class="text-sm font-black uppercase text-brand-gold tracking-[0.3em] mb-4 font-serif italic text-lg">Official Sponsors</h3>
+            <div id="mediaSponsorLogosContainer" class="flex flex-wrap justify-center items-center gap-10 py-4">
+                <span class="text-base sm:text-lg font-black text-gray-400 uppercase tracking-widest font-mono">[ SECOND LIFE MOTORS ]</span>
+                <span class="text-base sm:text-lg font-black text-gray-400 uppercase tracking-widest font-mono">[ LINDEN FUEL CO. ]</span>
+                <span class="text-base sm:text-lg font-black text-gray-400 uppercase tracking-widest font-mono">[ STORMTECH HUDS ]</span>
             </div>
         </section>
 
@@ -185,7 +185,7 @@
     <div id="cmsModalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
         <div id="cmsModal" class="bg-brand-card border border-brand-gold shadow-[0_0_30px_rgba(197,160,89,0.15)] rounded-xl w-full max-w-md transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
             <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center rounded-t-xl shrink-0">
-                <h2 class="text-sm font-black uppercase text-brand-gold tracking-wide">✏️ Edit Text Content</h2>
+                <h2 class="text-sm font-black uppercase text-brand-gold tracking-wide">✏️ Edit Content Block</h2>
                 <button onclick="closeCMSModal()" class="text-gray-500 hover:text-brand-red p-1 transition cursor-pointer">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
@@ -209,7 +209,6 @@
         let currentEditId = null;
 
         async function initMultimediaHub() {
-            // Check Admin Auth
             try {
                 const { data: { session } } = await db.auth.getSession();
                 if (session) {
@@ -233,6 +232,23 @@
                     if (container) {
                         try {
                             const content = JSON.parse(row.content_value);
+
+                            // Handle Sponsor Logos Rendering
+                            if (row.section_id === 'media:sponsors') {
+                                const logos = [];
+                                if (content.logo_1) logos.push(content.logo_1);
+                                if (content.logo_2) logos.push(content.logo_2);
+                                if (content.logo_3) logos.push(content.logo_3);
+
+                                const sponsorBox = document.getElementById('mediaSponsorLogosContainer');
+                                if (logos.length > 0 && sponsorBox) {
+                                    sponsorBox.innerHTML = '';
+                                    logos.forEach((url, i) => {
+                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="h-16 sm:h-20 max-h-20 w-auto object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
+                                    });
+                                }
+                            }
+
                             Object.keys(content).forEach(key => {
                                 const el = container.querySelector(`[data-cms-field="${key}"]`);
                                 if (el) el.innerText = content[key];
@@ -244,8 +260,6 @@
         }
 
         async function syncLatestMediaData() {
-            // In the future, this will directly query gsr_magazines, gsr_news, gsr_videos, gsr_photos.
-            // For now, it gracefully loads placeholders to represent the auto-sync system.
             try {
                 const { data: newsData } = await db.from('gsr_news').select('*').eq('status', 'published').order('created_at', { ascending: false }).limit(2);
                 if (newsData && newsData.length > 0) {
@@ -278,7 +292,7 @@
                     if (!block.querySelector('.cms-trigger-btn')) {
                         const editBtn = document.createElement('button');
                         editBtn.className = 'cms-trigger-btn absolute top-2 right-2 bg-brand-blue text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow-lg z-30 cursor-pointer';
-                        editBtn.innerHTML = '✏️ Edit Text';
+                        editBtn.innerHTML = '✏️ Edit Block';
                         editBtn.onclick = (e) => { e.preventDefault(); openCMSModal(block.getAttribute('data-cms-id')); };
                         block.appendChild(editBtn);
                     }
@@ -296,6 +310,12 @@
             const formContainer = document.getElementById('cmsModalFields');
             formContainer.innerHTML = '';
 
+            let existingData = {};
+            try {
+                const { data } = await db.from('site_content').select('content_value').eq('section_id', cmsId).maybeSingle();
+                if (data && data.content_value) existingData = JSON.parse(data.content_value);
+            } catch(e) {}
+
             let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
             fields.forEach(f => {
                 const fieldName = f.getAttribute('data-cms-field');
@@ -305,6 +325,34 @@
                         <textarea id="cms_input_${fieldName}" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(f.innerText)}</textarea>
                     </div>`;
             });
+
+            if (cmsId === 'media:sponsors') {
+                formContainer.innerHTML += `
+                    <div class="space-y-3 pt-3 border-t border-brand-border">
+                        <label class="text-[10px] font-black uppercase text-brand-gold tracking-wider block">Sponsor Logos (Up to 3 Horizontal Logos)</label>
+                        
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 1</span>
+                            <input type="file" id="cms_sponsor_file_1" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_1" value="${existingData.logo_1 || ''}">
+                            ${existingData.logo_1 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_1"> Remove Logo 1</label>` : ''}
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 2</span>
+                            <input type="file" id="cms_sponsor_file_2" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_2" value="${existingData.logo_2 || ''}">
+                            ${existingData.logo_2 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_2"> Remove Logo 2</label>` : ''}
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 3</span>
+                            <input type="file" id="cms_sponsor_file_3" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_3" value="${existingData.logo_3 || ''}">
+                            ${existingData.logo_3 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_3"> Remove Logo 3</label>` : ''}
+                        </div>
+                    </div>`;
+            }
 
             const overlay = document.getElementById('cmsModalOverlay');
             const modal = document.getElementById('cmsModal');
@@ -325,6 +373,34 @@
             let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
             let updateData = {};
 
+            try {
+                const { data } = await db.from('site_content').select('content_value').eq('section_id', currentEditId).maybeSingle();
+                if (data && data.content_value) updateData = JSON.parse(data.content_value);
+            } catch(e) {}
+
+            if (currentEditId === 'media:sponsors') {
+                for (let i = 1; i <= 3; i++) {
+                    const clearCheckbox = document.getElementById(`cms_clear_sponsor_${i}`);
+                    const fileInput = document.getElementById(`cms_sponsor_file_${i}`);
+                    const urlInput = document.getElementById(`cms_sponsor_url_${i}`);
+                    let logoUrl = urlInput ? urlInput.value : '';
+
+                    if (clearCheckbox && clearCheckbox.checked) {
+                        logoUrl = '';
+                    } else if (fileInput && fileInput.files.length > 0) {
+                        const file = fileInput.files[0];
+                        const fileName = `media_sponsor_${i}_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+                        const { error: uploadError } = await db.storage.from('admin-assets').upload(fileName, file);
+                        if (!uploadError) {
+                            const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                            logoUrl = publicUrlData.publicUrl;
+                        }
+                    }
+                    if (logoUrl) updateData[`logo_${i}`] = logoUrl;
+                    else delete updateData[`logo_${i}`];
+                }
+            }
+
             fields.forEach(f => {
                 const fieldName = f.getAttribute('data-cms-field');
                 const inputEl = document.getElementById(`cms_input_${fieldName}`);
@@ -335,6 +411,7 @@
             });
             
             await db.from('site_content').upsert([{ section_id: currentEditId, content_value: JSON.stringify(updateData) }]);
+            await loadCMSContent();
             closeCMSModal();
         }
 
