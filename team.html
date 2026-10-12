@@ -124,7 +124,7 @@
                     <div class="p-8 lg:col-span-2 space-y-6 bg-black/20">
                         <div>
                             <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-3 flex items-center gap-2">
-                                <div class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></div> Official Constructor Standings
+                                <div class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></div> Official Team Standings
                             </h3>
                             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
                                 <div class="bg-brand-card border border-brand-border p-3 rounded-xl text-center">
@@ -136,6 +136,10 @@
                                     <span id="statTeamWins" class="text-base font-black text-brand-gold">0</span>
                                 </div>
                                 <div class="bg-brand-card border border-brand-border p-3 rounded-xl text-center">
+                                    <span class="text-[8px] text-gray-400 font-black uppercase block mb-1">Losses</span>
+                                    <span id="statTeamLosses" class="text-base font-black text-gray-300">0</span>
+                                </div>
+                                <div class="bg-brand-card border border-brand-border p-3 rounded-xl text-center">
                                     <span class="text-[8px] text-brand-blue font-black uppercase block mb-1">Podiums</span>
                                     <span id="statTeamPodiums" class="text-base font-black text-brand-blue">0</span>
                                 </div>
@@ -144,21 +148,9 @@
                                     <span id="statTeamWinRate" class="text-base font-black text-brand-green">0%</span>
                                 </div>
                                 <div class="bg-brand-card border border-brand-border p-3 rounded-xl text-center">
-                                    <span class="text-[8px] text-purple-400 font-black uppercase block mb-1">Team Pts</span>
-                                    <span id="statTeamPts" class="text-base font-black text-purple-400">0</span>
+                                    <span class="text-[8px] text-brand-gold font-black uppercase block mb-1">Team PTS</span>
+                                    <span id="statTeamPoints" class="text-base font-black text-white">0</span>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Secondary Performance Row -->
-                        <div class="grid grid-cols-2 gap-3 pt-2">
-                            <div class="bg-brand-card border border-brand-border p-3 rounded-xl flex justify-between items-center text-xs">
-                                <span class="text-[9px] font-black uppercase text-gray-400">Active Pilots:</span>
-                                <span id="statActivePilots" class="text-sm font-black font-mono text-brand-blue">0</span>
-                            </div>
-                            <div class="bg-brand-card border border-brand-border p-3 rounded-xl flex justify-between items-center text-xs">
-                                <span class="text-[9px] font-black uppercase text-gray-400">Constructor Deficits / Losses:</span>
-                                <span id="statTeamLosses" class="text-sm font-black font-mono text-gray-300">0</span>
                             </div>
                         </div>
                     </div>
@@ -324,16 +316,14 @@
             const losses = Number(teamData.losses) || 0;
             const podiums = Number(teamData.podiums) || 0;
             const points = Number(teamData.points || teamData.constructor_points) || 0;
-            const xp = Number(teamData.xp || teamData.team_xp) || 0;
             const totalStarts = Number(teamData.total_races || teamData.starts) || (wins + losses);
             const winRate = totalStarts > 0 ? Math.round((wins / totalStarts) * 100) : 0;
 
             document.getElementById('statTeamStarts').innerText = totalStarts;
             document.getElementById('statTeamWins').innerText = wins;
-            document.getElementById('statTeamPodiums').innerText = podiums;
             document.getElementById('statTeamLosses').innerText = losses;
+            document.getElementById('statTeamPodiums').innerText = podiums;
             document.getElementById('statTeamPoints').innerText = points;
-            document.getElementById('statTeamXP').innerText = xp;
             document.getElementById('statTeamWinRate').innerText = `${winRate}%`;
             document.getElementById('headerTeamPts').innerHTML = `${points} <span class="text-[10px] text-white uppercase">PTS</span>`;
 
@@ -347,9 +337,6 @@
                 .from('racers')
                 .select('id, display_name, racer_number, avatar_url, photo_url')
                 .eq('primary_team_id', currentTeamId);
-
-            const activePilotsCount = drivers ? drivers.length : 0;
-            document.getElementById('statActivePilots').innerText = activePilotsCount;
 
             if (driverError || !drivers || drivers.length === 0) {
                 grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ No drivers assigned to this team yet ]</div>`;
