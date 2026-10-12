@@ -6,10 +6,11 @@
     <title>Live Events Hub | Gentle Storm Racing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
     </script>
     <style>
         .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 20px rgba(255, 42, 42, 0.25); }
+        .green-border-glow { border: 1px solid #10B981; box-shadow: 0 0 25px rgba(16, 185, 129, 0.35); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
@@ -32,7 +33,7 @@
                 <h1 class="text-xl sm:text-2xl font-black uppercase text-white tracking-wider">LIVE EVENTS & STREAMS</h1>
             </div>
 
-            <div class="flex items-center gap-3 z-10 w-full md:w-auto justify-center">
+            <div class="flex items-center gap-3 z-10 w-full md:w-auto justify-center" id="headerControls">
                 <a href="multimedia.html" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white font-bold uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap">
                     ← Media Hub
                 </a>
@@ -49,60 +50,79 @@
             <a href="news.html" class="text-gray-300 hover:text-gray-300 transition">News</a>
             <a href="videos.html" class="text-gray-300 hover:text-gray-300 transition">Videos</a>
             <a href="photos.html" class="text-gray-300 hover:text-gray-300 transition">Photos</a>
-            <a href="events.html" class="text-brand-red transition">Live Events</a>
+            <a href="events.html" class="text-brand-red transition underline decoration-2 underline-offset-4">Live Events</a>
         </div>
     </nav>
 
     <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
 
-        <!-- MAIN LIVE STREAM PLAYER CONTAINER -->
-        <section class="bg-brand-card border border-brand-red rounded-xl p-6 sm:p-8 shadow-2xl red-border-glow space-y-4">
+        <!-- 1. TOP UPCOMING EVENT SPOTLIGHT BANNER -->
+        <section id="upcomingBanner" class="bg-gradient-to-r from-brand-card via-[#241313] to-brand-card border border-brand-red/60 rounded-xl p-5 sm:p-6 shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative">
+            <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                    <span class="text-[9px] font-black uppercase tracking-widest text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">Next Upcoming Event</span>
+                    <span id="nextEventDate" class="text-xs font-mono text-gray-300 uppercase">Scheduling Next Broadcast...</span>
+                </div>
+                <h2 id="nextEventTitle" class="text-lg sm:text-xl font-black uppercase text-white tracking-wide">Pro Plus Championship Series</h2>
+                <p id="nextEventDesc" class="text-xs text-gray-400 max-w-2xl leading-relaxed">
+                    Check out the official circuit schedule for full season start times, qualifier rules, and division standings.
+                </p>
+            </div>
+            <div class="shrink-0 flex items-center gap-3">
+                <a href="events.html#schedule" class="bg-brand-red hover:bg-red-600 text-white font-black uppercase text-xs px-5 py-2.5 rounded transition shadow-lg tracking-wider">
+                    Full Schedule 📅
+                </a>
+            </div>
+        </section>
+
+        <!-- 2. MAIN LIVE STREAM PLAYER CONTAINER -->
+        <section id="streamContainer" class="bg-brand-card border border-brand-red rounded-xl p-6 sm:p-8 shadow-2xl red-border-glow space-y-4 relative">
+            <div id="liveAdminTrigger" class="absolute top-4 right-4 z-20"></div>
+
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-brand-border pb-3 gap-2">
                 <div class="flex items-center gap-3">
-                    <span class="inline-block w-3 h-3 rounded-full bg-brand-red animate-ping"></span>
+                    <span id="liveStatusPulse" class="inline-block w-3 h-3 rounded-full bg-gray-600"></span>
                     <span class="text-xs font-black uppercase text-white tracking-widest">Live Broadcast Viewer</span>
                 </div>
-                <span id="liveStatusBadge" class="bg-brand-red/10 border border-brand-red/40 text-brand-red text-[9px] font-black uppercase px-2.5 py-1 rounded">
-                    Status: Offline (Next Event Oct 5)
+                <span id="liveStatusBadge" class="bg-brand-bg border border-brand-border text-gray-400 text-[9px] font-black uppercase px-2.5 py-1 rounded">
+                    Status: Offline
                 </span>
             </div>
 
-            <!-- Video Host Player Window (Replace inner div with your YouTube/Twitch <iframe> embed code when live) -->
-            <div class="aspect-video bg-black rounded-lg border border-brand-border flex flex-col items-center justify-center relative overflow-hidden group">
+            <!-- Video Player Window -->
+            <div id="playerBox" class="aspect-video bg-black rounded-lg border border-brand-border flex flex-col items-center justify-center relative overflow-hidden">
                 <div class="text-center p-6 space-y-2">
                     <span class="text-3xl">📡</span>
-                    <h3 class="text-sm font-black uppercase text-gray-300 tracking-wider">No Live Transmission Detected</h3>
+                    <h3 class="text-sm font-black uppercase text-gray-300 tracking-wider">No Live Transmission Active</h3>
                     <p class="text-[11px] text-gray-500 max-w-md">
-                        When a broadcast begins, the YouTube or Twitch stream will embed directly into this player window. Check the schedule below for upcoming showtimes.
+                        When a live stream starts, the interactive YouTube or Twitch broadcast will display right here.
                     </p>
                 </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 gap-2">
+            <div class="flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 gap-2 pt-2">
                 <div>
-                    <span class="font-bold text-white uppercase">Current Event:</span> <span id="currentEventTitle">Pro Plus Season 1 Opener Preview</span>
+                    <span class="font-bold text-white uppercase">Broadcast Feed:</span> 
+                    <span id="currentEventTitle" class="text-gray-300">Gentle Storm Racing Official Center</span>
                 </div>
-                <div class="flex gap-3">
-                    <a href="https://youtube.com" target="_blank" class="text-brand-red hover:underline font-bold uppercase text-[10px]">Open YouTube Channel ↗</a>
+                <div class="flex gap-4">
+                    <a id="extStreamLink" href="https://youtube.com" target="_blank" class="text-brand-red hover:underline font-bold uppercase text-[10px]">Open On YouTube ↗</a>
                 </div>
             </div>
         </section>
 
-        <!-- EVENT CATEGORY & ARCHIVE SECTION -->
-        <section class="space-y-6">
-            
-            <!-- Filters Header -->
+        <!-- 3. EVENT ARCHIVE & SCHEDULE GRID -->
+        <section class="space-y-6 pt-4" id="schedule">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-brand-border pb-3 gap-3">
                 <div>
-                    <h2 class="text-lg font-black uppercase text-white">Event Archives & Categories</h2>
-                    <p class="text-[10px] text-gray-400 uppercase font-bold mt-0.5">Filter by event type or browse past recorded broadcasts</p>
+                    <h2 class="text-lg font-black uppercase text-white">Event Archives & Schedule</h2>
+                    <p class="text-[10px] text-gray-400 uppercase font-bold mt-0.5">Browse past broadcasts, replays, and upcoming league stages</p>
                 </div>
 
-                <!-- Dropdown Menus for Types and Months -->
-                <div class="flex flex-wrap gap-3 text-[10px] font-black uppercase">
-                    <!-- Type Filter -->
-                    <select id="typeFilter" onchange="filterEvents()" class="bg-brand-card border border-brand-border text-white px-3 py-2 rounded outline-none cursor-pointer focus:border-brand-red">
+                <div class="flex flex-wrap items-center gap-3">
+                    <!-- Category Filter -->
+                    <select id="typeFilter" onchange="filterEvents()" class="bg-brand-card border border-brand-border text-white text-[10px] font-bold uppercase px-3 py-2 rounded outline-none cursor-pointer focus:border-brand-red">
                         <option value="all">All Event Types</option>
                         <option value="leagues">Leagues & Seasons</option>
                         <option value="concerts">Concerts</option>
@@ -111,76 +131,22 @@
                     </select>
 
                     <!-- Month Filter -->
-                    <select id="monthFilter" onchange="filterEvents()" class="bg-brand-card border border-brand-border text-white px-3 py-2 rounded outline-none cursor-pointer focus:border-brand-red">
-                        <option value="oct_2026">October 2026</option>
-                        <option value="sep_2026">September 2026 (Archive)</option>
+                    <select id="monthFilter" onchange="filterEvents()" class="bg-brand-card border border-brand-border text-white text-[10px] font-bold uppercase px-3 py-2 rounded outline-none cursor-pointer focus:border-brand-red">
+                        <option value="all">All Months</option>
+                        <option value="oct_2026" selected>October 2026</option>
+                        <option value="sep_2026">September 2026</option>
                     </select>
+
+                    <!-- Admin Add Event Button -->
+                    <button id="addEventBtn" onclick="openEventModal(null)" class="hidden bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition shadow cursor-pointer">
+                        + Add Event
+                    </button>
                 </div>
             </div>
 
-            <!-- EVENTS GRID -->
+            <!-- Dynamic Events Grid -->
             <div id="eventsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                <!-- Event Item 1 -->
-                <div class="event-card bg-brand-card border border-brand-border hover:border-brand-red rounded-xl overflow-hidden shadow-lg transition flex flex-col justify-between" data-type="leagues" data-month="oct_2026">
-                    <div>
-                        <div class="aspect-video bg-[#111] relative flex items-center justify-center border-b border-brand-border">
-                            <span class="text-[10px] font-black text-gray-600 uppercase">[ EVENT THUMBNAIL ]</span>
-                            <span class="absolute top-2 left-2 bg-brand-red text-white text-[9px] font-black uppercase px-2 py-0.5 rounded">Leagues / Seasons</span>
-                        </div>
-                        <div class="p-5 space-y-2">
-                            <span class="text-[9px] font-bold text-gray-500 uppercase">Oct 5, 2026 • 8:00 PM SLT</span>
-                            <h3 class="text-base font-black uppercase text-white">Pro Plus Opening Grand Prix</h3>
-                            <p class="text-xs text-gray-400 leading-relaxed">The official opening round of the championship across all four primary circuits.</p>
-                        </div>
-                    </div>
-                    <div class="p-5 pt-0">
-                        <button class="w-full bg-brand-bg border border-brand-border hover:border-brand-red text-white font-bold uppercase text-xs py-2 rounded transition">
-                            Watch Replay 🎬
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Event Item 2 -->
-                <div class="event-card bg-brand-card border border-brand-border hover:border-brand-red rounded-xl overflow-hidden shadow-lg transition flex flex-col justify-between" data-type="concerts" data-month="oct_2026">
-                    <div>
-                        <div class="aspect-video bg-[#111] relative flex items-center justify-center border-b border-brand-border">
-                            <span class="text-[10px] font-black text-gray-600 uppercase">[ EVENT THUMBNAIL ]</span>
-                            <span class="absolute top-2 left-2 bg-brand-blue text-white text-[9px] font-black uppercase px-2 py-0.5 rounded">Concert</span>
-                        </div>
-                        <div class="p-5 space-y-2">
-                            <span class="text-[9px] font-bold text-gray-500 uppercase">Oct 12, 2026 • 6:00 PM SLT</span>
-                            <h3 class="text-base font-black uppercase text-white">Second Life Live Arena Concert</h3>
-                            <p class="text-xs text-gray-400 leading-relaxed">Special live musical performance hosted inside the GSR entertainment plaza.</p>
-                        </div>
-                    </div>
-                    <div class="p-5 pt-0">
-                        <button class="w-full bg-brand-bg border border-brand-border hover:border-brand-red text-white font-bold uppercase text-xs py-2 rounded transition">
-                            Watch Replay 🎬
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Event Item 3 -->
-                <div class="event-card bg-brand-card border border-brand-border hover:border-brand-red rounded-xl overflow-hidden shadow-lg transition flex flex-col justify-between" data-type="djs" data-month="oct_2026">
-                    <div>
-                        <div class="aspect-video bg-[#111] relative flex items-center justify-center border-b border-brand-border">
-                            <span class="text-[10px] font-black text-gray-600 uppercase">[ EVENT THUMBNAIL ]</span>
-                            <span class="absolute top-2 left-2 bg-brand-gold text-black text-[9px] font-black uppercase px-2 py-0.5 rounded">Live DJ</span>
-                        </div>
-                        <div class="p-5 space-y-2">
-                            <span class="text-[9px] font-bold text-gray-500 uppercase">Oct 19, 2026 • 9:00 PM SLT</span>
-                            <h3 class="text-base font-black uppercase text-white">After-Party DJ Set wsg DJ Storm</h3>
-                            <p class="text-xs text-gray-400 leading-relaxed">High-energy electronic beats and synthwave mixes to celebrate race weekend.</p>
-                        </div>
-                    </div>
-                    <div class="p-5 pt-0">
-                        <button class="w-full bg-brand-bg border border-brand-border hover:border-brand-red text-white font-bold uppercase text-xs py-2 rounded transition">
-                            Watch Replay 🎬
-                        </button>
-                    </div>
-                </div>
-
+                <div class="col-span-full py-16 text-center text-xs text-gray-500 font-mono">[ Querying scheduled events & archives... ]</div>
             </div>
         </section>
 
@@ -191,27 +157,500 @@
         &copy; 2026 Gentle Storm Racing. Built for Second Life.
     </footer>
 
-    <!-- FILTER SCRIPT -->
+    <!-- REPLAY THEATER MODAL -->
+    <div id="replayModalOverlay" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[120] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="replayModalBox" class="bg-brand-card border border-brand-red shadow-[0_0_40px_rgba(255,42,42,0.3)] rounded-xl w-full max-w-4xl transform scale-95 opacity-0 transition-all duration-300 overflow-hidden flex flex-col">
+            <div class="bg-brand-bg border-b border-brand-border p-3 flex justify-between items-center">
+                <span id="modalEventTitle" class="text-xs font-black uppercase text-white truncate max-w-lg">Replay Broadcast</span>
+                <button onclick="closeReplayModal()" class="text-gray-400 hover:text-brand-red p-1 text-sm font-bold">✖ Close</button>
+            </div>
+            <div class="aspect-video bg-black w-full" id="modalPlayerContainer"></div>
+        </div>
+    </div>
+
+    <!-- ADMIN EDIT / ADD EVENT MODAL -->
+    <div id="cmsModalOverlay" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="cmsModal" class="bg-brand-card border border-brand-red shadow-[0_0_30px_rgba(255,42,42,0.2)] rounded-xl w-full max-w-md transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
+            <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center rounded-t-xl shrink-0">
+                <h2 id="cmsModalTitle" class="text-sm font-black uppercase text-brand-red tracking-wide">📅 Manage Event</h2>
+                <button onclick="closeCMSModal()" class="text-gray-500 hover:text-brand-red p-1 transition cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div class="p-6 space-y-4 overflow-y-auto grow">
+                <input type="hidden" id="edit_id">
+
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Event Title</label>
+                    <input type="text" id="edit_title" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Category</label>
+                        <select id="edit_category" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                            <option value="leagues">Leagues & Seasons</option>
+                            <option value="concerts">Concerts</option>
+                            <option value="djs">Live DJs</option>
+                            <option value="special">Special Events</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Month Key</label>
+                        <input type="text" id="edit_month" placeholder="oct_2026" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Event Date & Time (SLT)</label>
+                    <input type="text" id="edit_date" placeholder="e.g. Oct 19, 2026 • 8:00 PM SLT" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Live Stream URL (YouTube Live / Twitch)</label>
+                    <input type="text" id="edit_streamUrl" placeholder="https://www.youtube.com/watch?v=..." class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Recorded Replay URL (Optional)</label>
+                    <input type="text" id="edit_replayUrl" placeholder="https://www.youtube.com/watch?v=..." class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Thumbnail Image (16:9)</label>
+                    <input type="text" id="edit_thumb" placeholder="Paste URL or upload below..." class="w-full bg-[#0a0a0a] border border-brand-border text-white text-[10px] px-3 py-1.5 rounded mb-1">
+                    <input type="file" id="upload_thumb" accept="image/*" class="w-full text-[9px] text-gray-400" onchange="uploadThumbnail(this)">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Description</label>
+                    <textarea id="edit_desc" rows="3" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded"></textarea>
+                </div>
+
+                <div class="space-y-2 pt-2 border-t border-brand-border">
+                    <label class="flex items-center gap-2 text-xs font-bold text-brand-green bg-[#0a0a0a] p-2 rounded border border-brand-border cursor-pointer">
+                        <input type="checkbox" id="edit_isLive"> 🔴 Broadcast is LIVE NOW
+                    </label>
+                    <label class="flex items-center gap-2 text-xs font-bold text-brand-gold bg-[#0a0a0a] p-2 rounded border border-brand-border cursor-pointer">
+                        <input type="checkbox" id="edit_isNext"> ⭐ Featured as Next Upcoming Event (Top Banner)
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-brand-bg border-t border-brand-border p-4 flex justify-between gap-3 rounded-b-xl shrink-0">
+                <button id="deleteEventBtn" onclick="deleteEventItem()" class="hidden bg-red-950/60 hover:bg-red-900 text-brand-red border border-red-500/40 text-xs font-black uppercase px-4 py-2 rounded transition cursor-pointer">
+                    Delete
+                </button>
+                <div class="flex gap-2 ml-auto">
+                    <button onclick="closeCMSModal()" class="text-xs font-bold uppercase text-gray-400 hover:text-white px-4 py-2 transition cursor-pointer">Cancel</button>
+                    <button onclick="saveEventItem()" class="bg-brand-red hover:bg-red-600 text-white font-black uppercase text-xs px-6 py-2 rounded transition shadow cursor-pointer">Save Event</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPABASE ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        function filterEvents() {
-            const selectedType = document.getElementById('typeFilter').value;
-            const selectedMonth = document.getElementById('monthFilter').value;
-            const cards = document.querySelectorAll('.event-card');
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-            cards.forEach(card => {
-                const cardType = card.getAttribute('data-type');
-                const cardMonth = card.getAttribute('data-month');
+        let currentUser = null;
+        let isAdmin = false;
+        let isEditModeActive = false;
 
-                const matchesType = selectedType === 'all' || cardType === selectedType;
-                const matchesMonth = cardMonth === selectedMonth;
+        let allEvents = [];
 
-                if (matchesType && matchesMonth) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
+        async function initEventsPage() {
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                if (session) {
+                    currentUser = session.user;
+                    const { data: profile } = await db.from('gsr_profiles').select('is_admin').eq('id', currentUser.id).maybeSingle();
+                    isAdmin = profile?.is_admin || false;
+
+                    if (isAdmin) {
+                        const controls = document.getElementById('headerControls');
+                        if (!document.getElementById('editModeBtn')) {
+                            controls.innerHTML += `<button id="editModeBtn" onclick="toggleEditMode()" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow ml-2 cursor-pointer">✏️ Edit Mode</button>`;
+                        }
+                    }
                 }
+            } catch (e) {}
+
+            await fetchEvents();
+        }
+
+        async function fetchEvents() {
+            const { data, error } = await db.from('gsr_events').select('*').order('created_at', { ascending: false });
+            if (!error && data) {
+                allEvents = data;
+            } else {
+                allEvents = [];
+            }
+            renderTopBanner();
+            renderLivePlayer();
+            renderGrid();
+        }
+
+        function renderTopBanner() {
+            // Find explicitly marked next event or upcoming one
+            const nextEvent = allEvents.find(e => e.is_next_upcoming) || allEvents[0] || null;
+
+            if (nextEvent) {
+                document.getElementById('nextEventDate').innerText = nextEvent.event_date || 'Scheduled Soon';
+                document.getElementById('nextEventTitle').innerText = nextEvent.title;
+                document.getElementById('nextEventDesc').innerText = nextEvent.description || 'Live telemetry tracking, paddock radio, and synchronized video stream.';
+            } else {
+                document.getElementById('nextEventDate').innerText = 'No Scheduled Broadcast';
+                document.getElementById('nextEventTitle').innerText = 'Check Back for Next Round';
+                document.getElementById('nextEventDesc').innerText = 'Keep an eye on the official racing calendar for upcoming regional events and tournaments.';
+            }
+        }
+
+        function renderLivePlayer() {
+            const liveEvent = allEvents.find(e => e.is_live);
+            const container = document.getElementById('streamContainer');
+            const pulse = document.getElementById('liveStatusPulse');
+            const badge = document.getElementById('liveStatusBadge');
+            const playerBox = document.getElementById('playerBox');
+            const titleEl = document.getElementById('currentEventTitle');
+            const extLink = document.getElementById('extStreamLink');
+
+            const adminTrigger = document.getElementById('liveAdminTrigger');
+            if (isEditModeActive) {
+                adminTrigger.innerHTML = `<button onclick="openEventModal('${liveEvent ? liveEvent.id : null}')" class="bg-brand-blue text-white text-[9px] font-black uppercase px-3 py-1.5 rounded shadow-lg cursor-pointer">✏️ Quick Edit Broadcast</button>`;
+            } else {
+                adminTrigger.innerHTML = '';
+            }
+
+            if (liveEvent && liveEvent.stream_url) {
+                container.classList.remove('red-border-glow');
+                container.classList.add('green-border-glow');
+
+                pulse.className = "inline-block w-3 h-3 rounded-full bg-brand-green animate-ping";
+                badge.className = "bg-brand-green/20 border border-brand-green text-brand-green text-[9px] font-black uppercase px-2.5 py-1 rounded";
+                badge.innerText = "Status: ON AIR • STREAM LIVE";
+
+                titleEl.innerText = liveEvent.title;
+                extLink.href = liveEvent.stream_url;
+
+                const embed = convertToEmbed(liveEvent.stream_url);
+                playerBox.innerHTML = `<iframe src="${embed}?autoplay=1" class="w-full h-full border-0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+            } else {
+                container.classList.remove('green-border-glow');
+                container.classList.add('red-border-glow');
+
+                pulse.className = "inline-block w-3 h-3 rounded-full bg-gray-600";
+                badge.className = "bg-brand-bg border border-brand-border text-gray-500 text-[9px] font-black uppercase px-2.5 py-1 rounded";
+                badge.innerText = "Status: Offline";
+
+                titleEl.innerText = "Gentle Storm Racing Official Center";
+                extLink.href = "https://youtube.com";
+
+                playerBox.innerHTML = `
+                    <div class="text-center p-6 space-y-2">
+                        <span class="text-3xl">📡</span>
+                        <h3 class="text-sm font-black uppercase text-gray-300 tracking-wider">No Live Transmission Active</h3>
+                        <p class="text-[11px] text-gray-500 max-w-md">
+                            When a broadcast begins, the stream will automatically feed into this viewer.
+                        </p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('eventsGrid');
+            const typeFilter = document.getElementById('typeFilter').value;
+            const monthFilter = document.getElementById('monthFilter').value;
+
+            grid.innerHTML = '';
+
+            const filtered = allEvents.filter(e => {
+                const matchType = typeFilter === 'all' || e.category === typeFilter;
+                const matchMonth = monthFilter === 'all' || e.month_key === monthFilter;
+                return matchType && matchMonth;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-16 text-center text-xs text-gray-500 font-mono uppercase">[ No scheduled events found for this filter ]</div>`;
+                return;
+            }
+
+            const catColors = {
+                'leagues': 'bg-brand-red text-white',
+                'concerts': 'bg-brand-blue text-white',
+                'djs': 'bg-brand-gold text-black',
+                'special': 'bg-purple-600 text-white'
+            };
+            const catLabels = {
+                'leagues': 'League Race',
+                'concerts': 'Concert',
+                'djs': 'Live DJ',
+                'special': 'Special Event'
+            };
+
+            filtered.forEach(e => {
+                const card = document.createElement('div');
+                card.className = "bg-brand-card border border-brand-border hover:border-brand-red rounded-xl overflow-hidden shadow-lg transition flex flex-col justify-between relative group";
+
+                let editButtonsHTML = '';
+                if (isEditModeActive) {
+                    editButtonsHTML = `
+                        <div class="absolute top-2 right-2 z-20 flex gap-1">
+                            <button onclick="openEventModal('${e.id}'); event.stopPropagation();" class="bg-brand-blue text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow cursor-pointer">✏️ Edit</button>
+                        </div>
+                    `;
+                }
+
+                let liveBadge = e.is_live ? `<span class="absolute bottom-2 left-2 bg-brand-green text-black text-[9px] font-black uppercase px-2 py-0.5 rounded shadow animate-pulse">● LIVE</span>` : '';
+
+                let thumbHTML = '';
+                if (e.thumbnail_url) {
+                    thumbHTML = `<img src="${e.thumbnail_url}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">`;
+                } else {
+                    thumbHTML = `<span class="text-[10px] font-black text-gray-600 uppercase">[ EVENT PREVIEW ]</span>`;
+                }
+
+                const catBadgeClass = catColors[e.category] || 'bg-brand-red text-white';
+                const catText = catLabels[e.category] || e.category.toUpperCase();
+
+                let replayBtn = '';
+                if (e.replay_url) {
+                    replayBtn = `
+                        <button onclick="openReplayModal('${escapeHtml(e.title)}', '${escapeHtml(e.replay_url)}')" class="w-full bg-brand-bg border border-brand-border hover:border-brand-red text-white font-bold uppercase text-xs py-2 rounded transition cursor-pointer">
+                            Watch Replay 🎬
+                        </button>
+                    `;
+                } else if (e.is_live && e.stream_url) {
+                    replayBtn = `
+                        <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" class="w-full bg-brand-green hover:bg-emerald-600 text-black font-black uppercase text-xs py-2 rounded transition shadow cursor-pointer">
+                            Tune In Live 🔴
+                        </button>
+                    `;
+                } else {
+                    replayBtn = `
+                        <div class="text-center py-1.5 text-[10px] text-gray-500 font-mono uppercase bg-brand-bg rounded border border-brand-border">
+                            Scheduled
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    ${editButtonsHTML}
+                    <div>
+                        <div class="aspect-video bg-[#111] relative flex items-center justify-center border-b border-brand-border overflow-hidden">
+                            ${thumbHTML}
+                            <span class="absolute top-2 left-2 ${catBadgeClass} text-[9px] font-black uppercase px-2 py-0.5 rounded">${catText}</span>
+                            ${liveBadge}
+                        </div>
+                        <div class="p-5 space-y-2">
+                            <span class="text-[9px] font-bold text-gray-400 font-mono uppercase block">${escapeHtml(e.event_date)}</span>
+                            <h3 class="text-base font-black uppercase text-white truncate">${escapeHtml(e.title)}</h3>
+                            <p class="text-xs text-gray-400 leading-relaxed line-clamp-2">${escapeHtml(e.description || '')}</p>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0">
+                        ${replayBtn}
+                    </div>
+                `;
+
+                grid.appendChild(card);
             });
         }
+
+        function filterEvents() {
+            renderGrid();
+        }
+
+        function convertToEmbed(url) {
+            if (!url) return '';
+            if (url.includes('youtube.com/watch?v=')) {
+                return url.replace('watch?v=', 'embed/').split('&')[0];
+            } else if (url.includes('youtu.be/')) {
+                return url.replace('youtu.be/', 'www.youtube.com/embed/').split('?')[0];
+            } else if (url.includes('twitch.tv/')) {
+                const channel = url.split('twitch.tv/')[1].replace('/', '');
+                return `https://player.twitch.tv/?channel=${channel}&parent=${window.location.hostname}`;
+            }
+            return url;
+        }
+
+        // --- THEATER REPLAY VIEWER ---
+        window.openReplayModal = function(title, url) {
+            const embed = convertToEmbed(url);
+            if (!embed) {
+                alert("Invalid or missing replay link.");
+                return;
+            }
+            document.getElementById('modalEventTitle').innerText = title;
+            document.getElementById('modalPlayerContainer').innerHTML = `<iframe src="${embed}?autoplay=1" class="w-full h-full border-0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+
+            const overlay = document.getElementById('replayModalOverlay');
+            const modal = document.getElementById('replayModalBox');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        window.closeReplayModal = function() {
+            document.getElementById('modalPlayerContainer').innerHTML = '';
+            const overlay = document.getElementById('replayModalOverlay');
+            const modal = document.getElementById('replayModalBox');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
+        // --- EDIT MODE & CMS ---
+        window.toggleEditMode = function() {
+            isEditModeActive = !isEditModeActive;
+            const btn = document.getElementById('editModeBtn');
+            btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
+            btn.classList.toggle('bg-brand-blue', !isEditModeActive);
+            btn.classList.toggle('bg-brand-red', isEditModeActive);
+
+            document.getElementById('addEventBtn').classList.toggle('hidden', !isEditModeActive);
+            renderTopBanner();
+            renderLivePlayer();
+            renderGrid();
+        }
+
+        window.openEventModal = function(id) {
+            const delBtn = document.getElementById('deleteEventBtn');
+            const modalTitle = document.getElementById('cmsModalTitle');
+
+            if (id) {
+                const e = allEvents.find(item => item.id === id);
+                if (e) {
+                    document.getElementById('edit_id').value = e.id;
+                    document.getElementById('edit_title').value = e.title;
+                    document.getElementById('edit_category').value = e.category;
+                    document.getElementById('edit_month').value = e.month_key;
+                    document.getElementById('edit_date').value = e.event_date;
+                    document.getElementById('edit_streamUrl').value = e.stream_url || '';
+                    document.getElementById('edit_replayUrl').value = e.replay_url || '';
+                    document.getElementById('edit_thumb').value = e.thumbnail_url || '';
+                    document.getElementById('edit_desc').value = e.description || '';
+                    document.getElementById('edit_isLive').checked = !!e.is_live;
+                    document.getElementById('edit_isNext').checked = !!e.is_next_upcoming;
+
+                    delBtn.classList.remove('hidden');
+                    modalTitle.innerText = "📅 Edit Event";
+                }
+            } else {
+                document.getElementById('edit_id').value = `event_${Date.now()}`;
+                document.getElementById('edit_title').value = '';
+                document.getElementById('edit_category').value = 'leagues';
+                document.getElementById('edit_month').value = 'oct_2026';
+                document.getElementById('edit_date').value = 'Oct 24, 2026 • 8:00 PM SLT';
+                document.getElementById('edit_streamUrl').value = '';
+                document.getElementById('edit_replayUrl').value = '';
+                document.getElementById('edit_thumb').value = '';
+                document.getElementById('edit_desc').value = '';
+                document.getElementById('edit_isLive').checked = false;
+                document.getElementById('edit_isNext').checked = false;
+
+                delBtn.classList.add('hidden');
+                modalTitle.innerText = "📅 Create Scheduled Event";
+            }
+
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        window.uploadThumbnail = async function(inputEl) {
+            if (!inputEl.files || inputEl.files.length === 0) return;
+            const file = inputEl.files[0];
+            const fileName = `event_thumb_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+
+            const { error } = await db.storage.from('admin-assets').upload(fileName, file);
+            if (!error) {
+                const { data } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                document.getElementById('edit_thumb').value = data.publicUrl;
+            } else {
+                alert("Thumbnail upload failed.");
+            }
+        }
+
+        window.saveEventItem = async function() {
+            const id = document.getElementById('edit_id').value.trim();
+            const title = document.getElementById('edit_title').value.trim();
+            const category = document.getElementById('edit_category').value;
+            const month_key = document.getElementById('edit_month').value.trim() || 'oct_2026';
+            const event_date = document.getElementById('edit_date').value.trim();
+            const stream_url = document.getElementById('edit_streamUrl').value.trim();
+            const replay_url = document.getElementById('edit_replayUrl').value.trim();
+            const thumbnail_url = document.getElementById('edit_thumb').value.trim();
+            const description = document.getElementById('edit_desc').value.trim();
+            const is_live = document.getElementById('edit_isLive').checked;
+            const is_next_upcoming = document.getElementById('edit_isNext').checked;
+
+            if (!title || !event_date) {
+                alert("Title and Event Date are required.");
+                return;
+            }
+
+            // Only one broadcast can be live or next upcoming at any single moment
+            if (is_live) {
+                await db.from('gsr_events').update({ is_live: false }).eq('is_live', true);
+            }
+            if (is_next_upcoming) {
+                await db.from('gsr_events').update({ is_next_upcoming: false }).eq('is_next_upcoming', true);
+            }
+
+            const { error } = await db.from('gsr_events').upsert({
+                id,
+                title,
+                category,
+                month_key,
+                event_date,
+                stream_url,
+                replay_url,
+                thumbnail_url,
+                description,
+                is_live,
+                is_next_upcoming
+            });
+
+            if (!error) {
+                await fetchEvents();
+                closeCMSModal();
+            } else {
+                alert("Database Error saving event.");
+            }
+        }
+
+        window.deleteEventItem = async function() {
+            const id = document.getElementById('edit_id').value;
+            if (!id) return;
+
+            if (confirm("Permanently delete this event entry?")) {
+                const { error } = await db.from('gsr_events').delete().eq('id', id);
+                if (!error) {
+                    await fetchEvents();
+                    closeCMSModal();
+                } else {
+                    alert("Error deleting event from database.");
+                }
+            }
+        }
+
+        window.closeCMSModal = function() {
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
+        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+
+        window.onload = initEventsPage;
     </script>
 </body>
 </html>
