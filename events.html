@@ -70,7 +70,7 @@
                 </p>
             </div>
             <div class="shrink-0 flex items-center gap-3">
-                <a href="events.html#schedule" class="bg-brand-red hover:bg-red-600 text-white font-black uppercase text-xs px-5 py-2.5 rounded transition shadow-lg tracking-wider">
+                <a href="upcoming_events.html" class="bg-brand-red hover:bg-red-600 text-white font-black uppercase text-xs px-5 py-2.5 rounded transition shadow-lg tracking-wider">
                     Full Schedule 📅
                 </a>
             </div>
@@ -296,7 +296,6 @@
         }
 
         function renderTopBanner() {
-            // Find explicitly marked next event or upcoming one
             const nextEvent = allEvents.find(e => e.is_next_upcoming) || allEvents[0] || null;
 
             if (nextEvent) {
@@ -595,7 +594,6 @@
                 return;
             }
 
-            // Only one broadcast can be live or next upcoming at any single moment
             if (is_live) {
                 await db.from('gsr_events').update({ is_live: false }).eq('is_live', true);
             }
