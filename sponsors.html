@@ -33,6 +33,11 @@
                     Sponsors Hub
                 </h1>
             </div>
+
+            <!-- Dynamic Auth & Edit Mode Container -->
+            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2">
+                <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 text-[10px] font-black uppercase px-3 py-1.5 rounded transition">Sign In</a>
+            </div>
         </div>
     </header>
 
@@ -41,7 +46,7 @@
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
             <a href="store.html" class="text-gray-300 hover:text-brand-gold transition">GSRacing Store</a>
-            <a href="sponsors.html" class="text-brand-gold transition">Sponsors Showcase</a>
+            <a href="sponsors.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">Sponsors Showcase</a>
             <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">Leagues</a>
         </div>
     </nav>
@@ -82,7 +87,7 @@
 
                 <!-- Category Buttons -->
                 <div id="filterButtons" class="flex flex-wrap gap-2 text-[10px] font-black uppercase">
-                    <button onclick="filterSponsors('all', this)" class="filter-btn bg-brand-gold text-black px-3 py-1.5 rounded transition shadow">All Partners</button>
+                    <button onclick="filterSponsors('all', this)" class="filter-btn bg-brand-gold text-black px-3 py-1.5 rounded transition shadow font-black">All Partners</button>
                     <button onclick="filterSponsors('league', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition">Leagues</button>
                     <button onclick="filterSponsors('track_billboard', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition">Tracks & Billboards</button>
                     <button onclick="filterSponsors('website', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition">Website & Pages</button>
@@ -111,21 +116,46 @@
         </div>
     </footer>
 
-    <!-- SPONSOR SCRIPT ENGINE -->
+    <!-- INLINE CMS EDIT MODAL -->
+    <div id="cmsModalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="cmsModal" class="bg-brand-card border border-brand-gold shadow-[0_0_30px_rgba(197,160,89,0.15)] rounded-xl w-full max-w-md transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
+            <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center rounded-t-xl shrink-0">
+                <h2 class="text-sm font-black uppercase text-brand-gold tracking-wide">✏️ Edit Sponsor Block</h2>
+                <button onclick="closeCMSModal()" class="text-gray-500 hover:text-brand-red p-1 transition cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="cmsModalFields" class="p-6 space-y-4 overflow-y-auto grow"></div>
+            <div class="bg-brand-bg border-t border-brand-border p-4 flex justify-end gap-3 rounded-b-xl shrink-0">
+                <button onclick="closeCMSModal()" class="text-xs font-bold uppercase text-gray-400 hover:text-white px-4 py-2 transition cursor-pointer">Cancel</button>
+                <button onclick="saveCMSModal()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-6 py-2 rounded transition shadow cursor-pointer">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPABASE ENGINE & SPONSORS SCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        /*
-          ADMIN-READY REPOSITORY:
-          Easily add new sponsors, assign categories ('league', 'track_billboard', 'website'), 
-          mark them as premier league team backers ('isPremier: true'), and list placement pages.
-        */
-        const sponsorsDatabase = [
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let currentUser = null;
+        let isAdmin = false;
+        let isEditModeActive = false;
+        let currentEditingId = null;
+
+        // Default local sponsors database with Image URL and Hide/Unhide toggle (`isHidden`)
+        let sponsorsDatabase = [
             {
                 id: 1,
                 name: "StormTech HUD Dynamics",
                 category: "league",
                 isPremier: true,
+                isHidden: false,
                 teamBacked: "Storm Riders Pro Racing Team",
                 placement: "League Hub & Car Liveries",
+                logoUrl: "",
                 desc: "Official telemetry HUD and dashboard developer powering all Pro Plus championship vehicles.",
                 link: "secondlife://..."
             },
@@ -134,8 +164,10 @@
                 name: "Linden Fuel & Oil Co.",
                 category: "league",
                 isPremier: true,
+                isHidden: false,
                 teamBacked: "Vortex Syndicate Racing",
                 placement: "Championship Series & Pit Lane",
+                logoUrl: "",
                 desc: "Primary fuel sponsor providing high-octane pit stop animations and endurance awards.",
                 link: "secondlife://..."
             },
@@ -144,7 +176,10 @@
                 name: "Second Life Motors",
                 category: "track_billboard",
                 isPremier: false,
+                isHidden: false,
+                teamBacked: "Independent",
                 placement: "Ancient Rome Circuit (Turn 1 Billboard)",
+                logoUrl: "",
                 desc: "In-world automotive marketplace featuring prominent trackside signage and digital banners.",
                 link: "secondlife://..."
             },
@@ -153,7 +188,10 @@
                 name: "CyberGrid Neon Arrays",
                 category: "track_billboard",
                 isPremier: false,
+                isHidden: false,
+                teamBacked: "Independent",
                 placement: "Las Vegas Strip Circuit & Main Straight",
+                logoUrl: "",
                 desc: "Suppliers of track lighting arrays, night-racing glow grids, and circuit architecture.",
                 link: "secondlife://..."
             },
@@ -162,7 +200,10 @@
                 name: "PixelCraft Media Group",
                 category: "website",
                 isPremier: false,
+                isHidden: false,
+                teamBacked: "Independent",
                 placement: "GSRacing Store & Multimedia Hub",
+                logoUrl: "",
                 desc: "Digital publishing partner supporting our video archives, magazine issues, and web infrastructure.",
                 link: "secondlife://..."
             },
@@ -171,13 +212,51 @@
                 name: "Dragonwood Estates & Decor",
                 category: "website",
                 isPremier: false,
+                isHidden: false,
+                teamBacked: "Independent",
                 placement: "Main Menu & Gentle Storm Products Page",
+                logoUrl: "",
                 desc: "Luxury estate builders and fine framing partners for community display structures.",
                 link: "secondlife://..."
             }
         ];
 
         let activeCategory = 'all';
+
+        async function initSponsorsPage() {
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                if (session) {
+                    currentUser = session.user;
+                    const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, is_admin').eq('id', currentUser.id).maybeSingle();
+                    isAdmin = profile?.is_admin || false;
+                    const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+                    const userNav = document.getElementById('userNav');
+                    if (userNav) {
+                        let adminBtn = isAdmin ? `<button onclick="toggleEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
+                        userNav.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <div class="text-right hidden sm:block">
+                                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                                    <span class="text-[9px] text-brand-gold uppercase font-mono tracking-widest">Logged In</span>
+                                </div>
+                                <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition cursor-pointer">Sign Out</button>
+                                ${adminBtn}
+                            </div>
+                        `;
+                    }
+                }
+
+                // Load custom saved database from Supabase site_content if available
+                const { data: remoteData } = await db.from('site_content').select('content_value').eq('section_id', 'sponsors:database').maybeSingle();
+                if (remoteData && remoteData.content_value) {
+                    sponsorsDatabase = JSON.parse(remoteData.content_value);
+                }
+            } catch (e) { console.warn("Auth or DB sync notice:", e); }
+
+            renderSponsors();
+        }
 
         function renderSponsors() {
             const premierGridEl = document.getElementById('premierGrid');
@@ -186,22 +265,35 @@
             premierGridEl.innerHTML = '';
             sponsorsGridEl.innerHTML = '';
 
-            // 1. Render Premier League Team Backers
-            const premierSponsors = sponsorsDatabase.filter(s => s.isPremier);
+            // 1. Render Premier League Team Backers (Excluding hidden ones unless edit mode is active)
+            const premierSponsors = sponsorsDatabase.filter(s => s.isPremier && (!s.isHidden || isEditModeActive));
+            
+            if (premierSponsors.length === 0) {
+                premierGridEl.innerHTML = `<div class="col-span-full py-6 text-center text-xs text-gray-500 uppercase font-mono">[ No active premier sponsors visible ]</div>`;
+            }
+
             premierSponsors.forEach(s => {
                 const card = document.createElement('div');
-                card.className = "bg-brand-bg border border-brand-gold/60 hover:border-brand-gold rounded-xl p-5 shadow-lg flex flex-col justify-between transition group";
+                card.className = `bg-brand-bg border ${s.isHidden ? 'border-dashed border-red-500/50 opacity-60' : 'border-brand-gold/60 hover:border-brand-gold'} rounded-xl p-5 shadow-lg flex flex-col justify-between transition group relative`;
+                
+                let editBtnHTML = isEditModeActive ? `<button onclick="openCMSModal(${s.id})" class="absolute top-2 right-2 bg-brand-blue text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow-lg z-30 cursor-pointer">✏️ Edit Block</button>` : '';
+                let hiddenBadge = s.isHidden ? `<span class="bg-red-950 text-brand-red px-2 py-0.5 rounded border border-brand-red/30 text-[9px] font-black uppercase mr-1">HIDDEN</span>` : '';
+
+                let imageHTML = s.logoUrl ? `<div class="mb-3 h-16 w-full flex items-center justify-center bg-black/40 rounded border border-brand-border overflow-hidden"><img src="${s.logoUrl}" alt="${s.name}" class="h-full w-auto object-contain p-1"></div>` : '';
+
                 card.innerHTML = `
+                    ${editBtnHTML}
                     <div>
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">Team Backer</span>
-                            <span class="text-[9px] text-gray-400 font-mono">Backed: ${s.teamBacked}</span>
+                            <div>${hiddenBadge}<span class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">Team Backer</span></div>
+                            <span class="text-[9px] text-gray-400 font-mono pr-12">Backed: ${escapeHtml(s.teamBacked)}</span>
                         </div>
-                        <h3 class="text-base font-black uppercase text-white group-hover:text-brand-gold transition mt-1">${s.name}</h3>
-                        <p class="text-xs text-gray-400 mt-2 leading-relaxed">${s.desc}</p>
+                        ${imageHTML}
+                        <h3 class="text-base font-black uppercase text-white group-hover:text-brand-gold transition mt-1">${escapeHtml(s.name)}</h3>
+                        <p class="text-xs text-gray-400 mt-2 leading-relaxed">${escapeHtml(s.desc)}</p>
                     </div>
                     <div class="mt-4 pt-3 border-t border-brand-border flex justify-between items-center text-[10px]">
-                        <span class="text-gray-500 uppercase font-mono">Placement: ${s.placement}</span>
+                        <span class="text-gray-500 uppercase font-mono">Placement: ${escapeHtml(s.placement)}</span>
                         <a href="${s.link}" target="_blank" class="text-brand-gold hover:underline font-bold uppercase">Visit Partner ↗</a>
                     </div>
                 `;
@@ -210,8 +302,12 @@
 
             // 2. Render Main Directory based on filter
             const filtered = sponsorsDatabase.filter(s => {
-                if (activeCategory === 'all') return true;
-                return s.category === activeCategory;
+                if (s.isPremier) return false; // Premier shown above
+                if (!s.isHidden || isEditModeActive) {
+                    if (activeCategory === 'all') return true;
+                    return s.category === activeCategory;
+                }
+                return false;
             });
 
             if (filtered.length === 0) {
@@ -221,18 +317,25 @@
 
             filtered.forEach(s => {
                 const card = document.createElement('div');
-                card.className = "bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-5 shadow-xl flex flex-col justify-between transition group";
+                card.className = `bg-brand-card border ${s.isHidden ? 'border-dashed border-red-500/50 opacity-60' : 'border-brand-border hover:border-brand-gold'} rounded-xl p-5 shadow-xl flex flex-col justify-between transition group relative`;
+
+                let editBtnHTML = isEditModeActive ? `<button onclick="openCMSModal(${s.id})" class="absolute top-2 right-2 bg-brand-blue text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow-lg z-30 cursor-pointer">✏️ Edit Block</button>` : '';
+                let hiddenBadge = s.isHidden ? `<span class="bg-red-950 text-brand-red px-2 py-0.5 rounded border border-brand-red/30 text-[9px] font-black uppercase mr-1">HIDDEN</span>` : '';
+                let imageHTML = s.logoUrl ? `<div class="mb-3 h-16 w-full flex items-center justify-center bg-black/40 rounded border border-brand-border overflow-hidden"><img src="${s.logoUrl}" alt="${s.name}" class="h-full w-auto object-contain p-1"></div>` : '';
+
                 card.innerHTML = `
+                    ${editBtnHTML}
                     <div>
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-[9px] font-black uppercase text-gray-400 bg-brand-bg px-2 py-0.5 rounded border border-brand-border">${s.category.replace('_', ' ').toUpperCase()}</span>
-                            <span class="text-[9px] text-brand-gold uppercase font-bold">${s.isPremier ? '★ Premier Tier' : 'Standard Partner'}</span>
+                            <div>${hiddenBadge}<span class="text-[9px] font-black uppercase text-gray-400 bg-brand-bg px-2 py-0.5 rounded border border-brand-border">${s.category.replace('_', ' ').toUpperCase()}</span></div>
+                            <span class="text-[9px] text-brand-gold uppercase font-bold pr-12">Standard Partner</span>
                         </div>
-                        <h3 class="text-base font-black uppercase text-white group-hover:text-brand-gold transition mt-1">${s.name}</h3>
-                        <p class="text-xs text-gray-400 mt-2 leading-relaxed">${s.desc}</p>
+                        ${imageHTML}
+                        <h3 class="text-base font-black uppercase text-white group-hover:text-brand-gold transition mt-1">${escapeHtml(s.name)}</h3>
+                        <p class="text-xs text-gray-400 mt-2 leading-relaxed">${escapeHtml(s.desc)}</p>
                     </div>
                     <div class="mt-6 pt-3 border-t border-brand-border flex justify-between items-center text-[10px]">
-                        <span class="text-gray-500 uppercase font-mono">Location: ${s.placement}</span>
+                        <span class="text-gray-500 uppercase font-mono">Location: ${escapeHtml(s.placement)}</span>
                         <a href="${s.link}" target="_blank" class="text-brand-gold hover:underline font-bold uppercase">Details ↗</a>
                     </div>
                 `;
@@ -242,20 +345,129 @@
 
         function filterSponsors(category, btnElement) {
             activeCategory = category;
-
-            // Highlight active button state
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.className = "filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition";
             });
             btnElement.className = "filter-btn bg-brand-gold text-black px-3 py-1.5 rounded transition shadow font-black";
-
             renderSponsors();
         }
 
-        // Initialize on load
-        window.onload = () => {
+        window.toggleEditMode = function() {
+            isEditModeActive = !isEditModeActive;
+            const btn = document.getElementById('editModeBtn');
+            if (btn) {
+                btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
+                btn.classList.toggle('bg-brand-blue', !isEditModeActive);
+                btn.classList.toggle('bg-brand-red', isEditModeActive);
+            }
             renderSponsors();
-        };
+        }
+
+        window.openCMSModal = function(id) {
+            currentEditingId = id;
+            const s = sponsorsDatabase.find(item => item.id === id);
+            if (!s) return;
+
+            const formContainer = document.getElementById('cmsModalFields');
+            formContainer.innerHTML = `
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Sponsor Name</label>
+                    <input type="text" id="edit_name" value="${escapeHtml(s.name)}" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Category</label>
+                    <select id="edit_category" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                        <option value="league" ${s.category === 'league' ? 'selected' : ''}>League</option>
+                        <option value="track_billboard" ${s.category === 'track_billboard' ? 'selected' : ''}>Track & Billboard</option>
+                        <option value="website" ${s.category === 'website' ? 'selected' : ''}>Website & Pages</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <label class="flex items-center gap-2 text-xs font-bold text-white bg-[#0a0a0a] p-2 rounded border border-brand-border cursor-pointer">
+                        <input type="checkbox" id="edit_isPremier" ${s.isPremier ? 'checked' : ''}> Premier Team Backer
+                    </label>
+                    <label class="flex items-center gap-2 text-xs font-bold text-red-400 bg-[#0a0a0a] p-2 rounded border border-brand-border cursor-pointer">
+                        <input type="checkbox" id="edit_isHidden" ${s.isHidden ? 'checked' : ''}> Hide Sponsor Block
+                    </label>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Logo Image File / URL</label>
+                    <input type="file" id="edit_logoFile" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1 rounded mb-1">
+                    <input type="text" id="edit_logoUrl" value="${escapeHtml(s.logoUrl || '')}" placeholder="Or paste image URL here" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Team Backed (If Premier)</label>
+                    <input type="text" id="edit_teamBacked" value="${escapeHtml(s.teamBacked || '')}" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Placement Location / Billboard</label>
+                    <input type="text" id="edit_placement" value="${escapeHtml(s.placement || '')}" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Description</label>
+                    <textarea id="edit_desc" rows="3" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(s.desc)}</textarea>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Partner Link / Second Life URL</label>
+                    <input type="text" id="edit_link" value="${escapeHtml(s.link)}" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                </div>
+            `;
+
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        window.closeCMSModal = function() {
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
+        window.saveCMSModal = async function() {
+            const s = sponsorsDatabase.find(item => item.id === currentEditingId);
+            if (!s) return;
+
+            s.name = document.getElementById('edit_name').value;
+            s.category = document.getElementById('edit_category').value;
+            s.isPremier = document.getElementById('edit_isPremier').checked;
+            s.isHidden = document.getElementById('edit_isHidden').checked;
+            s.teamBacked = document.getElementById('edit_teamBacked').value;
+            s.placement = document.getElementById('edit_placement').value;
+            s.desc = document.getElementById('edit_desc').value;
+            s.link = document.getElementById('edit_link').value;
+
+            let logoUrl = document.getElementById('edit_logoUrl').value;
+            const fileInput = document.getElementById('edit_logoFile');
+            if (fileInput && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const fileName = `sponsor_logo_${s.id}_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+                const { error: uploadError } = await db.storage.from('admin-assets').upload(fileName, file);
+                if (!uploadError) {
+                    const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                    logoUrl = publicUrlData.publicUrl;
+                }
+            }
+            if (logoUrl) s.logoUrl = logoUrl;
+
+            // Save to Supabase site_content so changes persist
+            await db.from('site_content').upsert([{ section_id: 'sponsors:database', content_value: JSON.stringify(sponsorsDatabase) }]);
+
+            renderSponsors();
+            closeCMSModal();
+        }
+
+        async function executeSignOut() {
+            await db.auth.signOut();
+            window.location.reload();
+        }
+
+        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+
+        window.onload = initSponsorsPage;
     </script>
 </body>
 </html>
