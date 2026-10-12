@@ -407,9 +407,11 @@
 
                 let liveBadge = e.is_live ? `<span class="absolute bottom-2 left-2 bg-brand-green text-black text-[9px] font-black uppercase px-2 py-0.5 rounded shadow animate-pulse">● LIVE</span>` : '';
 
+                const imgUrl = (e.thumbnail_url && e.thumbnail_url.trim() !== '') ? e.thumbnail_url.trim() : null;
+
                 let thumbHTML = '';
-                if (e.thumbnail_url) {
-                    thumbHTML = `<img src="${e.thumbnail_url}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">`;
+                if (imgUrl) {
+                    thumbHTML = `<img src="${imgUrl}" alt="${escapeHtml(e.title)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">`;
                 } else {
                     thumbHTML = `<span class="text-[10px] font-black text-gray-600 uppercase">[ EVENT PREVIEW ]</span>`;
                 }
