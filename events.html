@@ -300,8 +300,8 @@
         }
 
         function renderTopBanner() {
-            // Find explicitly marked next event
-            const nextEvent = allEvents.find(e => e.is_next_upcoming) || null;
+            // Find explicitly marked next event, or default to the newest one added
+            const nextEvent = allEvents.find(e => e.is_next_upcoming) || allEvents[0] || null;
 
             const adminTrigger = document.getElementById('upcomingAdminTrigger');
             if (isEditModeActive) {
@@ -333,7 +333,7 @@
 
             const adminTrigger = document.getElementById('liveAdminTrigger');
             if (isEditModeActive) {
-                adminTrigger.innerHTML = `<button onclick="openEventModal('${liveEvent ? liveEvent.id : ''}')" class="bg-brand-blue text-white text-[9px] font-black uppercase px-3 py-1.5 rounded shadow-lg cursor-pointer">✏️ Set Live Stream</button>`;
+                adminTrigger.innerHTML = `<button onclick="openEventModal('${liveEvent ? liveEvent.id : null}')" class="bg-brand-blue text-white text-[9px] font-black uppercase px-3 py-1.5 rounded shadow-lg cursor-pointer">✏️ Set Live Stream</button>`;
             } else {
                 adminTrigger.innerHTML = '';
             }
@@ -389,7 +389,6 @@
                 // Smart Filter: Does this event actually have a video link?
                 const hasVideo = (e.replay_url && e.replay_url.trim() !== '') || (e.stream_url && e.stream_url.trim() !== '');
 
-                // Only show entries that have videos to the public. 
                 // Show ALL entries to admins in Edit Mode so they can clean up ghosts.
                 if (isEditModeActive) {
                     return matchType && matchMonth;
@@ -420,4 +419,258 @@
 
             filtered.forEach(e => {
                 const card = document.createElement('div');
-                card.className = "bg-brand-card border border-brand-border hover:
+                card.className = "bg-brand-card border border-brand-border hover:border-brand-red rounded-xl overflow-hidden shadow-lg transition flex flex-col justify-between relative group";
+
+                let editButtonsHTML = '';
+                if (isEditModeActive) {
+                    editButtonsHTML = `
+                        <div class="absolute top-2 right-2 z-20 flex gap-1">
+                            <button onclick="openEventModal('${e.id}'); event.stopPropagation();" class="bg-brand-blue text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow cursor-pointer">✏️ Edit</button>
+                        </div>
+                    `;
+                }
+
+                const rawImg = e.thumbnail_url || e.image_url || e.image || '';
+                const imgUrl = (rawImg && typeof rawImg === 'string' && rawImg.trim() !== '') ? rawImg.trim() : null;
+
+                let thumbHTML = '';
+                if (imgUrl) {
+                    thumbHTML = `<img src="${imgUrl}" alt="${escapeHtml(e.title)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\\'text-[10px] font-black text-gray-600 uppercase\\'>[ BROADCAST REPLAY ]</span>'">`;
+                } else {
+                    thumbHTML = `<span class="text-[10px] font-black text-gray-600 uppercase">[ BROADCAST REPLAY ]</span>`;
+                }
+
+                const normCat = (e.category || '').toLowerCase();
+                const catBadgeClass = catColors[normCat] || 'bg-brand-red text-white';
+                const catText = catLabels[normCat] || (e.category ? e.category.toUpperCase() : 'BROADCAST');
+
+                let actionBtn = '';
+                const videoLink = e.replay_url || e.stream_url;
+                if (videoLink) {
+                    actionBtn = `
+                        <button onclick="openReplayModal('${escapeHtml(e.title)}', '${escapeHtml(videoLink)}')" class="w-full bg-brand-bg border border-brand-border hover:border-brand-red text-white font-bold uppercase text-xs py-2 rounded transition cursor-pointer">
+                            Watch Replay 🎬
+                        </button>
+                    `;
+                } else {
+                    actionBtn = `
+                        <div class="text-center py-1.5 text-[10px] text-gray-500 font-mono uppercase bg-brand-bg rounded border border-brand-border">
+                            Video Pending
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    ${editButtonsHTML}
+                    <div>
+                        <div class="aspect-video bg-[#111] relative flex items-center justify-center border-b border-brand-border overflow-hidden">
+                            ${thumbHTML}
+                            <span class="absolute top-2 left-2 ${catBadgeClass} text-[9px] font-black uppercase px-2 py-0.5 rounded">${catText}</span>
+                        </div>
+                        <div class="p-5 space-y-2">
+                            ${e.event_date ? `<span class="text-[9px] font-bold text-gray-400 font-mono uppercase block">${escapeHtml(e.event_date)}</span>` : ''}
+                            <h3 class="text-base font-black uppercase text-white truncate">${escapeHtml(e.title)}</h3>
+                            <p class="text-xs text-gray-400 leading-relaxed line-clamp-2">${escapeHtml(e.description || '')}</p>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0">
+                        ${actionBtn}
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        function filterEvents() {
+            renderGrid();
+        }
+
+        function convertToEmbed(url) {
+            if (!url) return '';
+            if (url.includes('youtube.com/watch?v=')) {
+                return url.replace('watch?v=', 'embed/').split('&')[0];
+            } else if (url.includes('youtu.be/')) {
+                return url.replace('youtu.be/', 'www.youtube.com/embed/').split('?')[0];
+            } else if (url.includes('twitch.tv/')) {
+                const channel = url.split('twitch.tv/')[1].replace('/', '');
+                return `https://player.twitch.tv/?channel=${channel}&parent=${window.location.hostname}`;
+            }
+            return url;
+        }
+
+        // --- THEATER REPLAY VIEWER ---
+        window.openReplayModal = function(title, url) {
+            const embed = convertToEmbed(url);
+            if (!embed) {
+                alert("Invalid or missing video link.");
+                return;
+            }
+            document.getElementById('modalEventTitle').innerText = title;
+            document.getElementById('modalPlayerContainer').innerHTML = `<iframe src="${embed}?autoplay=1" class="w-full h-full border-0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+
+            const overlay = document.getElementById('replayModalOverlay');
+            const modal = document.getElementById('replayModalBox');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        window.closeReplayModal = function() {
+            document.getElementById('modalPlayerContainer').innerHTML = '';
+            const overlay = document.getElementById('replayModalOverlay');
+            const modal = document.getElementById('replayModalBox');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
+        // --- EDIT MODE & CMS ---
+        window.toggleEditMode = function() {
+            isEditModeActive = !isEditModeActive;
+            const btn = document.getElementById('editModeBtn');
+            btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
+            btn.classList.toggle('bg-brand-blue', !isEditModeActive);
+            btn.classList.toggle('bg-brand-red', isEditModeActive);
+
+            document.getElementById('addEventBtn').classList.toggle('hidden', !isEditModeActive);
+            renderTopBanner();
+            renderLivePlayer();
+            renderGrid();
+        }
+
+        window.openEventModal = function(id) {
+            const delBtn = document.getElementById('deleteEventBtn');
+            const modalTitle = document.getElementById('cmsModalTitle');
+
+            if (id) {
+                const e = allEvents.find(item => item.id === id);
+                if (e) {
+                    document.getElementById('edit_id').value = e.id;
+                    document.getElementById('edit_title').value = e.title;
+                    document.getElementById('edit_category').value = e.category;
+                    document.getElementById('edit_month').value = e.month_key || 'oct_2026';
+                    document.getElementById('edit_date').value = e.event_date || '';
+                    document.getElementById('edit_streamUrl').value = e.stream_url || '';
+                    document.getElementById('edit_replayUrl').value = e.replay_url || '';
+                    document.getElementById('edit_thumb').value = e.thumbnail_url || e.image_url || '';
+                    document.getElementById('edit_desc').value = e.description || '';
+                    document.getElementById('edit_isLive').checked = !!e.is_live;
+                    document.getElementById('edit_isNext').checked = !!e.is_next_upcoming;
+
+                    delBtn.classList.remove('hidden');
+                    modalTitle.innerText = "📹 Edit Broadcast Details";
+                }
+            } else {
+                document.getElementById('edit_id').value = `broadcast_${Date.now()}`;
+                document.getElementById('edit_title').value = '';
+                document.getElementById('edit_category').value = 'leagues';
+                document.getElementById('edit_month').value = 'oct_2026';
+                document.getElementById('edit_date').value = 'October 12, 2026';
+                document.getElementById('edit_streamUrl').value = '';
+                document.getElementById('edit_replayUrl').value = '';
+                document.getElementById('edit_thumb').value = '';
+                document.getElementById('edit_desc').value = '';
+                document.getElementById('edit_isLive').checked = false;
+                document.getElementById('edit_isNext').checked = false;
+
+                delBtn.classList.add('hidden');
+                modalTitle.innerText = "📹 Add Broadcast Archive";
+            }
+
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        window.uploadThumbnail = async function(inputEl) {
+            if (!inputEl.files || inputEl.files.length === 0) return;
+            const file = inputEl.files[0];
+            const fileName = `event_thumb_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+
+            const { error } = await db.storage.from('admin-assets').upload(fileName, file);
+            if (!error) {
+                const { data } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                document.getElementById('edit_thumb').value = data.publicUrl;
+            } else {
+                alert("Thumbnail upload failed.");
+            }
+        }
+
+        window.saveEventItem = async function() {
+            const id = document.getElementById('edit_id').value.trim();
+            const title = document.getElementById('edit_title').value.trim();
+            const category = document.getElementById('edit_category').value;
+            const month_key = document.getElementById('edit_month').value.trim() || 'oct_2026';
+            const event_date = document.getElementById('edit_date').value.trim();
+            const stream_url = document.getElementById('edit_streamUrl').value.trim();
+            const replay_url = document.getElementById('edit_replayUrl').value.trim();
+            const thumbnail_url = document.getElementById('edit_thumb').value.trim();
+            const description = document.getElementById('edit_desc').value.trim();
+            const is_live = document.getElementById('edit_isLive').checked;
+            const is_next_upcoming = document.getElementById('edit_isNext').checked;
+
+            if (!title) {
+                alert("Title is required.");
+                return;
+            }
+
+            if (is_live) {
+                await db.from('gsr_events').update({ is_live: false }).eq('is_live', true);
+            }
+            if (is_next_upcoming) {
+                await db.from('gsr_events').update({ is_next_upcoming: false }).eq('is_next_upcoming', true);
+            }
+
+            const { error } = await db.from('gsr_events').upsert({
+                id,
+                title,
+                category,
+                month_key,
+                event_date,
+                stream_url,
+                replay_url,
+                thumbnail_url,
+                image_url: thumbnail_url,
+                description,
+                is_live,
+                is_next_upcoming
+            });
+
+            if (!error) {
+                await fetchEvents();
+                closeCMSModal();
+            } else {
+                alert("Database Error saving broadcast.");
+            }
+        }
+
+        window.deleteEventItem = async function() {
+            const id = document.getElementById('edit_id').value;
+            if (!id) return;
+
+            if (confirm("Permanently delete this broadcast archive?")) {
+                const { error } = await db.from('gsr_events').delete().eq('id', id);
+                if (!error) {
+                    await fetchEvents();
+                    closeCMSModal();
+                } else {
+                    alert("Error deleting broadcast from database.");
+                }
+            }
+        }
+
+        window.closeCMSModal = function() {
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
+        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+
+        window.onload = initEventsPage;
+    </script>
+</body>
+</html>
