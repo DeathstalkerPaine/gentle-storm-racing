@@ -90,23 +90,23 @@
             </div>
         </section>
 
-        <!-- ROW 3: PRECISION & RELIABILITY STATS -->
+        <!-- ROW 3: PRECISION & RELIABILITY STATS (TOP 5 SLOTS EACH) -->
         <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl flex flex-col">
                 <h3 class="text-xs font-black uppercase text-brand-gold border-b border-brand-border pb-2 mb-3 text-center">Top Win %</h3>
-                <div id="winPctList" class="flex-grow space-y-1"></div>
+                <div id="winPctList" class="space-y-2 flex-grow"></div>
             </div>
             <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl flex flex-col">
                 <h3 class="text-xs font-black uppercase text-brand-blue border-b border-brand-border pb-2 mb-3 text-center">Cleanest Racers</h3>
-                <div id="cleanRacesList" class="flex-grow space-y-1"></div>
+                <div id="cleanRacesList" class="space-y-2 flex-grow"></div>
             </div>
             <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl flex flex-col">
                 <h3 class="text-xs font-black uppercase text-brand-red border-b border-brand-border pb-2 mb-3 text-center">Pole Masters</h3>
-                <div id="poleList" class="flex-grow space-y-1"></div>
+                <div id="poleList" class="space-y-2 flex-grow"></div>
             </div>
             <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl flex flex-col">
                 <h3 class="text-xs font-black uppercase text-white border-b border-brand-border pb-2 mb-3 text-center">Most Podiums</h3>
-                <div id="podiumList" class="flex-grow space-y-1"></div>
+                <div id="podiumList" class="space-y-2 flex-grow"></div>
             </div>
         </section>
 
@@ -180,7 +180,7 @@
                 renderMainBox('proTeamsList', proTeams.slice(0, 5), 'pts_pro_league', true);
             }
 
-            // 3. Stat Leaders
+            // 3. Stat Leaders (Top 5 Fixed Slots)
             const winPctRacers = [...racers].map(r => {
                 const total = (r.wins || 0) + (r.losses || 0) + (r.dnf || 0);
                 const pct = total > 0 ? ((r.wins || 0) / total) * 100 : 0;
@@ -191,15 +191,14 @@
             const poleRacers = [...racers].sort((a,b) => (b.pole_positions || 0) - (a.pole_positions || 0));
             const podiumRacers = [...racers].sort((a,b) => (b.podiums || 0) - (a.podiums || 0));
 
-            renderStatBox('winPctList', winPctRacers.slice(0, 5), r => Math.round(r.calculated_win_pct) + '%');
-            renderStatBox('cleanRacesList', cleanRacers.slice(0, 5), r => (r.clean_races || 0) + ' Clean');
-            renderStatBox('poleList', poleRacers.slice(0, 5), r => (r.pole_positions || 0) + ' Poles');
-            renderStatBox('podiumList', podiumRacers.slice(0, 5), r => (r.podiums || 0) + ' Podiums');
+            renderTop5StatBox('winPctList', winPctRacers.slice(0, 5), r => Math.round(r.calculated_win_pct) + '%');
+            renderTop5StatBox('cleanRacesList', cleanRacers.slice(0, 5), r => (r.clean_races || 0) + ' Clean');
+            renderTop5StatBox('poleList', poleRacers.slice(0, 5), r => (r.pole_positions || 0) + ' Poles');
+            renderTop5StatBox('podiumList', podiumRacers.slice(0, 5), r => (r.podiums || 0) + ' Podiums');
 
-            // 4. Track Records (Fetching fastest lap independent of points)
+            // 4. Track Records
             const bestLapRacer = racers.filter(r => r.best_lap_time && r.best_lap_time !== '--:--.---').sort((a,b) => a.best_lap_time.localeCompare(b.best_lap_time))[0];
             if (bestLapRacer) {
-                // For demonstration, applying global best lap to Vegas. You will expand this logic per track ID in the future.
                 document.getElementById('vegasRecord').innerHTML = `<span class="block text-[10px] font-black text-white uppercase">${escapeHtml(bestLapRacer.display_name)}</span><span class="text-[11px] font-mono text-brand-gold">${bestLapRacer.best_lap_time}</span>`;
             }
         }
@@ -237,19 +236,33 @@
             }
         }
 
-        function renderStatBox(elementId, items, formatStatFn) {
+        function renderTop5StatBox(elementId, items, formatStatFn) {
             const container = document.getElementById(elementId);
             container.innerHTML = '';
-            items.forEach((item, index) => {
-                if(!item || !item.display_name) return;
-                const statVal = formatStatFn(item);
-                container.innerHTML += `
-                    <div onclick="window.location='racers_profiles.html?driver=${encodeURIComponent(item.display_name)}'" class="flex justify-between items-center px-2 py-1 cursor-pointer hover:bg-white/5 rounded transition">
-                        <span class="text-[9px] font-black uppercase text-gray-300"><span class="text-gray-500 mr-1">${index + 1}.</span> ${escapeHtml(item.display_name)}</span>
-                        <span class="text-[9px] font-mono text-brand-gold">${statVal}</span>
-                    </div>
-                `;
-            });
+            for (let i = 0; i < 5; i++) {
+                const item = items[i];
+                if (item && item.display_name) {
+                    const statVal = formatStatFn(item);
+                    const isFirst = i === 0;
+                    const numClass = isFirst ? 'text-brand-gold' : 'text-gray-400';
+                    const textClass = isFirst ? 'text-white font-black' : 'text-gray-300 font-bold';
+
+                    container.innerHTML += `
+                        <div onclick="window.location='racers_profiles.html?driver=${encodeURIComponent(item.display_name)}'" class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded cursor-pointer hover:bg-[#111] transition">
+                            <span class="${numClass} font-black italic w-4 text-xs">${i + 1}</span>
+                            <span class="${textClass} text-[10px] uppercase truncate flex-grow pl-1">${escapeHtml(item.display_name)}</span>
+                            <span class="text-[10px] font-mono text-brand-gold font-bold">${statVal}</span>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML += `
+                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-40">
+                            <span class="text-gray-600 font-black italic w-4 text-xs">${i + 1}</span>
+                            <span class="text-gray-600 text-[10px] font-bold uppercase">Pending</span>
+                        </div>
+                    `;
+                }
+            }
         }
 
         function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
