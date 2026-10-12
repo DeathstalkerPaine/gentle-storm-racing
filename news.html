@@ -124,7 +124,7 @@
         let isAdmin = false;
         let adminName = "Staff Reporter";
         let allArticles = [];
-        let currentMonthKey = 'oct_2026'; // Default
+        let currentMonthKey = 'oct_2026';
 
         let editingArticle = null;
 
@@ -151,12 +151,10 @@
                 }
             } catch (e) {}
 
-            // Set select to current month based on simple logic (You can make this dynamic later)
             const date = new Date();
             const monthNames = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
             currentMonthKey = `${monthNames[date.getMonth()]}_${date.getFullYear()}`;
             
-            // Fallback if the hardcoded options don't match the actual date yet
             const select = document.getElementById('editionSelect');
             let optionExists = Array.from(select.options).some(opt => opt.value === currentMonthKey);
             if (!optionExists) {
@@ -204,48 +202,91 @@
                 return;
             }
 
-            visibleArticles.forEach((art, index) => {
+            visibleArticles.forEach((art) => {
                 const articleBlock = document.createElement('article');
                 articleBlock.className = `newspaper-paper p-6 sm:p-8 rounded-lg shadow-xl space-y-4 relative overflow-hidden ${art.status === 'draft' ? 'border-dashed border-red-500/50 opacity-75' : ''}`;
                 
                 let draftBadge = art.status === 'draft' ? `<span class="absolute top-2 right-2 bg-red-950 text-brand-red px-2 py-0.5 rounded border border-brand-red/30 text-[9px] font-black uppercase">DRAFT</span>` : '';
 
-                let mediaHTML = '';
-                if (art.video_url) {
-                    const embedUrl = convertToEmbed(art.video_url);
-                    mediaHTML += `<div class="w-full aspect-video bg-black rounded mb-4 flex items-center justify-center text-xs text-gray-500 font-mono relative overflow-hidden"><iframe src="${embedUrl}" class="w-full h-full border-0" allowfullscreen></iframe></div>`;
-                } else if (art.image_url) {
-                    mediaHTML += `<div class="w-full aspect-video bg-[#111] rounded mb-4 overflow-hidden"><img src="${art.image_url}" class="w-full h-full object-cover"></div>`;
-                }
+                // Header Meta
+                const metaHTML = `
+                    <div class="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-brand-gold border-b border-brand-border pb-2">
+                        <span>${escapeHtml(art.category_tag)} • ${escapeHtml(art.date_tag)}</span>
+                        <span>By ${escapeHtml(art.author)}</span>
+                    </div>
+                `;
 
-                if (art.layout === 'full') {
-                    // Lead / Full-width
-                    articleBlock.innerHTML = `
-                        ${draftBadge}
-                        <div class="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-brand-gold border-b border-brand-border pb-2">
-                            <span>${escapeHtml(art.category_tag)} • ${escapeHtml(art.date_tag)}</span>
-                            <span>By ${escapeHtml(art.author)}</span>
-                        </div>
+                // Layout width mapping
+                const layout = art.layout || 'split_1_3';
+                let bodyHTML = '';
+
+                if (layout === 'full_banner') {
+                    // Lead Banner (Photo bounded on top, text 2 columns below)
+                    let mediaHTML = buildMediaBlock(art, 'w-full max-h-72 object-contain bg-black/40 rounded border border-brand-border p-2');
+                    bodyHTML = `
+                        ${metaHTML}
                         <h2 class="text-2xl sm:text-3xl font-black uppercase text-white newspaper-headline">${escapeHtml(art.headline)}</h2>
                         ${mediaHTML}
                         <p class="text-xs sm:text-sm text-gray-300 leading-relaxed font-serif column-count-1 md:column-count-2 gap-6 whitespace-pre-wrap">${escapeHtml(art.content)}</p>
                     `;
                 } else {
-                    // Split Column
-                    articleBlock.innerHTML = `
-                        ${draftBadge}
-                        <div class="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-brand-blue border-b border-brand-border pb-2">
-                            <span>${escapeHtml(art.category_tag)} • ${escapeHtml(art.date_tag)}</span>
-                            <span>By ${escapeHtml(art.author)}</span>
-                        </div>
-                        <h3 class="text-xl font-black uppercase text-white newspaper-headline">${escapeHtml(art.headline)}</h3>
-                        ${mediaHTML}
-                        <p class="text-xs text-gray-300 leading-relaxed font-serif whitespace-pre-wrap">${escapeHtml(art.content)}</p>
-                    `;
+                    // Side-by-Side Flex Layouts
+                    let mediaColClass = 'md:w-1/3';
+                    let textColClass = 'md:w-2/3';
+
+                    if (layout === 'split_1_4') {
+                        mediaColClass = 'md:w-1/4';
+                        textColClass = 'md:w-3/4';
+                    } else if (layout === 'split_1_5') {
+                        mediaColClass = 'md:w-1/5';
+                        textColClass = 'md:w-4/5';
+                    } else if (layout === 'split_1_2') {
+                        mediaColClass = 'md:w-1/2';
+                        textColClass = 'md:w-1/2';
+                    } else if (layout === 'split_1_3') {
+                        mediaColClass = 'md:w-1/3';
+                        textColClass = 'md:w-2/3';
+                    }
+
+                    const hasMedia = !!(art.video_url || art.image_url);
+                    let mediaHTML = buildMediaBlock(art, 'w-full max-h-56 object-contain bg-black/40 rounded border border-brand-border p-2');
+
+                    if (hasMedia) {
+                        bodyHTML = `
+                            ${metaHTML}
+                            <h3 class="text-xl sm:text-2xl font-black uppercase text-white newspaper-headline mb-3">${escapeHtml(art.headline)}</h3>
+                            <div class="flex flex-col md:flex-row gap-6 items-start">
+                                <div class="w-full ${mediaColClass} shrink-0">
+                                    ${mediaHTML}
+                                </div>
+                                <div class="w-full ${textColClass}">
+                                    <p class="text-xs sm:text-sm text-gray-300 leading-relaxed font-serif whitespace-pre-wrap">${escapeHtml(art.content)}</p>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        // Text-only if no media
+                        bodyHTML = `
+                            ${metaHTML}
+                            <h3 class="text-xl sm:text-2xl font-black uppercase text-white newspaper-headline mb-3">${escapeHtml(art.headline)}</h3>
+                            <p class="text-xs sm:text-sm text-gray-300 leading-relaxed font-serif whitespace-pre-wrap">${escapeHtml(art.content)}</p>
+                        `;
+                    }
                 }
 
+                articleBlock.innerHTML = draftBadge + bodyHTML;
                 feedEl.appendChild(articleBlock);
             });
+        }
+
+        function buildMediaBlock(art, imgClass) {
+            if (art.video_url) {
+                const embedUrl = convertToEmbed(art.video_url);
+                return `<div class="w-full aspect-video bg-black rounded flex items-center justify-center text-xs text-gray-500 font-mono relative overflow-hidden border border-brand-border"><iframe src="${embedUrl}" class="w-full h-full border-0" allowfullscreen></iframe></div>`;
+            } else if (art.image_url) {
+                return `<div class="flex items-center justify-center overflow-hidden"><img src="${art.image_url}" class="${imgClass}"></div>`;
+            }
+            return '';
         }
 
         function convertToEmbed(url) {
@@ -292,7 +333,7 @@
 
         window.addNewArticle = function() {
             const dateObj = new Date();
-            const autoDateTag = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); // e.g. "Oct 12"
+            const autoDateTag = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
             editingArticle = {
                 id: `news_${Date.now()}`,
@@ -304,10 +345,9 @@
                 content: '',
                 image_url: '',
                 video_url: '',
-                layout: 'split',
+                layout: 'split_1_3',
                 status: 'draft'
             };
-            // Don't push to allArticles yet, just edit in memory
             renderEditorSidebar();
             renderArticleEditorForm();
         }
@@ -358,10 +398,13 @@
                     
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-1">
-                            <label class="text-[10px] font-black uppercase text-gray-400">Layout</label>
+                            <label class="text-[10px] font-black uppercase text-gray-400">Layout Template</label>
                             <select id="edit_layout" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded" onchange="updateArticle('layout', this.value)">
-                                <option value="full" ${editingArticle.layout === 'full' ? 'selected' : ''}>Full Width (Lead Story)</option>
-                                <option value="split" ${editingArticle.layout === 'split' ? 'selected' : ''}>Split Column (Standard)</option>
+                                <option value="split_1_3" ${editingArticle.layout === 'split_1_3' ? 'selected' : ''}>1/3 Photo & 2/3 Article</option>
+                                <option value="split_1_4" ${editingArticle.layout === 'split_1_4' ? 'selected' : ''}>1/4 Photo & 3/4 Article</option>
+                                <option value="split_1_5" ${editingArticle.layout === 'split_1_5' ? 'selected' : ''}>1/5 Photo & 4/5 Article</option>
+                                <option value="split_1_2" ${editingArticle.layout === 'split_1_2' ? 'selected' : ''}>1/2 Photo & 1/2 Article</option>
+                                <option value="full_banner" ${editingArticle.layout === 'full_banner' ? 'selected' : ''}>Lead Banner (Top Image, 2-Col Text)</option>
                             </select>
                         </div>
                         <div class="space-y-1">
@@ -398,7 +441,7 @@
                             <label class="text-[10px] font-black uppercase text-gray-400 block mb-1">Upload News Image</label>
                             <div class="flex items-center gap-2">
                                 <input type="text" id="edit_image" value="${escapeHtml(editingArticle.image_url || '')}" onkeyup="updateArticle('image_url', this.value)" placeholder="Image URL..." class="w-full bg-[#0a0a0a] border border-brand-border text-white text-[10px] px-2 py-1.5 rounded">
-                                ${editingArticle.image_url ? `<button onclick="clearMedia('image_url')" class="bg-red-950 text-brand-red px-2 py-1.5 text-[9px] font-bold rounded border border-red-500/40">Clear</button>` : ''}
+                                ${editingArticle.image_url ? `<button onclick="clearMedia('image_url')" class="bg-red-950 text-brand-red px-2 py-1.5 text-[9px] font-bold rounded border border-red-500/40 cursor-pointer">Clear</button>` : ''}
                             </div>
                             <input type="file" id="upload_newsImg" accept="image/*" class="w-full text-[9px] text-gray-400 pt-1" onchange="uploadNewsImage(this)">
                         </div>
@@ -406,7 +449,7 @@
                             <label class="text-[10px] font-black uppercase text-gray-400 block mb-1">OR Embed Video Link</label>
                             <div class="flex items-center gap-2">
                                 <input type="text" id="edit_video" value="${escapeHtml(editingArticle.video_url || '')}" onkeyup="updateArticle('video_url', this.value)" placeholder="YouTube Link..." class="w-full bg-[#0a0a0a] border border-brand-border text-white text-[10px] px-2 py-1.5 rounded">
-                                ${editingArticle.video_url ? `<button onclick="clearMedia('video_url')" class="bg-red-950 text-brand-red px-2 py-1.5 text-[9px] font-bold rounded border border-red-500/40">Clear</button>` : ''}
+                                ${editingArticle.video_url ? `<button onclick="clearMedia('video_url')" class="bg-red-950 text-brand-red px-2 py-1.5 text-[9px] font-bold rounded border border-red-500/40 cursor-pointer">Clear</button>` : ''}
                             </div>
                             <span class="text-[9px] text-gray-500 block">Note: If both exist, video takes priority.</span>
                         </div>
