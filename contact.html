@@ -6,16 +6,7 @@
     <title>Contact Us | Gentle Storm Racing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' }
-                    }
-                }
-            }
-        }
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
     </script>
     <style>
         ::-webkit-scrollbar { width: 8px; }
@@ -26,7 +17,6 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- MAIN PAGE HEADER -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
@@ -34,14 +24,12 @@
             </div>
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Official Support Desk</span>
-                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                    CONTACT US
-                </h1>
-            </div>                 
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">CONTACT US</h1>
+            </div>
+            <div class="flex items-center gap-3 z-10 w-full lg:w-auto justify-center" id="headerControls"></div>
         </div>
     </header>
 
-    <!-- NAVBAR -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
@@ -53,62 +41,22 @@
         </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
     <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-12 space-y-10">
         
-        <div class="text-center space-y-3">
+        <div class="text-center space-y-3 relative">
+            <div id="adminAddTrigger" class="absolute top-0 right-0 z-20"></div>
             <h2 class="text-2xl font-black uppercase text-white tracking-widest">Get in Touch with Grid Command</h2>
             <p class="text-xs text-gray-400 max-w-lg mx-auto">Have questions about telemetry tracking, syndicate applications, or league events? Send us a direct transmission.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            <!-- Direct Email Info Card -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col justify-between space-y-4">
-                <div>
-                    <span class="text-[9px] font-black uppercase text-brand-gold bg-amber-950 px-2 py-0.5 rounded border border-brand-gold/30 inline-block mb-3">Direct Dispatch</span>
-                    <h3 class="text-sm font-black uppercase text-white tracking-wide mb-1">Email Support</h3>
-                    <p class="text-xs text-gray-400">Prefer using your own client? Reach our administration desk directly.</p>
-                </div>
-                <a href="mailto:gentlestormracing@gmail.com" class="text-xs font-mono font-bold text-brand-gold hover:underline break-all bg-brand-bg border border-brand-border p-3 rounded block text-center">
-                    gentlestormracing@gmail.com
-                </a>
-            </div>
-
-            <!-- Inquiries Info Card -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col justify-between space-y-4">
-                <div>
-                    <span class="text-[9px] font-black uppercase text-brand-blue bg-blue-950 px-2 py-0.5 rounded border border-brand-blue/30 inline-block mb-3">Sim Racing</span>
-                    <h3 class="text-sm font-black uppercase text-white tracking-wide mb-1">Telemetry & HUDs</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">
-                        For Second Life track script errors, HUD sync issues, or race marshal inquiries.
-                    </p>
-                </div>
-                <span class="text-[10px] font-bold uppercase text-gray-500 bg-brand-bg border border-brand-border p-3 rounded block text-center">
-                    Response Window: 24-48h
-                </span>
-            </div>
-
-            <!-- Comms Hub Info Card -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col justify-between space-y-4">
-                <div>
-                    <span class="text-[9px] font-black uppercase text-brand-green bg-emerald-950 px-2 py-0.5 rounded border border-brand-green/30 inline-block mb-3">Live Feed</span>
-                    <h3 class="text-sm font-black uppercase text-white tracking-wide mb-1">GSR Comms Hub</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">
-                        Need immediate assistance? Jump into our live database chat channels.
-                    </p>
-                </div>
-                <a href="chats.html" class="text-[10px] font-black uppercase text-brand-green bg-brand-bg border border-brand-border hover:border-brand-green p-3 rounded block text-center transition">
-                    Open Comms Hub →
-                </a>
-            </div>
-
+        <!-- Dynamic DB Contact Cards Container -->
+        <div id="dynamicContainer" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="col-span-full py-10 text-center text-xs text-gray-500 font-mono">[ Loading Contact Modules... ]</div>
         </div>
 
-        <!-- Contact Form Section -->
+        <!-- Static Contact Form -->
         <section class="bg-brand-card border border-brand-border rounded-xl p-8 shadow-2xl">
             <h3 class="text-sm font-black uppercase text-white tracking-widest border-b border-brand-border pb-3 mb-6">Send a Message</h3>
-            
             <form onsubmit="handleContactSubmit(event)" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-2">
@@ -120,7 +68,6 @@
                         <input type="email" id="contactEmail" required placeholder="name@example.com" class="w-full bg-brand-bg border border-brand-border text-white text-xs px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition">
                     </div>
                 </div>
-
                 <div class="space-y-2">
                     <label class="block text-[10px] font-black uppercase text-gray-400 tracking-wider">Inquiry Category</label>
                     <select id="contactCategory" class="w-full bg-brand-bg border border-brand-border text-white text-xs px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition uppercase cursor-pointer">
@@ -130,12 +77,10 @@
                         <option value="media">Sponsorship / Media Inquiry</option>
                     </select>
                 </div>
-
                 <div class="space-y-2">
                     <label class="block text-[10px] font-black uppercase text-gray-400 tracking-wider">Message Transmission</label>
                     <textarea id="contactMessage" rows="5" required placeholder="Describe your issue or inquiry in detail..." class="w-full bg-brand-bg border border-brand-border text-white text-xs p-4 rounded-lg outline-none focus:border-brand-gold transition resize-none"></textarea>
                 </div>
-
                 <button type="submit" class="w-full bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs py-4 rounded-lg transition shadow-lg cursor-pointer tracking-widest">
                     Transmit Message to gentlestormracing@gmail.com →
                 </button>
@@ -144,24 +89,231 @@
 
     </main>
 
-    <!-- UNIVERSAL FOOTER -->
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
 
+    <!-- CMS EDITOR MODAL -->
+    <div id="cmsModalOverlay" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="cmsModal" class="bg-brand-card border border-brand-gold shadow-2xl rounded-xl w-full max-w-md transform scale-95 opacity-0 transition-all duration-300 flex flex-col">
+            <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center rounded-t-xl shrink-0">
+                <h2 class="text-sm font-black uppercase text-brand-gold tracking-wide">✏️ Edit Block</h2>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-brand-red p-1 transition cursor-pointer">✕</button>
+            </div>
+            <div class="p-6 space-y-4 overflow-y-auto max-h-[70vh]">
+                <input type="hidden" id="edit_id">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Category Tag</label>
+                        <input type="text" id="edit_category" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Color Theme</label>
+                        <select id="edit_color" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                            <option value="gold">Gold</option>
+                            <option value="blue">Blue</option>
+                            <option value="green">Green</option>
+                            <option value="red">Red</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Title</label>
+                    <input type="text" id="edit_title" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Content Description</label>
+                    <textarea id="edit_content" rows="3" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded"></textarea>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Action Button Text</label>
+                    <input type="text" id="edit_action_text" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Action Button URL</label>
+                    <input type="text" id="edit_action_url" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                </div>
+            </div>
+            <div class="bg-brand-bg border-t border-brand-border p-4 flex justify-between gap-3 rounded-b-xl shrink-0">
+                <button id="deleteBtn" onclick="deleteBlock()" class="bg-red-950/60 hover:bg-red-900 text-brand-red border border-red-500/40 text-xs font-black uppercase px-4 py-2 rounded transition cursor-pointer">Delete</button>
+                <div class="flex gap-2 ml-auto">
+                    <button onclick="closeModal()" class="text-xs font-bold uppercase text-gray-400 hover:text-white px-4 py-2 transition cursor-pointer">Cancel</button>
+                    <button onclick="saveBlock()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-6 py-2 rounded transition shadow cursor-pointer">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPABASE ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        const PAGE_KEY = 'contact';
+        let isAdmin = false;
+        let isEditModeActive = false;
+        let allBlocks = [];
+
+        const colorClasses = {
+            'gold': { text: 'text-brand-gold', tagBg: 'bg-amber-950', border: 'border-brand-gold/30', btnBorder: 'hover:border-brand-gold' },
+            'blue': { text: 'text-brand-blue', tagBg: 'bg-blue-950', border: 'border-brand-blue/30', btnBorder: 'hover:border-brand-blue' },
+            'green': { text: 'text-brand-green', tagBg: 'bg-emerald-950', border: 'border-brand-green/30', btnBorder: 'hover:border-brand-green' },
+            'red': { text: 'text-brand-red', tagBg: 'bg-red-950', border: 'border-brand-red/30', btnBorder: 'hover:border-brand-red' }
+        };
+
+        const autoSeedData = [
+            { id: 'contact_1', page_name: 'contact', category: 'Direct Dispatch', color_theme: 'gold', title: 'Email Support', content: 'Prefer using your own client? Reach our administration desk directly.', action_text: 'gentlestormracing@gmail.com', action_url: 'mailto:gentlestormracing@gmail.com', sort_order: 1 },
+            { id: 'contact_2', page_name: 'contact', category: 'Sim Racing', color_theme: 'blue', title: 'Telemetry & HUDs', content: 'For Second Life track script errors, HUD sync issues, or race marshal inquiries.', action_text: 'Response Window: 24-48h', action_url: '', sort_order: 2 },
+            { id: 'contact_3', page_name: 'contact', category: 'Live Feed', color_theme: 'green', title: 'GSR Comms Hub', content: 'Need immediate assistance? Jump into our live database chat channels.', action_text: 'Open Comms Hub →', action_url: 'chats.html', sort_order: 3 }
+        ];
+
+        async function initPage() {
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                if (session) {
+                    const { data: profile } = await db.from('gsr_profiles').select('is_admin').eq('id', session.user.id).maybeSingle();
+                    isAdmin = profile?.is_admin || false;
+                    if (isAdmin) {
+                        document.getElementById('headerControls').innerHTML = `<button onclick="toggleEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow cursor-pointer">✏️ Edit Mode</button>`;
+                    }
+                }
+            } catch (e) {}
+
+            await fetchData();
+        }
+
+        async function fetchData() {
+            const { data, error } = await db.from('gsr_page_blocks').select('*').eq('page_name', PAGE_KEY).order('sort_order', { ascending: true });
+            
+            if (!error && data && data.length > 0) {
+                allBlocks = data;
+                renderBlocks();
+            } else if (!error && data && data.length === 0) {
+                // Auto-Seed Database
+                await db.from('gsr_page_blocks').insert(autoSeedData);
+                allBlocks = autoSeedData;
+                renderBlocks();
+            }
+        }
+
+        function renderBlocks() {
+            const container = document.getElementById('dynamicContainer');
+            container.innerHTML = '';
+
+            allBlocks.forEach(block => {
+                const c = colorClasses[block.color_theme] || colorClasses['gold'];
+                let actionBtn = '';
+                
+                if(block.action_url) {
+                    if(block.action_url.includes('mailto:')) {
+                        actionBtn = `<a href="${block.action_url}" class="text-xs font-mono font-bold ${c.text} hover:underline break-all bg-brand-bg border border-brand-border p-3 rounded block text-center">${block.action_text}</a>`;
+                    } else {
+                        actionBtn = `<a href="${block.action_url}" class="text-[10px] font-black uppercase ${c.text} bg-brand-bg border border-brand-border${c.btnBorder} p-3 rounded block text-center transition">${block.action_text}</a>`;
+                    }
+                } else {
+                    actionBtn = `<span class="text-[10px] font-bold uppercase text-gray-500 bg-brand-bg border border-brand-border p-3 rounded block text-center">${block.action_text}</span>`;
+                }
+
+                container.innerHTML += `
+                <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col justify-between space-y-4 relative group">
+                    ${isEditModeActive ? `<div class="absolute top-2 right-2 z-20"><button onclick="openModal('${block.id}')" class="bg-brand-blue text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow cursor-pointer">✏️ Edit</button></div>` : ''}
+                    <div>
+                        <span class="text-[9px] font-black uppercase ${c.text} ${c.tagBg} px-2 py-0.5 rounded border${c.border} inline-block mb-3">${escapeHtml(block.category)}</span>
+                        <h3 class="text-sm font-black uppercase text-white tracking-wide mb-1">${escapeHtml(block.title)}</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed">${escapeHtml(block.content)}</p>
+                    </div>
+                    ${actionBtn}
+                </div>`;
+            });
+        }
+
+        window.toggleEditMode = function() {
+            isEditModeActive = !isEditModeActive;
+            const btn = document.getElementById('editModeBtn');
+            btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
+            btn.className = isEditModeActive ? "bg-brand-red border border-brand-border text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow cursor-pointer" : "bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow cursor-pointer";
+            
+            const addTrigger = document.getElementById('adminAddTrigger');
+            addTrigger.innerHTML = isEditModeActive ? `<button onclick="openModal(null)" class="bg-brand-blue text-white text-[9px] font-black uppercase px-3 py-1.5 rounded shadow cursor-pointer">+ Add Block</button>` : '';
+            renderBlocks();
+        }
+
+        window.openModal = function(id) {
+            const delBtn = document.getElementById('deleteBtn');
+            if (id) {
+                const b = allBlocks.find(item => item.id === id);
+                document.getElementById('edit_id').value = b.id;
+                document.getElementById('edit_category').value = b.category;
+                document.getElementById('edit_color').value = b.color_theme;
+                document.getElementById('edit_title').value = b.title;
+                document.getElementById('edit_content').value = b.content;
+                document.getElementById('edit_action_text').value = b.action_text || '';
+                document.getElementById('edit_action_url').value = b.action_url || '';
+                delBtn.classList.remove('hidden');
+            } else {
+                document.getElementById('edit_id').value = `contact_${Date.now()}`;
+                document.getElementById('edit_category').value = 'New Section';
+                document.getElementById('edit_color').value = 'gold';
+                document.getElementById('edit_title').value = 'Block Title';
+                document.getElementById('edit_content').value = '';
+                document.getElementById('edit_action_text').value = '';
+                document.getElementById('edit_action_url').value = '';
+                delBtn.classList.add('hidden');
+            }
+            
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        window.saveBlock = async function() {
+            const blockData = {
+                id: document.getElementById('edit_id').value,
+                page_name: PAGE_KEY,
+                category: document.getElementById('edit_category').value,
+                color_theme: document.getElementById('edit_color').value,
+                title: document.getElementById('edit_title').value,
+                content: document.getElementById('edit_content').value,
+                action_text: document.getElementById('edit_action_text').value,
+                action_url: document.getElementById('edit_action_url').value,
+                sort_order: allBlocks.length + 1
+            };
+            await db.from('gsr_page_blocks').upsert(blockData);
+            closeModal();
+            fetchData();
+        }
+
+        window.deleteBlock = async function() {
+            if(confirm("Delete this block?")) {
+                await db.from('gsr_page_blocks').delete().eq('id', document.getElementById('edit_id').value);
+                closeModal();
+                fetchData();
+            }
+        }
+
+        window.closeModal = function() {
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
         function handleContactSubmit(e) {
             e.preventDefault();
             const name = document.getElementById('contactName').value;
             const email = document.getElementById('contactEmail').value;
             const category = document.getElementById('contactCategory').value;
             const message = document.getElementById('contactMessage').value;
-
-            // Opens user's mail client directly populated with their inquiry
-            const subject = encodeURIComponent(`[GSR Support Inquiry - ${category.toUpperCase()}] from ${name}`);
-            const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nCategory: ${category}\n\nMessage:\n${message}`);
-            
+            const subject = encodeURIComponent(`[GSR Support Inquiry - ${category.toUpperCase()}] from${name}`);
+            const body = encodeURIComponent(`Name: ${name}\nEmail:${email}\nCategory: ${category}\n\nMessage:\n${message}`);
             window.location.href = `mailto:gentlestormracing@gmail.com?subject=${subject}&body=${body}`;
         }
-    </script>
 
+        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+
+        window.onload = initPage;
+    </script>
 </body>
 </html>
