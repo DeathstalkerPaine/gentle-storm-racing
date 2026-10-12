@@ -292,7 +292,6 @@
             let contentHTML = '';
 
             if (pageData.template === 'video') {
-                // Top 1/3 Video, Bottom 2/3 Image
                 const embedUrl = pageData.videoUrl ? convertToEmbed(pageData.videoUrl) : '';
                 contentHTML = `
                     <div class="w-full h-1/3 bg-black border-b border-brand-border flex items-center justify-center relative overflow-hidden shrink-0">
@@ -303,7 +302,6 @@
                     </div>
                 `;
             } else {
-                // Cover or Normal Full Page Image
                 contentHTML = `
                     <div class="w-full h-full bg-[#111] overflow-hidden flex items-center justify-center relative">
                         ${pageData.image ? `<img src="${pageData.image}" class="w-full h-full object-cover">` : `<div class="text-center text-gray-600 font-mono text-xs uppercase">[ Page ${pageData.template.toUpperCase()} - No Image Uploaded ]</div>`}
@@ -507,16 +505,23 @@
         }
 
         window.saveIssueData = async function() {
-            editingIssueData.id = document.getElementById('edit_issueId').value.trim();
+            const originalId = document.getElementById('edit_issueId').getAttribute('data-original-id') || document.getElementById('edit_issueId').value.trim();
+            const newId = document.getElementById('edit_issueId').value.trim();
             editingIssueData.title = document.getElementById('edit_issueTitle').value.trim();
             editingIssueData.status = document.getElementById('edit_status').value;
+            editingIssueData.id = newId;
 
-            if (!editingIssueData.id || !editingIssueData.title) {
+            if (!newId || !editingIssueData.title) {
                 alert("Issue ID and Title are required."); return;
             }
 
+            // If ID was changed, delete the old ID row first so we don't leave a ghost record
+            if (originalId && originalId !== newId) {
+                await db.from('gsr_magazines').delete().eq('id', originalId);
+            }
+
             const { error } = await db.from('gsr_magazines').upsert({
-                id: editingIssueData.id,
+                id: newId,
                 title: editingIssueData.title,
                 status: editingIssueData.status,
                 pages: JSON.parse(JSON.stringify(editingIssueData.pages))
@@ -525,8 +530,8 @@
             if (!error) {
                 closeCMSModal();
                 await fetchArchive();
-                document.getElementById('issueSelect').value = editingIssueData.id;
-                loadSelectedIssue(editingIssueData.id);
+                document.getElementById('issueSelect').value = newId;
+                loadSelectedIssue(newId);
             } else {
                 alert("Database Error saving issue.");
             }
@@ -545,6 +550,14 @@
                     alert("Error deleting issue from database.");
                 }
             }
+        }
+
+        // Hook openEditor to store original ID for ID-renaming checks
+        const originalOpenEditor = window.openEditor;
+        window.openEditor = function() {
+            originalOpenEditor();
+            const idInput = document.getElementById('edit_issueId');
+            if (idInput) idInput.setAttribute('data-original-id', idInput.value);
         }
 
         window.closeCMSModal = function() {
