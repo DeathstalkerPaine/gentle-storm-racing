@@ -14,36 +14,31 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        .text-shadow-strong { text-shadow: 2px 2px 8px rgba(0,0,0,0.9); }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- HEADER: LOGO LEFT, TITLE CENTER, BACK BUTTON RIGHT -->
+    <!-- HEADER -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-8 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
             
-            <!-- Left Logo (Clickable to Main Menu) -->
             <div class="flex items-center justify-center md:justify-start w-full md:w-auto z-10">
                 <a href="index.html" class="inline-block">
                     <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-14 w-auto object-contain hover:scale-105 transition-transform">
                 </a>
             </div>
 
-            <!-- Centered Title -->
             <div class="w-full md:absolute md:inset-x-0 text-center pointer-events-none md:px-40 py-1">
                 <span class="block text-[9px] font-black uppercase tracking-[0.3em] text-brand-gold">Official Publication</span>
                 <h1 class="text-xl sm:text-2xl font-black uppercase text-white tracking-wider font-serif italic">GSRACING MAGAZINE</h1>
             </div>
 
-            <!-- Right Controls -->
-            <div class="flex items-center gap-3 z-10 w-full md:w-auto justify-center">
+            <div class="flex items-center gap-3 z-10 w-full md:w-auto justify-center" id="headerControls">
                 <label for="issueSelect" class="text-[9px] font-bold uppercase text-gray-400 tracking-widest whitespace-nowrap hidden sm:inline">Issue:</label>
-                <select id="issueSelect" onchange="switchIssue(this.value)" class="bg-brand-bg border border-brand-gold text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer">
-                    <option value="oct_2026">October 2026 (Vol 1)</option>
+                <select id="issueSelect" onchange="loadSelectedIssue(this.value)" class="bg-brand-bg border border-brand-gold text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer max-w-[150px] truncate">
+                    <option value="">Loading Archive...</option>
                 </select>
-                <a href="multimedia.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-white font-bold uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap">
-                    Hub →
-                </a>
             </div>
         </div>
     </header>
@@ -52,7 +47,7 @@
     <nav class="bg-brand-bg border-b border-brand-border py-2.5">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-6 text-xs font-bold uppercase tracking-wider">
             <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Media Hub</a>
-            <a href="magazine.html" class="text-brand-gold transition">GSRacing Magazine</a>
+            <a href="magazine.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">GSRacing Magazine</a>
             <a href="news.html" class="text-gray-300 hover:text-brand-gold transition">News Desk</a>
             <a href="videos.html" class="text-gray-300 hover:text-brand-gold transition">Video Archives</a>
             <a href="photos.html" class="text-gray-300 hover:text-brand-gold transition">Photo Gallery</a>
@@ -62,17 +57,22 @@
     <!-- MAIN MAGAZINE READER CONTAINER -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 flex flex-col justify-center items-center space-y-6">
 
+        <!-- STATUS BANNER (Admin Only) -->
+        <div id="draftBanner" class="hidden w-full max-w-6xl bg-brand-red/20 border border-brand-red text-brand-red text-xs font-black uppercase text-center py-2 rounded shadow">
+            ⚠️ Viewing Draft Mode - Not visible to public
+        </div>
+
         <!-- SPREAD VIEWER BOX -->
-        <div class="w-full max-w-6xl bg-brand-card border border-brand-gold rounded-xl overflow-hidden shadow-2xl gold-border-glow grid grid-cols-1 md:grid-cols-2 relative min-h-[580px]">
+        <div id="magazineContainer" class="w-full max-w-6xl bg-brand-card border border-brand-gold rounded-xl overflow-hidden shadow-2xl gold-border-glow grid grid-cols-1 md:grid-cols-2 relative min-h-[580px] lg:min-h-[700px]">
             
-            <!-- LEFT PAGE -->
-            <div id="leftPage" class="magazine-page p-8 sm:p-12 flex relative border-b md:border-b-0 md:border-r border-brand-border/60 overflow-hidden">
-                <!-- Content injected via JS -->
+            <!-- LEFT PAGE / MOBILE SINGLE PAGE -->
+            <div id="pageOne" class="magazine-page p-6 sm:p-12 flex relative border-b md:border-b-0 md:border-r border-brand-border/60 overflow-hidden">
+                <div class="w-full text-center text-gray-500 font-mono text-xs mt-20">[ Loading Issue... ]</div>
             </div>
 
-            <!-- RIGHT PAGE -->
-            <div id="rightPage" class="magazine-page p-8 sm:p-12 flex relative overflow-hidden">
-                <!-- Content injected via JS -->
+            <!-- RIGHT PAGE (Hidden on Mobile) -->
+            <div id="pageTwo" class="magazine-page p-6 sm:p-12 flex relative overflow-hidden hidden md:flex">
+                <div class="w-full text-center text-gray-500 font-mono text-xs mt-20">[ Loading Issue... ]</div>
             </div>
 
         </div>
@@ -80,196 +80,510 @@
         <!-- CONTROLS & PAGE FLIPPER FOOTER -->
         <div class="w-full max-w-6xl flex items-center justify-between bg-brand-card border border-brand-border p-4 rounded-xl shadow-lg">
             
-            <button onclick="prevSpread()" id="prevBtn" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-white font-black text-xs uppercase px-6 py-3 rounded transition disabled:opacity-30 disabled:cursor-not-allowed">
-                ← Previous Spread
+            <button onclick="turnPage(-1)" id="prevBtn" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-white font-black text-xs uppercase px-4 py-3 sm:px-6 rounded transition disabled:opacity-30 disabled:cursor-not-allowed">
+                ← <span class="hidden sm:inline">Prev</span>
             </button>
 
             <div class="text-center">
-                <span id="pageIndicator" class="text-xs font-black uppercase text-brand-gold tracking-widest font-mono">Page 1-2 of 6</span>
-                <span class="block text-[9px] text-gray-500 uppercase font-bold mt-0.5">GSRacing Publication Engine</span>
+                <span id="pageIndicator" class="text-[11px] sm:text-xs font-black uppercase text-brand-gold tracking-widest font-mono">Page 0 of 0</span>
+                <span class="block text-[9px] text-gray-500 uppercase font-bold mt-0.5">GSR Publishing Engine</span>
             </div>
 
-            <button onclick="nextSpread()" id="nextBtn" class="bg-brand-gold hover:bg-yellow-600 text-black font-black text-xs uppercase px-6 py-3 rounded transition shadow-md disabled:opacity-30 disabled:cursor-not-allowed">
-                Next Spread →
+            <button onclick="turnPage(1)" id="nextBtn" class="bg-brand-gold hover:bg-yellow-600 text-black font-black text-xs uppercase px-4 py-3 sm:px-6 rounded transition shadow-md disabled:opacity-30 disabled:cursor-not-allowed">
+                <span class="hidden sm:inline">Next</span> →
             </button>
 
         </div>
 
     </main>
 
-    <!-- MAGAZINE DYNAMIC ENGINE SCRIPT -->
-    <script>
-        /* 
-          ADMIN-READY STRUCTURE: 
-          Each spread contains 'left' and 'right' page objects.
-          - bg: Background image URL (leave empty '' for default dark texture)
-          - align: Flex alignment classes (e.g., 'justify-start items-start' for top-left, 'justify-end items-end' for bottom-right)
-          - html: Magazine text or embedded video markup
-        */
-        const magazineData = {
-            oct_2026: [
-                // Spread 0 (Pages 1 & 2)
-                {
-                    left: {
-                        bg: '',
-                        align: 'justify-between items-start',
-                        html: `
-                            <div>
-                                <span class="text-[9px] font-black uppercase tracking-widest text-brand-red bg-brand-red/10 border border-brand-red/30 px-2 py-1 rounded inline-block mb-4">Volume 1 • Issue 1</span>
-                                <h2 class="text-3xl sm:text-4xl font-black uppercase text-white font-serif italic mb-4">GSRACING MAGAZINE</h2>
-                                <p class="text-xs text-gray-300 leading-relaxed">
-                                    Welcome to the official monthly publication of Gentle Storm Racing. Built for elite drivers and syndicates across Second Life.
-                                </p>
-                            </div>
-                            <div class="border-t border-brand-border pt-4 text-[10px] text-gray-500 font-bold uppercase w-full">
-                                Published by GSR Media Group • October 2026
-                            </div>
-                        `
-                    },
-                    right: {
-                        bg: '',
-                        align: 'justify-center items-start',
-                        html: `
-                            <div class="space-y-4 w-full">
-                                <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest">Editor's Note</span>
-                                <h3 class="text-xl font-black uppercase text-white">Pushing the Limits of Second Life Physics</h3>
-                                <p class="text-xs text-gray-400 leading-relaxed">
-                                    "When we set out to build Gentle Storm Racing, our goal wasn't just to make another track. We wanted a permanent global database where every lap matters."
-                                </p>
-                                <p class="text-[11px] font-bold text-white uppercase mt-4">— Deathstalker Paine, Lead Developer</p>
-                            </div>
-                        `
-                    }
-                },
-                // Spread 1 (Pages 3 & 4) - Example with video container prep
-                {
-                    left: {
-                        bg: '',
-                        align: 'justify-start items-start',
-                        html: `
-                            <div class="space-y-4 w-full">
-                                <span class="text-[9px] font-black uppercase text-brand-blue tracking-widest">Circuit Spotlight</span>
-                                <h3 class="text-2xl font-black uppercase text-white">Mastering Ancient Rome</h3>
-                                <p class="text-xs text-gray-400 leading-relaxed">
-                                    The 5.2 KM circuit demands absolute throttle control through the stone archways and colosseum sweepers.
-                                </p>
-                                <div class="aspect-video bg-black rounded border border-brand-border flex items-center justify-center text-[10px] text-gray-500 font-mono">
-                                    [ ADMIN EMBEDDED VIDEO PLAYER ]
-                                </div>
-                            </div>
-                        `
-                    },
-                    right: {
-                        bg: '',
-                        align: 'justify-center items-start',
-                        html: `
-                            <div class="space-y-4 w-full">
-                                <span class="text-[9px] font-black uppercase text-brand-gold tracking-widest">Pro Plus System</span>
-                                <h3 class="text-2xl font-black uppercase text-white">The Morality & Alignment Engine</h3>
-                                <p class="text-xs text-gray-400 leading-relaxed">
-                                    Clean racing unlocks Good standing perks, while aggressive contact builds your Bad alignment reputation. Your choices shape your campaign rewards.
-                                </p>
-                            </div>
-                        `
-                    }
-                },
-                // Spread 2 (Pages 5 & 6) - Easily add extra spreads/pages here in the future via admin!
-                {
-                    left: {
-                        bg: '',
-                        align: 'justify-center items-start',
-                        html: `
-                            <div class="space-y-4 w-full">
-                                <span class="text-[9px] font-black uppercase text-brand-red tracking-widest">Syndicate News</span>
-                                <h3 class="text-2xl font-black uppercase text-white">Storm Riders Take Early Lead</h3>
-                                <p class="text-xs text-gray-400 leading-relaxed">
-                                    Dominating the Pro Plus standings with over 12,500 championship points, the Storm Riders set the benchmark for team telemetry efficiency.
-                                </p>
-                            </div>
-                        `
-                    },
-                    right: {
-                        bg: '',
-                        align: 'justify-center items-center text-center',
-                        html: `
-                            <div class="space-y-4 w-full">
-                                <span class="text-4xl">🏁</span>
-                                <h3 class="text-2xl font-black uppercase text-white">See You On The Grid</h3>
-                                <p class="text-xs text-gray-400 leading-relaxed">
-                                    Thank you for reading Volume 1. Stay tuned for Volume 2 coming next month.
-                                </p>
-                                <div class="pt-2">
-                                    <a href="racetracks.html" class="inline-block bg-brand-gold text-black font-black uppercase text-xs px-6 py-3 rounded shadow transition">
-                                        Explore Racetracks →
-                                    </a>
-                                </div>
-                            </div>
-                        `
-                    }
-                }
-            ]
-        };
-
-        let currentSpread = 0;
-        let currentIssue = 'oct_2026';
-
-        function renderMagazine() {
-            const spreads = magazineData[currentIssue];
-            const spreadData = spreads[currentSpread];
-
-            // Render Left Page
-            const leftEl = document.getElementById('leftPage');
-            leftEl.className = `magazine-page p-8 sm:p-12 flex relative border-b md:border-b-0 md:border-r border-brand-border/60 overflow-hidden ${spreadData.left.align}`;
-            leftEl.style.backgroundImage = spreadData.left.bg ? `linear-gradient(rgba(18,18,18,0.85), rgba(18,18,18,0.85)), url('${spreadData.left.bg}')` : 'none';
-            leftEl.innerHTML = spreadData.left.html;
-
-            // Render Right Page
-            const rightEl = document.getElementById('rightPage');
-            rightEl.className = `magazine-page p-8 sm:p-12 flex relative overflow-hidden ${spreadData.right.align}`;
-            rightEl.style.backgroundImage = spreadData.right.bg ? `linear-gradient(rgba(18,18,18,0.85), rgba(18,18,18,0.85)), url('${spreadData.right.bg}')` : 'none';
-            rightEl.innerHTML = spreadData.right.html;
-
-            // Page Indicator
-            const startPage = (currentSpread * 2) + 1;
-            const endPage = Math.min(startPage + 1, spreads.length * 2);
-            document.getElementById('pageIndicator').innerText = `Page ${startPage}-${endPage} of ${spreads.length * 2}`;
-
-            // Button States
-            document.getElementById('prevBtn').disabled = currentSpread === 0;
-            document.getElementById('nextBtn').disabled = currentSpread === spreads.length - 1;
-        }
-
-        function nextSpread() {
-            const spreads = magazineData[currentIssue];
-            if (currentSpread < spreads.length - 1) {
-                currentSpread++;
-                renderMagazine();
-            }
-        }
-
-        function prevSpread() {
-            if (currentSpread > 0) {
-                currentSpread--;
-                renderMagazine();
-            }
-        }
-
-        function switchIssue(issueKey) {
-            if (magazineData[issueKey]) {
-                currentIssue = issueKey;
-                currentSpread = 0;
-                renderMagazine();
-            }
-        }
-
-        window.onload = () => {
-            renderMagazine();
-        };
-    </script>
-
     <!-- UNIVERSAL FOOTER -->
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">
         &copy; 2026 Gentle Storm Racing. Built for Second Life.
     </footer>
+
+    <!-- INLINE CMS EDIT MODAL (MAGAZINE BUILDER) -->
+    <div id="cmsModalOverlay" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="cmsModal" class="bg-brand-card border border-brand-gold shadow-[0_0_30px_rgba(197,160,89,0.15)] rounded-xl w-full max-w-4xl transform scale-95 opacity-0 transition-all duration-300 flex flex-col h-[90vh]">
+            
+            <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center rounded-t-xl shrink-0">
+                <h2 class="text-sm font-black uppercase text-brand-gold tracking-wide">📖 Publisher Suite</h2>
+                <button onclick="closeCMSModal()" class="text-gray-500 hover:text-brand-red p-1 transition cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div class="p-6 flex-grow overflow-y-auto space-y-6 flex flex-col lg:flex-row gap-6">
+                <!-- Sidebar: Issue Settings & Page List -->
+                <div class="lg:w-1/3 space-y-4 border-r border-brand-border pr-6">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Issue ID (e.g., vol_1_iss_1)</label>
+                        <input type="text" id="edit_issueId" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Display Title</label>
+                        <input type="text" id="edit_issueTitle" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                    </div>
+                    <div class="space-y-1 pt-2 border-t border-brand-border">
+                        <label class="text-[10px] font-black uppercase text-gray-400 block mb-2">Publish Status</label>
+                        <select id="edit_status" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                            <option value="draft">Draft (Hidden)</option>
+                            <option value="published">Published (Live)</option>
+                        </select>
+                    </div>
+
+                    <div class="pt-4 border-t border-brand-border">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-[10px] font-black uppercase text-gray-400">Pages List</label>
+                            <button onclick="addNewPage()" class="text-[9px] bg-brand-blue text-white px-2 py-1 rounded uppercase font-bold">+ Add Page</button>
+                        </div>
+                        <div id="pageListContainer" class="space-y-2 max-h-[300px] overflow-y-auto pr-1">
+                            <!-- Page items injected here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Area: Page Editor -->
+                <div class="lg:w-2/3 space-y-4" id="pageEditorArea">
+                    <div class="text-center text-gray-500 text-xs font-mono py-20 border border-dashed border-brand-border rounded">Select or add a page to edit</div>
+                </div>
+            </div>
+            
+            <div class="bg-brand-bg border-t border-brand-border p-4 flex justify-end gap-3 rounded-b-xl shrink-0">
+                <button onclick="closeCMSModal()" class="text-xs font-bold uppercase text-gray-400 hover:text-white px-4 py-2 transition cursor-pointer">Cancel</button>
+                <button onclick="saveIssueData()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-6 py-2 rounded transition shadow cursor-pointer">Save Issue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPABASE & ENGINE SCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let currentUser = null;
+        let isAdmin = false;
+        let allIssues = [];
+        let activeIssueData = null;
+        
+        // Viewer State
+        let currentViewportIndex = 0; // The index of the first page currently visible
+        let isMobile = window.innerWidth < 768;
+
+        // Editor State
+        let editingIssueData = null;
+        let editingPageIndex = null;
+
+        // Listen for screen resize to adjust page turn logic
+        window.addEventListener('resize', () => {
+            const wasMobile = isMobile;
+            isMobile = window.innerWidth < 768;
+            if (wasMobile !== isMobile && activeIssueData) {
+                renderPages();
+            }
+        });
+
+        async function initMagazine() {
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                if (session) {
+                    currentUser = session.user;
+                    const { data: profile } = await db.from('gsr_profiles').select('is_admin').eq('id', currentUser.id).maybeSingle();
+                    isAdmin = profile?.is_admin || false;
+
+                    if (isAdmin) {
+                        const controls = document.getElementById('headerControls');
+                        controls.innerHTML += `<button onclick="openEditor()" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow ml-2">✏️ Publisher Suite</button>`;
+                    }
+                }
+            } catch (e) {}
+
+            await fetchArchive();
+        }
+
+        async function fetchArchive() {
+            const { data, error } = await db.from('gsr_magazines').select('*').order('created_at', { ascending: false });
+            if (!error && data) {
+                allIssues = data;
+                populateDropdown();
+            } else {
+                document.getElementById('issueSelect').innerHTML = `<option value="">No Issues Found</option>`;
+            }
+        }
+
+        function populateDropdown() {
+            const select = document.getElementById('issueSelect');
+            select.innerHTML = '';
+            
+            const visibleIssues = allIssues.filter(iss => iss.status === 'published' || isAdmin);
+
+            if (visibleIssues.length === 0) {
+                select.innerHTML = `<option value="">No published issues yet.</option>`;
+                return;
+            }
+
+            visibleIssues.forEach(iss => {
+                const isDraft = iss.status === 'draft' ? '[DRAFT] ' : '';
+                select.innerHTML += `<option value="${iss.id}">${isDraft}${escapeHtml(iss.title)}</option>`;
+            });
+
+            // Auto-load first available
+            loadSelectedIssue(visibleIssues[0].id);
+        }
+
+        function loadSelectedIssue(id) {
+            activeIssueData = allIssues.find(iss => iss.id === id);
+            currentViewportIndex = 0;
+
+            const banner = document.getElementById('draftBanner');
+            if (activeIssueData && activeIssueData.status === 'draft') {
+                banner.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+            }
+
+            renderPages();
+        }
+
+        // --- VIEWER RENDER ENGINE ---
+        function renderPages() {
+            if (!activeIssueData || !activeIssueData.pages || activeIssueData.pages.length === 0) {
+                document.getElementById('pageOne').innerHTML = `<div class="w-full text-center text-gray-500 font-mono text-xs mt-20">This issue has no pages.</div>`;
+                document.getElementById('pageTwo').innerHTML = '';
+                updateUIState(0);
+                return;
+            }
+
+            const pages = activeIssueData.pages;
+            
+            // Render Left / Mobile Page
+            renderSinglePage('pageOne', pages[currentViewportIndex]);
+
+            // Render Right Page (Desktop Only)
+            if (!isMobile) {
+                if (currentViewportIndex + 1 < pages.length) {
+                    renderSinglePage('pageTwo', pages[currentViewportIndex + 1]);
+                } else {
+                    // Blank trailing page
+                    const p2 = document.getElementById('pageTwo');
+                    p2.innerHTML = '';
+                    p2.style.backgroundImage = 'none';
+                    p2.className = 'magazine-page p-6 sm:p-12 flex relative overflow-hidden hidden md:flex items-center justify-center';
+                }
+            }
+
+            updateUIState(pages.length);
+        }
+
+        function renderSinglePage(elementId, pageData) {
+            const el = document.getElementById(elementId);
+            if (!pageData) return;
+
+            // Base Classes
+            el.className = `magazine-page p-6 sm:p-12 flex flex-col relative overflow-hidden ${elementId === 'pageTwo' ? 'hidden md:flex' : ''} ${elementId === 'pageOne' ? 'border-b md:border-b-0 md:border-r border-brand-border/60' : ''}`;
+            
+            // Background Image Handling
+            if (pageData.bgImg) {
+                el.style.backgroundImage = `linear-gradient(rgba(18,18,18,0.7), rgba(18,18,18,0.9)), url('${pageData.bgImg}')`;
+            } else {
+                el.style.backgroundImage = 'none';
+            }
+
+            // Affinity-Style Layout Templates
+            let contentHTML = '';
+
+            if (pageData.template === 'cover') {
+                // Full Cover: Text over large image, centered usually
+                el.classList.add('justify-center', 'items-center', 'text-center');
+                contentHTML = `
+                    <div class="w-full z-10 space-y-4">
+                        ${pageData.headline ? `<h2 class="text-3xl sm:text-5xl font-black uppercase text-white font-serif italic text-shadow-strong">${escapeHtml(pageData.headline)}</h2>` : ''}
+                        ${pageData.subhead ? `<span class="text-[10px] font-black uppercase tracking-widest text-brand-red bg-black/50 px-3 py-1 rounded inline-block">${escapeHtml(pageData.subhead)}</span>` : ''}
+                        ${pageData.bodyText ? `<p class="text-xs text-gray-200 leading-relaxed max-w-sm mx-auto text-shadow-strong font-bold mt-4">${escapeHtml(pageData.bodyText)}</p>` : ''}
+                    </div>
+                `;
+            } 
+            else if (pageData.template === 'split_top') {
+                // Image Top, Text Bottom
+                el.classList.add('justify-start', 'items-start', 'p-0'); // Remove padding for full bleed top image
+                contentHTML = `
+                    <div class="w-full h-1/2 bg-[#111] overflow-hidden border-b border-brand-border">
+                        ${pageData.contentImg ? `<img src="${pageData.contentImg}" class="w-full h-full object-cover">` : '<div class="w-full h-full flex items-center justify-center text-[9px] text-gray-600">[ IMAGE PLACEHOLDER ]</div>'}
+                    </div>
+                    <div class="w-full h-1/2 p-6 sm:p-8 space-y-3 overflow-y-auto">
+                        ${pageData.subhead ? `<span class="text-[9px] font-black uppercase text-brand-gold tracking-widest">${escapeHtml(pageData.subhead)}</span>` : ''}
+                        ${pageData.headline ? `<h3 class="text-xl sm:text-2xl font-black uppercase text-white">${escapeHtml(pageData.headline)}</h3>` : ''}
+                        ${pageData.bodyText ? `<p class="text-xs text-gray-300 leading-relaxed font-serif whitespace-pre-wrap">${escapeHtml(pageData.bodyText)}</p>` : ''}
+                    </div>
+                `;
+            }
+            else if (pageData.template === 'split_left') {
+                // Assuming standard horizontal split (Mobile collapses to top/bottom)
+                el.classList.add('justify-start', 'items-start', 'p-0', 'flex-col');
+                contentHTML = `
+                    <div class="flex flex-col h-full w-full">
+                        <div class="w-full h-1/2 bg-[#111] overflow-hidden border-b border-brand-border">
+                            ${pageData.contentImg ? `<img src="${pageData.contentImg}" class="w-full h-full object-cover">` : '<div class="w-full h-full flex items-center justify-center text-[9px] text-gray-600">[ MEDIA ]</div>'}
+                        </div>
+                        <div class="w-full h-1/2 p-6 space-y-3 overflow-y-auto">
+                            ${pageData.subhead ? `<span class="text-[9px] font-black uppercase text-brand-blue tracking-widest">${escapeHtml(pageData.subhead)}</span>` : ''}
+                            ${pageData.headline ? `<h3 class="text-xl font-black uppercase text-white">${escapeHtml(pageData.headline)}</h3>` : ''}
+                            ${pageData.bodyText ? `<p class="text-xs text-gray-300 leading-relaxed font-serif whitespace-pre-wrap">${escapeHtml(pageData.bodyText)}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+            else {
+                // Default: Full Text Article
+                el.classList.add('justify-start', 'items-start');
+                contentHTML = `
+                    <div class="w-full space-y-4">
+                        ${pageData.subhead ? `<span class="text-[9px] font-black uppercase text-brand-gold tracking-widest border-b border-brand-border pb-1 block w-max">${escapeHtml(pageData.subhead)}</span>` : ''}
+                        ${pageData.headline ? `<h3 class="text-2xl sm:text-3xl font-black uppercase text-white font-serif">${escapeHtml(pageData.headline)}</h3>` : ''}
+                        ${pageData.bodyText ? `<div class="text-xs text-gray-300 leading-relaxed font-serif whitespace-pre-wrap column-count-1">${escapeHtml(pageData.bodyText)}</div>` : ''}
+                    </div>
+                `;
+            }
+
+            el.innerHTML = contentHTML;
+        }
+
+        function turnPage(direction) {
+            if (!activeIssueData || !activeIssueData.pages) return;
+            const total = activeIssueData.pages.length;
+            const step = isMobile ? 1 : 2;
+
+            if (direction === 1 && currentViewportIndex + step < total) {
+                currentViewportIndex += step;
+            } else if (direction === -1 && currentViewportIndex - step >= 0) {
+                currentViewportIndex -= step;
+            } else if (direction === -1 && currentViewportIndex > 0) {
+                currentViewportIndex = 0; // Catch-all for desktop-to-mobile resize glitches
+            }
+            renderPages();
+        }
+
+        function updateUIState(total) {
+            const step = isMobile ? 1 : 2;
+            const ind = document.getElementById('pageIndicator');
+            const prev = document.getElementById('prevBtn');
+            const next = document.getElementById('nextBtn');
+
+            if (total === 0) {
+                ind.innerText = "Page 0 of 0";
+                prev.disabled = true; next.disabled = true;
+                return;
+            }
+
+            const endPage = Math.min(currentViewportIndex + step, total);
+            
+            if (isMobile) {
+                ind.innerText = `Page ${currentViewportIndex + 1} of ${total}`;
+            } else {
+                ind.innerText = `Page ${currentViewportIndex + 1}-${endPage} of ${total}`;
+            }
+
+            prev.disabled = currentViewportIndex === 0;
+            next.disabled = currentViewportIndex + step >= total;
+        }
+
+        // --- EDITOR ENGINE (CMS) ---
+        function openEditor() {
+            if (!isAdmin) return;
+            
+            // Create a working clone or blank issue
+            const selectedId = document.getElementById('issueSelect').value;
+            const existing = allIssues.find(i => i.id === selectedId);
+            
+            if (existing) {
+                editingIssueData = JSON.parse(JSON.stringify(existing)); // Deep clone
+            } else {
+                editingIssueData = { id: `vol_${Date.now()}`, title: 'New Issue', status: 'draft', pages: [] };
+            }
+
+            document.getElementById('edit_issueId').value = editingIssueData.id;
+            document.getElementById('edit_issueTitle').value = editingIssueData.title;
+            document.getElementById('edit_status').value = editingIssueData.status;
+
+            renderEditorSidebar();
+            editingPageIndex = null;
+            renderPageEditorForm();
+
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        function renderEditorSidebar() {
+            const container = document.getElementById('pageListContainer');
+            container.innerHTML = '';
+            
+            if (editingIssueData.pages.length === 0) {
+                container.innerHTML = `<div class="text-xs text-gray-500 italic">No pages added yet.</div>`;
+                return;
+            }
+
+            editingIssueData.pages.forEach((p, index) => {
+                const isActive = index === editingPageIndex;
+                container.innerHTML += `
+                    <div class="flex justify-between items-center p-2 rounded cursor-pointer border ${isActive ? 'bg-brand-blue/10 border-brand-blue' : 'bg-brand-bg border-brand-border hover:border-brand-gold'} transition" onclick="selectPageToEdit(${index})">
+                        <span class="text-xs font-bold text-white truncate w-32">Pg ${index + 1}: ${p.template}</span>
+                        <button onclick="deletePage(${index}); event.stopPropagation();" class="text-red-500 hover:text-white text-xs">✖</button>
+                    </div>
+                `;
+            });
+        }
+
+        window.addNewPage = function() {
+            editingIssueData.pages.push({
+                template: 'text_only',
+                headline: 'New Page',
+                subhead: '',
+                bodyText: '',
+                bgImg: '',
+                contentImg: ''
+            });
+            editingPageIndex = editingIssueData.pages.length - 1;
+            renderEditorSidebar();
+            renderPageEditorForm();
+        }
+
+        window.selectPageToEdit = function(index) {
+            editingPageIndex = index;
+            renderEditorSidebar();
+            renderPageEditorForm();
+        }
+
+        window.deletePage = function(index) {
+            if (confirm('Delete this page?')) {
+                editingIssueData.pages.splice(index, 1);
+                editingPageIndex = null;
+                renderEditorSidebar();
+                renderPageEditorForm();
+            }
+        }
+
+        function renderPageEditorForm() {
+            const area = document.getElementById('pageEditorArea');
+            if (editingPageIndex === null || !editingIssueData.pages[editingPageIndex]) {
+                area.innerHTML = `<div class="text-center text-gray-500 text-xs font-mono py-20 border border-dashed border-brand-border rounded h-full flex items-center justify-center">Select a page from the list to edit its content.</div>`;
+                return;
+            }
+
+            const p = editingIssueData.pages[editingPageIndex];
+            
+            area.innerHTML = `
+                <div class="bg-brand-bg p-4 rounded-xl border border-brand-border space-y-4 h-full overflow-y-auto">
+                    <h3 class="text-xs font-black uppercase text-brand-gold border-b border-brand-border pb-2">Editing Page ${editingPageIndex + 1}</h3>
+                    
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Layout Template</label>
+                        <select id="edit_page_template" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded" onchange="updatePageData('template', this.value)">
+                            <option value="cover" ${p.template === 'cover' ? 'selected' : ''}>Cover (Text over Full BG)</option>
+                            <option value="split_top" ${p.template === 'split_top' ? 'selected' : ''}>Split (Image Top / Text Bottom)</option>
+                            <option value="split_left" ${p.template === 'split_left' ? 'selected' : ''}>Split (Image Top/Left / Text Box)</option>
+                            <option value="text_only" ${p.template === 'text_only' ? 'selected' : ''}>Full Text Article</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black uppercase text-gray-400">Headline</label>
+                            <input type="text" id="edit_page_headline" value="${escapeHtml(p.headline)}" onkeyup="updatePageData('headline', this.value)" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black uppercase text-gray-400">Subhead / Tag</label>
+                            <input type="text" id="edit_page_subhead" value="${escapeHtml(p.subhead)}" onkeyup="updatePageData('subhead', this.value)" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Article Text</label>
+                        <textarea id="edit_page_bodyText" rows="6" onkeyup="updatePageData('bodyText', this.value)" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded leading-relaxed">${escapeHtml(p.bodyText)}</textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-brand-border">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black uppercase text-gray-400">Background Image URL</label>
+                            <input type="text" id="edit_page_bgImg" value="${escapeHtml(p.bgImg || '')}" onkeyup="updatePageData('bgImg', this.value)" placeholder="For cover/backdrop" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                            <input type="file" id="upload_bgImg" accept="image/*" class="w-full text-[9px] mt-1 text-gray-400" onchange="uploadImage(this, 'bgImg')">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black uppercase text-gray-400">Content Image URL</label>
+                            <input type="text" id="edit_page_contentImg" value="${escapeHtml(p.contentImg || '')}" onkeyup="updatePageData('contentImg', this.value)" placeholder="For split layouts" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                            <input type="file" id="upload_contentImg" accept="image/*" class="w-full text-[9px] mt-1 text-gray-400" onchange="uploadImage(this, 'contentImg')">
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.updatePageData = function(key, val) {
+            if (editingPageIndex !== null) {
+                editingIssueData.pages[editingPageIndex][key] = val;
+                if (key === 'template') renderEditorSidebar(); // refresh list names
+            }
+        }
+
+        window.uploadImage = async function(inputEl, targetKey) {
+            if (!inputEl.files || inputEl.files.length === 0) return;
+            const file = inputEl.files[0];
+            const fileName = `mag_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+            
+            // Show uploading state
+            inputEl.previousElementSibling.value = "Uploading...";
+
+            const { error } = await db.storage.from('admin-assets').upload(fileName, file);
+            if (!error) {
+                const { data } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                inputEl.previousElementSibling.value = data.publicUrl;
+                updatePageData(targetKey, data.publicUrl);
+            } else {
+                alert("Upload failed. Check permissions.");
+                inputEl.previousElementSibling.value = "";
+            }
+        }
+
+        window.saveIssueData = async function() {
+            editingIssueData.id = document.getElementById('edit_issueId').value.trim();
+            editingIssueData.title = document.getElementById('edit_issueTitle').value.trim();
+            editingIssueData.status = document.getElementById('edit_status').value;
+
+            if (!editingIssueData.id || !editingIssueData.title) {
+                alert("Issue ID and Title are required."); return;
+            }
+
+            const { error } = await db.from('gsr_magazines').upsert({
+                id: editingIssueData.id,
+                title: editingIssueData.title,
+                status: editingIssueData.status,
+                pages: JSON.parse(JSON.stringify(editingIssueData.pages))
+            });
+
+            if (!error) {
+                closeCMSModal();
+                await fetchArchive();
+                document.getElementById('issueSelect').value = editingIssueData.id;
+                loadSelectedIssue(editingIssueData.id);
+            } else {
+                alert("Database Error saving issue.");
+            }
+        }
+
+        window.closeCMSModal = function() {
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
+        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+
+        window.onload = initMagazine;
+    </script>
 </body>
 </html>
