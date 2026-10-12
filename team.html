@@ -11,7 +11,7 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: { bg: '#121212', card: '#151515', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' }
+                        brand: { bg: '#121212', card: '#151515', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981', purple: '#a855f7' }
                     }
                 }
             }
@@ -32,7 +32,7 @@
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
-                <a href="index.html"><img src="h-logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
+                <a href="index.html"><img src="logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
             </div>
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Official Team Card</span>
@@ -62,9 +62,9 @@
             <a href="teams_profiles.html" class="inline-flex items-center text-xs text-gray-400 hover:text-white transition uppercase font-bold">
                 &larr; Back to Directory
             </a>
-            <div class="bg-brand-card border border-brand-border px-4 py-2 rounded-lg shadow text-center hidden">
-                <span class="block text-[9px] uppercase font-bold text-gray-500">Syndicate Points</span>
-                <span class="text-xl font-black text-brand-gold">0 <span class="text-[10px] text-white uppercase">PTS</span></span>
+            <div class="bg-brand-card border border-brand-border px-4 py-2 rounded-lg shadow text-center">
+                <span class="block text-[9px] uppercase font-bold text-gray-500">Total Constructor Points</span>
+                <span id="headerTeamPts" class="text-xl font-black text-brand-gold">0 <span class="text-[10px] text-white uppercase">PTS</span></span>
             </div>
         </div>
 
@@ -72,7 +72,7 @@
             <div class="bg-brand-card rounded-[14px] overflow-hidden relative card-texture">
                 
                 <!-- 1. Banner -->
-                <div class="h-64 w-full bg-cover bg-center relative border-b border-brand-border" style="background-image: url('stormriders-banner.jpg'); background-color: #111a22;">
+                <div id="teamBannerBox" class="h-64 w-full bg-cover bg-center relative border-b border-brand-border" style="background-image: url('stormriders-banner.jpg'); background-color: #111a22;">
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-card to-transparent"></div>
                     <div class="absolute top-4 right-6 z-10 flex flex-col items-end gap-2">
                         <div class="flex gap-2">
@@ -88,13 +88,13 @@
                 <!-- 2. Header Box -->
                 <div class="px-8 pb-6 relative border-b border-brand-border">
                     <div class="flex flex-col md:flex-row items-start md:items-end justify-between -mt-20 gap-6 relative z-10">
-                        <div class="w-40 h-40 rounded-xl border-4 border-brand-card bg-[#0a0a0a] shadow-2xl flex items-center justify-center shrink-0">
+                        <div id="teamLogoBox" class="w-40 h-40 rounded-xl border-4 border-brand-card bg-[#0a0a0a] shadow-2xl flex items-center justify-center shrink-0 overflow-hidden">
                             <span class="text-[10px] text-gray-500 uppercase text-center font-bold px-2">Logo Pending<br>Approval</span>
                         </div>
                         <div class="flex-1 pt-20 md:pt-0">
                             <div class="flex flex-wrap items-baseline gap-3">
                                 <h2 id="cardTeamTitle" class="text-4xl lg:text-5xl font-black text-white tracking-tight uppercase">STORM RIDERS</h2>
-                                <span class="text-brand-blue text-sm lg:text-base font-black uppercase tracking-[0.2em] italic">"The Desert Scorpions"</span>
+                                <span id="teamMotto" class="text-brand-blue text-sm lg:text-base font-black uppercase tracking-[0.2em] italic">"The Desert Scorpions"</span>
                             </div>
                             <div class="flex gap-2 mt-2">
                                 <span class="bg-gradient-to-br from-yellow-400 to-yellow-700 text-black text-[9px] font-black uppercase px-2 py-1 rounded border border-yellow-300 shadow">🏆 Pro Constructor '26</span>
@@ -114,23 +114,55 @@
                 <!-- 3. Manifesto -->
                 <div class="p-8 border-b border-brand-border bg-black/20">
                     <h3 class="text-[10px] font-black uppercase tracking-wider text-gray-500 mb-2">Team Manifesto</h3>
-                    <p class="text-gray-300 italic text-sm leading-relaxed border-l-2 border-brand-blue pl-4">
+                    <p id="teamManifestoText" class="text-gray-300 italic text-sm leading-relaxed border-l-2 border-brand-blue pl-4">
                         "Built for speed, high-precision telemetry execution, and track dominance. We recruit only the most aggressive pilots in the grid."
                     </p>
                 </div>
 
-                <!-- 4. Dashboard Grid (Stats & Chat) -->
+                <!-- 4. Dashboard Grid (Standings Statistics & Chat) -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-brand-border border-b border-brand-border">
-                    <div class="p-8 lg:col-span-2 space-y-8 bg-black/20">
+                    <div class="p-8 lg:col-span-2 space-y-6 bg-black/20">
                         <div>
                             <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-3 flex items-center gap-2">
-                                <div class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></div> Constructor Statistics
+                                <div class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></div> Official Constructor Standings
                             </h3>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Wins</span><span class="text-xl font-black text-brand-gold">0</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Losses</span><span class="text-xl font-black text-white">0</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">Points</span><span class="text-xl font-black text-white">0</span></div>
-                                <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="text-[9px] text-gray-500 font-black uppercase block mb-1">XP</span><span class="text-xl font-black text-brand-blue">0</span></div>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+                                <div class="bg-brand-card border border-brand-border p-3 rounded-xl text-center">
+                                    <span class="text-[8px] text-gray-500 font-black uppercase block mb-1">Races</span>
+                                    <span id="statTeamStarts" class="text-base font-black text-gray-200">0</span>
+                                </div>
+                                <div class="bg-brand-card border border-brand-border p-3 rounded-xl text-center">
+                                    <span class="text-[8px] text-brand-gold font-black uppercase block mb-1">Wins</span>
+                                    <span id="statTeamWins" class="text-base font-black text-brand-gold">0</span>
+                                </div>
+                                <div class="bg-brand-card border border-brand-border p-3 rounded-xl text-center">
+                                    <span class="text-[8px] text-brand-blue font-black uppercase block mb-1">Podiums</span>
+                                    <span id="statTeamPodiums" class="text-base font-black text-brand-blue">0</span>
+                                </div>
+                                <div class="bg-brand-card border border-brand-border p-3 rounded-xl text-center">
+                                    <span class="text-[8px] text-brand-green font-black uppercase block mb-1">Win Rate</span>
+                                    <span id="statTeamWinRate" class="text-base font-black text-brand-green">0%</span>
+                                </div>
+                                <div class="bg-brand-card border border-brand-border p-3 rounded-xl text-center">
+                                    <span class="text-[8px] text-gray-400 font-black uppercase block mb-1">Points</span>
+                                    <span id="statTeamPoints" class="text-base font-black text-white">0</span>
+                                </div>
+                                <div class="bg-brand-card border border-brand-border p-3 rounded-xl text-center">
+                                    <span class="text-[8px] text-purple-400 font-black uppercase block mb-1">Team XP</span>
+                                    <span id="statTeamXP" class="text-base font-black text-purple-400">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Secondary Performance Row -->
+                        <div class="grid grid-cols-2 gap-3 pt-2">
+                            <div class="bg-brand-card border border-brand-border p-3 rounded-xl flex justify-between items-center text-xs">
+                                <span class="text-[9px] font-black uppercase text-gray-400">Active Pilots:</span>
+                                <span id="statActivePilots" class="text-sm font-black font-mono text-brand-blue">0</span>
+                            </div>
+                            <div class="bg-brand-card border border-brand-border p-3 rounded-xl flex justify-between items-center text-xs">
+                                <span class="text-[9px] font-black uppercase text-gray-400">Constructor Deficits / Losses:</span>
+                                <span id="statTeamLosses" class="text-sm font-black font-mono text-gray-300">0</span>
                             </div>
                         </div>
                     </div>
@@ -161,7 +193,7 @@
                     </div>
                 </div>
 
-                <!-- 5. ACTIVE TEAM ROSTER (MOVED TO BOTTOM ROW) -->
+                <!-- 5. ACTIVE TEAM ROSTER -->
                 <div class="p-8 bg-black/40">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-[10px] font-black uppercase tracking-widest text-brand-blue flex items-center gap-2">
@@ -223,7 +255,6 @@
     <!-- SUPABASE ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Global Drawer Control
         window.toggleDrawer = function(show) {
             const drawer = document.getElementById('chatDrawer');
             const overlay = document.getElementById('drawerOverlay');
@@ -269,13 +300,11 @@
             pro_plus: '⭐ Pro Plus'
         };
 
-        // --- 1. RENDER ROSTER ---
         async function renderTeamRoster() {
             const grid = document.getElementById('teamRosterGrid');
             const leaderDisplay = document.getElementById('teamLeaderDisplay');
 
-            // FETCH ALL DATA INCLUDING is_recruiting
-            const { data: teamData, error: teamError } = await db.from('teams').select('*').eq('name', pageTeamName).single();
+            const { data: teamData, error: teamError } = await db.from('teams').select('*').eq('name', pageTeamName).maybeSingle();
             if (teamError || !teamData) {
                 grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Team not found ]</div>`;
                 return;
@@ -284,7 +313,34 @@
             currentTeamId = teamData.id;
             currentLeaderId = teamData.leader_user_id;
 
-            // READ THE DATABASE STATUS (Defaults to true safely if the column is entirely missing)
+            if (teamData.motto) document.getElementById('teamMotto').innerText = `"${teamData.motto}"`;
+            if (teamData.manifesto) document.getElementById('teamManifestoText').innerText = `"${teamData.manifesto}"`;
+
+            if (teamData.banner_url) {
+                document.getElementById('teamBannerBox').style.backgroundImage = `url('${teamData.banner_url}')`;
+            }
+            if (teamData.logo_url) {
+                document.getElementById('teamLogoBox').innerHTML = `<img src="${teamData.logo_url}" class="w-full h-full object-cover">`;
+            }
+
+            // Standings metrics calculation
+            const wins = Number(teamData.wins) || 0;
+            const losses = Number(teamData.losses) || 0;
+            const podiums = Number(teamData.podiums) || 0;
+            const points = Number(teamData.points || teamData.constructor_points) || 0;
+            const xp = Number(teamData.xp || teamData.team_xp) || 0;
+            const totalStarts = Number(teamData.total_races || teamData.starts) || (wins + losses);
+            const winRate = totalStarts > 0 ? Math.round((wins / totalStarts) * 100) : 0;
+
+            document.getElementById('statTeamStarts').innerText = totalStarts;
+            document.getElementById('statTeamWins').innerText = wins;
+            document.getElementById('statTeamPodiums').innerText = podiums;
+            document.getElementById('statTeamLosses').innerText = losses;
+            document.getElementById('statTeamPoints').innerText = points;
+            document.getElementById('statTeamXP').innerText = xp;
+            document.getElementById('statTeamWinRate').innerText = `${winRate}%`;
+            document.getElementById('headerTeamPts').innerHTML = `${points} <span class="text-[10px] text-white uppercase">PTS</span>`;
+
             if (teamData.is_recruiting !== undefined && teamData.is_recruiting !== null) {
                 teamIsRecruiting = teamData.is_recruiting;
             } else {
@@ -293,8 +349,11 @@
 
             const { data: drivers, error: driverError } = await db
                 .from('racers')
-                .select('id, display_name, racer_number')
+                .select('id, display_name, racer_number, avatar_url, photo_url')
                 .eq('primary_team_id', currentTeamId);
+
+            const activePilotsCount = drivers ? drivers.length : 0;
+            document.getElementById('statActivePilots').innerText = activePilotsCount;
 
             if (driverError || !drivers || drivers.length === 0) {
                 grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ No drivers assigned to this team yet ]</div>`;
@@ -308,6 +367,7 @@
             drivers.forEach(driver => {
                 const driverName = (driver.display_name && driver.display_name.trim() !== '') ? driver.display_name : 'Unknown Pilot';
                 const driverNum = driver.racer_number ? `#${driver.racer_number}` : '#--';
+                const photo = driver.avatar_url || driver.photo_url;
                 
                 let role = 'PRO LEAGUE';
                 if (currentLeaderId && driver.id === currentLeaderId) {
@@ -324,8 +384,8 @@
                                 <span class="bg-brand-red text-white text-[7px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider">${role}</span>
                                 <span class="text-brand-blue font-mono font-black text-[10px]">${driverNum}</span>
                             </div>
-                            <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2 group-hover:border-brand-blue transition cursor-pointer" onclick="window.location='${profileUrl}'">
-                                <span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest text-center">PHOTO</span>
+                            <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2 group-hover:border-brand-blue transition cursor-pointer overflow-hidden" onclick="window.location='${profileUrl}'">
+                                ${photo ? `<img src="${photo}" class="w-full h-full object-cover">` : `<span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest text-center">PHOTO</span>`}
                             </div>
                             <h4 class="text-[11px] font-black uppercase text-white tracking-wider truncate">${escapeHtml(driverName)}</h4>
                         </div>
@@ -341,7 +401,6 @@
             }
         }
 
-        // --- 2. AUTHENTICATION ---
         async function initTeamCardPage() {
             await renderTeamRoster();
             loadTeamChatWidget(); 
@@ -374,7 +433,7 @@
                 .from('gsr_profiles')
                 .select('sl_legacy_name')
                 .eq('id', currentUser.id)
-                .single();
+                .maybeSingle();
 
             displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
 
@@ -382,7 +441,7 @@
                 .from('racers')
                 .select('id, primary_team_id')
                 .ilike('display_name', displayName)
-                .single();
+                .maybeSingle();
 
             if (currentTeamId && currentRacer) {
                 if (currentLeaderId === currentRacer.id) {
@@ -419,7 +478,6 @@
             }
         }
 
-        // --- 3. RECRUITMENT UI ---
         function renderBannerControls() {
             const container = document.getElementById('bannerApplyContainer');
             const badge = document.getElementById('recruitmentBadge');
@@ -461,25 +519,20 @@
             container.innerHTML = html;
         }
 
-       // SAVE THE NEW STATUS DIRECTLY TO THE DATABASE WITH ERROR CHECKING
-async function toggleRecruitmentStatus() {
-    if (!isTeamLeader || !currentTeamId) return;
-    
-    // 1. Flip the status
-    teamIsRecruiting = !teamIsRecruiting;
-    
-    // 2. Try to save to Supabase
-    const { error } = await db.from('teams').update({ is_recruiting: teamIsRecruiting }).eq('id', currentTeamId);
-    
-    // 3. If Supabase rejects it, show the exact error and revert the button
-    if (error) {
-        alert("SUPABASE ERROR: " + error.message);
-        teamIsRecruiting = !teamIsRecruiting; // Revert back
-    }
-    
-    // 4. Update the screen
-    renderBannerControls();
-}
+        async function toggleRecruitmentStatus() {
+            if (!isTeamLeader || !currentTeamId) return;
+            
+            teamIsRecruiting = !teamIsRecruiting;
+            
+            const { error } = await db.from('teams').update({ is_recruiting: teamIsRecruiting }).eq('id', currentTeamId);
+            
+            if (error) {
+                alert("SUPABASE ERROR: " + error.message);
+                teamIsRecruiting = !teamIsRecruiting;
+            }
+            
+            renderBannerControls();
+        }
 
         function openApplicationModal() {
             document.getElementById('applicantName').innerText = displayName;
@@ -508,7 +561,6 @@ async function toggleRecruitmentStatus() {
             document.getElementById('applicationModal').classList.remove('flex');
         }
 
-        // --- 4. CHAT FUNCTIONS ---
         function switchTeamChannel(channel) {
             activeTeamChannel = channel;
             const drawerTitle = document.getElementById('drawerChannelName');
@@ -597,6 +649,5 @@ async function toggleRecruitmentStatus() {
 
         window.onload = initTeamCardPage;
     </script>
-
 </body>
 </html>
