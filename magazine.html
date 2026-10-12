@@ -10,11 +10,10 @@
     </script>
     <style>
         .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 20px rgba(197, 160, 89, 0.25); }
-        .magazine-page { background-color: #18181b; background-size: cover; background-position: center; }
+        .magazine-page { background-color: #121212; background-size: cover; background-position: center; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
-        .text-shadow-strong { text-shadow: 2px 2px 8px rgba(0,0,0,0.9); }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
@@ -36,7 +35,7 @@
 
             <div class="flex items-center gap-3 z-10 w-full md:w-auto justify-center" id="headerControls">
                 <label for="issueSelect" class="text-[9px] font-bold uppercase text-gray-400 tracking-widest whitespace-nowrap hidden sm:inline">Issue:</label>
-                <select id="issueSelect" onchange="loadSelectedIssue(this.value)" class="bg-brand-bg border border-brand-gold text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer max-w-[150px] truncate">
+                <select id="issueSelect" onchange="loadSelectedIssue(this.value)" class="bg-brand-bg border border-brand-gold text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer max-w-[170px] truncate">
                     <option value="">Loading Archive...</option>
                 </select>
             </div>
@@ -66,13 +65,13 @@
         <div id="magazineContainer" class="w-full max-w-6xl bg-brand-card border border-brand-gold rounded-xl overflow-hidden shadow-2xl gold-border-glow grid grid-cols-1 md:grid-cols-2 relative min-h-[580px] lg:min-h-[700px]">
             
             <!-- LEFT PAGE / MOBILE SINGLE PAGE -->
-            <div id="pageOne" class="magazine-page p-6 sm:p-12 flex relative border-b md:border-b-0 md:border-r border-brand-border/60 overflow-hidden">
-                <div class="w-full text-center text-gray-500 font-mono text-xs mt-20">[ Loading Issue... ]</div>
+            <div id="pageOne" class="magazine-page flex relative border-b md:border-b-0 md:border-r border-brand-border/60 overflow-hidden items-center justify-center">
+                <div class="text-center text-gray-500 font-mono text-xs">[ Loading Issue... ]</div>
             </div>
 
             <!-- RIGHT PAGE (Hidden on Mobile) -->
-            <div id="pageTwo" class="magazine-page p-6 sm:p-12 flex relative overflow-hidden hidden md:flex">
-                <div class="w-full text-center text-gray-500 font-mono text-xs mt-20">[ Loading Issue... ]</div>
+            <div id="pageTwo" class="magazine-page flex relative overflow-hidden hidden md:flex items-center justify-center">
+                <div class="text-center text-gray-500 font-mono text-xs">[ Loading Issue... ]</div>
             </div>
 
         </div>
@@ -81,7 +80,7 @@
         <div class="w-full max-w-6xl flex items-center justify-between bg-brand-card border border-brand-border p-4 rounded-xl shadow-lg">
             
             <button onclick="turnPage(-1)" id="prevBtn" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-white font-black text-xs uppercase px-4 py-3 sm:px-6 rounded transition disabled:opacity-30 disabled:cursor-not-allowed">
-                ← <span class="hidden sm:inline">Prev</span>
+                ← <span class="hidden sm:inline">Prev Spread</span>
             </button>
 
             <div class="text-center">
@@ -90,7 +89,7 @@
             </div>
 
             <button onclick="turnPage(1)" id="nextBtn" class="bg-brand-gold hover:bg-yellow-600 text-black font-black text-xs uppercase px-4 py-3 sm:px-6 rounded transition shadow-md disabled:opacity-30 disabled:cursor-not-allowed">
-                <span class="hidden sm:inline">Next</span> →
+                <span class="hidden sm:inline">Next Spread</span> →
             </button>
 
         </div>
@@ -102,12 +101,12 @@
         &copy; 2026 Gentle Storm Racing. Built for Second Life.
     </footer>
 
-    <!-- INLINE CMS EDIT MODAL (MAGAZINE BUILDER) -->
+    <!-- PUBLISHER SUITE MODAL -->
     <div id="cmsModalOverlay" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
         <div id="cmsModal" class="bg-brand-card border border-brand-gold shadow-[0_0_30px_rgba(197,160,89,0.15)] rounded-xl w-full max-w-4xl transform scale-95 opacity-0 transition-all duration-300 flex flex-col h-[90vh]">
             
             <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center rounded-t-xl shrink-0">
-                <h2 class="text-sm font-black uppercase text-brand-gold tracking-wide">📖 Publisher Suite</h2>
+                <h2 class="text-sm font-black uppercase text-brand-gold tracking-wide">📖 Magazine Publisher Suite</h2>
                 <button onclick="closeCMSModal()" class="text-gray-500 hover:text-brand-red p-1 transition cursor-pointer">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
@@ -115,37 +114,46 @@
             
             <div class="p-6 flex-grow overflow-y-auto space-y-6 flex flex-col lg:flex-row gap-6">
                 <!-- Sidebar: Issue Settings & Page List -->
-                <div class="lg:w-1/3 space-y-4 border-r border-brand-border pr-6">
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-black uppercase text-gray-400">Issue ID (e.g., vol_1_iss_1)</label>
-                        <input type="text" id="edit_issueId" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-black uppercase text-gray-400">Display Title</label>
-                        <input type="text" id="edit_issueTitle" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
-                    </div>
-                    <div class="space-y-1 pt-2 border-t border-brand-border">
-                        <label class="text-[10px] font-black uppercase text-gray-400 block mb-2">Publish Status</label>
-                        <select id="edit_status" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
-                            <option value="draft">Draft (Hidden)</option>
-                            <option value="published">Published (Live)</option>
-                        </select>
+                <div class="lg:w-1/3 space-y-4 border-r border-brand-border pr-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black uppercase text-gray-400">Issue ID / Month Tag (e.g., oct_2026)</label>
+                            <input type="text" id="edit_issueId" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black uppercase text-gray-400">Display Title (e.g., October 2026 (Vol 1))</label>
+                            <input type="text" id="edit_issueTitle" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black uppercase text-gray-400 block mb-1">Status</label>
+                            <select id="edit_status" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                                <option value="draft">Draft (Hidden)</option>
+                                <option value="published">Published (Live)</option>
+                            </select>
+                        </div>
+
+                        <div class="pt-2 border-t border-brand-border">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-[10px] font-black uppercase text-gray-400">Issue Pages</label>
+                                <button onclick="addNewPage()" class="text-[9px] bg-brand-blue text-white px-2.5 py-1 rounded uppercase font-bold cursor-pointer">+ Add Page</button>
+                            </div>
+                            <div id="pageListContainer" class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+                                <!-- Page items injected here -->
+                            </div>
+                        </div>
                     </div>
 
+                    <!-- Delete Issue Button -->
                     <div class="pt-4 border-t border-brand-border">
-                        <div class="flex justify-between items-center mb-2">
-                            <label class="text-[10px] font-black uppercase text-gray-400">Pages List</label>
-                            <button onclick="addNewPage()" class="text-[9px] bg-brand-blue text-white px-2 py-1 rounded uppercase font-bold">+ Add Page</button>
-                        </div>
-                        <div id="pageListContainer" class="space-y-2 max-h-[300px] overflow-y-auto pr-1">
-                            <!-- Page items injected here -->
-                        </div>
+                        <button onclick="deleteCurrentIssue()" class="w-full bg-red-950/60 hover:bg-red-900 text-brand-red border border-red-500/40 text-[10px] font-black uppercase py-2 rounded transition cursor-pointer">
+                            🗑️ Delete Current Issue
+                        </button>
                     </div>
                 </div>
 
                 <!-- Main Area: Page Editor -->
                 <div class="lg:w-2/3 space-y-4" id="pageEditorArea">
-                    <div class="text-center text-gray-500 text-xs font-mono py-20 border border-dashed border-brand-border rounded">Select or add a page to edit</div>
+                    <div class="text-center text-gray-500 text-xs font-mono py-20 border border-dashed border-brand-border rounded h-full flex items-center justify-center">Select or add a page to configure artwork.</div>
                 </div>
             </div>
             
@@ -168,15 +176,12 @@
         let allIssues = [];
         let activeIssueData = null;
         
-        // Viewer State
-        let currentViewportIndex = 0; // The index of the first page currently visible
+        let currentViewportIndex = 0;
         let isMobile = window.innerWidth < 768;
 
-        // Editor State
         let editingIssueData = null;
         let editingPageIndex = null;
 
-        // Listen for screen resize to adjust page turn logic
         window.addEventListener('resize', () => {
             const wasMobile = isMobile;
             isMobile = window.innerWidth < 768;
@@ -195,7 +200,9 @@
 
                     if (isAdmin) {
                         const controls = document.getElementById('headerControls');
-                        controls.innerHTML += `<button onclick="openEditor()" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow ml-2">✏️ Publisher Suite</button>`;
+                        if (!document.getElementById('publisherSuiteBtn')) {
+                            controls.innerHTML += `<button id="publisherSuiteBtn" onclick="openEditor()" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow ml-2 cursor-pointer">✏️ Publisher Suite</button>`;
+                        }
                     }
                 }
             } catch (e) {}
@@ -221,6 +228,8 @@
 
             if (visibleIssues.length === 0) {
                 select.innerHTML = `<option value="">No published issues yet.</option>`;
+                document.getElementById('pageOne').innerHTML = `<div class="text-center text-gray-500 font-mono text-xs">No magazine issues available. Use Publisher Suite to create one.</div>`;
+                document.getElementById('pageTwo').innerHTML = '';
                 return;
             }
 
@@ -229,7 +238,6 @@
                 select.innerHTML += `<option value="${iss.id}">${isDraft}${escapeHtml(iss.title)}</option>`;
             });
 
-            // Auto-load first available
             loadSelectedIssue(visibleIssues[0].id);
         }
 
@@ -250,7 +258,7 @@
         // --- VIEWER RENDER ENGINE ---
         function renderPages() {
             if (!activeIssueData || !activeIssueData.pages || activeIssueData.pages.length === 0) {
-                document.getElementById('pageOne').innerHTML = `<div class="w-full text-center text-gray-500 font-mono text-xs mt-20">This issue has no pages.</div>`;
+                document.getElementById('pageOne').innerHTML = `<div class="text-center text-gray-500 font-mono text-xs">This issue has no pages.</div>`;
                 document.getElementById('pageTwo').innerHTML = '';
                 updateUIState(0);
                 return;
@@ -258,19 +266,16 @@
 
             const pages = activeIssueData.pages;
             
-            // Render Left / Mobile Page
             renderSinglePage('pageOne', pages[currentViewportIndex]);
 
-            // Render Right Page (Desktop Only)
             if (!isMobile) {
                 if (currentViewportIndex + 1 < pages.length) {
                     renderSinglePage('pageTwo', pages[currentViewportIndex + 1]);
                 } else {
-                    // Blank trailing page
                     const p2 = document.getElementById('pageTwo');
                     p2.innerHTML = '';
                     p2.style.backgroundImage = 'none';
-                    p2.className = 'magazine-page p-6 sm:p-12 flex relative overflow-hidden hidden md:flex items-center justify-center';
+                    p2.className = 'magazine-page flex relative overflow-hidden hidden md:flex items-center justify-center';
                 }
             }
 
@@ -281,73 +286,42 @@
             const el = document.getElementById(elementId);
             if (!pageData) return;
 
-            // Base Classes
-            el.className = `magazine-page p-6 sm:p-12 flex flex-col relative overflow-hidden ${elementId === 'pageTwo' ? 'hidden md:flex' : ''} ${elementId === 'pageOne' ? 'border-b md:border-b-0 md:border-r border-brand-border/60' : ''}`;
-            
-            // Background Image Handling
-            if (pageData.bgImg) {
-                el.style.backgroundImage = `linear-gradient(rgba(18,18,18,0.7), rgba(18,18,18,0.9)), url('${pageData.bgImg}')`;
-            } else {
-                el.style.backgroundImage = 'none';
-            }
+            el.className = `magazine-page flex flex-col relative overflow-hidden ${elementId === 'pageTwo' ? 'hidden md:flex' : ''} ${elementId === 'pageOne' ? 'border-b md:border-b-0 md:border-r border-brand-border/60' : ''}`;
+            el.style.backgroundImage = 'none';
 
-            // Affinity-Style Layout Templates
             let contentHTML = '';
 
-            if (pageData.template === 'cover') {
-                // Full Cover: Text over large image, centered usually
-                el.classList.add('justify-center', 'items-center', 'text-center');
+            if (pageData.template === 'video') {
+                // Top 1/3 Video, Bottom 2/3 Image
+                const embedUrl = pageData.videoUrl ? convertToEmbed(pageData.videoUrl) : '';
                 contentHTML = `
-                    <div class="w-full z-10 space-y-4">
-                        ${pageData.headline ? `<h2 class="text-3xl sm:text-5xl font-black uppercase text-white font-serif italic text-shadow-strong">${escapeHtml(pageData.headline)}</h2>` : ''}
-                        ${pageData.subhead ? `<span class="text-[10px] font-black uppercase tracking-widest text-brand-red bg-black/50 px-3 py-1 rounded inline-block">${escapeHtml(pageData.subhead)}</span>` : ''}
-                        ${pageData.bodyText ? `<p class="text-xs text-gray-200 leading-relaxed max-w-sm mx-auto text-shadow-strong font-bold mt-4">${escapeHtml(pageData.bodyText)}</p>` : ''}
+                    <div class="w-full h-1/3 bg-black border-b border-brand-border flex items-center justify-center relative overflow-hidden shrink-0">
+                        ${embedUrl ? `<iframe src="${embedUrl}" class="w-full h-full border-0" allowfullscreen></iframe>` : '<div class="text-[10px] text-gray-500 font-mono uppercase">[ No Video URL Provided ]</div>'}
+                    </div>
+                    <div class="w-full h-2/3 bg-[#111] overflow-hidden flex items-center justify-center">
+                        ${pageData.image ? `<img src="${pageData.image}" class="w-full h-full object-cover">` : '<div class="text-[10px] text-gray-600 font-mono uppercase">[ No Page Image ]</div>'}
                     </div>
                 `;
-            } 
-            else if (pageData.template === 'split_top') {
-                // Image Top, Text Bottom
-                el.classList.add('justify-start', 'items-start', 'p-0'); // Remove padding for full bleed top image
+            } else {
+                // Cover or Normal Full Page Image
                 contentHTML = `
-                    <div class="w-full h-1/2 bg-[#111] overflow-hidden border-b border-brand-border">
-                        ${pageData.contentImg ? `<img src="${pageData.contentImg}" class="w-full h-full object-cover">` : '<div class="w-full h-full flex items-center justify-center text-[9px] text-gray-600">[ IMAGE PLACEHOLDER ]</div>'}
-                    </div>
-                    <div class="w-full h-1/2 p-6 sm:p-8 space-y-3 overflow-y-auto">
-                        ${pageData.subhead ? `<span class="text-[9px] font-black uppercase text-brand-gold tracking-widest">${escapeHtml(pageData.subhead)}</span>` : ''}
-                        ${pageData.headline ? `<h3 class="text-xl sm:text-2xl font-black uppercase text-white">${escapeHtml(pageData.headline)}</h3>` : ''}
-                        ${pageData.bodyText ? `<p class="text-xs text-gray-300 leading-relaxed font-serif whitespace-pre-wrap">${escapeHtml(pageData.bodyText)}</p>` : ''}
-                    </div>
-                `;
-            }
-            else if (pageData.template === 'split_left') {
-                // Assuming standard horizontal split (Mobile collapses to top/bottom)
-                el.classList.add('justify-start', 'items-start', 'p-0', 'flex-col');
-                contentHTML = `
-                    <div class="flex flex-col h-full w-full">
-                        <div class="w-full h-1/2 bg-[#111] overflow-hidden border-b border-brand-border">
-                            ${pageData.contentImg ? `<img src="${pageData.contentImg}" class="w-full h-full object-cover">` : '<div class="w-full h-full flex items-center justify-center text-[9px] text-gray-600">[ MEDIA ]</div>'}
-                        </div>
-                        <div class="w-full h-1/2 p-6 space-y-3 overflow-y-auto">
-                            ${pageData.subhead ? `<span class="text-[9px] font-black uppercase text-brand-blue tracking-widest">${escapeHtml(pageData.subhead)}</span>` : ''}
-                            ${pageData.headline ? `<h3 class="text-xl font-black uppercase text-white">${escapeHtml(pageData.headline)}</h3>` : ''}
-                            ${pageData.bodyText ? `<p class="text-xs text-gray-300 leading-relaxed font-serif whitespace-pre-wrap">${escapeHtml(pageData.bodyText)}</p>` : ''}
-                        </div>
-                    </div>
-                `;
-            }
-            else {
-                // Default: Full Text Article
-                el.classList.add('justify-start', 'items-start');
-                contentHTML = `
-                    <div class="w-full space-y-4">
-                        ${pageData.subhead ? `<span class="text-[9px] font-black uppercase text-brand-gold tracking-widest border-b border-brand-border pb-1 block w-max">${escapeHtml(pageData.subhead)}</span>` : ''}
-                        ${pageData.headline ? `<h3 class="text-2xl sm:text-3xl font-black uppercase text-white font-serif">${escapeHtml(pageData.headline)}</h3>` : ''}
-                        ${pageData.bodyText ? `<div class="text-xs text-gray-300 leading-relaxed font-serif whitespace-pre-wrap column-count-1">${escapeHtml(pageData.bodyText)}</div>` : ''}
+                    <div class="w-full h-full bg-[#111] overflow-hidden flex items-center justify-center relative">
+                        ${pageData.image ? `<img src="${pageData.image}" class="w-full h-full object-cover">` : `<div class="text-center text-gray-600 font-mono text-xs uppercase">[ Page ${pageData.template.toUpperCase()} - No Image Uploaded ]</div>`}
                     </div>
                 `;
             }
 
             el.innerHTML = contentHTML;
+        }
+
+        function convertToEmbed(url) {
+            if (!url) return '';
+            if (url.includes('youtube.com/watch?v=')) {
+                return url.replace('watch?v=', 'embed/');
+            } else if (url.includes('youtu.be/')) {
+                return url.replace('youtu.be/', 'www.youtube.com/embed/');
+            }
+            return url;
         }
 
         function turnPage(direction) {
@@ -360,7 +334,7 @@
             } else if (direction === -1 && currentViewportIndex - step >= 0) {
                 currentViewportIndex -= step;
             } else if (direction === -1 && currentViewportIndex > 0) {
-                currentViewportIndex = 0; // Catch-all for desktop-to-mobile resize glitches
+                currentViewportIndex = 0;
             }
             renderPages();
         }
@@ -378,7 +352,6 @@
             }
 
             const endPage = Math.min(currentViewportIndex + step, total);
-            
             if (isMobile) {
                 ind.innerText = `Page ${currentViewportIndex + 1} of ${total}`;
             } else {
@@ -393,14 +366,13 @@
         function openEditor() {
             if (!isAdmin) return;
             
-            // Create a working clone or blank issue
             const selectedId = document.getElementById('issueSelect').value;
             const existing = allIssues.find(i => i.id === selectedId);
             
             if (existing) {
-                editingIssueData = JSON.parse(JSON.stringify(existing)); // Deep clone
+                editingIssueData = JSON.parse(JSON.stringify(existing));
             } else {
-                editingIssueData = { id: `vol_${Date.now()}`, title: 'New Issue', status: 'draft', pages: [] };
+                editingIssueData = { id: `issue_${Date.now()}`, title: 'October 2026 (Vol 1)', status: 'draft', pages: [] };
             }
 
             document.getElementById('edit_issueId').value = editingIssueData.id;
@@ -422,7 +394,7 @@
             container.innerHTML = '';
             
             if (editingIssueData.pages.length === 0) {
-                container.innerHTML = `<div class="text-xs text-gray-500 italic">No pages added yet.</div>`;
+                container.innerHTML = `<div class="text-xs text-gray-500 italic">No pages added yet. Click + Add Page.</div>`;
                 return;
             }
 
@@ -430,8 +402,8 @@
                 const isActive = index === editingPageIndex;
                 container.innerHTML += `
                     <div class="flex justify-between items-center p-2 rounded cursor-pointer border ${isActive ? 'bg-brand-blue/10 border-brand-blue' : 'bg-brand-bg border-brand-border hover:border-brand-gold'} transition" onclick="selectPageToEdit(${index})">
-                        <span class="text-xs font-bold text-white truncate w-32">Pg ${index + 1}: ${p.template}</span>
-                        <button onclick="deletePage(${index}); event.stopPropagation();" class="text-red-500 hover:text-white text-xs">✖</button>
+                        <span class="text-xs font-bold text-white truncate w-36">Pg ${index + 1}: ${p.template.toUpperCase()}</span>
+                        <button onclick="deletePage(${index}); event.stopPropagation();" class="text-red-500 hover:text-white text-xs px-1">✖</button>
                     </div>
                 `;
             });
@@ -439,12 +411,9 @@
 
         window.addNewPage = function() {
             editingIssueData.pages.push({
-                template: 'text_only',
-                headline: 'New Page',
-                subhead: '',
-                bodyText: '',
-                bgImg: '',
-                contentImg: ''
+                template: 'normal',
+                image: '',
+                videoUrl: ''
             });
             editingPageIndex = editingIssueData.pages.length - 1;
             renderEditorSidebar();
@@ -469,53 +438,37 @@
         function renderPageEditorForm() {
             const area = document.getElementById('pageEditorArea');
             if (editingPageIndex === null || !editingIssueData.pages[editingPageIndex]) {
-                area.innerHTML = `<div class="text-center text-gray-500 text-xs font-mono py-20 border border-dashed border-brand-border rounded h-full flex items-center justify-center">Select a page from the list to edit its content.</div>`;
+                area.innerHTML = `<div class="text-center text-gray-500 text-xs font-mono py-20 border border-dashed border-brand-border rounded h-full flex items-center justify-center">Select or add a page from the list to configure artwork.</div>`;
                 return;
             }
 
             const p = editingIssueData.pages[editingPageIndex];
             
             area.innerHTML = `
-                <div class="bg-brand-bg p-4 rounded-xl border border-brand-border space-y-4 h-full overflow-y-auto">
-                    <h3 class="text-xs font-black uppercase text-brand-gold border-b border-brand-border pb-2">Editing Page ${editingPageIndex + 1}</h3>
+                <div class="bg-brand-bg p-5 rounded-xl border border-brand-border space-y-4 h-full overflow-y-auto">
+                    <h3 class="text-xs font-black uppercase text-brand-gold border-b border-brand-border pb-2">Editing Page ${editingPageIndex + 1} Artwork</h3>
                     
                     <div class="space-y-1">
-                        <label class="text-[10px] font-black uppercase text-gray-400">Layout Template</label>
+                        <label class="text-[10px] font-black uppercase text-gray-400">Page Type</label>
                         <select id="edit_page_template" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded" onchange="updatePageData('template', this.value)">
-                            <option value="cover" ${p.template === 'cover' ? 'selected' : ''}>Cover (Text over Full BG)</option>
-                            <option value="split_top" ${p.template === 'split_top' ? 'selected' : ''}>Split (Image Top / Text Bottom)</option>
-                            <option value="split_left" ${p.template === 'split_left' ? 'selected' : ''}>Split (Image Top/Left / Text Box)</option>
-                            <option value="text_only" ${p.template === 'text_only' ? 'selected' : ''}>Full Text Article</option>
+                            <option value="cover" ${p.template === 'cover' ? 'selected' : ''}>Cover (Front Issue Cover)</option>
+                            <option value="normal" ${p.template === 'normal' ? 'selected' : ''}>Normal Page (Full Image Artwork)</option>
+                            <option value="video" ${p.template === 'video' ? 'selected' : ''}>Video Page (Top Video / Bottom Image)</option>
                         </select>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-black uppercase text-gray-400">Headline</label>
-                            <input type="text" id="edit_page_headline" value="${escapeHtml(p.headline)}" onkeyup="updatePageData('headline', this.value)" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Page Image Artwork</label>
+                        <div class="flex items-center gap-2">
+                            <input type="text" id="edit_page_image" value="${escapeHtml(p.image || '')}" onkeyup="updatePageData('image', this.value)" placeholder="Paste image URL or upload below" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                            ${p.image ? `<button onclick="clearPageImage()" class="bg-red-950 text-brand-red px-3 py-2 text-xs font-bold rounded border border-red-500/40 cursor-pointer">Clear</button>` : ''}
                         </div>
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-black uppercase text-gray-400">Subhead / Tag</label>
-                            <input type="text" id="edit_page_subhead" value="${escapeHtml(p.subhead)}" onkeyup="updatePageData('subhead', this.value)" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
-                        </div>
+                        <input type="file" id="upload_pageImg" accept="image/*" class="w-full text-[10px] text-gray-400 pt-1" onchange="uploadPageImage(this)">
                     </div>
 
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-black uppercase text-gray-400">Article Text</label>
-                        <textarea id="edit_page_bodyText" rows="6" onkeyup="updatePageData('bodyText', this.value)" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded leading-relaxed">${escapeHtml(p.bodyText)}</textarea>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-brand-border">
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-black uppercase text-gray-400">Background Image URL</label>
-                            <input type="text" id="edit_page_bgImg" value="${escapeHtml(p.bgImg || '')}" onkeyup="updatePageData('bgImg', this.value)" placeholder="For cover/backdrop" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
-                            <input type="file" id="upload_bgImg" accept="image/*" class="w-full text-[9px] mt-1 text-gray-400" onchange="uploadImage(this, 'bgImg')">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-black uppercase text-gray-400">Content Image URL</label>
-                            <input type="text" id="edit_page_contentImg" value="${escapeHtml(p.contentImg || '')}" onkeyup="updatePageData('contentImg', this.value)" placeholder="For split layouts" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
-                            <input type="file" id="upload_contentImg" accept="image/*" class="w-full text-[9px] mt-1 text-gray-400" onchange="uploadImage(this, 'contentImg')">
-                        </div>
+                    <div id="videoUrlContainer" class="space-y-1 pt-2 border-t border-brand-border ${p.template === 'video' ? '' : 'hidden'}">
+                        <label class="text-[10px] font-black uppercase text-gray-400">YouTube Video Embed Link</label>
+                        <input type="text" id="edit_page_videoUrl" value="${escapeHtml(p.videoUrl || '')}" onkeyup="updatePageData('videoUrl', this.value)" placeholder="https://www.youtube.com/watch?v=..." class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
                     </div>
                 </div>
             `;
@@ -524,26 +477,32 @@
         window.updatePageData = function(key, val) {
             if (editingPageIndex !== null) {
                 editingIssueData.pages[editingPageIndex][key] = val;
-                if (key === 'template') renderEditorSidebar(); // refresh list names
+                if (key === 'template') {
+                    renderEditorSidebar();
+                    const vidCont = document.getElementById('videoUrlContainer');
+                    if (val === 'video') vidCont.classList.remove('hidden');
+                    else vidCont.classList.add('hidden');
+                }
             }
         }
 
-        window.uploadImage = async function(inputEl, targetKey) {
+        window.clearPageImage = function() {
+            updatePageData('image', '');
+            renderPageEditorForm();
+        }
+
+        window.uploadPageImage = async function(inputEl) {
             if (!inputEl.files || inputEl.files.length === 0) return;
             const file = inputEl.files[0];
-            const fileName = `mag_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+            const fileName = `magazine_page_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
             
-            // Show uploading state
-            inputEl.previousElementSibling.value = "Uploading...";
-
             const { error } = await db.storage.from('admin-assets').upload(fileName, file);
             if (!error) {
                 const { data } = db.storage.from('admin-assets').getPublicUrl(fileName);
-                inputEl.previousElementSibling.value = data.publicUrl;
-                updatePageData(targetKey, data.publicUrl);
+                updatePageData('image', data.publicUrl);
+                renderPageEditorForm();
             } else {
-                alert("Upload failed. Check permissions.");
-                inputEl.previousElementSibling.value = "";
+                alert("Image upload failed.");
             }
         }
 
@@ -570,6 +529,21 @@
                 loadSelectedIssue(editingIssueData.id);
             } else {
                 alert("Database Error saving issue.");
+            }
+        }
+
+        window.deleteCurrentIssue = async function() {
+            const idToDelete = document.getElementById('edit_issueId').value.trim();
+            if (!idToDelete) return;
+
+            if (confirm(`Are you sure you want to delete issue "${idToDelete}"? This cannot be undone.`)) {
+                const { error } = await db.from('gsr_magazines').delete().eq('id', idToDelete);
+                if (!error) {
+                    closeCMSModal();
+                    await fetchArchive();
+                } else {
+                    alert("Error deleting issue from database.");
+                }
             }
         }
 
