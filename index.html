@@ -407,7 +407,7 @@
         const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
         const db = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        async function initMainMenu() {
+                async function initMainMenu() {
             try {
                 const { data: { session } } = await db.auth.getSession();
                 const userNav = document.getElementById('userNav');
@@ -415,13 +415,17 @@
 
                 if (session) {
                     currentUser = session.user;
-                    const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, is_admin').eq('id', currentUser.id).maybeSingle();
+                    
+                    // 1. ADDED 'username' TO THE SELECT QUERY
+                    const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, username, is_admin').eq('id', currentUser.id).maybeSingle();
                     currentProfile = profile;
-                    const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+                    
+                    // 2. CHANGED TO USE profile.username FIRST
+                    const displayName = profile?.username || profile?.sl_legacy_name || currentUser.email.split('@')[0];
 
                     if (userNav) {
                         let adminBtnHTML = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-xs uppercase font-black px-3 py-2 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
-                        userNav.innerHTML = `<div class="flex flex-col items-end gap-1.5"><div class="flex items-center gap-2"><div class="text-right"><span class="block text-xs font-black text-white uppercase">${displayName}</span><span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1"><span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In</span></div><button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-xs uppercase font-black px-3 py-2 rounded transition shadow cursor-pointer">Sign Out</button></div>${adminBtnHTML}</div>`;
+                        userNav.innerHTML = `<div class="flex flex-col items-end gap-1.5"><div class="flex items-center gap-2"><div class="text-right"><span class="block text-xs font-black text-white uppercase">${escapeHtml(displayName)}</span><span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1"><span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In</span></div><button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-xs uppercase font-black px-3 py-2 rounded transition shadow cursor-pointer">Sign Out</button></div>${adminBtnHTML}</div>`;
                     }
 
                     if (userNavMobile) {
@@ -429,7 +433,7 @@
                         userNavMobile.innerHTML = `
                             <div class="flex flex-col items-center gap-2 w-full mt-2">
                                 <div class="text-center">
-                                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                                    <span class="block text-xs font-black text-white uppercase">${escapeHtml(displayName)}</span>
                                     <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In</span>
                                 </div>
                                 <div class="flex items-center gap-2">
