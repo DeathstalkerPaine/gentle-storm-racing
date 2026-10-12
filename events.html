@@ -127,6 +127,7 @@
                         <option value="leagues">Leagues & Seasons</option>
                         <option value="concerts">Concerts</option>
                         <option value="djs">Live DJs</option>
+                        <option value="nightclub">Nightclubs</option>
                         <option value="special">Special Events</option>
                     </select>
 
@@ -193,6 +194,7 @@
                             <option value="leagues">Leagues & Seasons</option>
                             <option value="concerts">Concerts</option>
                             <option value="djs">Live DJs</option>
+                            <option value="nightclub">Nightclubs</option>
                             <option value="special">Special Events</option>
                         </select>
                     </div>
@@ -204,7 +206,7 @@
 
                 <div class="space-y-1">
                     <label class="text-[10px] font-black uppercase text-gray-400">Event Date & Time (SLT)</label>
-                    <input type="text" id="edit_date" placeholder="e.g. Oct 19, 2026 • 8:00 PM SLT" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                    <input type="text" id="edit_date" placeholder="e.g. 2026-10-12 • 8:00 PM SLT" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
                 </div>
 
                 <div class="space-y-1">
@@ -299,7 +301,8 @@
             const nextEvent = allEvents.find(e => e.is_next_upcoming) || allEvents[0] || null;
 
             if (nextEvent) {
-                document.getElementById('nextEventDate').innerText = nextEvent.event_date || 'Scheduled Soon';
+                const dateText = nextEvent.event_date || (nextEvent.date ? (nextEvent.time ? `${nextEvent.date} • ${nextEvent.time}` : nextEvent.date) : 'Scheduled Soon');
+                document.getElementById('nextEventDate').innerText = dateText;
                 document.getElementById('nextEventTitle').innerText = nextEvent.title;
                 document.getElementById('nextEventDesc').innerText = nextEvent.description || 'Live telemetry tracking, paddock radio, and synchronized video stream.';
             } else {
@@ -369,8 +372,9 @@
             grid.innerHTML = '';
 
             const filtered = allEvents.filter(e => {
-                const matchType = typeFilter === 'all' || e.category === typeFilter;
-                const matchMonth = monthFilter === 'all' || e.month_key === monthFilter;
+                const normCategory = (e.category || '').toLowerCase();
+                const matchType = typeFilter === 'all' || normCategory === typeFilter || (typeFilter === 'djs' && normCategory.includes('dj')) || (typeFilter === 'nightclub' && normCategory.includes('nightclub'));
+                const matchMonth = monthFilter === 'all' || e.month_key === monthFilter || (e.date && e.date.includes('2026-10') && monthFilter === 'oct_2026');
                 return matchType && matchMonth;
             });
 
@@ -383,12 +387,14 @@
                 'leagues': 'bg-brand-red text-white',
                 'concerts': 'bg-brand-blue text-white',
                 'djs': 'bg-brand-gold text-black',
+                'nightclub': 'bg-pink-600 text-white',
                 'special': 'bg-purple-600 text-white'
             };
             const catLabels = {
                 'leagues': 'League Race',
                 'concerts': 'Concert',
                 'djs': 'Live DJ',
+                'nightclub': 'Nightclub Event',
                 'special': 'Special Event'
             };
 
@@ -407,17 +413,22 @@
 
                 let liveBadge = e.is_live ? `<span class="absolute bottom-2 left-2 bg-brand-green text-black text-[9px] font-black uppercase px-2 py-0.5 rounded shadow animate-pulse">● LIVE</span>` : '';
 
-                const imgUrl = (e.thumbnail_url && e.thumbnail_url.trim() !== '') ? e.thumbnail_url.trim() : null;
+                // Read all possible image property names to guarantee compatibility
+                const rawImg = e.image_url || e.thumbnail_url || e.image || e.flyer_url || e.photo || e.banner_url || '';
+                const imgUrl = (rawImg && typeof rawImg === 'string' && rawImg.trim() !== '') ? rawImg.trim() : null;
 
                 let thumbHTML = '';
                 if (imgUrl) {
-                    thumbHTML = `<img src="${imgUrl}" alt="${escapeHtml(e.title)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">`;
+                    thumbHTML = `<img src="${imgUrl}" alt="${escapeHtml(e.title)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\\'text-[10px] font-black text-gray-600 uppercase\\'>[ EVENT PREVIEW ]</span>'">`;
                 } else {
                     thumbHTML = `<span class="text-[10px] font-black text-gray-600 uppercase">[ EVENT PREVIEW ]</span>`;
                 }
 
-                const catBadgeClass = catColors[e.category] || 'bg-brand-red text-white';
-                const catText = catLabels[e.category] || e.category.toUpperCase();
+                const normCat = (e.category || '').toLowerCase();
+                const catBadgeClass = catColors[normCat] || 'bg-brand-red text-white';
+                const catText = catLabels[normCat] || (e.category ? e.category.toUpperCase() : 'EVENT');
+
+                const dateText = e.event_date || (e.date ? (e.time ? `${e.date} • ${e.time}` : e.date) : 'Upcoming');
 
                 let replayBtn = '';
                 if (e.replay_url) {
@@ -449,7 +460,7 @@
                             ${liveBadge}
                         </div>
                         <div class="p-5 space-y-2">
-                            <span class="text-[9px] font-bold text-gray-400 font-mono uppercase block">${escapeHtml(e.event_date)}</span>
+                            <span class="text-[9px] font-bold text-gray-400 font-mono uppercase block">${escapeHtml(dateText)}</span>
                             <h3 class="text-base font-black uppercase text-white truncate">${escapeHtml(e.title)}</h3>
                             <p class="text-xs text-gray-400 leading-relaxed line-clamp-2">${escapeHtml(e.description || '')}</p>
                         </div>
@@ -529,11 +540,11 @@
                     document.getElementById('edit_id').value = e.id;
                     document.getElementById('edit_title').value = e.title;
                     document.getElementById('edit_category').value = e.category;
-                    document.getElementById('edit_month').value = e.month_key;
-                    document.getElementById('edit_date').value = e.event_date;
+                    document.getElementById('edit_month').value = e.month_key || 'oct_2026';
+                    document.getElementById('edit_date').value = e.event_date || (e.date ? (e.time ? `${e.date} • ${e.time}` : e.date) : '');
                     document.getElementById('edit_streamUrl').value = e.stream_url || '';
                     document.getElementById('edit_replayUrl').value = e.replay_url || '';
-                    document.getElementById('edit_thumb').value = e.thumbnail_url || '';
+                    document.getElementById('edit_thumb').value = e.image_url || e.thumbnail_url || e.image || e.flyer_url || '';
                     document.getElementById('edit_desc').value = e.description || '';
                     document.getElementById('edit_isLive').checked = !!e.is_live;
                     document.getElementById('edit_isNext').checked = !!e.is_next_upcoming;
@@ -546,7 +557,7 @@
                 document.getElementById('edit_title').value = '';
                 document.getElementById('edit_category').value = 'leagues';
                 document.getElementById('edit_month').value = 'oct_2026';
-                document.getElementById('edit_date').value = 'Oct 24, 2026 • 8:00 PM SLT';
+                document.getElementById('edit_date').value = '2026-10-12 • 8:00 PM SLT';
                 document.getElementById('edit_streamUrl').value = '';
                 document.getElementById('edit_replayUrl').value = '';
                 document.getElementById('edit_thumb').value = '';
@@ -612,6 +623,7 @@
                 stream_url,
                 replay_url,
                 thumbnail_url,
+                image_url: thumbnail_url,
                 description,
                 is_live,
                 is_next_upcoming
