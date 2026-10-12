@@ -1,97 +1,672 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gentle Storm Racing - Racers</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              red: '#ff2a2a',
-              dark: '#0e1117',
-              card: '#161b22',
-              border: '#30363d'
-            }
-          }
-        }
-      }
-    }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Racers Hub | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        [data-cms-id] { opacity: 1; }
+    </style>
 </head>
-<body class="bg-brand-dark text-gray-100 min-h-screen font-sans">
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-  <!-- Header Navigation -->
-  <header class="border-b border-brand-border bg-brand-card py-4 px-8 flex justify-between items-center shadow-lg">
-    <div class="flex items-center space-x-3">
-      <div class="w-3 h-8 bg-brand-red rounded-sm"></div>
-      <h1 class="text-2xl font-black tracking-wider uppercase text-white">Gentle Storm <span class="text-brand-red">Racing</span></h1>
-    </div>
-    <nav class="flex space-x-6 text-sm font-semibold text-gray-400">
-      <a href="index.html" class="hover:text-white transition">Main Menu</a>
-      <a href="leaderboards.html" class="hover:text-white transition">Leaderboards</a>
-      <a href="#" class="hover:text-white transition">Tracks</a>
-      <a href="racers.html" class="text-white border-b-2 border-brand-red pb-1">Racers</a>
-      <a href="teams.html" class="hover:text-white transition">Teams</a>
-    </nav>
-  </header>
-
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto py-10 px-4">
-    
-    <div class="flex justify-between items-end mb-8 border-b border-brand-border pb-4">
-      <div>
-        <h2 class="text-3xl font-bold uppercase tracking-tight text-white">Pro League Racers</h2>
-        <p class="text-gray-400 mt-1">Official registered profiles and telemetry stats.</p>
-      </div>
-    </div>
-
-    <!-- Racer Cards Directory Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      
-      <!-- Deathstalker Paine Clickable Racer Card -->
-      <a href="racer.html" class="block bg-brand-card border border-brand-border hover:border-brand-red rounded-xl overflow-hidden shadow-2xl relative group transition duration-200 transform hover:-translate-y-1">
-        <!-- Card Header Background (Banner) -->
-        <div class="h-24 bg-gradient-to-r from-red-900 to-brand-dark relative">
-          <!-- Racer Number Watermark -->
-          <span class="absolute -bottom-4 right-2 text-7xl font-black text-white/10 italic">13</span>
-        </div>
-        
-        <!-- Profile Picture & Core Info -->
-        <div class="px-6 relative pb-6">
-          <div class="flex justify-between items-end -mt-12 mb-4">
-            <!-- Profile Photo Placeholder -->
-            <div class="w-24 h-24 rounded-lg border-4 border-brand-card bg-gray-800 flex items-center justify-center overflow-hidden shadow-lg">
-              <span class="text-xs text-gray-500 uppercase text-center font-bold">Photo<br>Pending</span>
+    <!-- MAIN HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html"><img src="logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform"></a>
             </div>
-            <!-- Prominent Number -->
-            <div class="bg-brand-red text-white text-xl font-black italic px-4 py-1 rounded shadow">#13</div>
-          </div>
-          
-          <h3 class="text-2xl font-bold text-white mb-1 group-hover:text-brand-red transition">Deathstalker Paine</h3>
-          <p class="text-sm font-semibold text-gray-400 mb-4">
-            Team: <span class="text-brand-red font-bold">Storm Riders</span>
-          </p>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Grid Competitors</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">RACERS HUB</h1>
+            </div>
 
-          <!-- Bio Section -->
-          <div class="bg-black/30 p-3 rounded border border-brand-border mb-4">
-            <p class="text-sm text-gray-300 italic">"Founder and lead driver for the Storm Riders."</p>
-          </div>
-
-          <!-- Quick Stats -->
-          <div class="grid grid-cols-2 gap-2 text-sm border-t border-brand-border pt-4">
-            <div class="text-gray-400">Class <span class="block text-white font-bold uppercase">Pro</span></div>
-            <div class="text-gray-400 text-right">Points <span class="block text-white font-bold">50</span></div>
-          </div>
+            <!-- Dynamic Auth Buttons Container -->
+            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex flex-col sm:flex-row items-end sm:items-center gap-2">
+                <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
+                <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
+            </div>
         </div>
-      </a>
-      <!-- End Clickable Racer Card -->
+        <!-- Mobile Auth Container -->
+        <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 px-4 z-10 w-full"></div>
+    </header>
 
+    <!-- NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
+            <a href="racers.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">Racers Hub</a>
+            <a href="racers_profiles.html" class="text-gray-300 hover:text-brand-gold transition">Racer Profile</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Racer Leaderboard</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-12">
+        
+        <!-- ROW 1: TOP 3 ALL TIME RACERS (Podium Selection & Live DB Sync) -->
+        <section class="space-y-6">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl flex flex-col sm:flex-row justify-between items-center gap-4 relative group transition" data-cms-id="racers:podium_header">
+                <div>
+                    <h2 data-cms-field="title" class="text-xl font-black uppercase text-white tracking-widest">Top 3 All Time Racers</h2>
+                    <p data-cms-field="subtitle" class="text-xs text-gray-400 mt-1">Select a class division to filter live telemetry standings.</p>
+                </div>
+                <select id="podiumClassSelect" onchange="updatePodiumDisplay()" class="bg-[#0a0a0a] border border-brand-gold text-brand-gold text-xs font-black uppercase px-4 py-3 rounded-lg outline-none focus:ring-2 focus:ring-brand-gold transition cursor-pointer w-full sm:w-auto">
+                    <option value="amateur">Amateur Racers</option>
+                    <option value="pro" selected>Pro Racers (Default)</option>
+                    <option value="pro_plus">Pro Plus Racers</option>
+                </select>
+            </div>
+
+            <!-- Constrained max-width container for cards -->
+            <div class="max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2" id="podiumGrid">
+                    <div class="col-span-full text-center text-xs text-gray-500 font-mono py-10">[ Syncing live podium data... ]</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROW 2: 3-COLUMN TOP 5 LISTS (5 Slots Fixed Display) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Top 5 Pro Plus Racers -->
+            <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col relative group transition" data-cms-id="racers:top_pro">
+                <h2 data-cms-field="title" class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 Pro Plus</h2>
+                <div id="topProPlusBox" class="space-y-3 flex-grow">
+                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
+                </div>
+                <a href="leaderboards.html?category=racer&class=pro_plus" class="mt-4 text-[10px] uppercase font-bold text-brand-red text-center hover:underline">View Full Leaderboard →</a>
+            </div>
+
+            <!-- Top 5 All-Time Wins -->
+            <div class="bg-brand-card border border-brand-blue rounded-xl p-6 shadow-xl flex flex-col blue-border-glow relative group transition" data-cms-id="racers:top_wins">
+                <h2 data-cms-field="title" class="text-sm font-black uppercase text-brand-blue border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Most Career Wins</h2>
+                <div id="topWinsBox" class="space-y-3 flex-grow">
+                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
+                </div>
+                <a href="leaderboards.html?category=racer" class="mt-4 text-[10px] uppercase font-bold text-brand-blue text-center hover:underline">View Full Leaderboard →</a>
+            </div>
+
+            <!-- Top 5 Amateur Racers -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col relative group transition" data-cms-id="racers:top_amateur">
+                <h2 data-cms-field="title" class="text-sm font-black uppercase text-gray-300 border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 Amateurs</h2>
+                <div id="topAmateurBox" class="space-y-3 flex-grow">
+                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
+                </div>
+                <a href="leaderboards.html?category=racer&class=amateur" class="mt-4 text-[10px] uppercase font-bold text-gray-400 text-center hover:underline">View Full Leaderboard →</a>
+            </div>
+        </section>
+
+        <!-- ROW 3: SPONSORS BANNER (CMS Editable) -->
+        <section data-cms-id="racers:sponsors" class="bg-brand-card border border-brand-border rounded-xl p-6 text-center shadow-xl transition group relative">
+            <div>
+                <span data-cms-field="label" class="text-[10px] font-black uppercase text-gray-500 tracking-widest block">Driver Sponsors & Partners</span>
+                <div id="racersSponsorLogosContainer" class="mt-3 h-20 w-full flex flex-row items-center justify-center p-2 gap-8 overflow-hidden opacity-75">
+                    <div class="flex flex-wrap justify-center items-center gap-8 py-2">
+                        <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ SECOND LIFE MOTORS ]</span>
+                        <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ STORMTECH HUDS ]</span>
+                        <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ LINDEN FUEL CO. ]</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROW 4: 2-COLUMN WEEK/MONTH FOCUS (5 Slots Fixed Display) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl gold-border-glow relative group transition" data-cms-id="racers:weekly">
+                <h3 data-cms-field="title" class="text-sm font-black uppercase text-brand-gold text-center border-b border-brand-border pb-3 mb-4">Top 5 Racers of the Week</h3>
+                <div id="weeklyRacersBox" class="space-y-3 flex-grow">
+                    <span class="text-xs text-gray-500 font-mono block text-center py-4">[ Aggregating weekly telemetry... ]</span>
+                </div>
+            </div>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl relative group transition" data-cms-id="racers:monthly">
+                <h3 data-cms-field="title" class="text-sm font-black uppercase text-white text-center border-b border-brand-border pb-3 mb-4">Top 5 Racers of the Month</h3>
+                <div id="monthlyRacersBox" class="space-y-3 flex-grow">
+                    <span class="text-xs text-gray-500 font-mono block text-center py-4">[ Aggregating monthly telemetry... ]</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROW 5: 3-COLUMN BOTTOM FEATURES -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Next Race Event (Live DB Sync) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl relative group transition" data-cms-id="racers:next_event_ui">
+                <div>
+                    <span data-cms-field="badge" id="nextEventDateTag" class="text-[9px] font-black uppercase text-brand-red bg-red-950 px-2 py-0.5 rounded border border-brand-red/30 inline-block mb-2">Upcoming Race</span>
+                    <h4 id="nextEventTitle" class="text-base font-black uppercase text-white">Loading Next Event...</h4>
+                    <p id="nextEventDesc" class="text-xs text-gray-400 mt-2">Querying official calendar schedule...</p>
+                </div>
+                <a href="upcoming_events.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-red text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    View Full Calendar →
+                </a>
+            </div>
+
+            <!-- Racer Spotlight / Multimedia (CMS Editable) -->
+            <div data-cms-id="racers:spotlight" class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl transition group relative">
+                <div>
+                    <span data-cms-field="badge" class="text-[9px] font-black uppercase text-brand-gold bg-amber-950 px-2 py-0.5 rounded border border-brand-gold/30 inline-block mb-2">Driver Spotlight</span>
+                    <h4 data-cms-field="title" class="text-base font-black uppercase text-white">Grid Interviews</h4>
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Catch up on the latest trackside interviews, telemetry breakdowns, and driver highlights from the Pro League.</p>
+                </div>
+                <a href="multimedia.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    Watch Media →
+                </a>
+            </div>
+
+            <!-- Free Agent Board (CMS Editable) -->
+            <div data-cms-id="racers:free_agents" class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl transition group relative">
+                <div>
+                    <span data-cms-field="badge" class="text-[9px] font-black uppercase text-brand-blue bg-blue-950 px-2 py-0.5 rounded border border-brand-blue/30 inline-block mb-2">Free Agents</span>
+                    <h4 data-cms-field="title" class="text-base font-black uppercase text-white">Looking for a Drive?</h4>
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Unsigned drivers can browse active syndicates looking to fill their rosters before the next championship round.</p>
+                </div>
+                <a href="teams.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-blue text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    Browse Syndicate Rosters →
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
+
+    <!-- INLINE CMS EDIT MODAL -->
+    <div id="cmsModalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="cmsModal" class="bg-brand-card border border-brand-gold shadow-[0_0_30px_rgba(197,160,89,0.15)] rounded-xl w-full max-w-md transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
+            <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center rounded-t-xl shrink-0">
+                <h2 class="text-sm font-black uppercase text-brand-gold tracking-wide flex items-center gap-2">
+                    <span>✏️ Edit Content Block</span>
+                </h2>
+                <button onclick="closeCMSModal()" class="text-gray-500 hover:text-brand-red p-1 transition cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div id="cmsModalFields" class="p-6 space-y-4 overflow-y-auto grow"></div>
+            
+            <div class="bg-brand-bg border-t border-brand-border p-4 flex justify-end gap-3 rounded-b-xl shrink-0">
+                <button onclick="closeCMSModal()" class="text-xs font-bold uppercase text-gray-400 hover:text-white px-4 py-2 transition cursor-pointer">Cancel</button>
+                <button onclick="saveCMSModal()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-6 py-2 rounded transition shadow cursor-pointer">Save to Live</button>
+            </div>
+        </div>
     </div>
-  </main>
+
+    <!-- SUPABASE ENGINE & DYNAMIC DATA SYNC -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let currentUser = null;
+        let currentProfile = null;
+        let isEditModeActive = false;
+        let currentEditId = null;
+        
+        let allRacers = [];
+        let allTeams = [];
+
+        async function initRacersPage() {
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                const userNav = document.getElementById('userNav');
+                const userNavMobile = document.getElementById('userNavMobile');
+
+                if (session) {
+                    currentUser = session.user;
+                    const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, is_admin').eq('id', currentUser.id).maybeSingle();
+                    currentProfile = profile;
+                    const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+                    if (userNav) {
+                        let adminBtnHTML = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
+                        userNav.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <div class="text-right hidden sm:block">
+                                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                                    <span class="text-[9px] text-brand-gold uppercase font-mono tracking-widest flex items-center justify-end gap-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse"></span> Pro Member
+                                    </span>
+                                </div>
+                                <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow cursor-pointer">Sign Out</button>
+                                ${adminBtnHTML}
+                            </div>
+                        `;
+                    }
+
+                    if (userNavMobile) {
+                        let adminBtnMobile = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtnMobile" class="bg-brand-blue border border-brand-border text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
+                        userNavMobile.innerHTML = `
+                            <div class="flex flex-col items-center gap-2 w-full mt-2">
+                                <div class="text-center">
+                                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                                    <span class="text-[9px] text-brand-gold uppercase font-mono tracking-widest flex items-center justify-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse"></span> Logged In</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">Sign Out</button>
+                                    ${adminBtnMobile}
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            } catch (e) { console.warn("Auth check bypassed", e); }
+
+            await loadCMSContent();
+            await initRacersHub();
+        }
+
+        // --- CMS CONTENT ENGINE ---
+        async function loadCMSContent() {
+            try {
+                const { data, error } = await db.from('site_content').select('*').like('section_id', 'racers:%');
+                if (!error && data) {
+                    data.forEach(row => {
+                        const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
+                        try {
+                            const content = JSON.parse(row.content_value);
+
+                            if (row.section_id === 'racers:sponsors') {
+                                const logos = [];
+                                if (content.logo_1) logos.push(content.logo_1);
+                                if (content.logo_2) logos.push(content.logo_2);
+                                if (content.logo_3) logos.push(content.logo_3);
+
+                                const sponsorBox = document.getElementById('racersSponsorLogosContainer');
+                                if (logos.length > 0 && sponsorBox) {
+                                    sponsorBox.innerHTML = '';
+                                    logos.forEach((url, i) => {
+                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 h-full w-auto object-contain filter drop-shadow hover:scale-105 transition duration-300 max-h-16">`;
+                                    });
+                                }
+                            }
+
+                            if (container) {
+                                Object.keys(content).forEach(key => {
+                                    const el = container.querySelector(`[data-cms-field="${key}"]`);
+                                    if (el) el.innerText = content[key];
+                                });
+                            }
+                        } catch (e) {}
+                    });
+                }
+            } catch (e) { console.warn("CMS Content error", e); }
+        }
+
+        window.toggleEditMode = function() {
+            isEditModeActive = !isEditModeActive;
+            const btns = document.querySelectorAll('#editModeBtn, #editModeBtnMobile');
+            btns.forEach(btn => {
+                btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
+                btn.classList.toggle('bg-brand-blue', !isEditModeActive);
+                btn.classList.toggle('bg-brand-red', isEditModeActive);
+            });
+
+            document.querySelectorAll('[data-cms-id]').forEach(block => {
+                if (isEditModeActive) {
+                    block.classList.add('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative', 'rounded-xl');
+                    if (!block.querySelector('.cms-trigger-btn')) {
+                        const editBtn = document.createElement('button');
+                        editBtn.className = 'cms-trigger-btn absolute top-1 right-1 bg-brand-blue text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow-lg z-30 cursor-pointer';
+                        editBtn.innerHTML = '✏️ Edit Block';
+                        editBtn.onclick = (e) => openCMSModal(block.getAttribute('data-cms-id'), e);
+                        block.appendChild(editBtn);
+                    }
+                } else {
+                    block.classList.remove('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative', 'rounded-xl');
+                    const btn = block.querySelector('.cms-trigger-btn');
+                    if (btn) btn.remove();
+                }
+            });
+        }
+
+        window.openCMSModal = async function(cmsId, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            currentEditId = cmsId;
+            const container = document.querySelector(`[data-cms-id="${cmsId}"]`);
+            
+            const formContainer = document.getElementById('cmsModalFields');
+            formContainer.innerHTML = '';
+
+            let existingData = {};
+            try {
+                const { data } = await db.from('site_content').select('content_value').eq('section_id', cmsId).maybeSingle();
+                if (data && data.content_value) existingData = JSON.parse(data.content_value);
+            } catch(e) {}
+
+            if (container) {
+                let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+                fields.forEach(f => {
+                    const fieldName = f.getAttribute('data-cms-field');
+                    formContainer.innerHTML += `<div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">${fieldName.replace('_', ' ')}</label><textarea id="cms_input_${fieldName}" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(f.innerText)}</textarea></div>`;
+                });
+            }
+
+            if (cmsId === 'racers:sponsors') {
+                formContainer.innerHTML += `
+                    <div class="space-y-3 pt-3 border-t border-brand-border">
+                        <label class="text-[10px] font-black uppercase text-brand-gold tracking-wider block">Sponsor Logos (Up to 3 Horizontal Logos)</label>
+                        
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 1</span>
+                            <input type="file" id="cms_sponsor_file_1" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_1" value="${existingData.logo_1 || ''}">
+                            ${existingData.logo_1 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_1"> Remove Logo 1</label>` : ''}
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 2</span>
+                            <input type="file" id="cms_sponsor_file_2" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_2" value="${existingData.logo_2 || ''}">
+                            ${existingData.logo_2 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_2"> Remove Logo 2</label>` : ''}
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 3</span>
+                            <input type="file" id="cms_sponsor_file_3" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_3" value="${existingData.logo_3 || ''}">
+                            ${existingData.logo_3 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_3"> Remove Logo 3</label>` : ''}
+                        </div>
+                    </div>`;
+            }
+
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        window.closeCMSModal = function() {
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
+        window.saveCMSModal = async function() {
+            const container = document.querySelector(`[data-cms-id="${currentEditId}"]`);
+            let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+
+            let updateData = {};
+            try {
+                const { data } = await db.from('site_content').select('content_value').eq('section_id', currentEditId).maybeSingle();
+                if (data && data.content_value) updateData = JSON.parse(data.content_value);
+            } catch(e) {}
+
+            if (currentEditId === 'racers:sponsors') {
+                for (let i = 1; i <= 3; i++) {
+                    const clearCheckbox = document.getElementById(`cms_clear_sponsor_${i}`);
+                    const fileInput = document.getElementById(`cms_sponsor_file_${i}`);
+                    const urlInput = document.getElementById(`cms_sponsor_url_${i}`);
+                    let logoUrl = urlInput ? urlInput.value : '';
+
+                    if (clearCheckbox && clearCheckbox.checked) {
+                        logoUrl = '';
+                    } else if (fileInput && fileInput.files.length > 0) {
+                        const file = fileInput.files[0];
+                        const fileName = `racers_sponsor_${i}_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+                        const { error: uploadError } = await db.storage.from('admin-assets').upload(fileName, file);
+                        if (!uploadError) {
+                            const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                            logoUrl = publicUrlData.publicUrl;
+                        }
+                    }
+                    if (logoUrl) updateData[`logo_${i}`] = logoUrl;
+                }
+            }
+
+            fields.forEach(f => {
+                const fieldName = f.getAttribute('data-cms-field');
+                const inputEl = document.getElementById(`cms_input_${fieldName}`);
+                if (inputEl) { updateData[fieldName] = inputEl.value; f.innerText = inputEl.value; }
+            });
+            
+            await db.from('site_content').upsert([{ section_id: currentEditId, content_value: JSON.stringify(updateData) }]);
+            await loadCMSContent();
+            closeCMSModal();
+        }
+
+        // --- LIVE DATABASE ENGINE FOR LEADERBOARDS ---
+        async function initRacersHub() {
+            // 1. Fetch Racers and Teams
+            const { data: racers } = await db.from('racers').select('*');
+            const { data: teams } = await db.from('teams').select('id, name');
+            if (racers) allRacers = racers;
+            if (teams) allTeams = teams;
+
+            // Render default Podium (Pro Racers)
+            updatePodiumDisplay();
+
+            // --- RENDER TOP 5 LISTS (EXACTLY 5 SLOTS DISPLAYED) ---
+            const sortedByPts = [...allRacers].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
+            
+            let proPlusRacers = allRacers.filter(r => (r.league_class || '').toLowerCase() === 'pro_plus' || (!r.league_class && (r.rating_points || 0) >= 1500));
+            let amateurRacers = allRacers.filter(r => (r.league_class || '').toLowerCase() === 'amateur' || (!r.league_class && (r.rating_points || 0) < 500));
+
+            const proPlusBox = document.getElementById('topProPlusBox');
+            const amateurBox = document.getElementById('topAmateurBox');
+            const winsBox = document.getElementById('topWinsBox');
+
+            if (proPlusBox) renderTop5FixedList(proPlusBox, proPlusRacers.slice(0, 5), 'PTS', 'text-brand-red');
+            if (amateurBox) renderTop5FixedList(amateurBox, amateurRacers.slice(0, 5), 'PTS', 'text-gray-300');
+            
+            const sortedByWins = [...allRacers].sort((a,b) => (b.wins || 0) - (a.wins || 0));
+            if (winsBox) renderTop5FixedList(winsBox, sortedByWins.slice(0, 5), 'Wins', 'text-brand-blue', 'wins');
+
+            // --- RENDER WEEKLY / MONTHLY (EXACTLY 5 SLOTS DISPLAYED) ---
+            const weeklyBox = document.getElementById('weeklyRacersBox');
+            const monthlyBox = document.getElementById('monthlyRacersBox');
+            if (weeklyBox) renderTop5FixedList(weeklyBox, sortedByPts.slice(0, 5), 'PTS', 'text-brand-gold');
+            if (monthlyBox) renderTop5FixedList(monthlyBox, sortedByPts.slice(0, 5), 'PTS', 'text-brand-gold');
+
+            // --- FETCH CALENDAR EVENT ---
+            const todayStr = new Date().toISOString().split('T')[0];
+            const { data: events } = await db.from('gsr_events').select('*').gte('event_date', todayStr).order('event_date', { ascending: true }).limit(1);
+
+            if (events && events.length > 0) {
+                const ev = events[0];
+                const dateEl = document.getElementById('nextEventDateTag');
+                const titleEl = document.getElementById('nextEventTitle');
+                const descEl = document.getElementById('nextEventDesc');
+                
+                if (dateEl) dateEl.innerText = `${ev.event_date} • ${ev.event_time}`;
+                if (titleEl) titleEl.innerText = ev.title;
+                if (descEl) descEl.innerText = ev.description || ev.category;
+            } else {
+                const dateEl = document.getElementById('nextEventDateTag');
+                const titleEl = document.getElementById('nextEventTitle');
+                const descEl = document.getElementById('nextEventDesc');
+                
+                if (dateEl) dateEl.innerText = "Schedule Notice";
+                if (titleEl) titleEl.innerText = "No Upcoming Races";
+                if (descEl) descEl.innerText = "Check back soon or open the calendar to view the official season schedule.";
+            }
+        }
+
+        // --- RENDER FIXED TOP 5 LIST WITH PLACEHOLDERS (MATCHING LEAGUES.HTML) ---
+        function renderTop5FixedList(container, items, unitLabel, colorClass, statKey = 'rating_points') {
+            container.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const item = items[i];
+                if (item) {
+                    const stat = statKey === 'wins' ? (item.wins || 0) : (item.rating_points || 0);
+                    let teamName = 'Independent';
+                    if (item.primary_team_id) {
+                        const foundTeam = allTeams.find(t => t.id === item.primary_team_id);
+                        if (foundTeam) teamName = foundTeam.name;
+                    }
+                    container.innerHTML += `
+                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border ${i === 0 ? 'border-brand-gold' : 'border-brand-border'} rounded cursor-pointer hover:bg-[#111] transition" onclick="window.location='racers_profiles.html?driver=${encodeURIComponent(item.display_name)}'">
+                            <span class="${colorClass} font-black italic w-4 text-center text-xs">${i + 1}.</span>
+                            <div class="flex-grow pl-2 truncate">
+                                <span class="text-white text-[11px] font-bold uppercase truncate block leading-tight">${escapeHtml(item.display_name)}</span>
+                                <span class="text-[9px] text-gray-500 uppercase block truncate">${escapeHtml(teamName)}</span>
+                            </div>
+                            <span class="text-[10px] text-gray-400 font-mono whitespace-nowrap">${stat.toLocaleString()} ${unitLabel}</span>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML += `
+                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border/50 rounded opacity-40">
+                            <span class="text-gray-600 font-black italic w-4 text-center text-xs">${i + 1}.</span>
+                            <span class="text-gray-500 text-[11px] font-bold uppercase pl-2">Pending Driver</span>
+                            <span class="text-[10px] text-gray-600 font-mono">---</span>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // --- DYNAMIC PODIUM DROPDOWN UPDATE ENGINE (UNTOUCHED) ---
+        function updatePodiumDisplay() {
+            const selectedClass = document.getElementById('podiumClassSelect').value;
+            const grid = document.getElementById('podiumGrid');
+            if (!grid) return;
+
+            // Filter racers based on selection
+            let filteredRacers = allRacers.filter(r => {
+                const rClass = (r.league_class || '').toLowerCase();
+                const pts = r.rating_points || 0;
+                
+                if (selectedClass === 'amateur') {
+                    return rClass === 'amateur' || (!rClass && pts < 500);
+                } else if (selectedClass === 'pro_plus') {
+                    return rClass === 'pro_plus' || (!rClass && pts >= 1500);
+                } else {
+                    // Default Pro Racers
+                    return rClass === 'pro' || (!rClass && pts >= 500 && pts < 1500);
+                }
+            });
+
+            // Sort by points descending
+            filteredRacers.sort((a, b) => (b.rating_points || 0) - (a.rating_points || 0));
+
+            grid.innerHTML = '';
+
+            // Card 1 (#1 Rank)
+            const r1 = filteredRacers[0];
+            grid.innerHTML += r1 
+                ? createPodiumCard(r1, 1, 'bg-brand-gold', 'text-black', 'border-brand-gold', 'shadow-[0_0_15px_rgba(197,160,89,0.3)] transform lg:-translate-y-2') 
+                : createEmptyPodium(1, 'bg-brand-gold', 'text-black');
+
+            // Card 2 (#2 Rank)
+            const r2 = filteredRacers[1];
+            grid.innerHTML += r2 
+                ? createPodiumCard(r2, 2, 'bg-gray-300', 'text-black', 'border-gray-500', 'opacity-90 hover:opacity-100 transition') 
+                : createEmptyPodium(2, 'bg-gray-300', 'text-black');
+
+            // Card 3 (#3 Rank)
+            const r3 = filteredRacers[2];
+            grid.innerHTML += r3 
+                ? createPodiumCard(r3, 3, 'bg-amber-700', 'text-white', 'border-amber-800', 'opacity-80 hover:opacity-100 transition') 
+                : createEmptyPodium(3, 'bg-amber-700', 'text-white');
+        }
+
+        // --- 25-30% SMALLER PODIUM CARD (PROFILES PAGE CARDS STYLED & FITTED) ---
+        function createPodiumCard(racer, rank, badgeBg, badgeText, borderClass, extraClasses) {
+            const name = escapeHtml(racer.display_name);
+            const pts = (racer.rating_points || 0).toLocaleString();
+            const carNum = racer.racer_number || racer.car_number || '--';
+            
+            let teamName = 'INDEPENDENT';
+            if (racer.primary_team_id) {
+                const foundTeam = allTeams.find(t => t.id === racer.primary_team_id);
+                if (foundTeam) teamName = foundTeam.name;
+            }
+
+            const rawClass = (racer.league_class || 'pro').toLowerCase();
+            let classBadge = 'PRO LEAGUE';
+            let classBadgeBg = 'bg-brand-blue';
+
+            if (rawClass === 'pro_plus') {
+                classBadge = 'PRO PLUS';
+                classBadgeBg = 'bg-brand-red';
+            } else if (rawClass === 'amateur') {
+                classBadge = 'AMATEUR';
+                classBadgeBg = 'bg-gray-600';
+            }
+
+            const imageUrl = racer.avatar_url || racer.profile_image_url;
+            const imageHTML = imageUrl 
+                ? `<img src="${imageUrl}" alt="${name}" class="w-full h-full object-cover rounded-md">` 
+                : `<span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest">PHOTO</span>`;
+
+            return `
+                <div class="bg-[#0a0a0a] border ${borderClass} rounded-xl p-3 flex flex-col justify-between group shadow-md relative ${extraClasses}">
+                    
+                    <!-- Floating Rank Badge (Reduced Scale) -->
+                    <div class="absolute -top-2.5 -right-2.5 ${badgeBg} ${badgeText} text-[8px] font-black px-2 py-0.5 rounded shadow border border-brand-bg tracking-wider z-10">
+                        #${rank} - ${pts} PTS
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between items-center mb-2 mt-0.5">
+                            <span class="${classBadgeBg} text-white text-[7px] font-black uppercase px-1.5 py-0.5 rounded">${classBadge}</span>
+                            <span class="text-brand-red font-mono font-black text-[10px]">#${carNum}</span>
+                        </div>
+                        
+                        <!-- Reduced Square Aspect Image Box -->
+                        <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2.5 group-hover:border-brand-gold transition cursor-pointer overflow-hidden" onclick="window.location='racers_profiles.html?driver=${encodeURIComponent(racer.display_name)}'">
+                            ${imageHTML}
+                        </div>
+                        
+                        <h3 class="text-xs font-black uppercase text-white tracking-wider truncate" title="${name}">${name}</h3>
+                        <span class="text-[8px] text-gray-500 uppercase mt-0.5 block tracking-wider truncate">Team: <span class="text-gray-300">${escapeHtml(teamName)}</span></span>
+                    </div>
+                    
+                    <a href="racers_profiles.html?driver=${encodeURIComponent(racer.display_name)}" class="mt-3 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[8px] font-black uppercase py-2 rounded tracking-widest">VIEW PROFILE →</a>
+                </div>
+            `;
+        }
+
+        function createEmptyPodium(rank, badgeBg, badgeText) {
+            return `
+                <div class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 flex flex-col justify-between opacity-50 relative">
+                    <div class="absolute -top-2.5 -right-2.5 ${badgeBg} ${badgeText} text-[8px] font-black px-2 py-0.5 rounded shadow border border-brand-bg tracking-wider z-10">
+                        #${rank} RANK
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-2 mt-0.5">
+                            <span class="bg-[#1a1a1a] text-gray-500 text-[7px] font-black uppercase px-1.5 py-0.5 rounded border border-brand-border">ROOKIE</span>
+                            <span class="text-gray-600 font-mono font-black text-[10px]">#--</span>
+                        </div>
+                        <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2.5">
+                            <span class="text-[8px] text-gray-700 font-bold uppercase tracking-widest">OPEN SLOT</span>
+                        </div>
+                        <h3 class="text-xs font-black uppercase text-gray-500 tracking-wider">PENDING DRIVER</h3>
+                        <span class="text-[8px] text-gray-600 uppercase mt-0.5 block h-3">UNASSIGNED</span>
+                    </div>
+                    
+                    <button disabled class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-600 text-[8px] font-black uppercase py-2 rounded tracking-widest cursor-not-allowed">SLOT AVAILABLE</button>
+                </div>
+            `;
+        }
+
+        async function executeSignOut() {
+            await db.auth.signOut();
+            window.location.reload(); 
+        }
+
+        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+
+        window.onload = initRacersPage;
+    </script>
 </body>
 </html>

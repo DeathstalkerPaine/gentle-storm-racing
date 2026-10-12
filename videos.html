@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Archives | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
+    </script>
+    <style>
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 20px rgba(255, 42, 42, 0.25); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-brand-card border-b border-brand-red relative py-4 lg:py-8 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center justify-center md:justify-start w-full md:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-14 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
+            </div>
+
+            <div class="w-full md:absolute md:inset-x-0 text-center pointer-events-none md:px-40 py-1">
+                <span class="block text-[9px] font-black uppercase tracking-[0.3em] text-brand-red">Broadcasts & Hotlaps</span>
+                <h1 class="text-xl sm:text-2xl font-black uppercase text-white tracking-wider">VIDEO ARCHIVES</h1>
+            </div>
+
+            <div class="flex items-center gap-3 z-10 w-full md:w-auto justify-center" id="headerControls">
+                <label for="monthSelect" class="text-[9px] font-bold uppercase text-gray-400 tracking-widest whitespace-nowrap hidden sm:inline">Month:</label>
+                <select id="monthSelect" onchange="filterByMonth(this.value)" class="bg-brand-bg border border-brand-red text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer">
+                    <option value="all">All Months</option>
+                    <option value="oct_2026" selected>October 2026</option>
+                    <option value="sep_2026">September 2026</option>
+                </select>
+                <a href="multimedia.html" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white font-bold uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap">
+                    Hub →
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-2.5">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-6 text-xs font-bold uppercase tracking-wider">
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-red transition">Media Hub</a>
+            <a href="magazine.html" class="text-gray-300 hover:text-gray-300 transition">GSRacing Magazine</a>
+            <a href="news.html" class="text-gray-300 hover:text-gray-300 transition">GSR News</a>
+            <a href="videos.html" class="text-brand-red transition underline decoration-2 underline-offset-4">Video Archives</a>
+            <a href="photos.html" class="text-gray-300 hover:text-gray-300 transition">Photo Gallery</a>
+            <a href="events.html" class="text-gray-300 hover:text-brand-red transition">Live Events</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
+
+        <!-- FEATURED HERO VIDEO -->
+        <section class="bg-brand-card border border-brand-red rounded-xl p-6 sm:p-8 shadow-2xl red-border-glow relative" id="featuredSection">
+            <div id="featuredEditTriggerContainer" class="absolute top-4 right-4 z-20"></div>
+
+            <div class="flex justify-between items-center mb-4 border-b border-brand-border pb-3">
+                <span class="text-[10px] font-black uppercase text-brand-red tracking-widest bg-brand-red/10 border border-brand-red/30 px-2.5 py-1 rounded">Featured Broadcast</span>
+                <span id="featuredDuration" class="text-xs font-mono text-gray-400">Duration: --:--</span>
+            </div>
+            
+            <div class="aspect-video bg-black rounded-lg border border-brand-border flex items-center justify-center relative overflow-hidden mb-4" id="featuredPlayerBox">
+                <div class="text-center text-xs text-gray-500 font-mono">[ Loading Featured Video... ]</div>
+            </div>
+
+            <h2 id="featuredTitle" class="text-2xl font-black uppercase text-white mb-2">No Featured Broadcast Loaded</h2>
+            <p id="featuredDesc" class="text-xs text-gray-400 leading-relaxed">
+                Check back soon or select a broadcast from the archives below.
+            </p>
+        </section>
+
+        <!-- VIDEO ARCHIVES DIRECTORY WITH CATEGORY TABS -->
+        <section class="space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-brand-border pb-3 gap-3">
+                <div>
+                    <h2 class="text-lg font-black uppercase text-white">Archived Broadcasts & Hotlaps</h2>
+                    <p class="text-[10px] text-gray-400 uppercase font-bold mt-0.5">Filter by racing category or search event highlights</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2">
+                    <!-- Category Buttons -->
+                    <div id="categoryTabs" class="flex flex-wrap gap-1.5 text-[10px] font-black uppercase">
+                        <button onclick="setCategoryFilter('all', this)" class="cat-filter-btn bg-brand-red text-white px-3 py-1.5 rounded transition shadow">All</button>
+                        <button onclick="setCategoryFilter('leagues', this)" class="cat-filter-btn bg-brand-card border border-brand-border hover:border-brand-red text-gray-300 px-3 py-1.5 rounded transition">Leagues</button>
+                        <button onclick="setCategoryFilter('events', this)" class="cat-filter-btn bg-brand-card border border-brand-border hover:border-brand-red text-gray-300 px-3 py-1.5 rounded transition">Events</button>
+                        <button onclick="setCategoryFilter('races', this)" class="cat-filter-btn bg-brand-card border border-brand-border hover:border-brand-red text-gray-300 px-3 py-1.5 rounded transition">Races</button>
+                        <button onclick="setCategoryFilter('pro_plus', this)" class="cat-filter-btn bg-brand-card border border-brand-border hover:border-brand-red text-gray-300 px-3 py-1.5 rounded transition">Pro Plus</button>
+                    </div>
+
+                    <!-- Admin Add Video Button -->
+                    <button id="addVideoBtn" onclick="openVideoEditorModal(null)" class="hidden bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-1.5 rounded transition shadow cursor-pointer ml-2">
+                        + Add Video
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Dynamic Video Grid -->
+            <div id="videoGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="col-span-full text-center text-gray-500 font-mono text-xs py-16">[ Querying video archives... ]</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">
+        &copy; 2026 Gentle Storm Racing. Built for Second Life.
+    </footer>
+
+    <!-- THEATER VIDEO PLAYER MODAL -->
+    <div id="playerModalOverlay" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[120] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="playerModalBox" class="bg-brand-card border border-brand-red shadow-[0_0_40px_rgba(255,42,42,0.3)] rounded-xl w-full max-w-4xl transform scale-95 opacity-0 transition-all duration-300 overflow-hidden flex flex-col">
+            <div class="bg-brand-bg border-b border-brand-border p-3 flex justify-between items-center">
+                <span id="modalVideoTitle" class="text-xs font-black uppercase text-white truncate max-w-lg">Broadcast Viewer</span>
+                <button onclick="closePlayerModal()" class="text-gray-400 hover:text-brand-red p-1 text-sm font-bold">✖ Close</button>
+            </div>
+            <div class="aspect-video bg-black w-full" id="modalVideoContainer"></div>
+        </div>
+    </div>
+
+    <!-- ADMIN EDIT / ADD VIDEO MODAL -->
+    <div id="cmsModalOverlay" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="cmsModal" class="bg-brand-card border border-brand-red shadow-[0_0_30px_rgba(255,42,42,0.2)] rounded-xl w-full max-w-md transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
+            <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center rounded-t-xl shrink-0">
+                <h2 id="cmsModalTitle" class="text-sm font-black uppercase text-brand-red tracking-wide">📹 Manage Video</h2>
+                <button onclick="closeCMSModal()" class="text-gray-500 hover:text-brand-red p-1 transition cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div class="p-6 space-y-4 overflow-y-auto grow">
+                <input type="hidden" id="edit_id">
+                
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Video Title</label>
+                    <input type="text" id="edit_title" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Category</label>
+                        <select id="edit_category" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                            <option value="leagues">Leagues</option>
+                            <option value="events">Events</option>
+                            <option value="races">Races</option>
+                            <option value="pro_plus">Pro Plus</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Month Key</label>
+                        <input type="text" id="edit_month" placeholder="oct_2026" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Driver / Team Credit</label>
+                        <input type="text" id="edit_driver" placeholder="e.g. Vortex Syndicate" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Duration (e.g. 2:15)</label>
+                        <input type="text" id="edit_duration" placeholder="2:15" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Video URL (YouTube or Twitch)</label>
+                    <input type="text" id="edit_url" placeholder="https://www.youtube.com/watch?v=..." class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Thumbnail Image (16:9)</label>
+                    <input type="text" id="edit_thumb" placeholder="Paste URL or upload below..." class="w-full bg-[#0a0a0a] border border-brand-border text-white text-[10px] px-3 py-1.5 rounded mb-1">
+                    <input type="file" id="upload_thumb" accept="image/*" class="w-full text-[9px] text-gray-400" onchange="uploadThumbnail(this)">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Description (Optional)</label>
+                    <textarea id="edit_desc" rows="3" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded"></textarea>
+                </div>
+
+                <div class="pt-2">
+                    <label class="flex items-center gap-2 text-xs font-bold text-brand-gold bg-[#0a0a0a] p-2.5 rounded border border-brand-border cursor-pointer">
+                        <input type="checkbox" id="edit_isFeatured"> Set as Main Featured Broadcast
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-brand-bg border-t border-brand-border p-4 flex justify-between gap-3 rounded-b-xl shrink-0">
+                <button id="deleteVideoBtn" onclick="deleteVideoItem()" class="hidden bg-red-950/60 hover:bg-red-900 text-brand-red border border-red-500/40 text-xs font-black uppercase px-4 py-2 rounded transition cursor-pointer">
+                    Delete
+                </button>
+                <div class="flex gap-2 ml-auto">
+                    <button onclick="closeCMSModal()" class="text-xs font-bold uppercase text-gray-400 hover:text-white px-4 py-2 transition cursor-pointer">Cancel</button>
+                    <button onclick="saveVideoItem()" class="bg-brand-red hover:bg-red-600 text-white font-black uppercase text-xs px-6 py-2 rounded transition shadow cursor-pointer">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPABASE ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let currentUser = null;
+        let isAdmin = false;
+        let isEditModeActive = false;
+
+        let allVideos = [];
+        let featuredVideo = null;
+        let activeCategory = 'all';
+        let activeMonth = 'all';
+
+        async function initVideosPage() {
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                if (session) {
+                    currentUser = session.user;
+                    const { data: profile } = await db.from('gsr_profiles').select('is_admin').eq('id', currentUser.id).maybeSingle();
+                    isAdmin = profile?.is_admin || false;
+
+                    if (isAdmin) {
+                        const controls = document.getElementById('headerControls');
+                        if (!document.getElementById('editModeBtn')) {
+                            controls.innerHTML += `<button id="editModeBtn" onclick="toggleEditMode()" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow ml-2 cursor-pointer">✏️ Edit Mode</button>`;
+                        }
+                    }
+                }
+            } catch (e) {}
+
+            await fetchVideos();
+        }
+
+        async function fetchVideos() {
+            const { data, error } = await db.from('gsr_videos').select('*').order('created_at', { ascending: false });
+            if (!error && data) {
+                allVideos = data;
+            } else {
+                allVideos = [];
+            }
+            renderFeatured();
+            renderGrid();
+        }
+
+        function renderFeatured() {
+            // Find explicitly featured or take latest
+            featuredVideo = allVideos.find(v => v.is_featured) || allVideos[0] || null;
+
+            const editTriggerCont = document.getElementById('featuredEditTriggerContainer');
+            if (isEditModeActive) {
+                editTriggerCont.innerHTML = `<button onclick="openVideoEditorModal('${featuredVideo ? featuredVideo.id : 'new_featured'}', true)" class="bg-brand-blue text-white text-[9px] font-black uppercase px-3 py-1.5 rounded shadow-lg cursor-pointer">✏️ Edit Featured Broadcast</button>`;
+            } else {
+                editTriggerCont.innerHTML = '';
+            }
+
+            if (!featuredVideo) {
+                document.getElementById('featuredDuration').innerText = "Duration: --:--";
+                document.getElementById('featuredTitle').innerText = "No Featured Broadcast Loaded";
+                document.getElementById('featuredDesc').innerText = "Check back soon for upcoming season trailers and race highlights.";
+                document.getElementById('featuredPlayerBox').innerHTML = `<div class="text-center text-xs text-gray-500 font-mono">[ No Featured Broadcast Set ]</div>`;
+                return;
+            }
+
+            document.getElementById('featuredDuration').innerText = `Duration: ${featuredVideo.duration || '0:00'}`;
+            document.getElementById('featuredTitle').innerText = featuredVideo.title;
+            document.getElementById('featuredDesc').innerText = featuredVideo.description || "Official high-speed telemetry broadcast from the Gentle Storm Racing circuits.";
+
+            const embedUrl = convertToEmbed(featuredVideo.video_url);
+            if (embedUrl) {
+                document.getElementById('featuredPlayerBox').innerHTML = `<iframe src="${embedUrl}" class="w-full h-full border-0" allowfullscreen></iframe>`;
+            } else if (featuredVideo.thumbnail_url) {
+                document.getElementById('featuredPlayerBox').innerHTML = `
+                    <img src="${featuredVideo.thumbnail_url}" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition cursor-pointer" onclick="openPlayerModal('${escapeHtml(featuredVideo.title)}', '${escapeHtml(featuredVideo.video_url)}')">
+                    <div class="absolute w-16 h-16 bg-brand-red rounded-full flex items-center justify-center opacity-90 hover:scale-110 transition shadow-[0_0_20px_rgba(255,42,42,0.6)] cursor-pointer" onclick="openPlayerModal('${escapeHtml(featuredVideo.title)}', '${escapeHtml(featuredVideo.video_url)}')">
+                        <span class="text-white text-2xl ml-1">▶</span>
+                    </div>
+                `;
+            } else {
+                document.getElementById('featuredPlayerBox').innerHTML = `
+                    <div class="w-full h-full flex items-center justify-center cursor-pointer group" onclick="openPlayerModal('${escapeHtml(featuredVideo.title)}', '${escapeHtml(featuredVideo.video_url)}')">
+                        <div class="w-16 h-16 bg-brand-red rounded-full flex items-center justify-center opacity-90 group-hover:scale-110 transition shadow-[0_0_20px_rgba(255,42,42,0.6)]">
+                            <span class="text-white text-2xl ml-1">▶</span>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('videoGrid');
+            grid.innerHTML = '';
+
+            const filtered = allVideos.filter(v => {
+                const matchCat = activeCategory === 'all' || v.category === activeCategory;
+                const matchMonth = activeMonth === 'all' || v.month_key === activeMonth;
+                return matchCat && matchMonth;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center text-gray-500 font-mono text-xs py-16">[ No broadcasts match your selection ]</div>`;
+                return;
+            }
+
+            filtered.forEach(v => {
+                const card = document.createElement('div');
+                card.className = "bg-brand-card border border-brand-border hover:border-brand-red rounded-xl overflow-hidden shadow-lg transition group flex flex-col justify-between relative";
+
+                let editButtonsHTML = '';
+                if (isEditModeActive) {
+                    editButtonsHTML = `
+                        <div class="absolute top-2 left-2 z-20 flex gap-1">
+                            <button onclick="openVideoEditorModal('${v.id}'); event.stopPropagation();" class="bg-brand-blue text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow cursor-pointer">✏️ Edit</button>
+                        </div>
+                    `;
+                }
+
+                const catLabels = { 'leagues': 'League Race', 'events': 'Special Event', 'races': 'Hotlap / Replay', 'pro_plus': 'Pro Plus' };
+                const catTag = catLabels[v.category] || v.category.toUpperCase();
+
+                let thumbHTML = '';
+                if (v.thumbnail_url) {
+                    thumbHTML = `<img src="${v.thumbnail_url}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">`;
+                } else {
+                    thumbHTML = `<span class="text-[10px] font-black text-gray-600 uppercase">[ VIDEO BROADCAST ]</span>`;
+                }
+
+                card.innerHTML = `
+                    ${editButtonsHTML}
+                    <div class="cursor-pointer" onclick="openPlayerModal('${escapeHtml(v.title)}', '${escapeHtml(v.video_url)}')">
+                        <div class="aspect-video bg-[#111] relative flex items-center justify-center border-b border-brand-border overflow-hidden">
+                            ${thumbHTML}
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                                <div class="w-10 h-10 bg-brand-red rounded-full flex items-center justify-center text-white text-lg shadow-lg">▶</div>
+                            </div>
+                            <div class="absolute bottom-2 right-2 bg-black/80 text-white text-[9px] font-bold px-2 py-0.5 rounded font-mono">${escapeHtml(v.duration || '0:00')}</div>
+                        </div>
+                        <div class="p-4">
+                            <span class="text-[9px] font-black uppercase text-brand-red tracking-widest block mb-1">${catTag}</span>
+                            <h3 class="text-sm font-black uppercase text-white group-hover:text-brand-red transition truncate">${escapeHtml(v.title)}</h3>
+                            <p class="text-[10px] text-gray-400 mt-1 uppercase font-bold truncate">Credit: ${escapeHtml(v.driver_credit || 'GSR Official')}</p>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        function setCategoryFilter(cat, btn) {
+            activeCategory = cat;
+            document.querySelectorAll('.cat-filter-btn').forEach(b => {
+                b.className = "cat-filter-btn bg-brand-card border border-brand-border hover:border-brand-red text-gray-300 px-3 py-1.5 rounded transition";
+            });
+            btn.className = "cat-filter-btn bg-brand-red text-white px-3 py-1.5 rounded transition shadow font-black";
+            renderGrid();
+        }
+
+        function filterByMonth(month) {
+            activeMonth = month;
+            renderGrid();
+        }
+
+        function convertToEmbed(url) {
+            if (!url) return '';
+            if (url.includes('youtube.com/watch?v=')) {
+                return url.replace('watch?v=', 'embed/').split('&')[0];
+            } else if (url.includes('youtu.be/')) {
+                return url.replace('youtu.be/', 'www.youtube.com/embed/').split('?')[0];
+            } else if (url.includes('twitch.tv/')) {
+                const channel = url.split('twitch.tv/')[1].replace('/', '');
+                return `https://player.twitch.tv/?channel=${channel}&parent=${window.location.hostname}`;
+            }
+            return url;
+        }
+
+        // --- THEATER MODAL VIEWER ---
+        window.openPlayerModal = function(title, url) {
+            const embed = convertToEmbed(url);
+            if (!embed) {
+                alert("Invalid or missing video URL.");
+                return;
+            }
+            document.getElementById('modalVideoTitle').innerText = title;
+            document.getElementById('modalVideoContainer').innerHTML = `<iframe src="${embed}?autoplay=1" class="w-full h-full border-0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+
+            const overlay = document.getElementById('playerModalOverlay');
+            const modal = document.getElementById('playerModalBox');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        window.closePlayerModal = function() {
+            document.getElementById('modalVideoContainer').innerHTML = '';
+            const overlay = document.getElementById('playerModalOverlay');
+            const modal = document.getElementById('playerModalBox');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
+        // --- EDIT MODE & CMS ---
+        window.toggleEditMode = function() {
+            isEditModeActive = !isEditModeActive;
+            const btn = document.getElementById('editModeBtn');
+            btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
+            btn.classList.toggle('bg-brand-blue', !isEditModeActive);
+            btn.classList.toggle('bg-brand-red', isEditModeActive);
+
+            document.getElementById('addVideoBtn').classList.toggle('hidden', !isEditModeActive);
+            renderFeatured();
+            renderGrid();
+        }
+
+        window.openVideoEditorModal = function(id, isHeroNew = false) {
+            const delBtn = document.getElementById('deleteVideoBtn');
+            const modalTitle = document.getElementById('cmsModalTitle');
+
+            if (id && id !== 'new_featured') {
+                const v = allVideos.find(item => item.id === id);
+                if (v) {
+                    document.getElementById('edit_id').value = v.id;
+                    document.getElementById('edit_title').value = v.title;
+                    document.getElementById('edit_category').value = v.category;
+                    document.getElementById('edit_month').value = v.month_key;
+                    document.getElementById('edit_driver').value = v.driver_credit || '';
+                    document.getElementById('edit_duration').value = v.duration || '';
+                    document.getElementById('edit_url').value = v.video_url;
+                    document.getElementById('edit_thumb').value = v.thumbnail_url || '';
+                    document.getElementById('edit_desc').value = v.description || '';
+                    document.getElementById('edit_isFeatured').checked = !!v.is_featured;
+
+                    delBtn.classList.remove('hidden');
+                    modalTitle.innerText = "📹 Edit Video Broadcast";
+                }
+            } else {
+                document.getElementById('edit_id').value = `vid_${Date.now()}`;
+                document.getElementById('edit_title').value = '';
+                document.getElementById('edit_category').value = 'leagues';
+                document.getElementById('edit_month').value = 'oct_2026';
+                document.getElementById('edit_driver').value = 'GSR Official Team';
+                document.getElementById('edit_duration').value = '2:00';
+                document.getElementById('edit_url').value = '';
+                document.getElementById('edit_thumb').value = '';
+                document.getElementById('edit_desc').value = '';
+                document.getElementById('edit_isFeatured').checked = isHeroNew;
+
+                delBtn.classList.add('hidden');
+                modalTitle.innerText = isHeroNew ? "📹 Set New Featured Broadcast" : "📹 Add New Video Broadcast";
+            }
+
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        window.uploadThumbnail = async function(inputEl) {
+            if (!inputEl.files || inputEl.files.length === 0) return;
+            const file = inputEl.files[0];
+            const fileName = `video_thumb_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+
+            const { error } = await db.storage.from('admin-assets').upload(fileName, file);
+            if (!error) {
+                const { data } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                document.getElementById('edit_thumb').value = data.publicUrl;
+            } else {
+                alert("Thumbnail upload failed.");
+            }
+        }
+
+        window.saveVideoItem = async function() {
+            const id = document.getElementById('edit_id').value.trim();
+            const title = document.getElementById('edit_title').value.trim();
+            const category = document.getElementById('edit_category').value;
+            const month_key = document.getElementById('edit_month').value.trim() || 'oct_2026';
+            const driver_credit = document.getElementById('edit_driver').value.trim();
+            const duration = document.getElementById('edit_duration').value.trim();
+            const video_url = document.getElementById('edit_url').value.trim();
+            const thumbnail_url = document.getElementById('edit_thumb').value.trim();
+            const description = document.getElementById('edit_desc').value.trim();
+            const is_featured = document.getElementById('edit_isFeatured').checked;
+
+            if (!title || !video_url) {
+                alert("Title and Video URL are required.");
+                return;
+            }
+
+            // If this video is marked as featured, remove featured status from previous featured video
+            if (is_featured) {
+                await db.from('gsr_videos').update({ is_featured: false }).eq('is_featured', true);
+            }
+
+            const { error } = await db.from('gsr_videos').upsert({
+                id,
+                title,
+                category,
+                month_key,
+                driver_credit,
+                duration,
+                video_url,
+                thumbnail_url,
+                description,
+                is_featured
+            });
+
+            if (!error) {
+                await fetchVideos();
+                closeCMSModal();
+            } else {
+                alert("Database Error saving video.");
+            }
+        }
+
+        window.deleteVideoItem = async function() {
+            const id = document.getElementById('edit_id').value;
+            if (!id) return;
+
+            if (confirm("Permanently delete this video archive entry?")) {
+                const { error } = await db.from('gsr_videos').delete().eq('id', id);
+                if (!error) {
+                    await fetchVideos();
+                    closeCMSModal();
+                } else {
+                    alert("Error deleting video from database.");
+                }
+            }
+        }
+
+        window.closeCMSModal = function() {
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
+        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+
+        window.onload = initVideosPage;
+    </script>
+</body>
+</html>

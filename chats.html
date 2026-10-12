@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GSR Chats Hub | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 3px; }
+        .chat-bubble { max-width: 85%; }
+        .scroll-touch { -webkit-overflow-scrolling: touch; }
+    </style>
+    <!-- 1. Load Supabase Natively -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased h-[100dvh] flex flex-col overflow-hidden">
+
+    <!-- HEADER (No Sign In Buttons) -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-3 shadow-xl flex-shrink-0 z-20">
+        <div class="max-w-[1400px] mx-auto px-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="index.html"><img src="logo.png" alt="GSR Logo" class="h-10 w-auto object-contain"></a>
+                <div class="hidden sm:block border-l border-brand-border pl-4">
+                    <h1 class="text-lg font-black uppercase text-brand-gold tracking-wider font-serif italic">GSR Comms Network</h1>
+                    <span id="userStatusBanner" class="text-[9px] text-gray-400 uppercase tracking-widest">Checking Network Status...</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden md:block">
+                    <span id="headerProfileName" class="block text-xs font-black text-white">Loading...</span>
+                    <span id="headerProfileStatus" class="text-[9px] text-gray-500 uppercase font-mono">Syncing...</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR -->
+    <nav class="bg-[#0a0a0a] border-b border-brand-border py-2 flex-shrink-0 z-10">
+        <div class="max-w-[1400px] mx-auto px-4 flex gap-6 text-[10px] font-black uppercase tracking-wider overflow-x-auto scroll-touch whitespace-nowrap">
+            <a href="index.html" class="text-gray-500 hover:text-brand-gold transition">Main Menu</a>
+            <a href="chats.html" class="text-brand-gold underline decoration-2 underline-offset-4">GSR Chats</a>
+            <a href="racers.html" class="text-gray-500 hover:text-brand-gold transition">Racer Directory</a>
+            <a href="teams.html" class="text-gray-500 hover:text-brand-gold transition">Team Hub</a>
+        </div>
+    </nav>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="flex-grow flex max-w-[1400px] w-full mx-auto px-2 sm:px-4 py-4 gap-4 min-h-0">
+        <!-- LEFT SIDEBAR: THE 4 CHANNELS -->
+        <aside class="w-64 flex flex-col gap-4 flex-shrink-0 hidden md:flex min-h-0">
+            <div class="bg-brand-card border border-brand-border rounded-lg p-2 flex-grow overflow-y-auto scroll-touch">
+                <span class="text-[9px] font-black uppercase text-gray-500 tracking-widest px-2 mb-2 block">Network Feeds</span>
+                <button onclick="switchChannel('global', this)" class="channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase bg-brand-gold text-black transition flex justify-between items-center mb-1 font-black shadow"><span>🌐 Global Chat</span></button>
+                <button onclick="switchChannel('following', this)" class="channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase text-gray-400 hover:bg-brand-bg transition flex justify-between items-center mb-1"><span>👥 Following</span></button>
+                <button onclick="switchChannel('team', this)" class="channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase text-gray-400 hover:bg-brand-bg transition flex justify-between items-center mb-1"><span>🛡️ Team Chat</span></button>
+                <button onclick="switchChannel('pro_plus', this)" class="channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase text-gray-400 hover:bg-brand-bg transition flex justify-between items-center mb-4"><span>⭐ Pro Plus</span></button>
+            </div>
+        </aside>
+
+        <!-- CENTER CHAT WINDOW -->
+        <section class="flex-grow flex flex-col bg-brand-card border border-brand-border rounded-lg shadow-2xl overflow-hidden min-h-0">
+            <div class="bg-brand-bg border-b border-brand-border p-3 sm:p-4 flex justify-between items-center flex-shrink-0">
+                <div>
+                    <h2 id="channelTitle" class="text-sm font-black uppercase text-white">🌐 Global Chat</h2>
+                    <p id="channelDesc" class="text-[10px] text-gray-400">Public broadcast for all verified racers.</p>
+                </div>
+            </div>
+
+            <div id="messagesArea" class="flex-grow p-4 overflow-y-auto scroll-touch space-y-4 font-sans flex flex-col">
+                <div class="m-auto text-center text-gray-500 font-bold uppercase text-[10px]">Connecting to secure frequency...</div>
+            </div>
+
+            <div class="bg-[#151515] border-t border-brand-border p-3 sm:p-4 flex flex-col gap-2 flex-shrink-0">
+                <div class="flex gap-2">
+                    <input type="text" id="chatInput" placeholder="Loading network..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition placeholder-gray-600">
+                    <button onclick="sendMessage()" id="sendBtn" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-5 sm:px-8 py-3 rounded transition shadow shrink-0 cursor-pointer">Send ↵</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+  <!-- SUPABASE NATIVE ENGINE FOR CHATS HUB -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+    const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+    const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    let activeChannel = 'global';
+    let currentUser = null;
+    let currentProfile = null;
+
+    const channelHeaders = {
+        global: { title: "🌐 Global Chat", desc: "Public broadcast for all verified racers." },
+        following: { title: "👥 Following", desc: "Feed from racers and teams you follow." },
+        team: { title: "🛡️ Team Chat", desc: "Encrypted channel visible ONLY to your team." },
+        pro_plus: { title: "⭐ Pro Plus Lounge", desc: "Exclusive channel for GSR Pro Plus subscribers." }
+    };
+
+    async function initChatSystem() {
+        // 1. Sync User Session
+        const { data: { session } } = await db.auth.getSession();
+
+        const nameDisplay = document.getElementById('headerProfileName');
+        const statusBanner = document.getElementById('userStatusBanner');
+        const statusTag = document.getElementById('headerProfileStatus');
+        const chatInput = document.getElementById('chatInput');
+
+        if (!session) {
+            // Guest Mode
+            currentUser = null;
+            if (nameDisplay) nameDisplay.innerText = "Guest User";
+            if (statusBanner) statusBanner.innerText = "Read-Only Mode";
+            if (statusTag) {
+                statusTag.innerText = "Not Cleared to Race";
+                statusTag.className = "text-[9px] text-gray-500 uppercase font-mono";
+            }
+            if (chatInput) {
+                chatInput.placeholder = "Sign in at Main Menu to chat...";
+                chatInput.disabled = true;
+            }
+        } else {
+            // Authenticated Driver
+            currentUser = session.user;
+            const { data: profile } = await db
+                .from('gsr_profiles')
+                .select('sl_legacy_name, role')
+                .eq('id', currentUser.id)
+                .single();
+
+            currentProfile = profile;
+            const name = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+            if (nameDisplay) nameDisplay.innerText = name;
+            if (statusBanner) statusBanner.innerText = "Verified Driver Online";
+            if (statusTag) {
+                statusTag.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse inline-block mr-1"></span> Cleared to Race`;
+                statusTag.className = "text-[9px] text-brand-green uppercase font-mono font-bold flex items-center justify-end";
+            }
+            if (chatInput) {
+                chatInput.placeholder = "Type your message here...";
+                chatInput.disabled = false;
+            }
+        }
+
+        // 2. Fetch history and start real-time listener
+        fetchMessages();
+        subscribeToRealtime();
+    }
+
+    function switchChannel(channel, btn) {
+        activeChannel = channel;
+
+        // Reset button active states if sidebar buttons exist
+        document.querySelectorAll('.channel-btn').forEach(b => {
+            b.className = "channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase text-gray-400 hover:bg-brand-bg transition flex justify-between items-center mb-1 cursor-pointer";
+        });
+        if (btn) {
+            btn.className = "channel-btn w-full text-left px-3 py-2.5 rounded text-xs font-bold uppercase bg-brand-gold text-black transition flex justify-between items-center mb-1 font-black shadow cursor-pointer";
+        }
+
+        const titleEl = document.getElementById('channelTitle');
+        const descEl = document.getElementById('channelDesc');
+        if (titleEl) titleEl.innerText = channelHeaders[channel]?.title || channel;
+        if (descEl) descEl.innerText = channelHeaders[channel]?.desc || '';
+
+        fetchMessages();
+    }
+
+    async function fetchMessages() {
+        const container = document.getElementById('messagesArea');
+        if (!container) return;
+
+        container.innerHTML = '<div class="m-auto text-center text-gray-500 font-bold uppercase text-[10px]">[ Fetching frequency logs... ]</div>';
+
+        const { data, error } = await db
+            .from('gsr_chats')
+            .select('*')
+            .eq('channel', activeChannel)
+            .order('created_at', { ascending: true })
+            .limit(50);
+
+        container.innerHTML = '';
+        if (error || !data || data.length === 0) {
+            container.innerHTML = `<div class="m-auto text-center text-gray-500 font-bold uppercase text-[10px]">[ Channel is quiet ]</div>`;
+            return;
+        }
+
+        data.forEach(msg => appendMessageToUI(msg));
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function appendMessageToUI(msg) {
+        const container = document.getElementById('messagesArea');
+        if (!container) return;
+
+        if (container.innerText.includes("[ Channel is quiet ]") || container.innerText.includes("[ Fetching frequency logs... ]")) {
+            container.innerHTML = '';
+        }
+
+        const isMe = currentUser && msg.user_id === currentUser.id;
+        const alignClass = isMe ? "self-end items-end" : "self-start items-start";
+        const bgClass = isMe ? "bg-brand-gold/10 border border-brand-gold text-white" : "bg-[#1f1f1f] border border-brand-border text-gray-200";
+        const time = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        const div = document.createElement('div');
+        div.className = `flex flex-col ${alignClass} chat-bubble max-w-[85%]`;
+        div.innerHTML = `
+            <div class="flex items-center gap-2 mb-1 text-[10px]">
+                <span class="font-black ${isMe ? 'text-brand-gold' : 'text-brand-blue'} uppercase tracking-wider">${escapeHtml(msg.display_name)}</span>
+                <span class="text-[8px] text-gray-600">${time}</span>
+            </div>
+            <div class="${bgClass} px-3 py-2 rounded-lg text-xs leading-relaxed break-words shadow-sm">
+                <span>${escapeHtml(msg.message)}</span>
+            </div>
+        `;
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+    }
+
+    async function sendMessage() {
+        if (!currentUser) {
+            alert("You are in Guest Mode. Please return to the Main Menu to sign in.");
+            return;
+        }
+
+        const input = document.getElementById('chatInput');
+        if (!input) return;
+
+        const val = input.value.trim();
+        if (!val) return;
+
+        const displayName = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+        const { error } = await db.from('gsr_chats').insert([{
+            user_id: currentUser.id,
+            display_name: displayName,
+            message: val,
+            channel: activeChannel
+        }]);
+
+        if (error) {
+            alert("Transmission failed: " + error.message);
+        } else {
+            input.value = '';
+        }
+    }
+
+    function subscribeToRealtime() {
+        db.channel('public:gsr_chats_hub')
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
+                if (payload.new.channel === activeChannel) {
+                    appendMessageToUI(payload.new);
+                }
+            })
+            .subscribe();
+    }
+
+    function escapeHtml(str) {
+        return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+    }
+
+    const inputField = document.getElementById('chatInput');
+    if (inputField) {
+        inputField.addEventListener('keypress', e => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    }
+
+    window.onload = initChatSystem;
+</script>
+</body>
+</html>

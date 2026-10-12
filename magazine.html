@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSRacing Magazine | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 20px rgba(197, 160, 89, 0.25); }
+        .magazine-page { background-color: #121212; background-size: cover; background-position: center; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-8 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center justify-center md:justify-start w-full md:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-14 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
+            </div>
+
+            <div class="w-full md:absolute md:inset-x-0 text-center pointer-events-none md:px-40 py-1">
+                <span class="block text-[9px] font-black uppercase tracking-[0.3em] text-brand-gold">Official Publication</span>
+                <h1 class="text-xl sm:text-2xl font-black uppercase text-white tracking-wider font-serif italic">GSRACING MAGAZINE</h1>
+            </div>
+
+            <div class="flex items-center gap-3 z-10 w-full md:w-auto justify-center" id="headerControls">
+                <label for="issueSelect" class="text-[9px] font-bold uppercase text-gray-400 tracking-widest whitespace-nowrap hidden sm:inline">Issue:</label>
+                <select id="issueSelect" onchange="loadSelectedIssue(this.value)" class="bg-brand-bg border border-brand-gold text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer max-w-[170px] truncate">
+                    <option value="">Loading Archive...</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-2.5">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-6 text-xs font-bold uppercase tracking-wider">
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Media Hub</a>
+            <a href="magazine.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">GSRacing Magazine</a>
+            <a href="news.html" class="text-gray-300 hover:text-brand-gold transition">News Desk</a>
+            <a href="videos.html" class="text-gray-300 hover:text-brand-gold transition">Video Archives</a>
+            <a href="photos.html" class="text-gray-300 hover:text-brand-gold transition">Photo Gallery</a>
+        </div>
+    </nav>
+
+    <!-- MAIN MAGAZINE READER CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 flex flex-col justify-center items-center space-y-6">
+
+        <!-- STATUS BANNER (Admin Only) -->
+        <div id="draftBanner" class="hidden w-full max-w-6xl bg-brand-red/20 border border-brand-red text-brand-red text-xs font-black uppercase text-center py-2 rounded shadow">
+            ⚠️ Viewing Draft Mode - Not visible to public
+        </div>
+
+        <!-- SPREAD VIEWER BOX -->
+        <div id="magazineContainer" class="w-full max-w-6xl bg-brand-card border border-brand-gold rounded-xl overflow-hidden shadow-2xl gold-border-glow grid grid-cols-1 md:grid-cols-2 relative min-h-[580px] lg:min-h-[700px]">
+            
+            <!-- LEFT PAGE / MOBILE SINGLE PAGE -->
+            <div id="pageOne" class="magazine-page flex relative border-b md:border-b-0 md:border-r border-brand-border/60 overflow-hidden items-center justify-center">
+                <div class="text-center text-gray-500 font-mono text-xs">[ Loading Issue... ]</div>
+            </div>
+
+            <!-- RIGHT PAGE (Hidden on Mobile) -->
+            <div id="pageTwo" class="magazine-page flex relative overflow-hidden hidden md:flex items-center justify-center">
+                <div class="text-center text-gray-500 font-mono text-xs">[ Loading Issue... ]</div>
+            </div>
+
+        </div>
+
+        <!-- CONTROLS & PAGE FLIPPER FOOTER -->
+        <div class="w-full max-w-6xl flex items-center justify-between bg-brand-card border border-brand-border p-4 rounded-xl shadow-lg">
+            
+            <button onclick="turnPage(-1)" id="prevBtn" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-white font-black text-xs uppercase px-4 py-3 sm:px-6 rounded transition disabled:opacity-30 disabled:cursor-not-allowed">
+                ← <span class="hidden sm:inline">Prev Spread</span>
+            </button>
+
+            <div class="text-center">
+                <span id="pageIndicator" class="text-[11px] sm:text-xs font-black uppercase text-brand-gold tracking-widest font-mono">Page 0 of 0</span>
+                <span class="block text-[9px] text-gray-500 uppercase font-bold mt-0.5">GSR Publishing Engine</span>
+            </div>
+
+            <button onclick="turnPage(1)" id="nextBtn" class="bg-brand-gold hover:bg-yellow-600 text-black font-black text-xs uppercase px-4 py-3 sm:px-6 rounded transition shadow-md disabled:opacity-30 disabled:cursor-not-allowed">
+                <span class="hidden sm:inline">Next Spread</span> →
+            </button>
+
+        </div>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">
+        &copy; 2026 Gentle Storm Racing. Built for Second Life.
+    </footer>
+
+    <!-- PUBLISHER SUITE MODAL -->
+    <div id="cmsModalOverlay" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="cmsModal" class="bg-brand-card border border-brand-gold shadow-[0_0_30px_rgba(197,160,89,0.15)] rounded-xl w-full max-w-4xl transform scale-95 opacity-0 transition-all duration-300 flex flex-col h-[90vh]">
+            
+            <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center rounded-t-xl shrink-0">
+                <h2 class="text-sm font-black uppercase text-brand-gold tracking-wide">📖 Magazine Publisher Suite</h2>
+                <button onclick="closeCMSModal()" class="text-gray-500 hover:text-brand-red p-1 transition cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div class="p-6 flex-grow overflow-y-auto space-y-6 flex flex-col lg:flex-row gap-6">
+                <!-- Sidebar: Issue Settings & Page List -->
+                <div class="lg:w-1/3 space-y-4 border-r border-brand-border pr-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black uppercase text-gray-400">Issue ID / Month Tag (e.g., oct_2026)</label>
+                            <input type="text" id="edit_issueId" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black uppercase text-gray-400">Display Title (e.g., October 2026 (Vol 1))</label>
+                            <input type="text" id="edit_issueTitle" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black uppercase text-gray-400 block mb-1">Status</label>
+                            <select id="edit_status" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                                <option value="draft">Draft (Hidden)</option>
+                                <option value="published">Published (Live)</option>
+                            </select>
+                        </div>
+
+                        <div class="pt-2 border-t border-brand-border">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-[10px] font-black uppercase text-gray-400">Issue Pages</label>
+                                <button onclick="addNewPage()" class="text-[9px] bg-brand-blue text-white px-2.5 py-1 rounded uppercase font-bold cursor-pointer">+ Add Page</button>
+                            </div>
+                            <div id="pageListContainer" class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+                                <!-- Page items injected here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delete Issue Button -->
+                    <div class="pt-4 border-t border-brand-border">
+                        <button onclick="deleteCurrentIssue()" class="w-full bg-red-950/60 hover:bg-red-900 text-brand-red border border-red-500/40 text-[10px] font-black uppercase py-2 rounded transition cursor-pointer">
+                            🗑️ Delete Current Issue
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Area: Page Editor -->
+                <div class="lg:w-2/3 space-y-4" id="pageEditorArea">
+                    <div class="text-center text-gray-500 text-xs font-mono py-20 border border-dashed border-brand-border rounded h-full flex items-center justify-center">Select or add a page to configure artwork.</div>
+                </div>
+            </div>
+            
+            <div class="bg-brand-bg border-t border-brand-border p-4 flex justify-end gap-3 rounded-b-xl shrink-0">
+                <button onclick="closeCMSModal()" class="text-xs font-bold uppercase text-gray-400 hover:text-white px-4 py-2 transition cursor-pointer">Cancel</button>
+                <button onclick="saveIssueData()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-6 py-2 rounded transition shadow cursor-pointer">Save Issue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPABASE & ENGINE SCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let currentUser = null;
+        let isAdmin = false;
+        let allIssues = [];
+        let activeIssueData = null;
+        
+        let currentViewportIndex = 0;
+        let isMobile = window.innerWidth < 768;
+
+        let editingIssueData = null;
+        let editingPageIndex = null;
+
+        window.addEventListener('resize', () => {
+            const wasMobile = isMobile;
+            isMobile = window.innerWidth < 768;
+            if (wasMobile !== isMobile && activeIssueData) {
+                renderPages();
+            }
+        });
+
+        async function initMagazine() {
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                if (session) {
+                    currentUser = session.user;
+                    const { data: profile } = await db.from('gsr_profiles').select('is_admin').eq('id', currentUser.id).maybeSingle();
+                    isAdmin = profile?.is_admin || false;
+
+                    if (isAdmin) {
+                        const controls = document.getElementById('headerControls');
+                        if (!document.getElementById('publisherSuiteBtn')) {
+                            controls.innerHTML += `<button id="publisherSuiteBtn" onclick="openEditor()" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow ml-2 cursor-pointer">✏️ Publisher Suite</button>`;
+                        }
+                    }
+                }
+            } catch (e) {}
+
+            await fetchArchive();
+        }
+
+        async function fetchArchive() {
+            const { data, error } = await db.from('gsr_magazines').select('*').order('created_at', { ascending: false });
+            if (!error && data) {
+                allIssues = data;
+                populateDropdown();
+            } else {
+                document.getElementById('issueSelect').innerHTML = `<option value="">No Issues Found</option>`;
+            }
+        }
+
+        function populateDropdown() {
+            const select = document.getElementById('issueSelect');
+            select.innerHTML = '';
+            
+            const visibleIssues = allIssues.filter(iss => iss.status === 'published' || isAdmin);
+
+            if (visibleIssues.length === 0) {
+                select.innerHTML = `<option value="">No published issues yet.</option>`;
+                document.getElementById('pageOne').innerHTML = `<div class="text-center text-gray-500 font-mono text-xs">No magazine issues available. Use Publisher Suite to create one.</div>`;
+                document.getElementById('pageTwo').innerHTML = '';
+                return;
+            }
+
+            visibleIssues.forEach(iss => {
+                const isDraft = iss.status === 'draft' ? '[DRAFT] ' : '';
+                select.innerHTML += `<option value="${iss.id}">${isDraft}${escapeHtml(iss.title)}</option>`;
+            });
+
+            loadSelectedIssue(visibleIssues[0].id);
+        }
+
+        function loadSelectedIssue(id) {
+            activeIssueData = allIssues.find(iss => iss.id === id);
+            currentViewportIndex = 0;
+
+            const banner = document.getElementById('draftBanner');
+            if (activeIssueData && activeIssueData.status === 'draft') {
+                banner.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+            }
+
+            renderPages();
+        }
+
+        // --- VIEWER RENDER ENGINE ---
+        function renderPages() {
+            if (!activeIssueData || !activeIssueData.pages || activeIssueData.pages.length === 0) {
+                document.getElementById('pageOne').innerHTML = `<div class="text-center text-gray-500 font-mono text-xs">This issue has no pages.</div>`;
+                document.getElementById('pageTwo').innerHTML = '';
+                updateUIState(0);
+                return;
+            }
+
+            const pages = activeIssueData.pages;
+            
+            renderSinglePage('pageOne', pages[currentViewportIndex]);
+
+            if (!isMobile) {
+                if (currentViewportIndex + 1 < pages.length) {
+                    renderSinglePage('pageTwo', pages[currentViewportIndex + 1]);
+                } else {
+                    const p2 = document.getElementById('pageTwo');
+                    p2.innerHTML = '';
+                    p2.style.backgroundImage = 'none';
+                    p2.className = 'magazine-page flex relative overflow-hidden hidden md:flex items-center justify-center';
+                }
+            }
+
+            updateUIState(pages.length);
+        }
+
+        function renderSinglePage(elementId, pageData) {
+            const el = document.getElementById(elementId);
+            if (!pageData) return;
+
+            el.className = `magazine-page flex flex-col relative overflow-hidden ${elementId === 'pageTwo' ? 'hidden md:flex' : ''} ${elementId === 'pageOne' ? 'border-b md:border-b-0 md:border-r border-brand-border/60' : ''}`;
+            el.style.backgroundImage = 'none';
+
+            let contentHTML = '';
+
+            if (pageData.template === 'video') {
+                const embedUrl = pageData.videoUrl ? convertToEmbed(pageData.videoUrl) : '';
+                contentHTML = `
+                    <div class="w-full h-1/3 bg-black border-b border-brand-border flex items-center justify-center relative overflow-hidden shrink-0">
+                        ${embedUrl ? `<iframe src="${embedUrl}" class="w-full h-full border-0" allowfullscreen></iframe>` : '<div class="text-[10px] text-gray-500 font-mono uppercase">[ No Video URL Provided ]</div>'}
+                    </div>
+                    <div class="w-full h-2/3 bg-[#111] overflow-hidden flex items-center justify-center">
+                        ${pageData.image ? `<img src="${pageData.image}" class="w-full h-full object-cover">` : '<div class="text-[10px] text-gray-600 font-mono uppercase">[ No Page Image ]</div>'}
+                    </div>
+                `;
+            } else {
+                contentHTML = `
+                    <div class="w-full h-full bg-[#111] overflow-hidden flex items-center justify-center relative">
+                        ${pageData.image ? `<img src="${pageData.image}" class="w-full h-full object-cover">` : `<div class="text-center text-gray-600 font-mono text-xs uppercase">[ Page ${pageData.template.toUpperCase()} - No Image Uploaded ]</div>`}
+                    </div>
+                `;
+            }
+
+            el.innerHTML = contentHTML;
+        }
+
+        function convertToEmbed(url) {
+            if (!url) return '';
+            if (url.includes('youtube.com/watch?v=')) {
+                return url.replace('watch?v=', 'embed/');
+            } else if (url.includes('youtu.be/')) {
+                return url.replace('youtu.be/', 'www.youtube.com/embed/');
+            }
+            return url;
+        }
+
+        function turnPage(direction) {
+            if (!activeIssueData || !activeIssueData.pages) return;
+            const total = activeIssueData.pages.length;
+            const step = isMobile ? 1 : 2;
+
+            if (direction === 1 && currentViewportIndex + step < total) {
+                currentViewportIndex += step;
+            } else if (direction === -1 && currentViewportIndex - step >= 0) {
+                currentViewportIndex -= step;
+            } else if (direction === -1 && currentViewportIndex > 0) {
+                currentViewportIndex = 0;
+            }
+            renderPages();
+        }
+
+        function updateUIState(total) {
+            const step = isMobile ? 1 : 2;
+            const ind = document.getElementById('pageIndicator');
+            const prev = document.getElementById('prevBtn');
+            const next = document.getElementById('nextBtn');
+
+            if (total === 0) {
+                ind.innerText = "Page 0 of 0";
+                prev.disabled = true; next.disabled = true;
+                return;
+            }
+
+            const endPage = Math.min(currentViewportIndex + step, total);
+            if (isMobile) {
+                ind.innerText = `Page ${currentViewportIndex + 1} of ${total}`;
+            } else {
+                ind.innerText = `Page ${currentViewportIndex + 1}-${endPage} of ${total}`;
+            }
+
+            prev.disabled = currentViewportIndex === 0;
+            next.disabled = currentViewportIndex + step >= total;
+        }
+
+        // --- EDITOR ENGINE (CMS) ---
+        function openEditor() {
+            if (!isAdmin) return;
+            
+            const selectedId = document.getElementById('issueSelect').value;
+            const existing = allIssues.find(i => i.id === selectedId);
+            
+            if (existing) {
+                editingIssueData = JSON.parse(JSON.stringify(existing));
+            } else {
+                editingIssueData = { id: `issue_${Date.now()}`, title: 'October 2026 (Vol 1)', status: 'draft', pages: [] };
+            }
+
+            document.getElementById('edit_issueId').value = editingIssueData.id;
+            document.getElementById('edit_issueTitle').value = editingIssueData.title;
+            document.getElementById('edit_status').value = editingIssueData.status;
+
+            renderEditorSidebar();
+            editingPageIndex = null;
+            renderPageEditorForm();
+
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        function renderEditorSidebar() {
+            const container = document.getElementById('pageListContainer');
+            container.innerHTML = '';
+            
+            if (editingIssueData.pages.length === 0) {
+                container.innerHTML = `<div class="text-xs text-gray-500 italic">No pages added yet. Click + Add Page.</div>`;
+                return;
+            }
+
+            editingIssueData.pages.forEach((p, index) => {
+                const isActive = index === editingPageIndex;
+                container.innerHTML += `
+                    <div class="flex justify-between items-center p-2 rounded cursor-pointer border ${isActive ? 'bg-brand-blue/10 border-brand-blue' : 'bg-brand-bg border-brand-border hover:border-brand-gold'} transition" onclick="selectPageToEdit(${index})">
+                        <span class="text-xs font-bold text-white truncate w-36">Pg ${index + 1}: ${p.template.toUpperCase()}</span>
+                        <button onclick="deletePage(${index}); event.stopPropagation();" class="text-red-500 hover:text-white text-xs px-1">✖</button>
+                    </div>
+                `;
+            });
+        }
+
+        window.addNewPage = function() {
+            editingIssueData.pages.push({
+                template: 'normal',
+                image: '',
+                videoUrl: ''
+            });
+            editingPageIndex = editingIssueData.pages.length - 1;
+            renderEditorSidebar();
+            renderPageEditorForm();
+        }
+
+        window.selectPageToEdit = function(index) {
+            editingPageIndex = index;
+            renderEditorSidebar();
+            renderPageEditorForm();
+        }
+
+        window.deletePage = function(index) {
+            if (confirm('Delete this page?')) {
+                editingIssueData.pages.splice(index, 1);
+                editingPageIndex = null;
+                renderEditorSidebar();
+                renderPageEditorForm();
+            }
+        }
+
+        function renderPageEditorForm() {
+            const area = document.getElementById('pageEditorArea');
+            if (editingPageIndex === null || !editingIssueData.pages[editingPageIndex]) {
+                area.innerHTML = `<div class="text-center text-gray-500 text-xs font-mono py-20 border border-dashed border-brand-border rounded h-full flex items-center justify-center">Select or add a page from the list to configure artwork.</div>`;
+                return;
+            }
+
+            const p = editingIssueData.pages[editingPageIndex];
+            
+            area.innerHTML = `
+                <div class="bg-brand-bg p-5 rounded-xl border border-brand-border space-y-4 h-full overflow-y-auto">
+                    <h3 class="text-xs font-black uppercase text-brand-gold border-b border-brand-border pb-2">Editing Page ${editingPageIndex + 1} Artwork</h3>
+                    
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Page Type</label>
+                        <select id="edit_page_template" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded" onchange="updatePageData('template', this.value)">
+                            <option value="cover" ${p.template === 'cover' ? 'selected' : ''}>Cover (Front Issue Cover)</option>
+                            <option value="normal" ${p.template === 'normal' ? 'selected' : ''}>Normal Page (Full Image Artwork)</option>
+                            <option value="video" ${p.template === 'video' ? 'selected' : ''}>Video Page (Top Video / Bottom Image)</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Page Image Artwork</label>
+                        <div class="flex items-center gap-2">
+                            <input type="text" id="edit_page_image" value="${escapeHtml(p.image || '')}" onkeyup="updatePageData('image', this.value)" placeholder="Paste image URL or upload below" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                            ${p.image ? `<button onclick="clearPageImage()" class="bg-red-950 text-brand-red px-3 py-2 text-xs font-bold rounded border border-red-500/40 cursor-pointer">Clear</button>` : ''}
+                        </div>
+                        <input type="file" id="upload_pageImg" accept="image/*" class="w-full text-[10px] text-gray-400 pt-1" onchange="uploadPageImage(this)">
+                    </div>
+
+                    <div id="videoUrlContainer" class="space-y-1 pt-2 border-t border-brand-border ${p.template === 'video' ? '' : 'hidden'}">
+                        <label class="text-[10px] font-black uppercase text-gray-400">YouTube Video Embed Link</label>
+                        <input type="text" id="edit_page_videoUrl" value="${escapeHtml(p.videoUrl || '')}" onkeyup="updatePageData('videoUrl', this.value)" placeholder="https://www.youtube.com/watch?v=..." class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">
+                    </div>
+                </div>
+            `;
+        }
+
+        window.updatePageData = function(key, val) {
+            if (editingPageIndex !== null) {
+                editingIssueData.pages[editingPageIndex][key] = val;
+                if (key === 'template') {
+                    renderEditorSidebar();
+                    const vidCont = document.getElementById('videoUrlContainer');
+                    if (val === 'video') vidCont.classList.remove('hidden');
+                    else vidCont.classList.add('hidden');
+                }
+            }
+        }
+
+        window.clearPageImage = function() {
+            updatePageData('image', '');
+            renderPageEditorForm();
+        }
+
+        window.uploadPageImage = async function(inputEl) {
+            if (!inputEl.files || inputEl.files.length === 0) return;
+            const file = inputEl.files[0];
+            const fileName = `magazine_page_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+            
+            const { error } = await db.storage.from('admin-assets').upload(fileName, file);
+            if (!error) {
+                const { data } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                updatePageData('image', data.publicUrl);
+                renderPageEditorForm();
+            } else {
+                alert("Image upload failed.");
+            }
+        }
+
+        window.saveIssueData = async function() {
+            const originalId = document.getElementById('edit_issueId').getAttribute('data-original-id') || document.getElementById('edit_issueId').value.trim();
+            const newId = document.getElementById('edit_issueId').value.trim();
+            editingIssueData.title = document.getElementById('edit_issueTitle').value.trim();
+            editingIssueData.status = document.getElementById('edit_status').value;
+            editingIssueData.id = newId;
+
+            if (!newId || !editingIssueData.title) {
+                alert("Issue ID and Title are required."); return;
+            }
+
+            // If ID was changed, delete the old ID row first so we don't leave a ghost record
+            if (originalId && originalId !== newId) {
+                await db.from('gsr_magazines').delete().eq('id', originalId);
+            }
+
+            const { error } = await db.from('gsr_magazines').upsert({
+                id: newId,
+                title: editingIssueData.title,
+                status: editingIssueData.status,
+                pages: JSON.parse(JSON.stringify(editingIssueData.pages))
+            });
+
+            if (!error) {
+                closeCMSModal();
+                await fetchArchive();
+                document.getElementById('issueSelect').value = newId;
+                loadSelectedIssue(newId);
+            } else {
+                alert("Database Error saving issue.");
+            }
+        }
+
+        window.deleteCurrentIssue = async function() {
+            const idToDelete = document.getElementById('edit_issueId').value.trim();
+            if (!idToDelete) return;
+
+            if (confirm(`Are you sure you want to delete issue "${idToDelete}"? This cannot be undone.`)) {
+                const { error } = await db.from('gsr_magazines').delete().eq('id', idToDelete);
+                if (!error) {
+                    closeCMSModal();
+                    await fetchArchive();
+                } else {
+                    alert("Error deleting issue from database.");
+                }
+            }
+        }
+
+        // Hook openEditor to store original ID for ID-renaming checks
+        const originalOpenEditor = window.openEditor;
+        window.openEditor = function() {
+            originalOpenEditor();
+            const idInput = document.getElementById('edit_issueId');
+            if (idInput) idInput.setAttribute('data-original-id', idInput.value);
+        }
+
+        window.closeCMSModal = function() {
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
+        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+
+        window.onload = initMagazine;
+    </script>
+</body>
+</html>

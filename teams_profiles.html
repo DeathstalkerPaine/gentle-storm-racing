@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Profiles | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-8 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html"><img src="logo.png" alt="Logo" class="h-10 sm:h-14 w-auto object-contain"></a>
+            </div>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[9px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Syndicate Directory</span>
+                <h1 class="text-xl sm:text-3xl font-black uppercase tracking-wider text-white">TEAM PROFILES</h1>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams Hub</a>
+            <a href="teams_profiles.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">Team Profile</a>
+            <a href="leaderboard_view.html" class="text-gray-300 hover:text-brand-gold transition">Team Leaderboards</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-[1400px] w-full mx-auto px-4 py-8 space-y-6">
+        
+        <div class="flex justify-between items-center">
+            <a href="teams.html" class="text-[10px] font-black uppercase text-gray-400 hover:text-white transition tracking-widest">← BACK TO TEAMS HUB</a>
+        </div>
+
+        <section class="bg-brand-card border border-brand-border rounded-xl p-4 shadow-xl space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input type="text" id="searchInput" placeholder="SEARCH TEAM NAME..." oninput="filterTeams()" class="bg-brand-bg border border-brand-border text-white text-xs px-4 py-2.5 rounded-lg outline-none focus:border-brand-gold uppercase tracking-wider">
+                
+                <select id="leagueFilter" onchange="filterTeams()" class="bg-brand-bg border border-brand-border text-white text-xs px-4 py-2.5 rounded-lg outline-none focus:border-brand-gold uppercase tracking-wider cursor-pointer">
+                    <option value="all">All Leagues</option>
+                    <option value="pro_plus">Pro Plus League</option>
+                    <option value="pro">Pro League</option>
+                </select>
+
+                <select id="statusFilter" onchange="filterTeams()" class="bg-brand-bg border border-brand-border text-white text-xs px-4 py-2.5 rounded-lg outline-none focus:border-brand-gold uppercase tracking-wider cursor-pointer">
+                    <option value="all">All Roster Status</option>
+                    <option value="recruiting">Recruiting Drivers</option>
+                    <option value="closed">Roster Closed</option>
+                </select>
+            </div>
+
+            <div id="alphabetBar" class="flex flex-wrap gap-1 pt-2 border-t border-brand-border justify-center">
+                <button onclick="setLetter('ALL')" class="alphabet-btn bg-brand-gold text-black font-black text-[10px] px-2.5 py-1 rounded transition">ALL</button>
+            </div>
+        </section>
+
+        <div id="teamDirectoryGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="col-span-full text-center text-xs text-gray-500 font-mono py-12">[ Querying live team directories... ]</div>
+        </div>
+    </main>
+
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">
+        &copy; 2026 Gentle Storm Racing. Built for Second Life.
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let allTeamsCache = [];
+        let selectedLetter = 'ALL';
+
+        async function loadTeamDirectory() {
+            buildAlphabetBar();
+
+            const { data: dbTeams } = await db.from('teams').select('*');
+            const { data: dbRacers } = await db.from('racers').select('*');
+
+            const teamsList = dbTeams || [];
+            const racersList = dbRacers || [];
+
+            const processedTeams = teamsList.map(team => {
+                const members = racersList.filter(r => r.primary_team_id === team.id || r.team_id === team.id);
+                
+                let leaderName = "UNASSIGNED";
+                if (team.leader_user_id) {
+                    const leaderRacer = racersList.find(r => r.id === team.leader_user_id);
+                    if (leaderRacer) leaderName = leaderRacer.display_name;
+                }
+
+                if (leaderName === "UNASSIGNED") {
+                    const fallbackLeader = members.find(r => r.display_name && r.display_name.toLowerCase().includes('deathstalker'));
+                    if (fallbackLeader) leaderName = fallbackLeader.display_name;
+                }
+
+                const totalPts = members.reduce((sum, r) => sum + (r.rating_points || 0), 0);
+                const totalWins = members.reduce((sum, r) => sum + (r.wins || 0), 0);
+                const rosterCount = members.length;
+
+                // Read persistent is_recruiting column from DB directly
+                const isRecruiting = team.is_recruiting !== undefined && team.is_recruiting !== null 
+                    ? team.is_recruiting 
+                    : true;
+
+                return {
+                    id: team.id,
+                    name: team.name,
+                    pts: totalPts,
+                    wins: totalWins,
+                    count: rosterCount,
+                    leader: leaderName,
+                    isRecruiting: isRecruiting,
+                    isPlaceholder: false
+                };
+            });
+
+            allTeamsCache = processedTeams.sort((a,b) => b.pts - a.pts);
+            renderTeams(allTeamsCache);
+        }
+
+        function buildAlphabetBar() {
+            const bar = document.getElementById('alphabetBar');
+            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+            alphabet.forEach(letter => {
+                bar.innerHTML += `<button onclick="setLetter('${letter}')" class="alphabet-btn bg-brand-bg border border-brand-border text-gray-400 hover:text-white font-black text-[10px] px-2.5 py-1 rounded transition">${letter}</button>`;
+            });
+        }
+
+        function setLetter(letter) {
+            selectedLetter = letter;
+            document.querySelectorAll('#alphabetBar button').forEach(btn => {
+                if(btn.innerText === letter) {
+                    btn.className = "alphabet-btn bg-brand-gold text-black font-black text-[10px] px-2.5 py-1 rounded transition";
+                } else {
+                    btn.className = "alphabet-btn bg-brand-bg border border-brand-border text-gray-400 hover:text-white font-black text-[10px] px-2.5 py-1 rounded transition";
+                }
+            });
+            filterTeams();
+        }
+
+        function filterTeams() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const statusVal = document.getElementById('statusFilter').value;
+
+            const filtered = allTeamsCache.filter(t => {
+                if (t.isPlaceholder) return true;
+                const matchesSearch = t.name.toLowerCase().includes(searchVal);
+                const matchesLetter = selectedLetter === 'ALL' || t.name.toUpperCase().startsWith(selectedLetter);
+                const matchesStatus = statusVal === 'all' || (statusVal === 'recruiting' && t.isRecruiting) || (statusVal === 'closed' && !t.isRecruiting);
+
+                return matchesSearch && matchesLetter && matchesStatus;
+            });
+
+            renderTeams(filtered);
+        }
+
+        function renderTeams(teams) {
+            const grid = document.getElementById('teamDirectoryGrid');
+            grid.innerHTML = '';
+
+            let displayList = [...teams];
+            while (displayList.length < 16) {
+                displayList.push({ isPlaceholder: true });
+            }
+
+            displayList.forEach(t => {
+                if (t.isPlaceholder) {
+                    grid.innerHTML += `
+                        <div class="bg-[#0a0a0a]/50 border border-brand-border/40 rounded-xl p-4 flex flex-col justify-between opacity-50">
+                            <div>
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="bg-gray-800 text-gray-500 text-[8px] font-black uppercase px-2 py-0.5 rounded">UNRANKED</span>
+                                    <span class="text-gray-600 font-black text-[8px] uppercase tracking-widest">CLOSED</span>
+                                </div>
+                                <div class="h-32 bg-[#111]/40 rounded-lg border border-brand-border/30 flex flex-col items-center justify-center mb-4">
+                                    <span class="text-[9px] text-gray-600 font-mono uppercase tracking-widest">REGISTRATION PENDING</span>
+                                </div>
+                                <h3 class="text-sm font-black uppercase text-gray-500 tracking-wider">PENDING SYNDICATE</h3>
+                                <span class="text-[9px] text-gray-600 uppercase mt-1 block tracking-wider">Leader: TBD</span>
+                                <div class="grid grid-cols-3 text-center mt-4 border-t border-brand-border/40 pt-4 text-gray-600">
+                                    <div><span class="block text-[8px] font-bold uppercase mb-1">POINTS</span><span class="text-xs font-black">0</span></div>
+                                    <div><span class="block text-[8px] font-bold uppercase mb-1">WINS</span><span class="text-xs font-black">0</span></div>
+                                    <div><span class="block text-[8px] font-bold uppercase mb-1">ROSTER</span><span class="text-xs font-black">0/10</span></div>
+                                </div>
+                            </div>
+                            <div class="mt-4 block w-full text-center bg-[#111]/30 border border-brand-border/30 text-gray-600 text-[9px] font-black uppercase py-2.5 rounded tracking-widest cursor-not-allowed">SLOT AVAILABLE</div>
+                        </div>
+                    `;
+                } else {
+                    const encodedName = encodeURIComponent(t.name);
+                    const badgeHtml = t.isRecruiting 
+                        ? `<span class="bg-green-500 text-black font-black text-[8px] uppercase px-2 py-0.5 rounded animate-pulse">● Recruiting</span>`
+                        : `<span class="bg-gray-700 text-gray-300 font-black text-[8px] uppercase px-2 py-0.5 rounded">Roster Closed</span>`;
+
+                    grid.innerHTML += `
+                        <div class="bg-[#0a0a0a] border border-brand-gold rounded-xl p-4 flex flex-col justify-between group shadow-[0_0_15px_rgba(197,160,89,0.1)]">
+                            <div>
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="bg-brand-red text-white text-[8px] font-black uppercase px-2 py-0.5 rounded">PRO PLUS LEAGUE</span>
+                                    ${badgeHtml}
+                                </div>
+                                
+                                <div class="h-32 bg-[#111] rounded-lg border border-brand-border flex flex-col items-center justify-center mb-4 group-hover:border-brand-gold transition cursor-pointer" onclick="window.location='team.html?name=${encodedName}'">
+                                    <h3 class="text-lg font-black uppercase text-white tracking-widest text-center px-2">${escapeHtml(t.name)}</h3>
+                                </div>
+                                
+                                <h3 class="text-sm font-black uppercase text-white tracking-wider">${escapeHtml(t.name)}</h3>
+                                <span class="text-[9px] text-gray-500 uppercase mt-1 block tracking-wider">Leader: <span class="text-brand-red">${escapeHtml(t.leader || 'Leader')}</span></span>
+                                
+                                <div class="grid grid-cols-3 text-center mt-4 border-t border-brand-border pt-4">
+                                    <div>
+                                        <span class="block text-[8px] text-gray-600 font-bold uppercase tracking-widest mb-1">POINTS</span>
+                                        <span class="text-xs font-black text-brand-gold">${t.pts.toLocaleString()}</span>
+                                    </div>
+                                    <div>
+                                        <span class="block text-[8px] text-gray-600 font-bold uppercase tracking-widest mb-1">WINS</span>
+                                        <span class="text-xs font-black text-white">${t.wins}</span>
+                                    </div>
+                                    <div>
+                                        <span class="block text-[8px] text-gray-600 font-bold uppercase tracking-widest mb-1">ROSTER</span>
+                                        <span class="text-xs font-black text-white">${t.count}/10</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="team.html?name=${encodedName}" class="mt-4 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[9px] font-black uppercase py-2.5 rounded tracking-widest">VIEW TEAM PROFILE →</a>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+
+        window.onload = loadTeamDirectory;
+    </script>
+</body>
+</html>

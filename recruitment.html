@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruitment Hub | Storm Riders</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col p-4 sm:p-8">
+
+    <div class="max-w-4xl w-full mx-auto mb-6">
+        <a href="team.html?name=Storm%20Riders" class="inline-flex items-center text-xs text-gray-400 hover:text-white transition uppercase font-bold">
+            &larr; Back to Team Profile
+        </a>
+    </div>
+
+    <main class="max-w-4xl w-full mx-auto bg-brand-card border border-brand-border rounded-xl p-6 md:p-8 shadow-2xl space-y-6">
+        <div class="flex justify-between items-center border-b border-brand-border pb-4">
+            <div>
+                <span class="text-[10px] font-black uppercase text-brand-gold tracking-widest block mb-1">Command Center</span>
+                <h1 class="text-2xl font-black uppercase text-white">Incoming Roster Applications</h1>
+            </div>
+            <span class="bg-brand-blue/20 border border-brand-blue text-brand-blue text-xs font-black uppercase px-3 py-1 rounded">Storm Riders Syndicate</span>
+        </div>
+
+        <div id="applicationsGrid" class="space-y-4">
+            <div class="text-center text-xs text-gray-500 font-mono py-12">[ Querying incoming applicant telemetry... ]</div>
+        </div>
+    </main>
+
+    <!-- SUPABASE ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function loadApplications() {
+            const grid = document.getElementById('applicationsGrid');
+            
+            const { data: apps, error } = await db
+                .from('gsr_applications')
+                .select('*')
+                .eq('team_name', 'Storm Riders')
+                .order('created_at', { ascending: false });
+
+            if (error || !apps || apps.length === 0) {
+                grid.innerHTML = `<div class="text-center text-xs text-gray-500 font-mono py-12">[ No pending applications found ]</div>`;
+                return;
+            }
+
+            grid.innerHTML = '';
+            apps.forEach(app => {
+                grid.innerHTML += `
+                    <div id="app-${app.id}" class="bg-[#0a0a0a] border border-brand-border p-4 rounded-xl flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 bg-[#111] rounded-lg border border-brand-border flex items-center justify-center text-[8px] text-gray-600 font-bold">PHOTO</div>
+                            <div>
+                                <h3 class="text-base font-black uppercase text-white">${escapeHtml(app.applicant_name)}</h3>
+                                <span class="text-[9px] text-gray-500 uppercase tracking-widest block">Submitted: ${new Date(app.created_at).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <a href="racer.html?driver=${encodeURIComponent(app.applicant_name)}" class="flex-1 sm:flex-none text-center bg-[#111] border border-brand-border hover:border-brand-blue text-gray-300 hover:text-white text-[9px] font-black uppercase px-4 py-2.5 rounded transition">View Racer Card</a>
+                            <button onclick="deleteApplication('${app.id}')" class="flex-1 sm:flex-none bg-red-950/40 border border-brand-red text-brand-red hover:bg-brand-red hover:text-white text-[9px] font-black uppercase px-4 py-2.5 rounded transition cursor-pointer">Delete Card ✕</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        async function deleteApplication(appId) {
+            if (!confirm("Are you sure you want to dismiss and delete this application card?")) return;
+
+            const { error } = await db.from('gsr_applications').delete().eq('id', appId);
+            if (error) {
+                alert("Error deleting application: " + error.message);
+            } else {
+                const el = document.getElementById(`app-${appId}`);
+                if (el) el.remove();
+                
+                // If list is empty now, show empty message
+                const grid = document.getElementById('applicationsGrid');
+                if (grid && grid.children.length === 0) {
+                    grid.innerHTML = `<div class="text-center text-xs text-gray-500 font-mono py-12">[ No pending applications found ]</div>`;
+                }
+            }
+        }
+
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+
+        window.onload = loadApplications;
+    </script>
+</body>
+</html>

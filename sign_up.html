@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
+    </script>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="max-w-md w-full my-8">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <a href="index.html"><img src="logo.png" alt="GSR Logo" class="h-16 mx-auto mb-4 object-contain"></a>
+            <h1 class="text-2xl font-black uppercase tracking-widest text-white">Network Registration</h1>
+            <p class="text-[10px] text-gray-400 uppercase mt-1">Select your account type below.</p>
+        </div>
+
+        <div class="bg-brand-card border border-brand-border rounded-xl shadow-2xl overflow-hidden">
+            
+            <!-- Type Selector Tabs -->
+            <div class="flex text-[10px] font-black uppercase border-b border-brand-border">
+                <button id="tabRacer" type="button" class="flex-1 py-4 bg-brand-bg text-brand-gold border-r border-brand-border transition cursor-pointer" onclick="switchForm('racer')">
+                    🏁 I am an SL Racer
+                </button>
+                <button id="tabFan" type="button" class="flex-1 py-4 bg-[#111] text-gray-500 hover:text-white transition cursor-pointer" onclick="switchForm('fan')">
+                    🎟️ I am a Fan / Viewer
+                </button>
+            </div>
+
+            <div class="p-6 sm:p-8">
+                <form id="signupForm" onsubmit="handleSignUp(event)" class="space-y-4">
+                    
+                    <!-- Common Fields -->
+                    <div>
+                        <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">Email Address</label>
+                        <input type="email" id="signupEmail" required oninput="validateForm()" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
+                    </div>
+
+                    <!-- FAN USERNAME FIELD (Only shown for fans) -->
+                    <div id="fanUsernameBox" class="hidden">
+                        <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">Choose Username</label>
+                        <input type="text" id="fanUsernameInput" placeholder="e.g. SpeedDemon99" oninput="validateForm()" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
+                        <p id="usernameError" class="text-[9px] text-brand-red font-bold mt-1 hidden">Username contains restricted terminology.</p>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">Password</label>
+                        <input type="password" id="signupPassword" required oninput="validateForm()" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">Confirm Password</label>
+                        <input type="password" id="signupPasswordConfirm" required oninput="validateForm()" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
+                        <p id="passwordMatchError" class="text-[9px] text-brand-red font-bold mt-1 hidden">Passwords do not match.</p>
+                    </div>
+
+                    <!-- RACER SPECIFIC FIELDS -->
+                    <div id="racerFields" class="space-y-4 pt-2 border-t border-brand-border">
+                        <div class="bg-brand-blue/10 border border-brand-blue/30 p-3 rounded text-[10px] text-brand-blue leading-relaxed">
+                            <strong>VERIFICATION REQUIRED:</strong> Your Second Life Legacy Name acts as your username. Generate a 6-digit PIN using the GSR Verification HUD in-game.
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="col-span-2 sm:col-span-1">
+                                <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">SL Legacy Name (Username)</label>
+                                <input type="text" id="racerNameInput" placeholder="e.g. ResidentName" oninput="validateForm()" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
+                            </div>
+                            <div class="col-span-2 sm:col-span-1">
+                                <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">In-Game PIN</label>
+                                <input type="text" id="racerPinInput" placeholder="123456" maxlength="6" oninput="validateForm()" class="w-full bg-[#0a0a0a] border border-brand-border text-brand-gold font-mono tracking-widest text-center text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAN SPECIFIC FIELDS -->
+                    <div id="fanFields" class="space-y-4 pt-2 border-t border-brand-border hidden">
+                        <div>
+                            <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">Where did you find out about us?</label>
+                            <select id="sourceSelect" onchange="checkOther('source')" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-4 py-3 rounded outline-none focus:border-brand-gold transition cursor-pointer">
+                                <option value="" disabled selected>Select an option...</option>
+                                <option value="sl_search">Second Life Search</option>
+                                <option value="friend">A Friend / Word of Mouth</option>
+                                <option value="youtube">YouTube</option>
+                                <option value="twitch">Twitch</option>
+                                <option value="other">Other (Please specify)</option>
+                            </select>
+                            <input type="text" id="sourceOther" placeholder="Please specify..." class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition mt-2 hidden">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-black uppercase text-gray-500 mb-1">What brought you to the site?</label>
+                            <select id="reasonSelect" onchange="checkOther('reason')" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-4 py-3 rounded outline-none focus:border-brand-gold transition cursor-pointer">
+                                <option value="" disabled selected>Select an option...</option>
+                                <option value="events">To watch Live Events</option>
+                                <option value="videos">To view Videos / Photos</option>
+                                <option value="following">Following a specific Racer</option>
+                                <option value="other">Other (Please specify)</option>
+                            </select>
+                            <input type="text" id="reasonOther" placeholder="Please specify..." class="w-full bg-[#0a0a0a] border border-brand-border text-white text-sm px-4 py-3 rounded outline-none focus:border-brand-gold transition mt-2 hidden">
+                        </div>
+                    </div>
+
+                    <!-- 2FA OPTION -->
+                    <div class="pt-2 flex items-center gap-3">
+                        <input type="checkbox" id="enable2fa" class="accent-brand-gold w-4 h-4 cursor-pointer">
+                        <label for="enable2fa" class="text-[10px] text-gray-300 cursor-pointer font-bold">
+                            Enable Two-Factor Authentication (2FA) for Sign In (via <span class="text-brand-gold">gentlestormracing@gmail.com</span>)
+                        </label>
+                    </div>
+
+                    <!-- TOS Agreement -->
+                    <div class="pt-2 flex items-start gap-3">
+                        <input type="checkbox" id="tos" onchange="validateForm()" class="mt-1 accent-brand-gold w-4 h-4 cursor-pointer">
+                        <label for="tos" class="text-[10px] text-gray-400 leading-relaxed cursor-pointer">
+                            I agree to the <a href="tos.html" target="_blank" class="text-brand-gold hover:underline">Terms of Service</a> and acknowledge the Privacy Policy.
+                        </label>
+                    </div>
+
+                    <!-- Submit Button (Disabled by default until fully valid) -->
+                    <button type="submit" id="submitBtn" disabled class="w-full bg-gray-700 text-gray-400 font-black uppercase text-xs py-4 rounded transition shadow-lg mt-4 cursor-not-allowed">
+                        Create Account
+                    </button>
+                    <p id="signupStatus" class="text-center text-[10px] font-bold mt-2 text-brand-red"></p>
+                </form>
+
+                <!-- Success State (Hidden by default) -->
+                <div id="successState" class="hidden text-center py-8">
+                    <div class="w-16 h-16 bg-brand-gold/20 text-brand-gold rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">✉️</div>
+                    <h3 class="text-lg font-black uppercase text-white mb-2">Check Your Email</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed mb-6">A confirmation link has been sent from <strong class="text-white">gentlestormracing@gmail.com</strong>. You must click the link to activate your account before signing in.</p>
+                    <a href="sign_in.html" class="inline-block bg-[#111] border border-brand-border hover:border-brand-gold text-white text-[10px] font-black uppercase px-6 py-3 rounded transition">Return to Sign In</a>
+                </div>
+
+            </div>
+            
+            <div class="p-4 border-t border-brand-border bg-[#0a0a0a] text-center">
+                <p class="text-[10px] text-gray-500 uppercase font-bold">Already have an account? <a href="sign_in.html" class="text-brand-gold hover:underline">Sign In Here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase JS Library & DB Config -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="gsr_db.js"></script>
+
+    <script>
+        let currentRole = 'racer';
+
+        // Profanity Blocklist (Admin editable later)
+        const blockedWords = ["admin", "moderator", "support", "gentlestorm", "fuck", "shit", "bitch", "cunt", "asshole", "nigger", "nigga", "faggot", "dick", "pussy", "slut", "whore"];
+
+        function containsProfanity(text) {
+            if (!text) return false;
+            const lower = text.toLowerCase();
+            return blockedWords.some(word => lower.includes(word));
+        }
+
+        function switchForm(type) {
+            currentRole = type;
+            const racerTab = document.getElementById('tabRacer');
+            const fanTab = document.getElementById('tabFan');
+            const racerFields = document.getElementById('racerFields');
+            const fanFields = document.getElementById('fanFields');
+            const fanUsernameBox = document.getElementById('fanUsernameBox');
+
+            if (type === 'racer') {
+                racerTab.className = "flex-1 py-4 bg-brand-bg text-brand-gold border-r border-brand-border transition shadow-inner cursor-pointer";
+                fanTab.className = "flex-1 py-4 bg-[#111] text-gray-500 hover:text-white transition cursor-pointer";
+                racerFields.classList.remove('hidden');
+                fanFields.classList.add('hidden');
+                fanUsernameBox.classList.add('hidden');
+            } else {
+                fanTab.className = "flex-1 py-4 bg-brand-bg text-brand-gold transition shadow-inner cursor-pointer";
+                racerTab.className = "flex-1 py-4 bg-[#111] text-gray-500 hover:text-white border-r border-brand-border transition cursor-pointer";
+                fanFields.classList.remove('hidden');
+                racerFields.classList.add('hidden');
+                fanUsernameBox.classList.remove('hidden');
+            }
+            validateForm();
+        }
+
+        function checkOther(field) {
+            const select = document.getElementById(`${field}Select`);
+            const input = document.getElementById(`${field}Other`);
+            if (select.value === 'other') {
+                input.classList.remove('hidden');
+                input.required = true;
+            } else {
+                input.classList.add('hidden');
+                input.required = false;
+            }
+            validateForm();
+        }
+
+        function validateForm() {
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('signupPasswordConfirm').value;
+            const tos = document.getElementById('tos').checked;
+            const submitBtn = document.getElementById('submitBtn');
+            const matchError = document.getElementById('passwordMatchError');
+            const usernameError = document.getElementById('usernameError');
+
+            let usernameValid = true;
+
+            if (currentRole === 'racer') {
+                const racerName = document.getElementById('racerNameInput').value.trim();
+                const racerPin = document.getElementById('racerPinInput').value.trim();
+                if (containsProfanity(racerName)) {
+                    usernameError.innerText = "SL Legacy Name contains restricted terminology.";
+                    usernameError.classList.remove('hidden');
+                    usernameValid = false;
+                } else {
+                    usernameError.classList.add('hidden');
+                }
+                if (!racerName || !racerPin) usernameValid = false;
+            } else {
+                const fanUser = document.getElementById('fanUsernameInput').value.trim();
+                if (containsProfanity(fanUser)) {
+                    usernameError.innerText = "Username contains restricted terminology.";
+                    usernameError.classList.remove('hidden');
+                    usernameValid = false;
+                } else {
+                    usernameError.classList.add('hidden');
+                }
+                if (!fanUser) usernameValid = false;
+            }
+
+            // Password Match Check
+            let passwordsMatch = (password && confirm && password === confirm);
+            if (password && confirm && !passwordsMatch) {
+                matchError.classList.remove('hidden');
+            } else {
+                matchError.classList.add('hidden');
+            }
+
+            // Enable / Disable Register Button
+            if (email && password && passwordsMatch && tos && usernameValid) {
+                submitBtn.disabled = false;
+                submitBtn.className = "w-full bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs py-4 rounded transition shadow-lg mt-4 cursor-pointer";
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.className = "w-full bg-gray-700 text-gray-400 font-black uppercase text-xs py-4 rounded transition shadow-lg mt-4 cursor-not-allowed";
+            }
+        }
+
+        async function handleSignUp(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const enable2fa = document.getElementById('enable2fa').checked;
+            const submitBtn = document.getElementById('submitBtn');
+            const statusMsg = document.getElementById('signupStatus');
+
+            let username = currentRole === 'racer' 
+                ? document.getElementById('racerNameInput').value.trim() 
+                : document.getElementById('fanUsernameInput').value.trim();
+
+            submitBtn.innerHTML = "Processing...";
+            submitBtn.disabled = true;
+            statusMsg.innerText = "";
+
+            try {
+                if (!window.db && window.supabase) {
+                    window.db = window.supabase.createClient('https://xwrfreokngnknftgzglg.supabase.co', 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw');
+                }
+
+                // 1. Create User in Supabase Auth
+                const { data, error } = await window.db.auth.signUp({
+                    email: email,
+                    password: password,
+                });
+
+                if (error) throw error;
+
+                // 2. Insert profile data into gsr_profiles
+                if (data.user) {
+                    const profileData = {
+                        id: data.user.id,
+                        email: email,
+                        username: username,
+                        role: currentRole,
+                        sl_legacy_name: currentRole === 'racer' ? username : null,
+                        two_factor_enabled: enable2fa,
+                        fan_source: currentRole === 'fan' ? document.getElementById('sourceSelect').value : null,
+                        fan_reason: currentRole === 'fan' ? document.getElementById('reasonSelect').value : null
+                    };
+
+                    const { error: profileError } = await window.db.from('gsr_profiles').upsert([profileData]);
+                    if (profileError) {
+                        console.error("Profile linking warning:", profileError);
+                    }
+                }
+
+                // 3. Show Success Screen
+                document.getElementById('signupForm').classList.add('hidden');
+                document.getElementById('successState').classList.remove('hidden');
+
+            } catch (err) {
+                statusMsg.innerText = "Error: " + err.message;
+                submitBtn.innerHTML = "Create Account";
+                submitBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

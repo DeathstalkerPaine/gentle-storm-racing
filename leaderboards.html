@@ -1,145 +1,272 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gentle Storm Racing - Global Leaderboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              red: '#ff2a2a',
-              dark: '#0e1117',
-              card: '#161b22',
-              border: '#30363d'
-            }
-          }
-        }
-      }
-    }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSR Leaderboards Hub | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 12px rgba(255, 42, 42, 0.25); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+    </style>
 </head>
-<body class="bg-brand-dark text-gray-100 min-h-screen font-sans">
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-  <!-- Header Navigation -->
-  <header class="border-b border-brand-border bg-brand-card py-4 px-8 flex justify-between items-center shadow-lg">
-    <div class="flex items-center space-x-3">
-      <div class="w-3 h-8 bg-brand-red rounded-sm"></div>
-      <h1 class="text-2xl font-black tracking-wider uppercase text-white">Gentle Storm <span class="text-brand-red">Racing</span></h1>
-    </div>
-    <nav class="flex space-x-6 text-sm font-semibold text-gray-400">
-      <a href="index.html" class="hover:text-white transition">Main Menu</a>
-      <a href="leaderboards.html" class="text-white border-b-2 border-brand-red pb-1">Leaderboards</a>
-      <a href="#" class="hover:text-white transition">Tracks</a>
-      <a href="racers.html" class="hover:text-white transition">Racers</a>
-      <a href="teams.html" class="hover:text-white transition">Teams</a>
+    <!-- MAIN HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html"><img src="logo.png" alt="GSR Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform"></a>
+            </div>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Global Telemetry Data</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    LEADERBOARDS HUB
+                </h1>
+            </div>                 
+        </div>
+    </header>
+
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="leaderboard_view.html?category=team" class="text-gray-300 hover:text-brand-gold transition">Team Standings</a>
+            <a href="leaderboard_view.html?category=racer" class="text-gray-300 hover:text-brand-gold transition">Racer Standings</a>
+            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">Leagues Hub</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
     </nav>
-  </header>
 
-  <!-- Main Content -->
-  <main class="max-w-6xl mx-auto py-10 px-4">
-    
-    <!-- Title & Filter Section -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-      <div>
-        <h2 class="text-3xl font-bold tracking-tight">GLOBAL LEADERBOARD</h2>
-        <p class="text-gray-400 text-sm mt-1">Official verified timings direct from Second Life telemetry.</p>
-      </div>
-      
-      <!-- Class Filter Buttons -->
-      <div class="inline-flex rounded-md shadow-sm bg-brand-card p-1 border border-brand-border">
-        <button onclick="fetchLeaderboard('pro')" id="btn-pro" class="px-4 py-2 text-sm font-bold rounded bg-brand-red text-white transition">PRO</button>
-        <button onclick="fetchLeaderboard('amateur')" id="btn-amateur" class="px-4 py-2 text-sm font-bold rounded text-gray-400 hover:text-white transition">AMATEUR</button>
-        <button onclick="fetchLeaderboard('proplus')" id="btn-proplus" class="px-4 py-2 text-sm font-bold rounded text-gray-400 hover:text-white transition">PRO PLUS</button>
-      </div>
-    </div>
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
 
-    <!-- Leaderboard Table Container -->
-    <div class="bg-brand-card rounded-lg border border-brand-border overflow-hidden shadow-xl">
-      <table class="w-full text-left border-collapse">
-        <thead>
-          <tr class="border-b border-brand-border bg-black/30 text-gray-400 text-xs uppercase tracking-wider">
-            <th class="py-4 px-6">Rank</th>
-            <th class="py-4 px-6">Racer</th>
-            <th class="py-4 px-6">Mode</th>
-            <th class="py-4 px-6">Laps</th>
-            <th class="py-4 px-6 text-right">Total Time</th>
-            <th class="py-4 px-6 text-right">Points / XP</th>
-          </tr>
-        </thead>
-        <tbody id="leaderboard-rows" class="divide-y divide-brand-border text-sm">
-          <tr>
-            <td colspan="6" class="py-8 text-center text-gray-500 animate-pulse">Loading telemetry data...</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </main>
+        <!-- ROW 1: CHAMPIONSHIP LEAGUES (TOP 5) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col red-border-glow">
+                <h2 class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center tracking-widest">Pro Plus Class</h2>
+                <div id="proPlusList" class="space-y-3 flex-grow"></div>
+                <a href="leaderboard_view.html?category=racer&class=pro_plus" class="mt-4 text-[10px] uppercase font-bold text-brand-red text-center hover:underline">View Full Leaderboard →</a>
+            </div>
 
-  <script>
-    const WORKER_BASE_URL = "https://green-art-9cfb.gentlestormentertainment.workers.dev";
+            <div class="bg-brand-card border border-brand-gold rounded-xl p-6 shadow-xl flex flex-col gold-border-glow">
+                <h2 class="text-sm font-black uppercase text-brand-gold border-b border-brand-border pb-3 mb-4 text-center tracking-widest">Pro League Championship</h2>
+                <div id="proLeagueList" class="space-y-3 flex-grow"></div>
+                <a href="leaderboard_view.html?category=racer&class=pro_league" class="mt-4 text-[10px] uppercase font-bold text-brand-gold text-center hover:underline">View Full Leaderboard →</a>
+            </div>
 
-    function formatTime(ms) {
-      if (!ms || ms <= 0) return "--:--";
-      const totalSeconds = ms / 1000;
-      const minutes = Math.floor(totalSeconds / 60);
-      const seconds = (totalSeconds % 60).toFixed(3);
-      if (minutes > 0) return `${minutes}m ${seconds.padStart(6, '0')}s`;
-      return `${seconds}s`;
-    }
+            <div class="bg-brand-card border border-brand-blue rounded-xl p-6 shadow-xl flex flex-col blue-border-glow">
+                <h2 class="text-sm font-black uppercase text-brand-blue border-b border-brand-border pb-3 mb-4 text-center tracking-widest">Amateur League Championship</h2>
+                <div id="amLeagueList" class="space-y-3 flex-grow"></div>
+                <a href="leaderboard_view.html?category=racer&class=amateur_league" class="mt-4 text-[10px] uppercase font-bold text-brand-blue text-center hover:underline">View Full Leaderboard →</a>
+            </div>
+        </section>
 
-    async function fetchLeaderboard(selectedClass = 'pro') {
-      ['pro', 'amateur', 'proplus'].forEach(cls => {
-        const btn = document.getElementById(`btn-${cls}`);
-        if (cls === selectedClass) {
-          btn.className = "px-4 py-2 text-sm font-bold rounded bg-brand-red text-white transition";
-        } else {
-          btn.className = "px-4 py-2 text-sm font-bold rounded text-gray-400 hover:text-white transition";
+        <!-- ROW 2: CASUAL RACING & TEAMS (TOP 5) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
+                <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center tracking-widest">Top 5 Pro Racers (Casual)</h2>
+                <div id="proCasualList" class="space-y-3 flex-grow"></div>
+                <a href="leaderboard_view.html?category=racer&class=pro_racing" class="mt-4 text-[10px] uppercase font-bold text-gray-400 text-center hover:underline">View Full Leaderboard →</a>
+            </div>
+
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
+                <h2 class="text-sm font-black uppercase text-gray-300 border-b border-brand-border pb-3 mb-4 text-center tracking-widest">Top 5 Amateur Racers (Casual)</h2>
+                <div id="amCasualList" class="space-y-3 flex-grow"></div>
+                <a href="leaderboard_view.html?category=racer&class=amateur_racing" class="mt-4 text-[10px] uppercase font-bold text-gray-400 text-center hover:underline">View Full Leaderboard →</a>
+            </div>
+
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
+                <h2 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center tracking-widest">Top 5 Pro League Teams</h2>
+                <div id="proTeamsList" class="space-y-3 flex-grow"></div>
+                <a href="leaderboard_view.html?category=team&class=pro_league" class="mt-4 text-[10px] uppercase font-bold text-gray-400 text-center hover:underline">View Full Leaderboard →</a>
+            </div>
+        </section>
+
+        <!-- ROW 3: PRECISION & RELIABILITY STATS (TOP 5 SLOTS EACH) -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl flex flex-col">
+                <h3 class="text-xs font-black uppercase text-brand-gold border-b border-brand-border pb-2 mb-3 text-center">Top Win %</h3>
+                <div id="winPctList" class="space-y-2 flex-grow"></div>
+            </div>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl flex flex-col">
+                <h3 class="text-xs font-black uppercase text-brand-blue border-b border-brand-border pb-2 mb-3 text-center">Cleanest Racers</h3>
+                <div id="cleanRacesList" class="space-y-2 flex-grow"></div>
+            </div>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl flex flex-col">
+                <h3 class="text-xs font-black uppercase text-brand-red border-b border-brand-border pb-2 mb-3 text-center">Pole Masters</h3>
+                <div id="poleList" class="space-y-2 flex-grow"></div>
+            </div>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl flex flex-col">
+                <h3 class="text-xs font-black uppercase text-white border-b border-brand-border pb-2 mb-3 text-center">Most Podiums</h3>
+                <div id="podiumList" class="space-y-2 flex-grow"></div>
+            </div>
+        </section>
+
+        <!-- ROW 4: TRACK RECORDS -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl text-center">
+                <h3 class="text-[10px] font-black uppercase text-gray-500 mb-2">Vegas Strip Record</h3>
+                <div id="vegasRecord" class="bg-brand-bg border border-brand-border p-2 rounded">
+                    <span class="block text-[10px] font-black text-gray-600 uppercase">Unclaimed</span>
+                    <span class="text-[11px] font-mono text-gray-600">--:--.---</span>
+                </div>
+            </div>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl text-center">
+                <h3 class="text-[10px] font-black uppercase text-gray-500 mb-2">Ancient Rome Record</h3>
+                <div id="romeRecord" class="bg-brand-bg border border-brand-border p-2 rounded">
+                    <span class="block text-[10px] font-black text-gray-600 uppercase">Unclaimed</span>
+                    <span class="text-[11px] font-mono text-gray-600">--:--.---</span>
+                </div>
+            </div>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl text-center">
+                <h3 class="text-[10px] font-black uppercase text-gray-500 mb-2">Abandoned City Record</h3>
+                <div id="cityRecord" class="bg-brand-bg border border-brand-border p-2 rounded">
+                    <span class="block text-[10px] font-black text-gray-600 uppercase">Unclaimed</span>
+                    <span class="text-[11px] font-mono text-gray-600">--:--.---</span>
+                </div>
+            </div>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl text-center">
+                <h3 class="text-[10px] font-black uppercase text-gray-500 mb-2">Back To Future Record</h3>
+                <div id="futureRecord" class="bg-brand-bg border border-brand-border p-2 rounded">
+                    <span class="block text-[10px] font-black text-gray-600 uppercase">Unclaimed</span>
+                    <span class="text-[11px] font-mono text-gray-600">--:--.---</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
+
+    <!-- SUPABASE ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function loadLeaderboardsHub() {
+            const { data: racers } = await db.from('racers').select('*');
+            const { data: teams } = await db.from('teams').select('*');
+
+            if (!racers) return;
+
+            // 1. Core Points Leaderboards
+            const proPlus = [...racers].sort((a,b) => (b.pts_pro_plus || 0) - (a.pts_pro_plus || 0));
+            const proLeague = [...racers].sort((a,b) => (b.pts_pro_league || 0) - (a.pts_pro_league || 0));
+            const amLeague = [...racers].sort((a,b) => (b.pts_amateur_league || 0) - (a.pts_amateur_league || 0));
+            
+            const proCasual = [...racers].sort((a,b) => (b.pts_pro || 0) - (a.pts_pro || 0));
+            const amCasual = [...racers].sort((a,b) => (b.pts_amateur || 0) - (a.pts_amateur || 0));
+
+            renderMainBox('proPlusList', proPlus.slice(0, 5), 'pts_pro_plus');
+            renderMainBox('proLeagueList', proLeague.slice(0, 5), 'pts_pro_league');
+            renderMainBox('amLeagueList', amLeague.slice(0, 5), 'pts_amateur_league');
+            renderMainBox('proCasualList', proCasual.slice(0, 5), 'pts_pro');
+            renderMainBox('amCasualList', amCasual.slice(0, 5), 'pts_amateur');
+
+            // 2. Pro League Teams
+            if (teams) {
+                const proTeams = [...teams].sort((a,b) => (b.pts_pro_league || 0) - (a.pts_pro_league || 0));
+                renderMainBox('proTeamsList', proTeams.slice(0, 5), 'pts_pro_league', true);
+            }
+
+            // 3. Stat Leaders (Top 5 Fixed Slots)
+            const winPctRacers = [...racers].map(r => {
+                const total = (r.wins || 0) + (r.losses || 0) + (r.dnf || 0);
+                const pct = total > 0 ? ((r.wins || 0) / total) * 100 : 0;
+                return { ...r, calculated_win_pct: pct };
+            }).sort((a,b) => b.calculated_win_pct - a.calculated_win_pct);
+
+            const cleanRacers = [...racers].sort((a,b) => (b.clean_races || 0) - (a.clean_races || 0));
+            const poleRacers = [...racers].sort((a,b) => (b.pole_positions || 0) - (a.pole_positions || 0));
+            const podiumRacers = [...racers].sort((a,b) => (b.podiums || 0) - (a.podiums || 0));
+
+            renderTop5StatBox('winPctList', winPctRacers.slice(0, 5), r => Math.round(r.calculated_win_pct) + '%');
+            renderTop5StatBox('cleanRacesList', cleanRacers.slice(0, 5), r => (r.clean_races || 0) + ' Clean');
+            renderTop5StatBox('poleList', poleRacers.slice(0, 5), r => (r.pole_positions || 0) + ' Poles');
+            renderTop5StatBox('podiumList', podiumRacers.slice(0, 5), r => (r.podiums || 0) + ' Podiums');
+
+            // 4. Track Records
+            const bestLapRacer = racers.filter(r => r.best_lap_time && r.best_lap_time !== '--:--.---').sort((a,b) => a.best_lap_time.localeCompare(b.best_lap_time))[0];
+            if (bestLapRacer) {
+                document.getElementById('vegasRecord').innerHTML = `<span class="block text-[10px] font-black text-white uppercase">${escapeHtml(bestLapRacer.display_name)}</span><span class="text-[11px] font-mono text-brand-gold">${bestLapRacer.best_lap_time}</span>`;
+            }
         }
-      });
 
-      const tbody = document.getElementById('leaderboard-rows');
-      tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-gray-500 animate-pulse">Loading ${selectedClass.toUpperCase()} telemetry data...</td></tr>`;
+        function renderMainBox(elementId, items, key, isTeam = false) {
+            const container = document.getElementById(elementId);
+            container.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const item = items[i];
+                if (item) {
+                    const name = item.display_name || item.name;
+                    const pts = (item[key] || 0).toLocaleString();
+                    const url = isTeam ? `teams_profiles.html?name=${encodeURIComponent(name)}` : `racers_profiles.html?driver=${encodeURIComponent(name)}`;
+                    
+                    const isFirst = i === 0;
+                    const borderClass = isFirst ? 'border-brand-gold' : 'border-brand-border';
+                    const numClass = isFirst ? 'text-brand-gold' : (i === 1 ? 'text-gray-400' : 'text-gray-500');
+                    const textClass = isFirst ? 'text-white' : 'text-gray-300';
 
-      try {
-        const res = await fetch(`${WORKER_BASE_URL}/leaderboard?class=${selectedClass}&limit=20`);
-        const data = await res.json();
-
-        if (!data.ok || !data.leaderboard || data.leaderboard.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-gray-500">No race entries recorded for class "${selectedClass.toUpperCase()}".</td></tr>`;
-          return;
+                    container.innerHTML += `
+                        <div onclick="window.location='${url}'" class="flex justify-between items-center bg-brand-bg px-3 py-2 border ${borderClass} rounded cursor-pointer hover:bg-[#111] transition">
+                            <span class="${numClass} font-black italic w-4">${i + 1}</span>
+                            <span class="${textClass} text-[11px] font-bold uppercase truncate flex-grow pl-1">${escapeHtml(name)}</span>
+                            <span class="text-brand-gold text-[10px] font-black">${pts} PTS</span>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML += `
+                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-40">
+                            <span class="text-gray-600 font-black italic w-4">${i + 1}</span>
+                            <span class="text-gray-600 text-[10px] font-bold uppercase">Pending</span>
+                        </div>
+                    `;
+                }
+            }
         }
 
-        tbody.innerHTML = data.leaderboard.map((row, index) => {
-          const rank = index + 1;
-          let rankBadge = `<span class="font-bold text-gray-400">#${rank}</span>`;
-          if (rank === 1) rankBadge = `<span class="bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 px-2 py-1 rounded font-bold">#1 GOLD</span>`;
-          if (rank === 2) rankBadge = `<span class="bg-gray-300/10 text-gray-300 border border-gray-300/30 px-2 py-1 rounded font-bold">#2 SILVER</span>`;
-          if (rank === 3) rankBadge = `<span class="bg-amber-600/10 text-amber-600 border border-amber-600/30 px-2 py-1 rounded font-bold">#3 BRONZE</span>`;
+        function renderTop5StatBox(elementId, items, formatStatFn) {
+            const container = document.getElementById(elementId);
+            container.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const item = items[i];
+                if (item && item.display_name) {
+                    const statVal = formatStatFn(item);
+                    const isFirst = i === 0;
+                    const numClass = isFirst ? 'text-brand-gold' : 'text-gray-400';
+                    const textClass = isFirst ? 'text-white font-black' : 'text-gray-300 font-bold';
 
-          return `
-            <tr class="hover:bg-white/5 transition">
-              <td class="py-4 px-6">${rankBadge}</td>
-              <td class="py-4 px-6 font-semibold text-white">${row.display_name || 'Unknown Racer'}</td>
-              <td class="py-4 px-6 uppercase text-xs text-gray-400"><span class="bg-brand-border px-2 py-1 rounded">${row.mode}</span></td>
-              <td class="py-4 px-6 text-gray-300">${row.laps} Laps</td>
-              <td class="py-4 px-6 text-right font-mono font-bold text-brand-red">${formatTime(row.total_time_ms)}</td>
-              <td class="py-4 px-6 text-right font-mono text-xs text-gray-400">${row.points_awarded} PTS / ${row.xp_awarded} XP</td>
-            </tr>
-          `;
-        }).join('');
+                    container.innerHTML += `
+                        <div onclick="window.location='racers_profiles.html?driver=${encodeURIComponent(item.display_name)}'" class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded cursor-pointer hover:bg-[#111] transition">
+                            <span class="${numClass} font-black italic w-4 text-xs">${i + 1}</span>
+                            <span class="${textClass} text-[10px] uppercase truncate flex-grow pl-1">${escapeHtml(item.display_name)}</span>
+                            <span class="text-[10px] font-mono text-brand-gold font-bold">${statVal}</span>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML += `
+                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded opacity-40">
+                            <span class="text-gray-600 font-black italic w-4 text-xs">${i + 1}</span>
+                            <span class="text-gray-600 text-[10px] font-bold uppercase">Pending</span>
+                        </div>
+                    `;
+                }
+            }
+        }
 
-      } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-red-500">Error connecting to telemetry server. Check console.</td></tr>`;
-        console.error(err);
-      }
-    }
-
-    fetchLeaderboard('pro');
-  </script>
+        function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+        window.onload = loadLeaderboardsHub;
+    </script>
 </body>
 </html>

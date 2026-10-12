@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Events Calendar | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
+    </script>
+    <style>
+        .gold-border-glow { border: 2px solid #c5a059; box-shadow: 0 0 25px rgba(197, 160, 89, 0.2); }
+        .calendar-grid-cell { min-height: 110px; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- MAIN HEADER WITH AUTH CONTAINER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-8 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center md:justify-start w-full md:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="GSR Logo" class="h-10 sm:h-14 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
+            </div>
+
+            <div class="w-full md:absolute md:inset-x-0 text-center pointer-events-none md:px-40 py-1">
+                <span class="block text-[9px] font-black uppercase tracking-[0.3em] text-brand-gold">Official Schedule</span>
+                <h1 class="text-xl sm:text-2xl font-black uppercase text-white tracking-wider">UPCOMING EVENTS CALENDAR</h1>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center gap-3 z-10 w-full md:w-auto justify-center md:justify-end">
+                <select id="calendarMonthSelect" onchange="changeCalendarMonth(this.value)" class="bg-brand-bg border border-brand-gold text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer">
+                    <option value="2026-10">October 2026</option>
+                    <option value="2026-11">November 2026</option>
+                    <option value="2026-12">December 2026</option>
+                    <option value="2027-01">January 2027</option>
+                </select>
+
+                <!-- Dynamic Auth & Admin Mode Buttons -->
+                <div id="userNav" class="flex items-center gap-2">
+                    <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 font-black uppercase text-[9px] px-3 py-2 rounded transition">Sign In</a>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Auth Container -->
+        <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 px-4 z-10 w-full"></div>
+    </header>
+
+    <!-- NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
+            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams Hub</a>
+            <a href="leagues.html" class="text-gray-300 hover:text-brand-gold transition">Leagues</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards</a>
+            <a href="upcoming_events.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">Upcoming Events</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 space-y-10">
+
+        <!-- NEAREST UPCOMING EVENTS HIGHLIGHT BAR -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl space-y-4">
+            <div class="flex justify-between items-center border-b border-brand-border pb-3">
+                <h3 class="text-xs font-black uppercase text-brand-gold tracking-widest">⚡ Nearest Upcoming Grid</h3>
+                <span class="text-[9px] text-brand-green uppercase font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Supabase Live Sync</span>
+            </div>
+            
+            <div id="nearestEventsBox" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-brand-bg border border-brand-border p-4 rounded-lg text-center text-xs text-gray-500 font-mono">[ Loading upcoming schedule... ]</div>
+            </div>
+        </section>
+
+        <!-- WALL-CALENDAR STYLE CONTAINER -->
+        <section class="bg-brand-card gold-border-glow rounded-2xl p-6 sm:p-10 shadow-2xl space-y-6 relative overflow-hidden">
+            <div class="text-center border-b-2 border-brand-gold pb-6 space-y-1">
+                <span class="text-[10px] font-black uppercase tracking-[0.4em] text-brand-gold">Gentle Storm Racing Schedule</span>
+                <h2 id="calendarTitle" class="text-3xl sm:text-4xl font-black uppercase tracking-wider text-white font-serif">OCTOBER 2026</h2>
+            </div>
+
+            <div class="grid grid-cols-7 gap-2 text-center font-black uppercase text-xs text-brand-gold tracking-widest pb-2 border-b border-brand-border">
+                <div>Sun</div><div>Mon</div><div>Tues</div><div>Wed</div><div>Thurs</div><div>Fri</div><div>Sat</div>
+            </div>
+
+            <div id="calendarGrid" class="grid grid-cols-7 gap-2"></div>
+        </section>
+
+    </main>
+
+    <!-- EVENT VIEW / DETAIL MODAL -->
+    <div id="eventModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-brand-card border border-brand-gold rounded-xl max-w-2xl w-full p-6 shadow-2xl relative gold-border-glow space-y-4 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeEventModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg font-black uppercase cursor-pointer">✕</button>
+            <div>
+                <span id="modalDateTag" class="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-brand-gold text-black font-bold">Category</span>
+                <h2 id="modalTitle" class="text-xl font-black uppercase text-white mt-2">Event Title</h2>
+            </div>
+            
+            <!-- Dynamic Media Preview Box -->
+            <div id="modalMediaContainer" class="aspect-video bg-black border border-brand-border rounded-lg overflow-hidden flex items-center justify-center relative">
+                <span id="modalMediaPlaceholder" class="text-xs text-gray-500 font-mono uppercase text-center p-4">[ EVENT IMAGE / VIDEO PREVIEW ]</span>
+            </div>
+
+            <div>
+                <p id="modalDescription" class="text-xs text-gray-300 leading-relaxed whitespace-pre-wrap">Detailed event description loads here.</p>
+            </div>
+            <div class="flex justify-between items-center pt-3 border-t border-brand-border" id="modalActionsRow">
+                <div id="modalAdminBtns" class="flex gap-2 hidden">
+                    <button id="btnEditEvent" onclick="" class="bg-brand-blue hover:bg-blue-600 text-white text-xs font-black uppercase px-4 py-2 rounded transition cursor-pointer">✏️ Edit Event</button>
+                    <button id="btnDeleteEvent" onclick="" class="bg-brand-red hover:bg-red-700 text-white text-xs font-black uppercase px-4 py-2 rounded transition cursor-pointer">🗑 Delete</button>
+                </div>
+                <button onclick="closeEventModal()" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-xs font-bold uppercase text-gray-300 px-4 py-2 rounded transition cursor-pointer ml-auto">
+                    Close Window
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN EVENT EDITOR / CREATOR MODAL -->
+    <div id="eventEditorModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-brand-card border border-brand-gold rounded-xl max-w-xl w-full p-6 shadow-2xl relative gold-border-glow space-y-4 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeEventEditorModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg font-black uppercase cursor-pointer">✕</button>
+            
+            <h2 id="editorModalTitle" class="text-lg font-black uppercase text-brand-gold tracking-wider border-b border-brand-border pb-2">➕ Add New Event</h2>
+            
+            <form id="eventForm" onsubmit="saveEventToDatabase(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="edit_event_id" value="">
+                <input type="hidden" id="edit_media_url_existing" value="">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-black uppercase text-gray-400 mb-1">Event Date</label>
+                        <input type="date" id="edit_event_date" required class="w-full bg-[#0a0a0a] border border-brand-border text-white px-3 py-2 rounded outline-none focus:border-brand-gold">
+                    </div>
+                    <div>
+                        <label class="block font-black uppercase text-gray-400 mb-1">Event Time (e.g., 8:00 PM SLT)</label>
+                        <input type="text" id="edit_event_time" placeholder="8:00 PM SLT" required class="w-full bg-[#0a0a0a] border border-brand-border text-white px-3 py-2 rounded outline-none focus:border-brand-gold">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-black uppercase text-gray-400 mb-1">Title</label>
+                        <input type="text" id="edit_event_title" placeholder="Grand Prix Round 1" required class="w-full bg-[#0a0a0a] border border-brand-border text-white px-3 py-2 rounded outline-none focus:border-brand-gold">
+                    </div>
+                    <div>
+                        <label class="block font-black uppercase text-gray-400 mb-1">Category / Tag</label>
+                        <select id="edit_event_category" required class="w-full bg-[#0a0a0a] border border-brand-border text-white px-3 py-2 rounded outline-none focus:border-brand-gold cursor-pointer font-bold">
+                            <option value="Amateur">Amateur</option>
+                            <option value="Amateur League">Amateur League</option>
+                            <option value="Pro" selected>Pro</option>
+                            <option value="Pro League">Pro League</option>
+                            <option value="Pro Plus">Pro Plus</option>
+                            <option value="NightClub Event">NightClub Event</option>
+                            <option value="Special Event">Special Event</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- MEDIA UPLOAD & LINK FIELDS -->
+                <div class="space-y-3 pt-2 border-t border-brand-border">
+                    <div>
+                        <label class="block font-black uppercase text-brand-gold mb-1">Upload Banner / Track Photo</label>
+                        <input type="file" id="edit_media_file" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white px-3 py-1.5 rounded text-xs">
+                    </div>
+
+                    <div>
+                        <label class="block font-black uppercase text-gray-400 mb-1">Or Direct Media / Video URL (YouTube, MP4, image link)</label>
+                        <input type="url" id="edit_media_url_input" placeholder="https://..." class="w-full bg-[#0a0a0a] border border-brand-border text-white px-3 py-2 rounded outline-none focus:border-brand-gold">
+                    </div>
+
+                    <div>
+                        <label class="block font-black uppercase text-gray-400 mb-1">Media Placeholder Label (Fallback Text)</label>
+                        <input type="text" id="edit_event_media_label" placeholder="CIRCUIT PREVIEW" class="w-full bg-[#0a0a0a] border border-brand-border text-white px-3 py-2 rounded outline-none focus:border-brand-gold">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-black uppercase text-gray-400 mb-1">Full Description</label>
+                    <textarea id="edit_event_description" rows="3" placeholder="Detailed race breakdown, rules, or track info..." class="w-full bg-[#0a0a0a] border border-brand-border text-white px-3 py-2 rounded outline-none focus:border-brand-gold"></textarea>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-3 border-t border-brand-border">
+                    <button type="button" onclick="closeEventEditorModal()" class="text-xs font-bold uppercase text-gray-400 hover:text-white px-4 py-2 transition cursor-pointer">Cancel</button>
+                    <button type="submit" id="btnSaveEvent" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-6 py-2 rounded transition shadow cursor-pointer">Save to Database</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">
+        &copy; 2026 Gentle Storm Racing. Built for Second Life.
+    </footer>
+
+    <!-- SUPABASE CALENDAR ENGINE & ADMIN EDITING -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let eventsDatabase = {};
+        let rawEventsList = [];
+        let currentYearMonth = "2026-10";
+        let currentUser = null;
+        let isEditModeActive = false;
+
+        async function initCalendarPage() {
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                const userNav = document.getElementById('userNav');
+
+                if (session) {
+                    currentUser = session.user;
+                    const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, is_admin').eq('id', currentUser.id).maybeSingle();
+                    const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+                    if (userNav) {
+                        let adminBtnHTML = profile?.is_admin ? `<button onclick="toggleAdminEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-[9px] uppercase font-black px-3 py-2 rounded transition shadow-lg cursor-pointer">✏️ Admin Edit</button>` : '';
+                        userNav.innerHTML = `
+                            <span class="text-xs font-black text-white uppercase hidden sm:inline">${displayName}</span>
+                            <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] uppercase font-black px-3 py-2 rounded transition shadow cursor-pointer">Sign Out</button>
+                            ${adminBtnHTML}
+                        `;
+                    }
+                }
+            } catch (e) { console.warn("Auth check bypassed", e); }
+
+            await fetchEventsAndCalendar();
+        }
+
+        function toggleAdminEditMode() {
+            isEditModeActive = !isEditModeActive;
+            const btn = document.getElementById('editModeBtn');
+            if (btn) {
+                btn.innerHTML = isEditModeActive ? '❌ Exit Edit' : '✏️ Admin Edit';
+                btn.classList.toggle('bg-brand-blue', !isEditModeActive);
+                btn.classList.toggle('bg-brand-red', isEditModeActive);
+            }
+            generateCalendar(currentYearMonth);
+        }
+
+        async function fetchEventsAndCalendar() {
+            const { data, error } = await db.from('gsr_events').select('*');
+            
+            eventsDatabase = {};
+            rawEventsList = data || [];
+
+            if (data && data.length > 0) {
+                data.forEach(ev => {
+                    eventsDatabase[ev.event_date] = ev;
+                });
+            }
+
+            renderNearestEvents(rawEventsList);
+            generateCalendar(currentYearMonth);
+        }
+
+        function renderNearestEvents(eventsList) {
+            const box = document.getElementById('nearestEventsBox');
+            if (!box) return;
+
+            const todayStr = new Date().toISOString().split('T')[0];
+            const upcoming = eventsList
+                .filter(e => e.event_date >= todayStr)
+                .sort((a,b) => new Date(a.event_date) - new Date(b.event_date))
+                .slice(0, 3);
+
+            if (upcoming.length === 0) {
+                box.innerHTML = `<div class="col-span-3 text-center text-xs text-gray-500 font-mono py-4">[ No upcoming events scheduled ]</div>`;
+                return;
+            }
+
+            box.innerHTML = '';
+            upcoming.forEach(ev => {
+                box.innerHTML += `
+                    <div class="bg-brand-bg border border-brand-border p-4 rounded-lg flex flex-col justify-between hover:border-brand-gold transition cursor-pointer" onclick="openEventModalByData('${ev.event_date}')">
+                        <div>
+                            <span class="text-[9px] font-black text-brand-red uppercase block">${ev.event_date} • ${ev.event_time}</span>
+                            <h4 class="text-sm font-black text-white uppercase mt-1">${escapeHtml(ev.title)}</h4>
+                            <p class="text-[11px] text-gray-400 mt-1 line-clamp-2">${escapeHtml(ev.description || ev.category)}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function generateCalendar(yearMonth) {
+            const gridEl = document.getElementById('calendarGrid');
+            if (!gridEl) return;
+            gridEl.innerHTML = '';
+
+            const [year, month] = yearMonth.split('-').map(Number);
+            const dateObj = new Date(year, month - 1, 1);
+            document.getElementById('calendarTitle').innerText = dateObj.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+
+            const firstDayIndex = new Date(year, month - 1, 1).getDay();
+            const totalDays = new Date(year, month, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = "bg-brand-bg/20 border border-brand-border/20 rounded-lg calendar-grid-cell opacity-20";
+                gridEl.appendChild(emptyCell);
+            }
+
+            for (let day = 1; day <= totalDays; day++) {
+                const formattedDay = String(day).padStart(2, '0');
+                const formattedMonth = String(month).padStart(2, '0');
+                const dateKey = `${year}-${formattedMonth}-${formattedDay}`;
+
+                const cell = document.createElement('div');
+                cell.className = "bg-brand-bg border border-brand-border rounded-lg p-2 calendar-grid-cell flex flex-col justify-between transition hover:border-brand-gold group cursor-pointer relative";
+                
+                let dayContent = `<div class="flex justify-between items-center"><span class="text-xs font-black text-gray-400 group-hover:text-brand-gold font-mono">${day}</span>`;
+                
+                if (isEditModeActive) {
+                    dayContent += `<span class="text-[9px] text-brand-gold bg-amber-950 px-1 rounded border border-brand-gold/30">➕</span>`;
+                }
+                dayContent += `</div>`;
+
+                if (eventsDatabase[dateKey]) {
+                    const ev = eventsDatabase[dateKey];
+                    cell.className += " border-brand-gold bg-brand-gold/10 shadow-[0_0_12px_rgba(197,160,89,0.2)]";
+                    dayContent += `
+                        <div class="mt-1 bg-brand-gold/20 border border-brand-gold/50 rounded p-1.5">
+                            <span class="block text-[9px] font-black uppercase text-brand-gold truncate">${escapeHtml(ev.title)}</span>
+                            <span class="text-[8px] text-gray-300 uppercase block mt-0.5">${escapeHtml(ev.category)}</span>
+                        </div>
+                    `;
+                    cell.onclick = () => openEventModal(ev);
+                } else {
+                    cell.onclick = () => {
+                        if (isEditModeActive) {
+                            openEventEditorModalForDate(dateKey);
+                        } else {
+                            openEmptyModal(dateKey);
+                        }
+                    };
+                }
+
+                cell.innerHTML = dayContent;
+                gridEl.appendChild(cell);
+            }
+        }
+
+        function changeCalendarMonth(val) {
+            currentYearMonth = val;
+            generateCalendar(val);
+        }
+
+        function openEventModalByData(dateKey) {
+            if (eventsDatabase[dateKey]) {
+                openEventModal(eventsDatabase[dateKey]);
+            }
+        }
+
+        function openEventModal(ev) {
+            document.getElementById('modalDateTag').innerText = ev.category || 'EVENT';
+            document.getElementById('modalTitle').innerText = ev.title;
+            document.getElementById('modalDescription').innerText = `${ev.event_date} • ${ev.event_time}\n\n${ev.description || ''}`;
+
+            const mediaContainer = document.getElementById('modalMediaContainer');
+            if (ev.media_url) {
+                if (ev.media_url.includes('youtube.com') || ev.media_url.includes('youtu.be')) {
+                    const ytId = ev.media_url.split('v=')[1] || ev.media_url.split('/').pop();
+                    mediaContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}" class="w-full h-full rounded-lg" frameborder="0" allowfullscreen></iframe>`;
+                } else if (ev.media_url.endsWith('.mp4') || ev.media_url.endsWith('.webm')) {
+                    mediaContainer.innerHTML = `<video src="${ev.media_url}" controls class="w-full h-full object-cover rounded-lg"></video>`;
+                } else {
+                    mediaContainer.innerHTML = `<img src="${ev.media_url}" alt="${escapeHtml(ev.title)}" class="w-full h-full object-cover rounded-lg">`;
+                }
+            } else {
+                mediaContainer.innerHTML = `<span class="text-xs text-gray-500 font-mono uppercase text-center p-4">[ ${escapeHtml(ev.media_label || 'NO MEDIA SCHEDULED')} ]</span>`;
+            }
+
+            const adminBtns = document.getElementById('modalAdminBtns');
+            if (isEditModeActive && adminBtns) {
+                adminBtns.classList.remove('hidden');
+                document.getElementById('btnEditEvent').onclick = () => { closeEventModal(); openEventEditorModalForEdit(ev); };
+                document.getElementById('btnDeleteEvent').onclick = () => deleteEventFromDatabase(ev.id);
+            } else if (adminBtns) {
+                adminBtns.classList.add('hidden');
+            }
+
+            const modal = document.getElementById('eventModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function openEmptyModal(dateKey) {
+            document.getElementById('modalDateTag').innerText = "Schedule Notice";
+            document.getElementById('modalTitle').innerText = `No Events on ${dateKey}`;
+            document.getElementById('modalMediaContainer').innerHTML = `<span class="text-xs text-gray-500 font-mono uppercase text-center p-4">[ NO MEDIA SCHEDULED ]</span>`;
+            document.getElementById('modalDescription').innerText = "There are currently no official races, concerts, or live events scheduled for this specific date.";
+
+            const adminBtns = document.getElementById('modalAdminBtns');
+            if (adminBtns) adminBtns.classList.add('hidden');
+
+            const modal = document.getElementById('eventModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeEventModal() {
+            const modal = document.getElementById('eventModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // --- ADMIN EDITOR MODAL CONTROLS ---
+        function openEventEditorModalForDate(dateKey) {
+            document.getElementById('editorModalTitle').innerText = `➕ Add Event on ${dateKey}`;
+            document.getElementById('edit_event_id').value = "";
+            document.getElementById('edit_media_url_existing').value = "";
+            document.getElementById('edit_event_date').value = dateKey;
+            document.getElementById('edit_event_time').value = "8:00 PM SLT";
+            document.getElementById('edit_event_title').value = "";
+            document.getElementById('edit_event_category').value = "Pro League";
+            document.getElementById('edit_media_url_input').value = "";
+            document.getElementById('edit_event_media_label').value = "CIRCUIT PREVIEW";
+            document.getElementById('edit_event_description').value = "";
+
+            const modal = document.getElementById('eventEditorModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function openEventEditorModalForEdit(ev) {
+            document.getElementById('editorModalTitle').innerText = `✏️ Edit Event`;
+            document.getElementById('edit_event_id').value = ev.id || "";
+            document.getElementById('edit_media_url_existing').value = ev.media_url || "";
+            document.getElementById('edit_event_date').value = ev.event_date;
+            document.getElementById('edit_event_time').value = ev.event_time;
+            document.getElementById('edit_event_title').value = ev.title;
+            document.getElementById('edit_event_category').value = ev.category || "Pro League";
+            document.getElementById('edit_media_url_input').value = ev.media_url || "";
+            document.getElementById('edit_event_media_label').value = ev.media_label || "";
+            document.getElementById('edit_event_description').value = ev.description || "";
+
+            const modal = document.getElementById('eventEditorModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeEventEditorModal() {
+            const modal = document.getElementById('eventEditorModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        async function saveEventToDatabase(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnSaveEvent');
+            btn.innerText = "Saving...";
+            btn.disabled = true;
+
+            const id = document.getElementById('edit_event_id').value;
+            const event_date = document.getElementById('edit_event_date').value;
+            const event_time = document.getElementById('edit_event_time').value;
+            const title = document.getElementById('edit_event_title').value;
+            const category = document.getElementById('edit_event_category').value;
+            const media_label = document.getElementById('edit_event_media_label').value;
+            const description = document.getElementById('edit_event_description').value;
+            
+            let media_url = document.getElementById('edit_media_url_input').value || document.getElementById('edit_media_url_existing').value;
+
+            // Handle file upload if present
+            const fileInput = document.getElementById('edit_media_file');
+            if (fileInput && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const fileName = `event_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+                const { error: uploadErr } = await db.storage.from('admin-assets').upload(fileName, file);
+                if (!uploadErr) {
+                    const { data: pubData } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                    media_url = pubData.publicUrl;
+                }
+            }
+
+            const payload = {
+                event_date,
+                event_time,
+                title,
+                category,
+                media_label,
+                media_url,
+                description
+            };
+
+            if (id) payload.id = id;
+
+            const { error } = await db.from('gsr_events').upsert([payload]);
+
+            btn.innerText = "Save to Database";
+            btn.disabled = false;
+
+            if (error) {
+                alert("Error saving event: " + error.message);
+            } else {
+                closeEventEditorModal();
+                await fetchEventsAndCalendar();
+            }
+        }
+
+        async function deleteEventFromDatabase(id) {
+            if (!id) return;
+            if (confirm("Are you sure you want to delete this event from the live schedule?")) {
+                const { error } = await db.from('gsr_events').delete().eq('id', id);
+                if (error) {
+                    alert("Error deleting event: " + error.message);
+                } else {
+                    closeEventModal();
+                    await fetchEventsAndCalendar();
+                }
+            }
+        }
+
+        async function executeSignOut() {
+            await db.auth.signOut();
+            window.location.reload(); 
+        }
+
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+
+        window.onload = initCalendarPage;
+    </script>
+</body>
+</html>

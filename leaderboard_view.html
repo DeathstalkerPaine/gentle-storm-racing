@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Leaderboard Database | GSR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        .text-shadow-glow { text-shadow: 0 0 10px rgba(197, 160, 89, 0.5); }
+        th.sortable { cursor: pointer; transition: color 0.2s; }
+        th.sortable:hover { color: #c5a059; }
+        .sort-icon { display: inline-block; margin-left: 4px; font-size: 10px; color: #555; }
+        th.active-sort .sort-icon { color: #c5a059; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- SUB-PAGE HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html" class="inline-block"><img src="logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
+            </div>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Live Telemetry Database</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">GSR GLOBAL RANKINGS</h1>
+            </div>                    
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards Hub</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-[95rem] w-full mx-auto px-4 py-8 space-y-8">
+        
+        <!-- TELEMETRY DATABASE FILTERS -->
+        <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl">
+            <h2 class="text-[10px] font-black uppercase text-gray-500 tracking-widest border-b border-brand-border pb-2 mb-4">Query Parameters</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <select id="queryCategory" class="bg-[#0a0a0a] border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="applyFilters()">
+                    <option value="racer" selected>Individual Racers</option>
+                    <option value="team">Syndicates / Teams</option>
+                </select>
+
+                <select id="queryClass" class="bg-[#0a0a0a] border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="applyFilters()">
+                    <option value="all" selected>All Classes / Divisions</option>
+                    <option value="amateur_racing">Amateur Racing</option>
+                    <option value="pro_racing">Pro Racing</option>
+                    <option value="amateur_league">Amateur League</option>
+                    <option value="pro_league">Pro League</option>
+                    <option value="pro_plus">Pro Plus Racing</option>
+                </select>
+
+                <select id="queryTime" class="bg-[#0a0a0a] border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="applyFilters()">
+                    <option value="all_time" selected>All-Time Stats</option>
+                    <option value="monthly">This Month</option>
+                    <option value="weekly">This Week</option>
+                    <option value="daily">Daily</option>
+                </select>
+
+                <select id="queryTrack" class="bg-[#0a0a0a] border border-brand-border text-white text-[11px] font-bold uppercase px-4 py-3 rounded-lg outline-none focus:border-brand-gold transition cursor-pointer" onchange="applyFilters()">
+                    <option value="all" selected>Global (All Tracks)</option>
+                    <option value="vegas">Las Vegas Strip</option>
+                    <option value="future">Back to Future</option>
+                    <option value="rome">Ancient Rome</option>
+                    <option value="city">Abandoned City</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- DYNAMIC LEADERBOARD TABLE -->
+        <section class="bg-brand-card border border-brand-border rounded-xl shadow-2xl overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs whitespace-nowrap min-w-[1200px]">
+                    <thead>
+                        <tr class="bg-black/80 text-gray-400 font-black uppercase tracking-wider border-b border-brand-border select-none">
+                            <th class="py-4 px-4 w-16 text-center">Rank</th>
+                            <th class="py-4 px-4">Competitor</th>
+                            <th class="py-4 px-4 text-center sortable active-sort text-brand-gold" onclick="handleSort('points')">Points <span class="sort-icon">▼</span></th>
+                            <th class="py-4 px-4 text-center sortable" onclick="handleSort('starts')">Starts <span class="sort-icon">↕</span></th>
+                            <th class="py-4 px-4 text-center sortable" onclick="handleSort('wins')">Wins <span class="sort-icon">↕</span></th>
+                            <th class="py-4 px-4 text-center sortable" onclick="handleSort('podiums')">Podiums <span class="sort-icon">↕</span></th>
+                            <th class="py-4 px-4 text-center sortable" onclick="handleSort('winPct')">Win % <span class="sort-icon">↕</span></th>
+                            <th class="py-4 px-4 text-center sortable" onclick="handleSort('avgFinish')">Avg Fin <span class="sort-icon">↕</span></th>
+                            <th class="py-4 px-4 text-center text-brand-blue bg-brand-blue/5 sortable" onclick="handleSort('bestLap')">Best Lap <span class="sort-icon">↕</span></th>
+                            <th class="py-4 px-4 text-center sortable" onclick="handleSort('dnf')">DNF <span class="sort-icon">↕</span></th>
+                            <th class="py-4 px-4 text-center sortable" onclick="handleSort('cleanRaces')">Clean <span class="sort-icon">↕</span></th>
+                            <th class="py-4 px-4 text-center sortable" onclick="handleSort('poles')">Pole <span class="sort-icon">↕</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody" class="divide-y divide-brand-border">
+                        <tr><td colspan="12" class="py-12 text-center text-gray-500 font-mono uppercase tracking-widest">[ Querying live database records... ]</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="bg-brand-bg border-t border-brand-border p-3 flex justify-between items-center px-6">
+                <span id="trackLabel" class="text-[10px] font-bold uppercase text-gray-500">Showing: Global (All Tracks)</span>
+                <span class="text-[9px] font-black uppercase text-brand-green flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Live DB Connected
+                </span>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- SUPABASE ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let rawRacers = [];
+        let rawTeams = [];
+        let displayData = [];
+
+        // Sorting State
+        let currentSortCol = 'points';
+        let currentSortDesc = true;
+
+        async function fetchLeaderboardData() {
+            const { data: racersData } = await db.from('racers').select('*');
+            const { data: teamsData } = await db.from('teams').select('id, name');
+
+            rawRacers = racersData || [];
+            rawTeams = teamsData || [];
+            applyFilters();
+        }
+
+        function getTeamName(teamId) {
+            const team = rawTeams.find(t => t.id === teamId);
+            return team ? team.name : 'UNASSIGNED';
+        }
+
+        function applyFilters() {
+            const category = document.getElementById('queryCategory').value;
+            const leagueClass = document.getElementById('queryClass').value;
+            const trackVal = document.getElementById('queryTrack').value;
+
+            // Update Label
+            const trackNames = { 'all': 'Global (All Tracks)', 'vegas': 'Las Vegas Strip', 'future': 'Back to Future', 'rome': 'Ancient Rome', 'city': 'Abandoned City' };
+            document.getElementById('trackLabel').innerText = `Showing: ${trackNames[trackVal] || 'Global (All Tracks)'}`;
+
+            let filtered = [];
+
+            if (category === 'team') {
+                // Aggregate Team Data based on Class Selection
+                const teamStats = {};
+                rawRacers.forEach(r => {
+                    if (r.primary_team_id) {
+                        const tName = getTeamName(r.primary_team_id);
+                        if (!teamStats[tName]) {
+                            teamStats[tName] = { name: tName, isTeam: true, points: 0, starts: 0, wins: 0, podiums: 0, dnf: 0, cleanRaces: 0, poles: 0, bestLap: "--:--.---" };
+                        }
+                        
+                        let pointsToAdd = 0;
+                        if (leagueClass === 'amateur_league') pointsToAdd = r.pts_amateur_league || 0;
+                        else if (leagueClass === 'pro_league') pointsToAdd = r.pts_pro_league || 0;
+                        else pointsToAdd = (r.pts_amateur_league || 0) + (r.pts_pro_league || 0);
+
+                        teamStats[tName].points += pointsToAdd;
+                        teamStats[tName].starts += (r.starts || 0);
+                        teamStats[tName].wins += (r.wins || 0);
+                        teamStats[tName].podiums += (r.podiums || 0);
+                        teamStats[tName].dnf += (r.dnf || 0);
+                        teamStats[tName].cleanRaces += (r.clean_races || 0);
+                        teamStats[tName].poles += (r.pole_positions || 0);
+                        // Track best lap logic here if needed per track
+                    }
+                });
+                
+                // Remove teams with 0 points if filtered
+                filtered = Object.values(teamStats).filter(t => leagueClass === 'all' || t.points > 0);
+            } else {
+                // Individual Racers Filtered by Class
+                filtered = rawRacers.map(r => {
+                    let pts = 0;
+                    if (leagueClass === 'amateur_racing') pts = r.pts_amateur || 0;
+                    else if (leagueClass === 'pro_racing') pts = r.pts_pro || 0;
+                    else if (leagueClass === 'amateur_league') pts = r.pts_amateur_league || 0;
+                    else if (leagueClass === 'pro_league') pts = r.pts_pro_league || 0;
+                    else if (leagueClass === 'pro_plus') pts = r.pts_pro_plus || 0;
+                    else pts = (r.pts_amateur || 0) + (r.pts_pro || 0) + (r.pts_amateur_league || 0) + (r.pts_pro_league || 0) + (r.pts_pro_plus || 0);
+
+                    return {
+                        name: r.display_name,
+                        team: r.primary_team_id ? getTeamName(r.primary_team_id) : 'UNASSIGNED',
+                        isTeam: false,
+                        points: pts,
+                        starts: r.starts || 0,
+                        wins: r.wins || 0,
+                        podiums: r.podiums || 0,
+                        avgFinish: r.avg_finish || 0.0,
+                        dnf: r.dnf || 0,
+                        cleanRaces: r.clean_races || 0,
+                        poles: r.pole_positions || 0,
+                        bestLap: r.best_lap_time || "--:--.---"
+                    };
+                }).filter(r => leagueClass === 'all' || r.points > 0);
+            }
+
+            // Calculate Win % dynamically for both modes
+            filtered = filtered.map(item => {
+                const winPct = item.starts > 0 ? (item.wins / item.starts) * 100 : 0;
+                return { ...item, winPct: winPct };
+            });
+
+            displayData = filtered;
+            executeSort();
+        }
+
+        function handleSort(column) {
+            if (currentSortCol === column) {
+                currentSortDesc = !currentSortDesc; // Toggle direction
+            } else {
+                currentSortCol = column;
+                currentSortDesc = true; // Default to desc on new column click
+            }
+            
+            // Update Table Headers UI
+            document.querySelectorAll('th.sortable').forEach(th => {
+                th.classList.remove('active-sort', 'text-brand-gold');
+                th.querySelector('.sort-icon').innerText = '↕';
+            });
+            const activeTh = document.querySelector(`th[onclick="handleSort('${column}')"]`);
+            if (activeTh) {
+                activeTh.classList.add('active-sort', 'text-brand-gold');
+                activeTh.querySelector('.sort-icon').innerText = currentSortDesc ? '▼' : '▲';
+            }
+
+            executeSort();
+        }
+
+        function executeSort() {
+            displayData.sort((a, b) => {
+                let valA = a[currentSortCol];
+                let valB = b[currentSortCol];
+
+                // Handle string times for best lap
+                if (currentSortCol === 'bestLap') {
+                    if (valA === "--:--.---") return currentSortDesc ? 1 : 1;
+                    if (valB === "--:--.---") return currentSortDesc ? -1 : -1;
+                    // For times, "Desc" usually means fastest (lowest string value)
+                    return currentSortDesc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                }
+
+                // Numeric sorting
+                return currentSortDesc ? (valB - valA) : (valA - valB);
+            });
+            renderTable();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('leaderboardBody');
+            tbody.innerHTML = '';
+
+            if (displayData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="12" class="py-12 text-center text-gray-500 font-mono uppercase tracking-widest">[ NO ELIGIBLE TELEMETRY FOUND ]</td></tr>`;
+                return;
+            }
+
+            displayData.forEach((row, index) => {
+                const rankClass = index === 0 ? 'text-brand-gold text-lg text-shadow-glow' : (index === 1 ? 'text-gray-300 text-base' : 'text-gray-500 text-sm');
+                const winPctFmt = Math.round(row.winPct) + '%';
+                const avgFinFmt = row.isTeam ? '--' : parseFloat(row.avgFinish).toFixed(1);
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-white/5 transition">
+                        <td class="py-4 px-4 text-center font-black italic ${rankClass}">${index + 1}</td>
+                        <td class="py-4 px-4 cursor-pointer hover:bg-brand-card transition rounded" onclick="window.location='${row.isTeam ? 'teams_profiles.html?name=' : 'racers_profiles.html?driver='}${encodeURIComponent(row.name)}'">
+                            <div class="font-black text-white uppercase text-sm hover:text-brand-gold transition">${escapeHtml(row.name)}</div>
+                            <div class="font-bold text-[9px] text-gray-500 uppercase">${row.isTeam ? 'SYNDICATE' : escapeHtml(row.team)}</div>
+                        </td>
+                        <td class="py-4 px-4 text-center font-black text-brand-gold text-base bg-brand-gold/5">${row.points.toLocaleString()}</td>
+                        <td class="py-4 px-4 text-center font-bold text-gray-400">${row.starts}</td>
+                        <td class="py-4 px-4 text-center font-black text-white">${row.wins}</td>
+                        <td class="py-4 px-4 text-center font-bold text-gray-300">${row.podiums}</td>
+                        <td class="py-4 px-4 text-center font-bold text-gray-400">${winPctFmt}</td>
+                        <td class="py-4 px-4 text-center font-mono font-bold text-gray-400">${avgFinFmt}</td>
+                        <td class="py-4 px-4 text-center font-mono font-bold text-brand-blue bg-brand-blue/5">${row.bestLap}</td>
+                        <td class="py-4 px-4 text-center font-bold text-gray-500">${row.dnf}</td>
+                        <td class="py-4 px-4 text-center font-bold text-brand-green">${row.cleanRaces}</td>
+                        <td class="py-4 px-4 text-center font-bold text-brand-red">${row.poles}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function initFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('category')) document.getElementById('queryCategory').value = urlParams.get('category');
+            if (urlParams.has('class')) document.getElementById('queryClass').value = urlParams.get('class');
+            if (urlParams.has('time')) document.getElementById('queryTime').value = urlParams.get('time');
+            if (urlParams.has('track')) document.getElementById('queryTrack').value = urlParams.get('track');
+
+            fetchLeaderboardData();
+        }
+
+        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+
+        window.onload = initFromURL;
+    </script>
+</body>
+</html>

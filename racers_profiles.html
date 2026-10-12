@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Racer Profiles | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' } } } } }
+    </script>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html"><img src="logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
+            </div>
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Grid Directory</span>
+                <h1 class="text-2xl sm:text-3xl lg:text-5xl font-black uppercase tracking-wider text-white">Racer Profiles</h1>
+            </div>
+        </div>
+    </header>
+
+    <!-- SUB-NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
+            <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
+            <a href="racers_profiles.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">Racer Profile</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Racer Leaderboard</a>
+            <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-[1400px] w-full mx-auto px-4 py-8">
+        
+        <!-- SEARCH ENGINE -->
+        <div class="bg-brand-card border border-brand-border rounded-xl p-6 mb-8">
+            <div class="flex flex-col md:flex-row gap-4 mb-4">
+                <input type="text" placeholder="SEARCH DRIVER NAME & PRESS ENTER..." class="flex-grow bg-[#111] border border-brand-border text-xs text-white px-4 py-3 rounded outline-none focus:border-brand-gold transition">
+                <select class="bg-[#111] border border-brand-border text-xs text-gray-400 uppercase font-bold px-4 py-3 rounded outline-none min-w-[200px]">
+                    <option>ALL TEAMS</option>
+                </select>
+            </div>
+            
+            <!-- A-Z Filter -->
+            <div class="flex flex-wrap justify-center gap-1.5">
+                <button class="bg-brand-gold text-black font-black text-[10px] px-2 py-1 rounded">ALL</button>
+                <script>
+                    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+                    alphabet.forEach(letter => {
+                        document.write(`<button class="bg-[#111] border border-brand-border text-gray-500 hover:text-brand-gold font-bold text-[10px] px-2 py-1 rounded transition">${letter}</button>`);
+                    });
+                </script>
+            </div>
+        </div>
+
+        <!-- 16-CARD GRID -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            
+            <!-- Card 1: Active Racer -->
+            <div class="bg-[#0a0a0a] border border-brand-gold rounded-xl p-4 flex flex-col group shadow-[0_0_15px_rgba(197,160,89,0.1)]">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="bg-brand-red text-white text-[8px] font-black uppercase px-2 py-0.5 rounded">PRO LEAGUE</span>
+                    <span class="text-brand-red font-mono font-black text-xs">#13</span>
+                </div>
+                <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-4 group-hover:border-brand-gold transition cursor-pointer">
+                    <span class="text-[9px] text-gray-600 font-bold uppercase tracking-widest">DRIVER PHOTO</span>
+                </div>
+                <h3 class="text-sm font-black uppercase text-white tracking-wider">DEATHSTALKER PAINE</h3>
+                <span class="text-[9px] text-gray-500 uppercase mt-1 block tracking-wider">Team: <span class="text-gray-300">Storm Riders</span></span>
+                <a href="racer.html" class="mt-4 block w-full text-center bg-[#111] border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black transition text-[9px] font-black uppercase py-2.5 rounded tracking-widest">VIEW FULL PROFILE →</a>
+            </div>
+
+            <!-- Cards 2 through 16: Pending Slots -->
+            <script>
+                for(let i=0; i<15; i++) {
+                    document.write(`
+                    <div class="bg-[#0a0a0a] border border-brand-border rounded-xl p-4 flex flex-col opacity-60">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-[#1a1a1a] text-gray-500 text-[8px] font-black uppercase px-2 py-0.5 rounded border border-brand-border">ROOKIE</span>
+                            <span class="text-gray-600 font-mono font-black text-xs">#--</span>
+                        </div>
+                        <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-4">
+                            <span class="text-[9px] text-gray-700 font-bold uppercase tracking-widest">OPEN SLOT</span>
+                        </div>
+                        <h3 class="text-sm font-black uppercase text-gray-500 tracking-wider">PENDING DRIVER</h3>
+                        <span class="text-[9px] text-gray-600 uppercase mt-1 block h-3"></span>
+                    </div>
+                    `);
+                }
+            </script>
+        </div>
+    </main>
+</body>
+</html>

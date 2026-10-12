@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorials & Guides | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#121212',
+                            card: '#1e1e1e',
+                            border: '#333333',
+                            gold: '#c5a059',
+                            red: '#ff2a2a',
+                            blue: '#2a75ff',
+                            green: '#10B981'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.25); }
+        .red-border-glow { border: 1px solid #ff2a2a; box-shadow: 0 0 12px rgba(255, 42, 42, 0.25); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 12px rgba(42, 117, 255, 0.25); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+        [data-cms-id] { opacity: 1; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- SUB-PAGE HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            
+            <!-- Logo -->
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
+            </div>
+
+            <!-- Center Title -->
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <h1 class="text-xl sm:text-2xl lg:text-4xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    TUTORIALS & GUIDES
+                </h1>
+            </div>
+
+            <!-- Dynamic Auth Buttons Container -->
+            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex flex-col sm:flex-row items-end sm:items-center gap-2">
+                <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
+                <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
+            </div>
+        </div>
+        <!-- Mobile Auth Container -->
+        <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 px-4 z-10 w-full"></div>
+    </header>
+
+    <!-- SUB-NAVBAR LINKS -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="story_campaign.html" class="text-gray-300 hover:text-brand-gold transition">Story Campaign</a>
+            <a href="skill_tree.html" class="text-gray-300 hover:text-brand-gold transition">Skill Tree</a>
+            <a href="top_racers.html" class="text-gray-300 hover:text-brand-gold transition">Top Racers</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">News/Magazine</a>
+            <a href="tutorial.html" class="text-brand-gold underline decoration-2 underline-offset-4">Tutorial</a>
+            <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+            <a href="trophies.html" class="text-gray-300 hover:text-brand-gold transition">Trophies/Titles</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT GRID LAYOUT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
+
+        <!-- INTRO SECTION -->
+        <section data-cms-id="tutorial:intro" class="text-center max-w-3xl mx-auto py-6 relative group transition">
+            <h2 data-cms-field="title" class="text-2xl font-black uppercase text-white tracking-wide mb-4">Master the Ecosystem</h2>
+            <p data-cms-field="desc" class="text-sm text-gray-300 leading-relaxed">
+                Welcome to the Pro Plus Academy. Gentle Storm Racing isn't just about crossing the finish line—it's an integrated RPG experience. Here, you'll learn how to navigate the Story Campaign, optimize your Skill Tree, and dominate the Second Life circuits using our custom telemetry HUDs.
+            </p>
+        </section>
+
+        <!-- 3-PILLAR TUTORIAL CARDS -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Pillar 1: The Campaign (Gold) -->
+            <div data-cms-id="tutorial:pillar_1" class="bg-brand-card border border-brand-border rounded-xl p-8 flex flex-col relative transition gold-border-glow shadow-lg group">
+                <div class="text-brand-gold text-4xl mb-4 drop-shadow-[0_0_10px_rgba(197,160,89,0.5)]">📜</div>
+                <h3 data-cms-field="title" class="text-xl font-black text-white uppercase mb-3 group-hover:text-brand-gold transition">1. The Campaign</h3>
+                <p data-cms-field="content" class="text-xs text-gray-300 space-y-3 flex-grow leading-relaxed">
+                    • Start with Chapter 1: The Syndicate Infiltration.<br>
+                    • Sign in to your dashboard to track your current active quest objective.<br>
+                    • Your choices during quests impact your driver's Alignment (Good, Neutral, Bad).<br>
+                    • Complete quests to earn massive XP payouts and exclusive vehicle unlocks.
+                </p>
+            </div>
+
+            <!-- Pillar 2: Economy & XP (Blue) -->
+            <div data-cms-id="tutorial:pillar_2" class="bg-brand-card border border-brand-border rounded-xl p-8 flex flex-col relative transition blue-border-glow shadow-lg group">
+                <div class="text-brand-blue text-4xl mb-4 drop-shadow-[0_0_10px_rgba(42,117,255,0.5)]">💰</div>
+                <h3 data-cms-field="title" class="text-xl font-black text-white uppercase mb-3 group-hover:text-brand-blue transition">2. Economy & XP</h3>
+                <p data-cms-field="content" class="text-xs text-gray-300 space-y-3 flex-grow leading-relaxed">
+                    • <strong>XP (Experience):</strong> Earned by finishing races, doing time trials, and completing campaign milestones.<br>
+                    • <strong>Storm Coins:</strong> The official GSR currency. Used to purchase cosmetics, store items, and hire pit crew members.<br>
+                    • Check the Daily and Weekly Bounties on the Campaign Hub for extra income.
+                </p>
+            </div>
+
+            <!-- Pillar 3: Skill Tree & Mechanics (Red) -->
+            <div data-cms-id="tutorial:pillar_3" class="bg-brand-card border border-brand-border rounded-xl p-8 flex flex-col relative transition red-border-glow shadow-lg group">
+                <div class="text-brand-red text-4xl mb-4 drop-shadow-[0_0_10px_rgba(255,42,42,0.5)]">🔧</div>
+                <h3 data-cms-field="title" class="text-xl font-black text-white uppercase mb-3 group-hover:text-brand-red transition">3. Skill Tree & HUD</h3>
+                <p data-cms-field="content" class="text-xs text-gray-300 space-y-3 flex-grow leading-relaxed">
+                    • As you earn XP, your Driver Level increases (Max Level 50).<br>
+                    • Every 5 levels grants <strong>Tuning Points</strong>.<br>
+                    • Apply Tuning Points to your Second Life GSR HUD to tweak drift physics, acceleration, and handling.<br>
+                    • Higher levels unlock Pit Crew slots to reduce mandatory pit stop timers during endurance races.
+                </p>
+            </div>
+
+        </section>
+
+        <!-- GETTING STARTED STEP-BY-STEP -->
+        <section class="mt-12 bg-brand-bg border border-brand-border rounded-xl p-8 lg:p-12">
+            <h2 class="text-2xl font-black uppercase text-white mb-8 border-b border-brand-border pb-4">Quick Start Guide</h2>
+            
+            <div class="space-y-8">
+                
+                <!-- Step 1 -->
+                <div data-cms-id="tutorial:step_1" class="flex flex-col md:flex-row gap-6 items-start relative group transition">
+                    <div class="flex-shrink-0 w-12 h-12 bg-brand-card border border-brand-gold rounded-full flex items-center justify-center text-xl font-black text-brand-gold">1</div>
+                    <div>
+                        <h4 data-cms-field="title" class="text-lg font-bold text-white uppercase mb-2">Register Your Account</h4>
+                        <p data-cms-field="desc" class="text-xs text-gray-400 leading-relaxed">
+                            To participate in the Pro Plus ecosystem, you must link your Second Life avatar to a GSR web account. Click "Sign In" at the top right of the site to create your profile. This connects your in-world racing telemetry to the Supabase database.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div data-cms-id="tutorial:step_2" class="flex flex-col md:flex-row gap-6 items-start relative group transition">
+                    <div class="flex-shrink-0 w-12 h-12 bg-brand-card border border-brand-gold rounded-full flex items-center justify-center text-xl font-black text-brand-gold">2</div>
+                    <div>
+                        <h4 data-cms-field="title" class="text-lg font-bold text-white uppercase mb-2">Acquire Your First Vehicle & HUD</h4>
+                        <p data-cms-field="desc" class="text-xs text-gray-400 leading-relaxed">
+                            Visit the GSR Headquarters in Second Life to grab your starter Tier 1 vehicle and equip the official GSR Racing HUD. The HUD is mandatory—it communicates with the start lines, pit pads, and tracks your lap times directly to our leaderboards.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div data-cms-id="tutorial:step_3" class="flex flex-col md:flex-row gap-6 items-start relative group transition">
+                    <div class="flex-shrink-0 w-12 h-12 bg-brand-card border border-brand-gold rounded-full flex items-center justify-center text-xl font-black text-brand-gold">3</div>
+                    <div>
+                        <h4 data-cms-field="title" class="text-lg font-bold text-white uppercase mb-2">Hit the Track</h4>
+                        <p data-cms-field="desc" class="text-xs text-gray-400 leading-relaxed">
+                            Open the <strong>Story Campaign</strong> tab to find your first quest, or check the <strong>Racetracks</strong> hub to find open practice circuits. Complete laps, earn your first batch of XP, and start your climb up the Skill Tree!
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SPONSORS BANNER -->
+        <section data-cms-id="tutorial:sponsors" class="bg-brand-card border border-brand-border rounded-xl p-5 text-center shadow-lg transition group">
+            <div>
+                <span data-cms-field="label" class="text-[9px] font-black uppercase text-brand-gold tracking-[0.2em] block mb-1">Sponsors</span>
+                <p data-cms-field="desc" class="text-[11px] text-gray-400 font-bold uppercase">Official Pro Plus Partners & Title Sponsors</p>
+
+                <div id="tutorialSponsorLogosContainer" class="mt-3 h-24 w-full bg-brand-bg border border-brand-border rounded-lg flex flex-row items-center justify-center p-2 gap-3 overflow-hidden">
+                    <div id="tutorialSponsorFallbackText" class="flex flex-wrap justify-center items-center gap-4 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center">
+                        <span>[ SECOND LIFE MOTORS ]</span>
+                        <span>[ LINDEN FUEL CO. ]</span>
+                        <span>[ STORMTECH HUDS ]</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
+                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
+                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
+                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
+                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
+        </div>
+    </footer>
+
+    <!-- INLINE CMS EDIT MODAL -->
+    <div id="cmsModalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="cmsModal" class="bg-brand-card border border-brand-gold shadow-[0_0_30px_rgba(197,160,89,0.15)] rounded-xl w-full max-w-md transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
+            <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center rounded-t-xl shrink-0">
+                <h2 class="text-sm font-black uppercase text-brand-gold tracking-wide flex items-center gap-2">
+                    <span>✏️ Edit Tutorial Block</span>
+                </h2>
+                <button onclick="closeCMSModal()" class="text-gray-500 hover:text-brand-red p-1 transition cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div id="cmsModalFields" class="p-6 space-y-4 overflow-y-auto grow"></div>
+            
+            <div class="bg-brand-bg border-t border-brand-border p-4 flex justify-end gap-3 rounded-b-xl shrink-0">
+                <button onclick="closeCMSModal()" class="text-xs font-bold uppercase text-gray-400 hover:text-white px-4 py-2 transition cursor-pointer">Cancel</button>
+                <button onclick="saveCMSModal()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-6 py-2 rounded transition shadow cursor-pointer">Save to Live</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPABASE NATIVE ENGINE FOR TUTORIAL -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        let currentUser = null;
+        let currentProfile = null;
+        let isEditModeActive = false;
+        let currentEditId = null;
+
+        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
+        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
+        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function initTutorialPage() {
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                const userNav = document.getElementById('userNav');
+                const userNavMobile = document.getElementById('userNavMobile');
+
+                if (session) {
+                    currentUser = session.user;
+                    const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, is_admin').eq('id', currentUser.id).maybeSingle();
+                    currentProfile = profile;
+                    const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+                    if (userNav) {
+                        let adminBtnHTML = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
+                        userNav.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <div class="text-right hidden sm:block">
+                                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                                    <span class="text-[9px] text-brand-gold uppercase font-mono tracking-widest flex items-center justify-end gap-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse"></span> Pro Member
+                                    </span>
+                                </div>
+                                <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow cursor-pointer">Sign Out</button>
+                                ${adminBtnHTML}
+                            </div>
+                        `;
+                    }
+
+                    if (userNavMobile) {
+                        let adminBtnMobile = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtnMobile" class="bg-brand-blue border border-brand-border text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
+                        userNavMobile.innerHTML = `
+                            <div class="flex flex-col items-center gap-2 w-full mt-2">
+                                <div class="text-center">
+                                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                                    <span class="text-[9px] text-brand-gold uppercase font-mono tracking-widest flex items-center justify-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse"></span> Logged In</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">Sign Out</button>
+                                    ${adminBtnMobile}
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            } catch (e) { console.warn("Auth check bypassed", e); }
+
+            await loadCMSContent();
+        }
+
+        async function loadCMSContent() {
+            try {
+                const { data, error } = await db.from('site_content').select('*').like('section_id', 'tutorial:%');
+                if (!error && data) {
+                    data.forEach(row => {
+                        const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
+                        if (!container) return;
+                        try {
+                            const content = JSON.parse(row.content_value);
+
+                            if (row.section_id === 'tutorial:sponsors') {
+                                const logos = [];
+                                if (content.logo_1) logos.push(content.logo_1);
+                                if (content.logo_2) logos.push(content.logo_2);
+                                if (content.logo_3) logos.push(content.logo_3);
+
+                                const sponsorBox = document.getElementById('tutorialSponsorLogosContainer');
+                                if (logos.length > 0 && sponsorBox) {
+                                    sponsorBox.innerHTML = '';
+                                    logos.forEach((url, i) => {
+                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 h-full w-full object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
+                                    });
+                                }
+                            }
+
+                            Object.keys(content).forEach(key => {
+                                const el = container.querySelector(`[data-cms-field="${key}"]`);
+                                if (el) {
+                                    if (key === 'content') {
+                                        el.innerHTML = content[key].replace(/\n/g, '<br>');
+                                    } else {
+                                        el.innerText = content[key];
+                                    }
+                                }
+                            });
+                        } catch (e) {}
+                    });
+                }
+            } catch (e) { console.warn("CMS Content error", e); }
+        }
+
+        window.toggleEditMode = function() {
+            isEditModeActive = !isEditModeActive;
+            const btns = document.querySelectorAll('#editModeBtn, #editModeBtnMobile');
+            btns.forEach(btn => {
+                btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
+                btn.classList.toggle('bg-brand-blue', !isEditModeActive);
+                btn.classList.toggle('bg-brand-red', isEditModeActive);
+            });
+
+            document.querySelectorAll('[data-cms-id]').forEach(block => {
+                if (isEditModeActive) {
+                    block.classList.add('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative');
+                    if (!block.querySelector('.cms-trigger-btn')) {
+                        const editBtn = document.createElement('button');
+                        editBtn.className = 'cms-trigger-btn absolute top-2 right-2 bg-brand-blue text-white text-[10px] font-black uppercase px-2 py-1 rounded shadow-lg z-30 cursor-pointer';
+                        editBtn.innerHTML = '✏️ Edit Block';
+                        editBtn.onclick = (e) => openCMSModal(block.getAttribute('data-cms-id'), e);
+                        block.appendChild(editBtn);
+                    }
+                } else {
+                    block.classList.remove('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative');
+                    const btn = block.querySelector('.cms-trigger-btn');
+                    if (btn) btn.remove();
+                }
+            });
+        }
+
+        window.openCMSModal = async function(cmsId, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            currentEditId = cmsId;
+            const container = document.querySelector(`[data-cms-id="${cmsId}"]`);
+            
+            let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+
+            const formContainer = document.getElementById('cmsModalFields');
+            formContainer.innerHTML = '';
+            
+            fields.forEach(f => {
+                const fieldName = f.getAttribute('data-cms-field');
+                let val = f.innerText;
+                if (fieldName === 'content') {
+                    val = f.innerHTML.replace(/<br\s*[\/]?>/gi, '\n');
+                }
+                formContainer.innerHTML += `<div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">${fieldName.replace('_', ' ')}</label><textarea id="cms_input_${fieldName}" rows="3" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(val)}</textarea></div>`;
+            });
+
+            if (cmsId === 'tutorial:sponsors') {
+                let existingLogos = {};
+                try {
+                    const { data } = await db.from('site_content').select('content_value').eq('section_id', 'tutorial:sponsors').maybeSingle();
+                    if (data && data.content_value) existingLogos = JSON.parse(data.content_value);
+                } catch(e) {}
+
+                formContainer.innerHTML += `
+                    <div class="space-y-3 pt-3 border-t border-brand-border">
+                        <label class="text-[10px] font-black uppercase text-brand-gold tracking-wider block">Sponsor Logos (Up to 3 Horizontal Logos)</label>
+                        
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 1</span>
+                            <input type="file" id="cms_sponsor_file_1" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_1" value="${existingLogos.logo_1 || ''}">
+                            ${existingLogos.logo_1 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_1"> Remove Logo 1</label>` : ''}
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 2</span>
+                            <input type="file" id="cms_sponsor_file_2" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_2" value="${existingLogos.logo_2 || ''}">
+                            ${existingLogos.logo_2 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_2"> Remove Logo 2</label>` : ''}
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 3</span>
+                            <input type="file" id="cms_sponsor_file_3" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
+                            <input type="hidden" id="cms_sponsor_url_3" value="${existingLogos.logo_3 || ''}">
+                            ${existingLogos.logo_3 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_3"> Remove Logo 3</label>` : ''}
+                        </div>
+                    </div>`;
+            }
+
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        window.closeCMSModal = function() {
+            const overlay = document.getElementById('cmsModalOverlay');
+            const modal = document.getElementById('cmsModal');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        }
+
+        window.saveCMSModal = async function() {
+            const container = document.querySelector(`[data-cms-id="${currentEditId}"]`);
+            let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
+
+            let updateData = {};
+            
+            if (currentEditId === 'tutorial:sponsors') {
+                for (let i = 1; i <= 3; i++) {
+                    const clearCheckbox = document.getElementById(`cms_clear_sponsor_${i}`);
+                    const fileInput = document.getElementById(`cms_sponsor_file_${i}`);
+                    const urlInput = document.getElementById(`cms_sponsor_url_${i}`);
+                    let logoUrl = urlInput ? urlInput.value : '';
+
+                    if (clearCheckbox && clearCheckbox.checked) {
+                        logoUrl = '';
+                    } else if (fileInput && fileInput.files.length > 0) {
+                        const file = fileInput.files[0];
+                        const fileName = `tutorial_sponsor_${i}_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+                        const { error: uploadError } = await db.storage.from('admin-assets').upload(fileName, file);
+                        if (!uploadError) {
+                            const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                            logoUrl = publicUrlData.publicUrl;
+                        }
+                    }
+                    if (logoUrl) updateData[`logo_${i}`] = logoUrl;
+                }
+            }
+
+            fields.forEach(f => {
+                const fieldName = f.getAttribute('data-cms-field');
+                const inputEl = document.getElementById(`cms_input_${fieldName}`);
+                if (inputEl) {
+                    updateData[fieldName] = inputEl.value;
+                    if (fieldName === 'content') {
+                        f.innerHTML = inputEl.value.replace(/\n/g, '<br>');
+                    } else {
+                        f.innerText = inputEl.value;
+                    }
+                }
+            });
+            
+            await db.from('site_content').upsert([{ section_id: currentEditId, content_value: JSON.stringify(updateData) }]);
+            await loadCMSContent();
+            closeCMSModal();
+        }
+
+        async function executeSignOut() {
+            await db.auth.signOut();
+            window.location.reload(); 
+        }
+
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+
+        window.onload = initTutorialPage;
+    </script>
+</body>
+</html>

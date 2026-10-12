@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Slide-Out Drawer Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { bg: '#121212', card: '#1a1a1a', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' } } } } }
+    </script>
+    <!-- Supabase Native Load -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 3px; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen p-4 sm:p-8 overflow-x-hidden">
+
+    <!-- DUMMY PAGE CONTENT (e.g., A Racer Card) -->
+    <div class="max-w-3xl mx-auto space-y-6">
+        <h1 class="text-2xl font-black uppercase tracking-widest text-white border-b border-brand-border pb-4">Racer Profile: Deathstalker Paine</h1>
+        <p class="text-sm text-gray-400">Imagine the rest of the racer stats, images, and telemetry are up here...</p>
+
+        <!-- THE READ-ONLY CHAT WIDGET -->
+        <div class="bg-brand-card border border-brand-border rounded-xl shadow-lg overflow-hidden mt-8">
+            
+            <!-- Widget Tabs -->
+            <div class="bg-[#0a0a0a] border-b border-brand-border flex overflow-x-auto">
+                <button onclick="switchWidgetChannel('global', this)" class="widget-tab px-4 py-2 text-[10px] font-black uppercase text-brand-gold border-b-2 border-brand-gold whitespace-nowrap transition">Global</button>
+                <button onclick="switchWidgetChannel('following', this)" class="widget-tab px-4 py-2 text-[10px] font-black uppercase text-gray-500 border-b-2 border-transparent hover:text-gray-300 whitespace-nowrap transition">Following</button>
+                <button onclick="switchWidgetChannel('team', this)" class="widget-tab px-4 py-2 text-[10px] font-black uppercase text-gray-500 border-b-2 border-transparent hover:text-gray-300 whitespace-nowrap transition">Teams</button>
+                <button onclick="switchWidgetChannel('pro_plus', this)" class="widget-tab px-4 py-2 text-[10px] font-black uppercase text-gray-500 border-b-2 border-transparent hover:text-gray-300 whitespace-nowrap transition">Pro Plus</button>
+            </div>
+
+            <!-- Read-Only Feed Area -->
+            <div id="widgetFeed" class="p-4 h-40 overflow-y-auto space-y-2 bg-[#151515]">
+                <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">Syncing network feeds...</div>
+            </div>
+
+            <!-- Widget Footer / Trigger Actions -->
+            <div class="bg-brand-card border-t border-brand-border p-3 flex justify-between items-center gap-2">
+                <a href="chats.html" class="text-[9px] text-gray-400 uppercase font-bold hover:text-brand-gold hover:underline transition">Open Comms Hub</a>
+                
+                <!-- THIS BUTTON TRIGGERS THE DRAWER -->
+                <button onclick="toggleDrawer(true)" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-brand-gold hover:text-white text-[10px] uppercase font-black px-4 py-2 rounded transition shadow">
+                    Open Drawer to Reply ↵
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- SLIDE-OUT DRAWER OVERLAY & PANEL           -->
+    <!-- ========================================== -->
+    
+    <!-- Dark Background Overlay (Clicks to close) -->
+    <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <!-- The Drawer Itself (Slides in from right) -->
+    <div id="chatDrawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-brand-card border-l border-brand-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+        
+        <!-- Drawer Header -->
+        <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
+            <div>
+                <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
+                <p id="drawerChannelName" class="text-[10px] text-brand-gold uppercase">Channel: Global</p>
+            </div>
+            <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Drawer Chat Messages Area -->
+        <div id="drawerMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-[#111]">
+             <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">Loading...</div>
+        </div>
+
+        <!-- Drawer Input Area -->
+        <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0 pb-safe">
+            <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-gold transition">
+            <button onclick="sendDrawerMessage()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0">Send</button>
+        </div>
+    </div>
+
+    <!-- Script Engine -->
+    <script>
+        const db = window.supabase.createClient('https://xwrfreokngnknftgzglg.supabase.co', 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw');
+        let activeChannel = 'global';
+        let currentUser = null;
+        let currentProfile = null;
+
+        async function initSystem() {
+            const { data: { session } } = await db.auth.getSession();
+            if (session) {
+                currentUser = session.user;
+                const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name').eq('id', currentUser.id).single();
+                currentProfile = profile;
+            } else {
+                document.getElementById('drawerInput').placeholder = "Sign in at Main Menu to chat...";
+                document.getElementById('drawerInput').disabled = true;
+            }
+
+            loadReadonlyFeed();
+        }
+
+        // --- UI TOGGLES ---
+        function toggleDrawer(show) {
+            const drawer = document.getElementById('chatDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            
+            if (show) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+                drawer.classList.remove('translate-x-full');
+                // Auto-scroll to bottom when opened
+                const msgBox = document.getElementById('drawerMessages');
+                msgBox.scrollTop = msgBox.scrollHeight;
+            } else {
+                overlay.classList.add('opacity-0');
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+
+        function switchWidgetChannel(channel, btn) {
+            activeChannel = channel;
+            
+            // Update Tab Styles
+            document.querySelectorAll('.widget-tab').forEach(b => {
+                b.className = "widget-tab px-4 py-2 text-[10px] font-black uppercase text-gray-500 border-b-2 border-transparent hover:text-gray-300 whitespace-nowrap transition";
+            });
+            btn.className = "widget-tab px-4 py-2 text-[10px] font-black uppercase text-brand-gold border-b-2 border-brand-gold whitespace-nowrap transition";
+            
+            // Update Drawer Header to match
+            document.getElementById('drawerChannelName').innerText = "Channel: " + channel;
+            
+            loadReadonlyFeed();
+        }
+
+        // --- DATABASE FETCHING ---
+        async function loadReadonlyFeed() {
+            const feed = document.getElementById('widgetFeed');
+            const drawerFeed = document.getElementById('drawerMessages');
+            
+            feed.innerHTML = '<div class="text-[10px] text-gray-500 text-center uppercase font-bold mt-4">Loading...</div>';
+
+            const { data, error } = await db.from('gsr_chats')
+                .select('*').eq('channel', activeChannel)
+                .order('created_at', { ascending: false }).limit(20);
+
+            if (error || !data || data.length === 0) {
+                const emptyMsg = `<div class="text-[10px] text-gray-500 text-center uppercase font-bold mt-4">[ Channel is quiet ]</div>`;
+                feed.innerHTML = emptyMsg;
+                drawerFeed.innerHTML = emptyMsg;
+                return;
+            }
+
+            const messages = data.reverse();
+            
+            // 1. Populate Widget (Compact View)
+            feed.innerHTML = '';
+            messages.slice(-5).forEach(msg => { // Only show last 5 in widget
+                feed.innerHTML += `
+                    <div class="text-[10px] leading-snug truncate">
+                        <span class="font-black text-brand-gold uppercase">[${msg.display_name}]</span> 
+                        <span class="text-gray-300">${escapeHtml(msg.message)}</span>
+                    </div>
+                `;
+            });
+
+            // 2. Populate Drawer (Full Bubble View)
+            drawerFeed.innerHTML = '';
+            messages.forEach(msg => {
+                const isMe = currentUser && msg.user_id === currentUser.id;
+                const align = isMe ? 'items-end' : 'items-start';
+                const bg = isMe ? 'bg-brand-gold/10 border-brand-gold text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200';
+                
+                drawerFeed.innerHTML += `
+                    <div class="flex flex-col ${align}">
+                        <span class="text-[9px] font-black uppercase text-gray-500 mb-0.5">${escapeHtml(msg.display_name)}</span>
+                        <div class="${bg} border px-3 py-2 rounded-lg text-xs max-w-[85%] break-words">
+                            ${escapeHtml(msg.message)}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            feed.scrollTop = feed.scrollHeight;
+            drawerFeed.scrollTop = drawerFeed.scrollHeight;
+        }
+
+        // --- SEND MESSAGE (FROM DRAWER) ---
+        async function sendDrawerMessage() {
+            if (!currentUser) {
+                alert("Sign in required.");
+                return;
+            }
+            
+            const input = document.getElementById('drawerInput');
+            const val = input.value.trim();
+            if (!val) return;
+
+            const name = currentProfile?.sl_legacy_name || currentUser.email.split('@')[0];
+
+            await db.from('gsr_chats').insert([{
+                user_id: currentUser.id, display_name: name, message: val, channel: activeChannel
+            }]);
+            
+            input.value = '';
+            loadReadonlyFeed(); // Refresh feeds after sending
+        }
+
+        function escapeHtml(str) { return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+        document.getElementById('drawerInput').addEventListener('keypress', e => { if (e.key === 'Enter') sendDrawerMessage(); });
+        
+        window.onload = initSystem;
+    </script>
+</body>
+</html>
