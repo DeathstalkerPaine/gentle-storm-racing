@@ -246,18 +246,23 @@
             }
         }
 
-        async function handleSignUp(e) {
+                async function handleSignUp(e) {
             e.preventDefault();
             
             const email = document.getElementById('signupEmail').value.trim();
             const password = document.getElementById('signupPassword').value;
-            const enable2fa = document.getElementById('enable2fa').checked;
             const submitBtn = document.getElementById('submitBtn');
             const statusMsg = document.getElementById('signupStatus');
 
             let username = currentRole === 'racer' 
                 ? document.getElementById('racerNameInput').value.trim() 
                 : document.getElementById('fanUsernameInput').value.trim();
+
+            let fanSource = currentRole === 'fan' ? document.getElementById('sourceSelect').value : null;
+            if (fanSource === 'other') fanSource = document.getElementById('sourceOther').value;
+
+            let fanReason = currentRole === 'fan' ? document.getElementById('reasonSelect').value : null;
+            if (fanReason === 'other') fanReason = document.getElementById('reasonOther').value;
 
             submitBtn.innerHTML = "Processing...";
             submitBtn.disabled = true;
@@ -268,34 +273,24 @@
                     window.db = window.supabase.createClient('https://xwrfreokngnknftgzglg.supabase.co', 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw');
                 }
 
-                // 1. Create User in Supabase Auth
+                // 1. Create User and send metadata directly to the Database Trigger
                 const { data, error } = await window.db.auth.signUp({
                     email: email,
                     password: password,
+                    options: {
+                        data: {
+                            username: username,
+                            role: currentRole,
+                            sl_legacy_name: currentRole === 'racer' ? username : null,
+                            fan_source: fanSource,
+                            fan_reason: fanReason
+                        }
+                    }
                 });
 
                 if (error) throw error;
 
-                // 2. Insert profile data into gsr_profiles
-                if (data.user) {
-                    const profileData = {
-                        id: data.user.id,
-                        email: email,
-                        username: username,
-                        role: currentRole,
-                        sl_legacy_name: currentRole === 'racer' ? username : null,
-                        two_factor_enabled: enable2fa,
-                        fan_source: currentRole === 'fan' ? document.getElementById('sourceSelect').value : null,
-                        fan_reason: currentRole === 'fan' ? document.getElementById('reasonSelect').value : null
-                    };
-
-                    const { error: profileError } = await window.db.from('gsr_profiles').upsert([profileData]);
-                    if (profileError) {
-                        console.error("Profile linking warning:", profileError);
-                    }
-                }
-
-                // 3. Show Success Screen
+                // 2. Show Success Screen
                 document.getElementById('signupForm').classList.add('hidden');
                 document.getElementById('successState').classList.remove('hidden');
 
@@ -304,6 +299,7 @@
                 submitBtn.innerHTML = "Create Account";
                 submitBtn.disabled = false;
             }
+        }
         }
     </script>
 </body>
