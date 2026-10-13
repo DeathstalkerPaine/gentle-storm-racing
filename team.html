@@ -321,8 +321,7 @@
             document.getElementById('statTeamPodiums').innerText = podiums;
             document.getElementById('statTeamPoints').innerText = points;
             document.getElementById('statTeamWinRate').innerText = `${winRate}%`;
-            document.getElementById('headerTeamPts').innerHTML = `${points} <span class="text-[10px] text-white uppercase">PTS</span>`;
-
+            
             if (teamData.is_recruiting !== undefined && teamData.is_recruiting !== null) {
                 teamIsRecruiting = teamData.is_recruiting;
             } else {
