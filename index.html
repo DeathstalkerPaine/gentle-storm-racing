@@ -246,6 +246,8 @@
 
         <!-- ROW 4: 3-COLUMN STATS, EVENTS & HIGHLIGHTS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- TOP 3 RACERS (3 FIXED SLOTS) -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between transition group">
                 <div>
                     <div class="flex justify-between items-center mb-3">
@@ -253,7 +255,7 @@
                         <span class="text-[9px] font-black uppercase text-brand-gold">Overall Standings</span>
                     </div>
                     <div id="top3RacersContainer" class="space-y-2">
-                        <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-gold cursor-pointer"><span class="text-brand-gold font-black italic text-[10px] w-3">1</span><span class="text-white text-[10px] font-bold uppercase flex-grow truncate">Deathstalker Paine</span></div>
+                        <div class="text-[10px] text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
                     </div>
                 </div>
                 <div class="mt-4 pt-3 border-t border-brand-border">
@@ -347,14 +349,17 @@
 
         async function loadDynamicWidgets() {
             try {
-                // 1. RACER OF THE WEEK (Direct DB query)
+                // Fetch racers ordered by rating points
                 const { data: topRacers } = await window.db.from('racers')
                     .select('*')
                     .order('rating_points', { ascending: false })
                     .limit(3);
 
-                if (topRacers && topRacers.length > 0) {
-                    const topRacer = topRacers[0];
+                const racersList = topRacers || [];
+
+                // 1. RACER OF THE WEEK
+                if (racersList.length > 0) {
+                    const topRacer = racersList[0];
                     const rName = topRacer.display_name || 'Deathstalker Paine';
                     const rCar = topRacer.racer_number || '#13';
                     const rPts = topRacer.rating_points || 1000;
@@ -369,22 +374,37 @@
                     if (rPhoto) {
                         rContainer.innerHTML = `<img src="${rPhoto}" alt="${escapeHtml(rName)}" class="w-full h-full object-cover">`;
                     }
+                }
 
-                    const top3Box = document.getElementById('top3RacersContainer');
-                    if (top3Box) {
-                        top3Box.innerHTML = '';
-                        topRacers.forEach((r, idx) => {
+                // TOP 3 RACERS (FIXED 3 SLOTS WITH PENDING DRIVER FALLBACK)
+                const top3Box = document.getElementById('top3RacersContainer');
+                if (top3Box) {
+                    top3Box.innerHTML = '';
+                    for (let i = 0; i < 3; i++) {
+                        const r = racersList[i];
+                        if (r) {
                             top3Box.innerHTML += `
-                                <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-border cursor-pointer hover:border-brand-gold transition" onclick="window.location='racer.html?driver=${encodeURIComponent(r.display_name)}'">
-                                    <span class="text-brand-gold font-black italic text-[10px] w-3">${idx + 1}</span>
-                                    <span class="text-white text-[10px] font-bold uppercase flex-grow truncate">${escapeHtml(r.display_name)}</span>
-                                    <span class="text-[9px] text-gray-400 font-mono">${(r.rating_points || 0).toLocaleString()} PTS</span>
+                                <div class="flex items-center justify-between bg-brand-bg px-2.5 py-2 rounded border border-brand-border cursor-pointer hover:border-brand-gold transition" onclick="window.location='racer.html?driver=${encodeURIComponent(r.display_name)}'">
+                                    <div class="flex items-center gap-2 truncate">
+                                        <span class="text-brand-gold font-black italic text-xs w-4">#${i + 1}</span>
+                                        <span class="text-white text-xs font-bold uppercase truncate">${escapeHtml(r.display_name)}</span>
+                                    </div>
+                                    <span class="text-[10px] text-brand-gold font-mono shrink-0">${(r.rating_points || 0).toLocaleString()} PTS</span>
                                 </div>`;
-                        });
+                        } else {
+                            top3Box.innerHTML += `
+                                <div class="flex items-center justify-between bg-brand-bg px-2.5 py-2 rounded border border-brand-border/40 opacity-40">
+                                    <div class="flex items-center gap-2 truncate">
+                                        <span class="text-gray-600 font-black italic text-xs w-4">#${i + 1}</span>
+                                        <span class="text-gray-500 text-xs font-bold uppercase truncate">Pending Driver</span>
+                                    </div>
+                                    <span class="text-[10px] text-gray-600 font-mono shrink-0">---</span>
+                                </div>`;
+                        }
                     }
                 }
 
-                // 2. TEAM OF THE WEEK (Direct DB query)
+                // 2. TEAM OF THE WEEK
                 const { data: topTeams } = await window.db.from('teams')
                     .select('*')
                     .order('points', { ascending: false })
