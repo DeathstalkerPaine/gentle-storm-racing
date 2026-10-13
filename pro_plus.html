@@ -177,14 +177,27 @@
         </section>
 
         <!-- ROW 4: 2-COLUMN (Magazine & Top Pro Plus Racers Standings) -->
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
             
-            <!-- GSR Magazine -->
-            <a href="multimedia.html" data-cms-id="pro_plus:magazine" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 flex flex-col justify-between shadow-xl transition group">
+            <!-- GSR MAGAZINE CARD (CONNECTED COVER) -->
+            <a href="magazine.html" data-cms-id="pro_plus:magazine" id="proPlusMagWidget" class="bg-brand-card border border-brand-border hover:border-brand-gold rounded-xl p-6 flex flex-col justify-between shadow-xl transition group">
                 <div>
-                    <span data-cms-field="label" class="text-[9px] font-black uppercase text-brand-gold tracking-wider">Publication</span>
+                    <div class="flex justify-between items-center">
+                        <span data-cms-field="label" class="text-[9px] font-black uppercase text-brand-gold tracking-wider">Publication</span>
+                        <span id="magIssueTag" class="text-[9px] font-black uppercase text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded border border-brand-gold/30">October 2026 • Vol 1</span>
+                    </div>
+
+                    <div id="magCoverContainer" class="my-3 h-36 w-full bg-[#18181b] border border-brand-border rounded-lg overflow-hidden flex flex-col justify-between p-4 relative shadow-inner group-hover:border-brand-gold/50 transition">
+                        <span id="magVolumeBadge" class="text-[8px] font-black uppercase tracking-widest text-brand-red bg-brand-red/10 border border-brand-red/30 px-1.5 py-0.5 rounded self-start">Volume 1 • Issue 1</span>
+                        <div class="text-center my-auto">
+                            <span class="block text-base font-black uppercase text-white font-serif italic tracking-wide">GSRACING MAGAZINE</span>
+                            <span class="block text-[9px] text-gray-400 uppercase tracking-widest mt-0.5">Official Monthly Publication</span>
+                        </div>
+                        <span id="magPublishDate" class="text-[8px] text-gray-500 font-mono uppercase text-right">October 2026</span>
+                    </div>
+
                     <h3 data-cms-field="title" class="text-lg font-black uppercase text-white mt-2 group-hover:text-brand-gold transition">GSR Magazine</h3>
-                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2 leading-relaxed">
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2 leading-relaxed line-clamp-2">
                         Features digital issue covers and driver spotlights. Click to open full magazine articles and driver stories.
                     </p>
                 </div>
@@ -193,8 +206,8 @@
                 </div>
             </a>
 
-            <!-- STANDINGS: TOP 3 PRO PLUS RACERS -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between h-full relative group shadow-xl">
+            <!-- STANDINGS: TOP 3 PRO PLUS RACERS (FIXED 3 SLOTS) -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
                 <div>
                     <div class="flex justify-between items-end mb-3 border-b border-brand-border pb-3">
                         <div>
@@ -261,6 +274,7 @@
             window.currentChatChannel = 'pro_plus';
             await initGlobalAuth();
             await loadCMSContent();
+            await loadMagazineCover();
             await loadTopProPlusRacers();
             loadWideChatWidget();
 
@@ -271,54 +285,95 @@
                 .subscribe();
         }
 
+        async function loadMagazineCover() {
+            try {
+                const { data: magContent } = await window.db.from('site_content').select('*').eq('section_id', 'magazine:current_issue').maybeSingle();
+                if (magContent && magContent.content_value) {
+                    const parsed = JSON.parse(magContent.content_value);
+                    if (parsed.cover_bg) {
+                        const magBox = document.getElementById('magCoverContainer');
+                        if (magBox) {
+                            magBox.style.backgroundImage = `linear-gradient(rgba(18,18,18,0.7), rgba(18,18,18,0.7)), url('${parsed.cover_bg}')`;
+                            magBox.style.backgroundSize = 'cover';
+                            magBox.style.backgroundPosition = 'center';
+                        }
+                    }
+                    if (parsed.issue_title && document.getElementById('magIssueTag')) {
+                        document.getElementById('magIssueTag').innerText = parsed.issue_title;
+                    }
+                    if (parsed.vol_badge && document.getElementById('magVolumeBadge')) {
+                        document.getElementById('magVolumeBadge').innerText = parsed.vol_badge;
+                    }
+                    if (parsed.pub_date && document.getElementById('magPublishDate')) {
+                        document.getElementById('magPublishDate').innerText = parsed.pub_date;
+                    }
+                }
+            } catch(e) { console.warn("Magazine cover load bypassed", e); }
+        }
+
         async function loadTopProPlusRacers() {
             const container = document.getElementById('topRacersContainer');
             if (!container) return;
 
             try {
-                // Fetch top 3 drivers ordered directly by rating_points
+                // Fetch top racers ordered by rating points
                 const { data: racers } = await window.db.from('racers')
                     .select('*')
                     .order('rating_points', { ascending: false })
                     .limit(3);
 
-                if (!racers || racers.length === 0) {
-                    container.innerHTML = `<div class="text-xs text-gray-500 text-center font-mono py-4">[ No registered drivers found ]</div>`;
-                    return;
-                }
-
+                const racerList = racers || [];
                 container.innerHTML = '';
-                racers.forEach((driver, idx) => {
-                    const rank = idx + 1;
-                    const name = driver.display_name || 'Pro Plus Driver';
-                    const pts = driver.rating_points || 1000;
-                    const wins = driver.wins || 0;
-                    const team = driver.team_name || driver.team || 'Independent';
 
-                    let rankBadgeBg = "bg-brand-gold text-black";
-                    let cardStyle = "bg-brand-bg border border-brand-gold shadow-md";
+                // FIXED 3 SLOTS WITH PENDING DRIVER FALLBACK
+                for (let i = 0; i < 3; i++) {
+                    const driver = racerList[i];
+                    const rank = i + 1;
 
-                    if (rank === 2) {
-                        rankBadgeBg = "bg-gray-300 text-black";
-                        cardStyle = "bg-[#111] border border-brand-border";
-                    } else if (rank === 3) {
-                        rankBadgeBg = "bg-amber-700 text-white";
-                        cardStyle = "bg-[#111] border border-brand-border";
-                    }
+                    if (driver) {
+                        const name = driver.display_name || 'Pro Plus Driver';
+                        const pts = driver.rating_points || 1000;
+                        const wins = driver.wins || 0;
+                        const team = driver.team_name || driver.team || 'Independent';
 
-                    container.innerHTML += `
-                        <div class="flex justify-between items-center px-3.5 py-2.5 rounded ${cardStyle} transition hover:border-brand-gold">
-                            <div class="flex items-center gap-3 truncate">
-                                <span class="${rankBadgeBg} font-black text-[10px] w-6 h-6 flex items-center justify-center rounded-full shrink-0">${rank}</span>
-                                <div class="truncate">
-                                    <a href="racer.html?driver=${encodeURIComponent(name)}" class="text-white text-xs font-black uppercase hover:text-brand-gold transition truncate block">${escapeHtml(name)}</a>
-                                    <span class="text-gray-400 text-[9px] uppercase font-mono block mt-0.5 truncate">Team: ${escapeHtml(team)} • 🏆 ${wins} Wins</span>
+                        let rankBadgeBg = "bg-brand-gold text-black";
+                        let cardStyle = "bg-brand-bg border border-brand-gold shadow-md";
+
+                        if (rank === 2) {
+                            rankBadgeBg = "bg-gray-300 text-black";
+                            cardStyle = "bg-[#111] border border-brand-border";
+                        } else if (rank === 3) {
+                            rankBadgeBg = "bg-amber-700 text-white";
+                            cardStyle = "bg-[#111] border border-brand-border";
+                        }
+
+                        container.innerHTML += `
+                            <div class="flex justify-between items-center px-3.5 py-2.5 rounded ${cardStyle} transition hover:border-brand-gold cursor-pointer" onclick="window.location='racer.html?driver=${encodeURIComponent(name)}'">
+                                <div class="flex items-center gap-3 truncate">
+                                    <span class="${rankBadgeBg} font-black text-[10px] w-6 h-6 flex items-center justify-center rounded-full shrink-0">${rank}</span>
+                                    <div class="truncate">
+                                        <span class="text-white text-xs font-black uppercase hover:text-brand-gold transition truncate block">${escapeHtml(name)}</span>
+                                        <span class="text-gray-400 text-[9px] uppercase font-mono block mt-0.5 truncate">Team: ${escapeHtml(team)} • 🏆 ${wins} Wins</span>
+                                    </div>
                                 </div>
+                                <span class="text-brand-gold text-xs font-black shrink-0 font-mono">${pts.toLocaleString()} PTS</span>
                             </div>
-                            <span class="text-brand-gold text-xs font-black shrink-0 font-mono">${pts.toLocaleString()} PTS</span>
-                        </div>
-                    `;
-                });
+                        `;
+                    } else {
+                        container.innerHTML += `
+                            <div class="flex justify-between items-center px-3.5 py-2.5 rounded bg-[#111]/40 border border-brand-border/40 opacity-40">
+                                <div class="flex items-center gap-3 truncate">
+                                    <span class="bg-gray-800 text-gray-500 font-black text-[10px] w-6 h-6 flex items-center justify-center rounded-full shrink-0">${rank}</span>
+                                    <div class="truncate">
+                                        <span class="text-gray-500 text-xs font-bold uppercase truncate block">Pending Driver</span>
+                                        <span class="text-gray-600 text-[9px] uppercase font-mono block mt-0.5 truncate">UNASSIGNED</span>
+                                    </div>
+                                </div>
+                                <span class="text-gray-600 text-xs font-mono shrink-0">---</span>
+                            </div>
+                        `;
+                    }
+                }
             } catch (e) {
                 console.warn("Error loading top racers", e);
             }
