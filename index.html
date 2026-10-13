@@ -104,7 +104,7 @@
                             <div><div class="text-[8px] text-gray-500 font-bold uppercase">Roster</div><div class="text-white font-mono font-bold text-xs" id="st_roster">1/10</div></div>
                         </div>
                         <div class="mt-4">
-                            <a href="teams.html" class="block w-full text-center border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black text-[10px] font-black uppercase py-2 rounded transition">View Team Profile →</a>
+                            <a href="team.html" id="st_inner_link" class="block w-full text-center border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black text-[10px] font-black uppercase py-2 rounded transition">View Team Profile →</a>
                         </div>
                     </div>
 
@@ -135,7 +135,7 @@
                         <h3 class="text-sm font-black uppercase text-white tracking-wide truncate" id="sr_name">Deathstalker Paine</h3>
                         <p class="text-[9px] text-gray-500 font-bold uppercase mt-1 truncate" id="sr_team">Team: Storm Riders</p>
                         <div class="mt-4 border-t border-brand-border pt-3">
-                            <a href="racers_profiles.html" id="sr_inner_link" class="block w-full text-center border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black text-[10px] font-black uppercase py-2 rounded transition">View Full Profile →</a>
+                            <a href="racer.html" id="sr_inner_link" class="block w-full text-center border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black text-[10px] font-black uppercase py-2 rounded transition">View Full Profile →</a>
                         </div>
                     </div>
 
@@ -415,13 +415,17 @@
 
                 if (session) {
                     currentUser = session.user;
-                    const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, is_admin').eq('id', currentUser.id).maybeSingle();
+                    
+                    // 1. ADDED 'username' TO THE SELECT QUERY
+                    const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, username, is_admin').eq('id', currentUser.id).maybeSingle();
                     currentProfile = profile;
-                    const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+                    
+                    // 2. CHANGED TO USE profile.username FIRST
+                    const displayName = profile?.username || profile?.sl_legacy_name || currentUser.email.split('@')[0];
 
                     if (userNav) {
                         let adminBtnHTML = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-xs uppercase font-black px-3 py-2 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
-                        userNav.innerHTML = `<div class="flex flex-col items-end gap-1.5"><div class="flex items-center gap-2"><div class="text-right"><span class="block text-xs font-black text-white uppercase">${displayName}</span><span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1"><span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In</span></div><button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-xs uppercase font-black px-3 py-2 rounded transition shadow cursor-pointer">Sign Out</button></div>${adminBtnHTML}</div>`;
+                        userNav.innerHTML = `<div class="flex flex-col items-end gap-1.5"><div class="flex items-center gap-2"><div class="text-right"><span class="block text-xs font-black text-white uppercase">${escapeHtml(displayName)}</span><span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1"><span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In</span></div><button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-xs uppercase font-black px-3 py-2 rounded transition shadow cursor-pointer">Sign Out</button></div>${adminBtnHTML}</div>`;
                     }
 
                     if (userNavMobile) {
@@ -429,7 +433,7 @@
                         userNavMobile.innerHTML = `
                             <div class="flex flex-col items-center gap-2 w-full mt-2">
                                 <div class="text-center">
-                                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
+                                    <span class="block text-xs font-black text-white uppercase">${escapeHtml(displayName)}</span>
                                     <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In</span>
                                 </div>
                                 <div class="flex items-center gap-2">
@@ -466,7 +470,7 @@
                         document.getElementById('sr_car').innerText = `#${rCar}`;
                         document.getElementById('sr_team').innerText = `TEAM: ${rTeam}`;
                         document.getElementById('sr_top_pts').innerText = `${rPts.toLocaleString()} PTS`;
-                        document.getElementById('sr_inner_link').href = `racers_profiles.html?driver=${encodeURIComponent(rName)}`;
+                        document.getElementById('sr_inner_link').href = `racer.html?driver=${encodeURIComponent(rName)}`;
 
                         const container = document.getElementById('sr_img_container');
                         if (rPhoto) {
@@ -481,7 +485,7 @@
                         top3Box.innerHTML = '';
                         sortedRacers.slice(0, 3).forEach((r, idx) => {
                             top3Box.innerHTML += `
-                                <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-border cursor-pointer hover:border-brand-gold transition" onclick="window.location='racers_profiles.html?driver=${encodeURIComponent(r.display_name)}'">
+                                <div class="flex items-center gap-2 bg-brand-bg px-2 py-1.5 rounded border border-brand-border cursor-pointer hover:border-brand-gold transition" onclick="window.location='racer.html?driver=${encodeURIComponent(r.display_name)}'">
                                     <span class="text-brand-gold font-black italic text-[10px] w-3">${idx + 1}</span>
                                     <span class="text-white text-[10px] font-bold uppercase flex-grow truncate">${escapeHtml(r.display_name)}</span>
                                     <span class="text-[9px] text-gray-400 font-mono">${(r.rating_points || 0).toLocaleString()} PTS</span>
@@ -543,6 +547,9 @@
                 document.getElementById('st_wins').innerText = topTeamWins;
                 document.getElementById('st_roster').innerText = rosterCount.toString().includes('/') ? rosterCount : `${rosterCount}/10`;
                 document.getElementById('st_status').innerText = teamStatus;
+
+                const stLink = document.getElementById('st_inner_link');
+                if (stLink) stLink.href = `team.html?name=${encodeURIComponent(topTeamName)}`;
 
                 const stContainer = document.getElementById('st_img_container');
                 if (teamLogo) {
