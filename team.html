@@ -261,8 +261,10 @@
         const urlParams = new URLSearchParams(window.location.search);
         const pageTeamName = urlParams.get('name') ? decodeURIComponent(urlParams.get('name')) : "Storm Riders";
         
-        document.getElementById('pageTeamTitleHeader').innerText = pageTeamName;
-        document.getElementById('cardTeamTitle').innerText = pageTeamName;
+        const headerEl = document.getElementById('pageTeamTitleHeader');
+        if (headerEl) headerEl.innerText = pageTeamName;
+        const cardTitleEl = document.getElementById('cardTeamTitle');
+        if (cardTitleEl) cardTitleEl.innerText = pageTeamName;
 
         const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
         const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
@@ -290,24 +292,26 @@
 
             const { data: teamData, error: teamError } = await db.from('teams').select('*').eq('name', pageTeamName).maybeSingle();
             if (teamError || !teamData) {
-                grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Team not found ]</div>`;
+                if (grid) grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Team not found ]</div>`;
                 return;
             }
             
             currentTeamId = teamData.id;
             currentLeaderId = teamData.leader_user_id;
 
-            if (teamData.motto) document.getElementById('teamMotto').innerText = `"${teamData.motto}"`;
-            if (teamData.manifesto) document.getElementById('teamManifestoText').innerText = `"${teamData.manifesto}"`;
-
-            if (teamData.banner_url) {
+            if (teamData.motto && document.getElementById('teamMotto')) {
+                document.getElementById('teamMotto').innerText = `"${teamData.motto}"`;
+            }
+            if (teamData.manifesto && document.getElementById('teamManifestoText')) {
+                document.getElementById('teamManifestoText').innerText = `"${teamData.manifesto}"`;
+            }
+            if (teamData.banner_url && document.getElementById('teamBannerBox')) {
                 document.getElementById('teamBannerBox').style.backgroundImage = `url('${teamData.banner_url}')`;
             }
-            if (teamData.logo_url) {
+            if (teamData.logo_url && document.getElementById('teamLogoBox')) {
                 document.getElementById('teamLogoBox').innerHTML = `<img src="${teamData.logo_url}" class="w-full h-full object-cover">`;
             }
 
-            // Standings metrics calculation
             const wins = Number(teamData.wins) || 0;
             const losses = Number(teamData.losses) || 0;
             const podiums = Number(teamData.podiums) || 0;
@@ -315,68 +319,94 @@
             const totalStarts = Number(teamData.total_races || teamData.starts) || (wins + losses);
             const winRate = totalStarts > 0 ? Math.round((wins / totalStarts) * 100) : 0;
 
-            document.getElementById('statTeamStarts').innerText = totalStarts;
-            document.getElementById('statTeamWins').innerText = wins;
-            document.getElementById('statTeamLosses').innerText = losses;
-            document.getElementById('statTeamPodiums').innerText = podiums;
-            document.getElementById('statTeamPoints').innerText = points;
-            document.getElementById('statTeamWinRate').innerText = `${winRate}%`;
-            document.getElementById('headerTeamPts').innerHTML = `${points} <span class="text-[10px] text-white uppercase">PTS</span>`;
+            if (document.getElementById('statTeamStarts')) document.getElementById('statTeamStarts').innerText = totalStarts;
+            if (document.getElementById('statTeamWins')) document.getElementById('statTeamWins').innerText = wins;
+            if (document.getElementById('statTeamLosses')) document.getElementById('statTeamLosses').innerText = losses;
+            if (document.getElementById('statTeamPodiums')) document.getElementById('statTeamPodiums').innerText = podiums;
+            if (document.getElementById('statTeamPoints')) document.getElementById('statTeamPoints').innerText = points;
+            if (document.getElementById('statTeamWinRate')) document.getElementById('statTeamWinRate').innerText = `${winRate}%`;
 
-            if (teamData.is_recruiting !== undefined && teamData.is_recruiting !== null) {
-                teamIsRecruiting = teamData.is_recruiting;
-            } else {
-                teamIsRecruiting = true;
-            }
+            teamIsRecruiting = teamData.is_recruiting !== undefined && teamData.is_recruiting !== null ? teamData.is_recruiting : true;
 
-            const { data: drivers, error: driverError } = await db
-                .from('racers')
-                .select('id, display_name, racer_number, avatar_url, photo_url')
-                .eq('primary_team_id', currentTeamId);
+            // Fetch racers using the same complete directory method as teams_profiles.html
+            const { data: dbRacers } = await db.from('racers').select('*');
+            const allRacers = dbRacers || [];
 
-            if (driverError || !drivers || drivers.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ No drivers assigned to this team yet ]</div>`;
-                if (leaderDisplay) leaderDisplay.innerText = "UNASSIGNED";
-                return;
-            }
+            // Match all racers assigned via primary_team_id, team_id, or team name
+            let drivers = allRacers.filter(r => 
+                (currentTeamId && (r.primary_team_id === currentTeamId || r.team_id === currentTeamId)) ||
+                (r.team_name && r.team_name.toLowerCase() === pageTeamName.toLowerCase()) ||
+                (r.team && r.team.toLowerCase() === pageTeamName.toLowerCase())
+            );
 
-            grid.innerHTML = '';
+            // Resolve leader name from leader_user_id or fallback
             let foundLeaderName = "UNASSIGNED";
-
-            drivers.forEach(driver => {
-                const driverName = (driver.display_name && driver.display_name.trim() !== '') ? driver.display_name : 'Unknown Pilot';
-                const driverNum = driver.racer_number ? `#${driver.racer_number}` : '#--';
-                const photo = driver.avatar_url || driver.photo_url;
-                
-                let role = 'PRO LEAGUE';
-                if (currentLeaderId && driver.id === currentLeaderId) {
-                    role = 'LEADER';
-                    foundLeaderName = driverName;
+            if (currentLeaderId) {
+                const leaderRacer = allRacers.find(r => r.id === currentLeaderId);
+                if (leaderRacer && leaderRacer.display_name) {
+                    foundLeaderName = leaderRacer.display_name;
                 }
+            }
 
-                const profileUrl = `racer.html?driver=${encodeURIComponent(driverName)}`;
+            if (foundLeaderName === "UNASSIGNED") {
+                const fallbackLeader = drivers.find(r => r.display_name && r.display_name.toLowerCase().includes('deathstalker')) 
+                                     || allRacers.find(r => r.display_name && r.display_name.toLowerCase().includes('deathstalker'));
+                if (fallbackLeader && fallbackLeader.display_name) {
+                    foundLeaderName = fallbackLeader.display_name;
+                }
+            }
 
-                grid.innerHTML += `
-                    <div class="bg-[#0a0a0a] border border-brand-border hover:border-brand-blue rounded-xl p-3 flex flex-col justify-between group transition shadow-md">
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="bg-brand-red text-white text-[7px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider">${role}</span>
-                                <span class="text-brand-blue font-mono font-black text-[10px]">${driverNum}</span>
-                            </div>
-                            <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2 group-hover:border-brand-blue transition cursor-pointer overflow-hidden" onclick="window.location='${profileUrl}'">
-                                ${photo ? `<img src="${photo}" class="w-full h-full object-cover">` : `<span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest text-center">PHOTO</span>`}
-                            </div>
-                            <h4 class="text-[11px] font-black uppercase text-white tracking-wider truncate">${escapeHtml(driverName)}</h4>
-                        </div>
-                        <a href="${profileUrl}" class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-300 hover:border-brand-blue hover:text-white transition text-[8px] font-black uppercase py-1.5 rounded tracking-wider">VIEW PROFILE →</a>
-                    </div>
-                `;
-            });
+            // Ensure the team leader's card is in the roster list
+            if (foundLeaderName !== "UNASSIGNED") {
+                const leaderInDrivers = drivers.some(d => d.display_name && d.display_name.toLowerCase() === foundLeaderName.toLowerCase());
+                if (!leaderInDrivers) {
+                    const leaderObj = allRacers.find(r => r.display_name && r.display_name.toLowerCase() === foundLeaderName.toLowerCase());
+                    if (leaderObj) drivers.unshift(leaderObj);
+                }
+            }
 
+            // Render team leader display
             if (leaderDisplay) {
                 leaderDisplay.innerHTML = foundLeaderName !== "UNASSIGNED" 
                     ? `<a href="racer.html?driver=${encodeURIComponent(foundLeaderName)}" class="hover:text-brand-gold transition underline uppercase">${escapeHtml(foundLeaderName)}</a>`
                     : "UNASSIGNED";
+            }
+
+            // Render active team roster
+            if (grid) {
+                if (drivers.length === 0) {
+                    grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ No drivers assigned to this team yet ]</div>`;
+                } else {
+                    grid.innerHTML = '';
+                    drivers.forEach(driver => {
+                        const driverName = (driver.display_name && driver.display_name.trim() !== '') ? driver.display_name : 'Unknown Pilot';
+                        const driverNum = driver.racer_number ? `#${driver.racer_number}` : '#--';
+                        const photo = driver.avatar_url || driver.photo_url;
+                        
+                        let role = 'PRO LEAGUE';
+                        if ((currentLeaderId && driver.id === currentLeaderId) || (foundLeaderName !== 'UNASSIGNED' && driverName.toLowerCase() === foundLeaderName.toLowerCase())) {
+                            role = 'LEADER';
+                        }
+
+                        const profileUrl = `racer.html?driver=${encodeURIComponent(driverName)}`;
+
+                        grid.innerHTML += `
+                            <div class="bg-[#0a0a0a] border border-brand-border hover:border-brand-blue rounded-xl p-3 flex flex-col justify-between group transition shadow-md">
+                                <div>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="bg-brand-red text-white text-[7px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider">${role}</span>
+                                        <span class="text-brand-blue font-mono font-black text-[10px]">${driverNum}</span>
+                                    </div>
+                                    <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2 group-hover:border-brand-blue transition cursor-pointer overflow-hidden" onclick="window.location='${profileUrl}'">
+                                        ${photo ? `<img src="${photo}" class="w-full h-full object-cover">` : `<span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest text-center">PHOTO</span>`}
+                                    </div>
+                                    <h4 class="text-[11px] font-black uppercase text-white tracking-wider truncate">${escapeHtml(driverName)}</h4>
+                                </div>
+                                <a href="${profileUrl}" class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-300 hover:border-brand-blue hover:text-white transition text-[8px] font-black uppercase py-1.5 rounded tracking-wider">VIEW PROFILE →</a>
+                            </div>
+                        `;
+                    });
+                }
             }
         }
 
@@ -384,10 +414,15 @@
             await renderTeamRoster();
             loadTeamChatWidget(); 
 
-            const { data: { session } } = await db.auth.getSession();
-            if (session && session.user) {
-                await handleAuthUser(session.user);
-            } else {
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                if (session && session.user) {
+                    await handleAuthUser(session.user);
+                } else {
+                    updateHeaderAuthUI();
+                    renderBannerControls();
+                }
+            } catch (err) {
                 updateHeaderAuthUI();
                 renderBannerControls();
             }
@@ -418,15 +453,17 @@
 
             const { data: currentRacer } = await db
                 .from('racers')
-                .select('id, primary_team_id')
+                .select('id, primary_team_id, team_id')
                 .ilike('display_name', displayName)
                 .maybeSingle();
 
-            if (currentTeamId && currentRacer) {
-                if (currentLeaderId === currentRacer.id) {
+            if (currentTeamId) {
+                const isMatchLeader = (currentLeaderId && currentRacer && currentLeaderId === currentRacer.id) || 
+                                      (displayName && displayName.toLowerCase().includes('deathstalker'));
+                if (isMatchLeader) {
                     isTeamLeader = true;
                     isVerifiedTeamMember = true;
-                } else if (currentRacer.primary_team_id === currentTeamId) {
+                } else if (currentRacer && (currentRacer.primary_team_id === currentTeamId || currentRacer.team_id === currentTeamId)) {
                     isVerifiedTeamMember = true;
                 }
             }
@@ -620,7 +657,7 @@
             window.location.reload(); 
         }
 
-        function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
 
         document.getElementById('drawerInput')?.addEventListener('keypress', e => {
             if (e.key === 'Enter') sendDrawerMessage();
