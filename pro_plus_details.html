@@ -36,78 +36,35 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-           <!-- SUB-PAGE HEADER: TALL DESKTOP, PERFECT MOBILE -->
+    <!-- SUB-PAGE HEADER -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
             
-            <!-- Left (Desktop) / Top (Mobile): Logo -->
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
                 <a href="index.html" class="inline-block">
                     <img src="h-logo.png" alt="Gentle Storm Racing Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform">
                 </a>
             </div>
 
-            <!-- Center: Title -->
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <h1 class="text-xl sm:text-2xl lg:text-4xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
                     WHAT IS PRO PLUS?
                 </h1>
             </div>
 
-            <!-- Right: Sign In Button -->
-            <div class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10">
-                <a href="admin.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[10px] sm:text-xs px-3 py-1.5 lg:px-5 lg:py-2.5 rounded shadow-[0_0_10px_rgba(255,42,42,0.3)] transition whitespace-nowrap tracking-wider">
-                    Sign In
-                </a>
-            </div>
-
+            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10"></div>
         </div>
+        <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 z-10 w-full px-4"></div>
     </header>
 
-        </div>
-    </header>
-
-    <!-- AUTOMATIC TITLE SCRIPT -->
-    <script>
-        const path = window.location.pathname;
-        const titleEl = document.getElementById('page-title');
-        
-        if (path.includes('story_campaign')) {
-            titleEl.textContent = 'STORY CAMPAIGN';
-        } else if (path.includes('skill_tree')) {
-            titleEl.textContent = 'SKILL TREE';
-        } else if (path.includes('what_is_pro_plus')) {
-            titleEl.textContent = 'WHAT IS PRO PLUS?';
-        } else if (path.includes('tutorial')) {
-            titleEl.textContent = 'TUTORIALS & GUIDES';
-        }
-    </script>
-
-
-    <!-- AUTOMATIC TITLE SCRIPT (FIXED) -->
-    <script>
-        const path = window.location.pathname;
-        const titleEl = document.getElementById('page-title');
-        
-        if (path.includes('story_campaign')) {
-            titleEl.textContent = 'STORY CAMPAIGN';
-        } else if (path.includes('skill_tree')) {
-            titleEl.textContent = 'SKILL TREE';
-        } else if (path.includes('what_is_pro_plus')) {
-            titleEl.textContent = 'WHAT IS PRO PLUS?';
-        } else if (path.includes('tutorial')) {
-            titleEl.textContent = 'TUTORIALS & GUIDES';
-        }
-    </script>
-
-      <!-- SUB-NAVBAR LINKS -->
+    <!-- SUB-NAVBAR LINKS -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
             <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
             <a href="story_campaign.html" class="text-gray-300 hover:text-brand-gold transition">Story Campaign</a>
             <a href="skill_tree.html" class="text-gray-300 hover:text-brand-gold transition">Skill Tree</a>
-            <a href="top_racers.html" class="text-gray-300 hover:text-brand-gold transition">Top Racers</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Top Racers</a>
             <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">News/Magazine</a>
             <a href="tutorial.html" class="text-gray-300 hover:text-brand-gold transition">Tutorial</a>
             <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
@@ -129,17 +86,14 @@
 
         <!-- HERO EXPLANATION SECTION -->
         <section class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-2xl">
-            <!-- Large Image Placeholder -->
             <div class="w-full aspect-video md:aspect-[3/1] bg-[#111] relative flex items-center justify-center border-b border-brand-border overflow-hidden group cursor-pointer">
                 <span class="text-gray-500 font-black uppercase tracking-widest text-sm z-10">[ Main Promotional Artwork / Video ]</span>
                 <div class="absolute inset-0 bg-gradient-to-t from-[#1e1e1e] to-transparent z-0"></div>
-                <!-- Play button overlay -->
                 <div class="absolute z-10 w-16 h-16 bg-brand-red rounded-full flex items-center justify-center opacity-80 group-hover:opacity-100 group-hover:scale-110 transition shadow-[0_0_20px_rgba(255,42,42,0.6)]">
                     <span class="text-white text-2xl ml-1">▶</span>
                 </div>
             </div>
             
-            <!-- Hero Text Block -->
             <div class="p-8 md:p-12 max-w-4xl mx-auto text-center space-y-6">
                 <h2 class="text-3xl font-black uppercase text-white tracking-wide">The Next Evolution of Racing</h2>
                 <p class="text-sm text-gray-300 leading-relaxed">
@@ -149,7 +103,7 @@
                     <a href="story_campaign.html" class="bg-brand-gold hover:bg-yellow-500 text-black font-black uppercase text-xs px-6 py-3 rounded shadow transition">
                         Start the Campaign
                     </a>
-                    <a href="#subscribe" class="bg-brand-bg border border-brand-gold hover:text-brand-gold text-white font-black uppercase text-xs px-6 py-3 rounded transition">
+                    <a href="store.html" class="bg-brand-bg border border-brand-gold hover:text-brand-gold text-white font-black uppercase text-xs px-6 py-3 rounded transition">
                         Subscribe Now
                     </a>
                 </div>
@@ -159,7 +113,7 @@
         <!-- 3-COLUMN DETAILS GRID -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
-            <!-- Future Features & Roadmap (Gold) -->
+            <!-- Future Features & Roadmap -->
             <div class="bg-brand-bg border border-brand-border hover:border-brand-gold rounded-xl p-8 flex flex-col relative transition gold-border-glow shadow-lg">
                 <span class="text-3xl mb-4 block">🚀</span>
                 <h3 class="text-lg font-black text-white uppercase mb-3">The Future of Pro Plus</h3>
@@ -171,7 +125,7 @@
                 </a>
             </div>
 
-            <!-- Tutorials & Guides (Blue) -->
+            <!-- Tutorials & Guides -->
             <div class="bg-brand-bg border border-brand-border hover:border-brand-blue rounded-xl p-8 flex flex-col relative transition blue-border-glow shadow-lg">
                 <span class="text-3xl mb-4 block">📘</span>
                 <h3 class="text-lg font-black text-white uppercase mb-3">Tutorial & Guides</h3>
@@ -183,7 +137,7 @@
                 </a>
             </div>
 
-            <!-- Premium Perks (Red) -->
+            <!-- Premium Perks -->
             <div class="bg-brand-bg border border-brand-border hover:border-brand-red rounded-xl p-8 flex flex-col relative transition red-border-glow shadow-lg">
                 <span class="text-3xl mb-4 block">💎</span>
                 <h3 class="text-lg font-black text-white uppercase mb-3">Exclusive VIP Perks</h3>
@@ -200,8 +154,6 @@
         <!-- EXCLUSIVE PRO PLUS CHATS SECTION -->
         <section class="mt-8">
             <div class="bg-gradient-to-r from-[#2a0808] to-brand-bg border border-brand-red rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden red-border-glow">
-                
-                <!-- Lock Icon Background Watermark -->
                 <div class="absolute -right-10 -bottom-10 text-9xl opacity-5 pointer-events-none text-brand-red">
                     🔒
                 </div>
@@ -238,5 +190,11 @@
         </div>
     </footer>
 
+    <!-- CENTRAL SHARED ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="gsr-core.js"></script>
+    <script>
+        window.onload = () => initGlobalAuth();
+    </script>
 </body>
 </html>
