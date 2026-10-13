@@ -85,13 +85,16 @@
                 <div>
                     <div class="flex justify-between items-center mb-4">
                         <span data-cms-field="label" class="text-[10px] font-black uppercase tracking-widest bg-brand-gold text-black px-2 py-0.5 rounded">Spotlight</span>
-                        <span id="st_top_pts" class="text-brand-gold font-mono text-[10px] font-bold">500 PTS</span>
+                        <span id="st_top_pts" class="text-brand-gold font-mono text-[10px] font-bold">0 PTS</span>
                     </div>
 
                     <div class="bg-brand-bg border border-brand-border rounded-xl p-4 flex flex-col mb-4 hover:border-brand-gold transition shadow-md">
                         <div class="flex justify-between items-center mb-3">
                             <span class="bg-brand-red text-white text-[9px] font-black uppercase px-2 py-0.5 rounded">Pro Plus League</span>
-                            <span class="text-brand-green text-[9px] font-black uppercase flex items-center gap-1 border border-brand-green px-1.5 py-0.5 rounded"><span class="w-1.5 h-1.5 rounded-full bg-brand-green"></span> <span id="st_status">Recruiting</span></span>
+                            <span id="st_status_badge" class="text-brand-green text-[9px] font-black uppercase flex items-center gap-1 border border-brand-green px-1.5 py-0.5 rounded">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span>
+                                <span id="st_status">Recruiting</span>
+                            </span>
                         </div>
                         <div class="h-28 w-full bg-[#151515] border border-brand-border rounded-lg flex items-center justify-center mb-4 overflow-hidden relative" id="st_img_container">
                             <span class="text-lg font-black text-white uppercase tracking-widest text-center" id="st_img_text">Storm Riders</span>
@@ -245,7 +248,7 @@
                     <h3 data-cms-field="title" class="text-lg font-black uppercase tracking-wider text-brand-gold group-hover:text-white transition">Sponsors</h3>
                     <p data-cms-field="desc" class="text-xs text-gray-400 mt-0.5">Official Partners & League Sponsors</p>
 
-                    <!-- FLEX-GROW CONTAINER: Fills all vertical space down to the divider line -->
+                    <!-- FLEX-GROW CONTAINER -->
                     <div id="sponsorLogosContainer" class="my-3 flex-grow w-full min-h-[160px] bg-brand-bg border border-brand-border rounded-lg flex flex-row items-center justify-center p-2 gap-2 overflow-hidden">
                         <div id="sponsorFallbackText" class="flex flex-wrap justify-center items-center gap-4 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center">
                             <span>[ Second Life Motors ]</span>
@@ -415,12 +418,9 @@
 
                 if (session) {
                     currentUser = session.user;
-                    
-                    // 1. ADDED 'username' TO THE SELECT QUERY
                     const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, username, is_admin').eq('id', currentUser.id).maybeSingle();
                     currentProfile = profile;
                     
-                    // 2. CHANGED TO USE profile.username FIRST
                     const displayName = profile?.username || profile?.sl_legacy_name || currentUser.email.split('@')[0];
 
                     if (userNav) {
@@ -454,17 +454,40 @@
 
         async function loadDynamicWidgets() {
             try {
-                // 1. RACER OF THE WEEK
+                // Fetch core tables
                 const { data: racers } = await db.from('racers').select('*');
+                const { data: teamsData } = await db.from('teams').select('*');
+                const { data: profiles } = await db.from('gsr_profiles').select('*');
+
+                // 1. RACER OF THE WEEK
                 if (racers && racers.length > 0) {
                     const sortedRacers = [...racers].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
                     const topRacer = sortedRacers[0];
                     if (topRacer) {
                         const rName = topRacer.display_name || 'Deathstalker Paine';
                         const rCar = topRacer.racer_number || topRacer.car_number || '13'; 
-                        const rTeam = topRacer.team_name || topRacer.team || 'Storm Riders'; 
+                        let rTeam = topRacer.team_name || topRacer.team;
                         const rPts = topRacer.rating_points || 1000;
-                        const rPhoto = topRacer.driver_photo || topRacer.photo_url || topRacer.image_url || topRacer.avatar_url;
+
+                        if (!rTeam && teamsData) {
+                            const teamMatch = teamsData.find(t => t.id === topRacer.primary_team_id || t.id === topRacer.team_id);
+                            if (teamMatch) rTeam = teamMatch.name || teamMatch.team_name;
+                        }
+                        if (!rTeam) rTeam = 'Storm Riders';
+
+                        let rPhoto = topRacer.avatar_url || topRacer.photo_url || topRacer.driver_photo || topRacer.image_url || topRacer.profile_image;
+
+                        // Check profiles table if racer table photo is empty
+                        if (!rPhoto && profiles && profiles.length > 0) {
+                            const pMatch = profiles.find(p => 
+                                (p.sl_legacy_name && p.sl_legacy_name.toLowerCase() === rName.toLowerCase()) ||
+                                (p.username && p.username.toLowerCase() === rName.toLowerCase()) ||
+                                p.id === topRacer.id || p.id === topRacer.user_id
+                            );
+                            if (pMatch) {
+                                rPhoto = pMatch.avatar_url || pMatch.photo_url || pMatch.profile_image || pMatch.image_url;
+                            }
+                        }
 
                         document.getElementById('sr_name').innerText = rName;
                         document.getElementById('sr_car').innerText = `#${rCar}`;
@@ -473,10 +496,12 @@
                         document.getElementById('sr_inner_link').href = `racer.html?driver=${encodeURIComponent(rName)}`;
 
                         const container = document.getElementById('sr_img_container');
-                        if (rPhoto) {
-                            container.innerHTML = `<img src="${rPhoto}" alt="${escapeHtml(rName)}" class="w-full h-full object-cover">`;
-                        } else {
-                            container.innerHTML = `<span class="text-[10px] font-black text-brand-border uppercase tracking-widest">Driver Photo</span>`;
+                        if (container) {
+                            if (rPhoto) {
+                                container.innerHTML = `<img src="${rPhoto}" alt="${escapeHtml(rName)}" class="w-full h-full object-cover">`;
+                            } else {
+                                container.innerHTML = `<div class="flex flex-col items-center justify-center p-4 text-center"><div class="w-16 h-16 rounded-full bg-[#1e1e1e] border border-brand-border flex items-center justify-center text-2xl mb-2 text-brand-gold font-black">🏎️</div><span class="text-[10px] font-black text-gray-500 uppercase tracking-widest">${escapeHtml(rName)}</span></div>`;
+                            }
                         }
                     }
 
@@ -494,68 +519,84 @@
                     }
                 }
 
-                // 2. TEAM OF THE WEEK
+                // 2. TEAM OF THE WEEK (Synced directly to database)
                 let topTeamName = 'Storm Riders';
                 let topTeamPts = 0;
                 let topTeamLeader = 'Deathstalker Paine';
                 let topTeamWins = 0;
                 let rosterCount = '1/10'; 
-                let teamStatus = 'Recruiting';
-                
-                const { data: profiles } = await db.from('gsr_profiles').select('*');
-                if (profiles && profiles.length > 0) {
-                    const teamMap = {};
-                    profiles.forEach(p => {
-                        const tName = p.team_name || p.team || p.syndicate;
-                        if (tName && tName !== 'Unassigned' && tName.trim() !== '') {
-                            if (!teamMap[tName]) teamMap[tName] = { name: tName, pts: 0, wins: 0, leader: p.sl_legacy_name, count: 0 };
-                            teamMap[tName].pts += (p.rating || 500);
-                            teamMap[tName].wins += (p.wins || 0);
-                            teamMap[tName].count += 1;
-                            if (p.is_admin || (p.rating > (teamMap[tName].leaderPts||0))) {
-                                teamMap[tName].leader = p.sl_legacy_name;
-                                teamMap[tName].leaderPts = p.rating;
+                let isRecruiting = true;
+                let teamLogo = null;
+
+                if (teamsData && teamsData.length > 0) {
+                    const sortedTeams = [...teamsData].sort((a,b) => (b.points || b.constructor_points || 0) - (a.points || a.constructor_points || 0));
+                    const topTeam = sortedTeams[0] || teamsData.find(t => (t.name || '').toLowerCase() === 'storm riders') || teamsData[0];
+
+                    if (topTeam) {
+                        topTeamName = topTeam.name || topTeam.team_name || 'Storm Riders';
+                        topTeamPts = Number(topTeam.points || topTeam.constructor_points) || 0;
+                        topTeamWins = Number(topTeam.wins) || 0;
+                        teamLogo = topTeam.logo_url || topTeam.banner_url || topTeam.image_url;
+
+                        // Check true database recruitment boolean
+                        if (topTeam.is_recruiting !== undefined && topTeam.is_recruiting !== null) {
+                            isRecruiting = Boolean(topTeam.is_recruiting);
+                        } else if (topTeam.status || topTeam.recruiting_status) {
+                            isRecruiting = (topTeam.status || topTeam.recruiting_status).toLowerCase().includes('recruit');
+                        }
+
+                        // Determine driver count and team leader
+                        if (racers && racers.length > 0) {
+                            const teamRacers = racers.filter(r => 
+                                r.primary_team_id === topTeam.id || 
+                                r.team_id === topTeam.id || 
+                                (r.team_name && r.team_name.toLowerCase() === topTeamName.toLowerCase()) ||
+                                (r.team && r.team.toLowerCase() === topTeamName.toLowerCase())
+                            );
+                            rosterCount = `${teamRacers.length}/10`;
+
+                            if (topTeam.leader_user_id) {
+                                const lObj = racers.find(r => r.id === topTeam.leader_user_id);
+                                if (lObj && lObj.display_name) topTeamLeader = lObj.display_name;
+                            }
+                            if (!topTeamLeader || topTeamLeader === 'UNASSIGNED') {
+                                const fallbackL = teamRacers.find(r => r.display_name && r.display_name.toLowerCase().includes('deathstalker')) ||
+                                                  racers.find(r => r.display_name && r.display_name.toLowerCase().includes('deathstalker'));
+                                if (fallbackL && fallbackL.display_name) topTeamLeader = fallbackL.display_name;
                             }
                         }
-                    });
-
-                    const teamsArray = Object.values(teamMap).sort((a,b) => b.pts - a.pts);
-                    if (teamsArray.length > 0) {
-                        topTeamName = teamsArray[0].name;
-                        topTeamPts = teamsArray[0].pts;
-                        topTeamLeader = teamsArray[0].leader || 'Deathstalker Paine';
-                        topTeamWins = teamsArray[0].wins;
-                        rosterCount = `${teamsArray[0].count}/10`;
-                    }
-                }
-
-                const { data: teamsData } = await db.from('teams').select('*');
-                let teamLogo = null;
-                if (teamsData && teamsData.length > 0) {
-                    const matchTeam = teamsData.find(t => (t.team_name || t.name || '').toLowerCase() === topTeamName.toLowerCase());
-                    if (matchTeam) {
-                        teamLogo = matchTeam.logo_url || matchTeam.image_url || matchTeam.team_logo || matchTeam.banner_url;
-                        if (matchTeam.roster_count) rosterCount = matchTeam.roster_count;
-                        if (matchTeam.status || matchTeam.recruiting_status) teamStatus = matchTeam.status || matchTeam.recruiting_status;
                     }
                 }
 
                 document.getElementById('st_name').innerText = topTeamName;
                 document.getElementById('st_leader').innerText = `LEADER: ${topTeamLeader}`;
-                document.getElementById('st_pts').innerText = topTeamPts > 0 ? topTeamPts.toLocaleString() : '500';
-                document.getElementById('st_top_pts').innerText = topTeamPts > 0 ? `${topTeamPts.toLocaleString()} PTS` : `500 PTS`;
+                document.getElementById('st_pts').innerText = topTeamPts.toLocaleString();
+                document.getElementById('st_top_pts').innerText = `${topTeamPts.toLocaleString()} PTS`;
                 document.getElementById('st_wins').innerText = topTeamWins;
                 document.getElementById('st_roster').innerText = rosterCount.toString().includes('/') ? rosterCount : `${rosterCount}/10`;
-                document.getElementById('st_status').innerText = teamStatus;
+
+                // Dynamic badge status & border update
+                const badgeEl = document.getElementById('st_status_badge');
+                if (badgeEl) {
+                    if (isRecruiting) {
+                        badgeEl.className = "text-brand-green text-[9px] font-black uppercase flex items-center gap-1 border border-brand-green px-1.5 py-0.5 rounded";
+                        badgeEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> <span>Recruiting</span>`;
+                    } else {
+                        badgeEl.className = "text-gray-400 text-[9px] font-black uppercase flex items-center gap-1 border border-gray-600 px-1.5 py-0.5 rounded";
+                        badgeEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-gray-500"></span> <span>Roster Closed</span>`;
+                    }
+                }
 
                 const stLink = document.getElementById('st_inner_link');
                 if (stLink) stLink.href = `team.html?name=${encodeURIComponent(topTeamName)}`;
 
                 const stContainer = document.getElementById('st_img_container');
-                if (teamLogo) {
-                    stContainer.innerHTML = `<img src="${teamLogo}" alt="${escapeHtml(topTeamName)}" class="w-full h-full object-cover">`;
-                } else {
-                    stContainer.innerHTML = `<span class="text-lg font-black text-white uppercase tracking-widest text-center px-2">${escapeHtml(topTeamName)}</span>`;
+                if (stContainer) {
+                    if (teamLogo) {
+                        stContainer.innerHTML = `<img src="${teamLogo}" alt="${escapeHtml(topTeamName)}" class="w-full h-full object-cover">`;
+                    } else {
+                        stContainer.innerHTML = `<span class="text-lg font-black text-white uppercase tracking-widest text-center px-2">${escapeHtml(topTeamName)}</span>`;
+                    }
                 }
 
                 // 3. MAGAZINE COVER AUTOMATIC SYNC
