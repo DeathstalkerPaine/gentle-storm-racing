@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 1 Quest Log | Gentle Storm Racing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff', green: '#10B981' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+        .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 15px rgba(197, 160, 89, 0.2); }
+        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 15px rgba(42, 117, 255, 0.2); }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- SUB-PAGE HEADER -->
+    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-8 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
+                <a href="index.html" class="inline-block">
+                    <img src="logo.png" alt="Gentle Storm Racing Logo" class="h-10 sm:h-14 lg:h-16 w-auto object-contain hover:scale-105 transition-transform">
+                </a>
+            </div>
+
+            <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
+                <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Story Campaign • Chapter 1</span>
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-black uppercase tracking-wider text-white">
+                    MISSION & QUEST LOG
+                </h1>
+            </div>
+
+            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex flex-col sm:flex-row items-end sm:items-center gap-2"></div>
+        </div>
+        <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 px-4 z-10 w-full"></div>
+    </header>
+
+    <!-- SUB-NAVBAR -->
+    <nav class="bg-brand-bg border-b border-brand-border py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
+            <a href="pro_plus.html" class="text-gray-300 hover:text-brand-gold transition">Pro Plus Hub</a>
+            <a href="story_campaign.html" class="text-brand-gold underline decoration-2 underline-offset-4">Story Campaign</a>
+            <a href="skill_tree.html" class="text-gray-300 hover:text-brand-gold transition">Skill Tree</a>
+            <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Top Racers</a>
+            <a href="chats.html" class="text-gray-300 hover:text-brand-gold transition">GSR Chats</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
+
+        <!-- NAVIGATION BACK BAR -->
+        <div class="flex justify-between items-center">
+            <a href="story_campaign.html" class="text-[10px] font-black uppercase text-gray-400 hover:text-brand-gold transition tracking-widest flex items-center gap-2">
+                &larr; BACK TO STORY CAMPAIGN
+            </a>
+            <span class="text-[10px] font-mono uppercase text-brand-gold bg-brand-gold/10 border border-brand-gold/30 px-3 py-1 rounded">
+                SL Telemetry Ready • Act I to V
+            </span>
+        </div>
+
+        <!-- ACTIVE MISSION HEADS-UP DISPLAY -->
+        <section class="bg-brand-card border border-brand-gold rounded-xl p-6 gold-border-glow shadow-xl relative overflow-hidden">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative z-10">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></span>
+                        <span class="text-[10px] font-black uppercase text-brand-green tracking-widest">Active Sim Objective</span>
+                    </div>
+                    <h2 id="hudQuestTitle" class="text-xl sm:text-2xl font-black uppercase text-white tracking-wide">
+                        Quest #01: The First Contact
+                    </h2>
+                    <p id="hudQuestDesc" class="text-xs text-gray-300 mt-1 max-w-3xl leading-relaxed">
+                        Meet the Syndicate Contact at the Abandoned Track terminal in Second Life. Accept the encrypted datapad and complete your initial baseline telemetry check.
+                    </p>
+                </div>
+                <div class="flex flex-col items-start md:items-end gap-2 shrink-0">
+                    <span class="bg-brand-bg border border-brand-border px-3 py-1.5 rounded text-xs font-mono font-bold text-brand-gold">
+                        REWARDS: +100 XP • 50 COINS
+                    </span>
+                    <span class="text-[9px] font-black uppercase text-gray-400 tracking-wider">Status: IN PROGRESS</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUEST FILTER BAR -->
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-brand-border pb-4">
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="filterQuests('all')" id="btnFilterAll" class="bg-brand-gold text-black font-black uppercase text-[10px] px-3 py-1.5 rounded transition">All (50)</button>
+                <button onclick="filterQuests('active')" id="btnFilterActive" class="bg-brand-card border border-brand-border text-gray-400 hover:text-white font-black uppercase text-[10px] px-3 py-1.5 rounded transition">Active (1)</button>
+                <button onclick="filterQuests('completed')" id="btnFilterCompleted" class="bg-brand-card border border-brand-border text-gray-400 hover:text-white font-black uppercase text-[10px] px-3 py-1.5 rounded transition">Completed (0)</button>
+                <button onclick="filterQuests('locked')" id="btnFilterLocked" class="bg-brand-card border border-brand-border text-gray-400 hover:text-white font-black uppercase text-[10px] px-3 py-1.5 rounded transition">Locked (49)</button>
+            </div>
+            <span class="text-[10px] text-gray-500 font-mono uppercase">Chapter 1: The Syndicate Infiltration</span>
+        </div>
+
+        <!-- 50 QUEST GRID (RENDERED DYNAMICALLY) -->
+        <div id="questLogGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="col-span-full text-center text-xs text-gray-500 font-mono py-12">[ Generating 50 Campaign Missions... ]</div>
+        </div>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">
+        &copy; 2026 Gentle Storm Racing. Built for Second Life.
+    </footer>
+
+    <!-- CENTRAL SHARED ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="gsr-core.js"></script>
+
+    <script>
+        const actNames = [
+            "Act I: The Initiation (Quests 1 - 10)",
+            "Act II: Building The Network (Quests 11 - 20)",
+            "Act III: High Stakes Circuit (Quests 21 - 30)",
+            "Act IV: The Inner Circle (Quests 31 - 40)",
+            "Act V: Syndicate Supremacy (Quests 41 - 50)"
+        ];
+
+        let currentFilter = 'all';
+
+        const sampleQuestTitles = [
+            "The First Contact", "Baseline Telemetry", "Underground Circuit", "Midnight Sprint", "Fuel Line Smuggle",
+            "Scouting The Strip", "Parts Runner", "Cornering Drill", "Rival Challenge", "The Act I Showdown",
+            "Syndicate Wiretap", "The Ghost Pilot", "High Stakes Wager", "Garage Recon", "Nitro Calibration",
+            "Desert Time Trial", "Street Informant", "Telemetry Jammer", "Black Market Turbo", "The Act II Showdown",
+            "Pro Plus License", "Sim Crossover", "High Altitude Sprint", "Double Down Drift", "Paddock Espionage",
+            "The Syndicate Cut", "Rain Simulator Run", "Grid Dominance", "Bounty: Viper Pilot", "The Act III Showdown",
+            "Inner Circle Invite", "Secret Garage Tour", "Corporate Sabotage", "Overdrive Tuning", "The Syndicate Vault",
+            "Midnight Rally", "Track Decryption", "Heavyweight Duel", "Shadow Protocol", "The Act IV Showdown",
+            "The Final Sim Grid", "High Roller Grand Prix", "Master Telemetry", "Syndicate Betrayal", "The Clean Break",
+            "Crown Contender", "The Scorpions Gate", "Legends Never Fade", "Syndicate Boss Duel", "The Grid Supreme"
+        ];
+
+        function render50Quests() {
+            const grid = document.getElementById('questLogGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            for (let i = 1; i <= 50; i++) {
+                const questTitle = sampleQuestTitles[i - 1] || `Campaign Mission #${i}`;
+                const actIndex = Math.floor((i - 1) / 10);
+                const actLabel = `ACT ${actIndex + 1}`;
+                
+                let status = 'locked';
+                let statusBadge = '<span class="text-[9px] font-black uppercase text-gray-500 bg-gray-900 border border-gray-800 px-2 py-0.5 rounded">🔒 Locked</span>';
+                let cardBorder = 'border-brand-border/40 opacity-60';
+                let cursor = 'cursor-not-allowed';
+
+                if (i === 1) {
+                    status = 'active';
+                    statusBadge = '<span class="text-[9px] font-black uppercase text-brand-green bg-green-950/80 border border-brand-green px-2 py-0.5 rounded animate-pulse">● Active</span>';
+                    cardBorder = 'border-brand-gold bg-[#161616] gold-border-glow';
+                    cursor = 'cursor-pointer hover:border-brand-gold';
+                }
+
+                if (currentFilter !== 'all' && currentFilter !== status) continue;
+
+                const xpReward = 50 + (i * 10);
+                const coinReward = 25 + (i * 5);
+
+                grid.innerHTML += `
+                    <div class="bg-brand-card border ${cardBorder} rounded-xl p-5 flex flex-col justify-between transition shadow-md ${cursor}">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-[9px] font-mono uppercase font-bold text-brand-gold">${actLabel} • QUEST #${i < 10 ? '0' + i : i}</span>
+                                ${statusBadge}
+                            </div>
+                            <h3 class="text-sm font-black uppercase text-white truncate">${questTitle}</h3>
+                            <p class="text-[11px] text-gray-400 mt-1 line-clamp-2 leading-relaxed">
+                                Connect to the Second Life terminal to synchronize quest data, dialogue logs, and telemetry checkpoints.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-brand-border/60 flex justify-between items-center">
+                            <span class="text-[9px] font-mono text-gray-400 font-bold">+${xpReward} XP • ${coinReward} COINS</span>
+                            <span class="text-[10px] font-black uppercase text-brand-gold hover:underline">Details →</span>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function filterQuests(filter) {
+            currentFilter = filter;
+            ['all', 'active', 'completed', 'locked'].forEach(f => {
+                const btn = document.getElementById(`btnFilter${f.charAt(0).toUpperCase() + f.slice(1)}`);
+                if (btn) {
+                    if (f === filter) {
+                        btn.className = "bg-brand-gold text-black font-black uppercase text-[10px] px-3 py-1.5 rounded transition";
+                    } else {
+                        btn.className = "bg-brand-card border border-brand-border text-gray-400 hover:text-white font-black uppercase text-[10px] px-3 py-1.5 rounded transition";
+                    }
+                }
+            });
+            render50Quests();
+        }
+
+        async function initQuestLogPage() {
+            await initGlobalAuth(updateQuestLogHUD);
+            render50Quests();
+        }
+
+        function updateQuestLogHUD() {
+            if (window.currentUser && window.currentProfile) {
+                const driverName = window.currentProfile.sl_legacy_name || window.currentProfile.username || 'Pilot';
+                const hudDesc = document.getElementById('hudQuestDesc');
+                if (hudDesc) {
+                    hudDesc.innerText = `Pilot ${driverName}: Meet the Syndicate Contact at the Abandoned Track terminal in Second Life. Accept the encrypted datapad and complete your initial baseline telemetry check.`;
+                }
+            }
+        }
+
+        window.onload = initQuestLogPage;
+    </script>
+</body>
+</html>
