@@ -23,7 +23,6 @@
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
         .gold-border-glow { border: 1px solid #c5a059; box-shadow: 0 0 15px rgba(197, 160, 89, 0.2); }
-        .blue-border-glow { border: 1px solid #2a75ff; box-shadow: 0 0 15px rgba(42, 117, 255, 0.2); }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
@@ -70,7 +69,7 @@
                 &larr; BACK TO STORY CAMPAIGN
             </a>
             <span class="text-[10px] font-mono uppercase text-brand-gold bg-brand-gold/10 border border-brand-gold/30 px-3 py-1 rounded">
-                SL Telemetry Ready • Act I to V
+                SL Telemetry Ready • 50 Campaign Missions
             </span>
         </div>
 
@@ -90,7 +89,7 @@
                     </p>
                 </div>
                 <div class="flex flex-col items-start md:items-end gap-2 shrink-0">
-                    <span class="bg-brand-bg border border-brand-border px-3 py-1.5 rounded text-xs font-mono font-bold text-brand-gold">
+                    <span id="hudQuestReward" class="bg-brand-bg border border-brand-border px-3 py-1.5 rounded text-xs font-mono font-bold text-brand-gold">
                         REWARDS: +100 XP • 50 COINS
                     </span>
                     <span class="text-[9px] font-black uppercase text-gray-400 tracking-wider">Status: IN PROGRESS</span>
@@ -109,9 +108,9 @@
             <span class="text-[10px] text-gray-500 font-mono uppercase">Chapter 1: The Syndicate Infiltration</span>
         </div>
 
-        <!-- 50 QUEST GRID (RENDERED DYNAMICALLY) -->
+        <!-- 50 QUEST GRID -->
         <div id="questLogGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div class="col-span-full text-center text-xs text-gray-500 font-mono py-12">[ Generating 50 Campaign Missions... ]</div>
+            <div class="col-span-full text-center text-xs text-gray-500 font-mono py-12">[ Loading Campaign Missions... ]</div>
         </div>
 
     </main>
@@ -121,22 +120,56 @@
         &copy; 2026 Gentle Storm Racing. Built for Second Life.
     </footer>
 
+    <!-- QUEST EDIT MODAL -->
+    <div id="questEditModalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[110] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="questEditModal" class="bg-brand-card border border-brand-gold shadow-[0_0_30px_rgba(197,160,89,0.2)] rounded-xl w-full max-w-lg transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
+            <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center rounded-t-xl shrink-0">
+                <h2 class="text-sm font-black uppercase text-brand-gold tracking-wide flex items-center gap-2">
+                    <span id="modalQuestHeader">✏️ Edit Quest #01</span>
+                </h2>
+                <button onclick="closeQuestEditModal()" class="text-gray-500 hover:text-brand-red p-1 transition cursor-pointer">✕</button>
+            </div>
+
+            <div class="p-6 space-y-4 overflow-y-auto grow">
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Quest Title</label>
+                    <input type="text" id="edit_quest_title" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded focus:border-brand-gold outline-none">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black uppercase text-gray-400">Story Briefing / In-World Dialogue</label>
+                    <textarea id="edit_quest_desc" rows="4" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded focus:border-brand-gold outline-none"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">XP Reward</label>
+                        <input type="number" id="edit_quest_xp" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded focus:border-brand-gold outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black uppercase text-gray-400">Coin Reward</label>
+                        <input type="number" id="edit_quest_coins" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded focus:border-brand-gold outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-brand-bg border-t border-brand-border p-4 flex justify-end gap-3 rounded-b-xl shrink-0">
+                <button onclick="closeQuestEditModal()" class="text-xs font-bold uppercase text-gray-400 hover:text-white px-4 py-2 transition cursor-pointer">Cancel</button>
+                <button onclick="saveQuestEdit()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-6 py-2 rounded transition shadow cursor-pointer">Save Quest</button>
+            </div>
+        </div>
+    </div>
+
     <!-- CENTRAL SHARED ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="gsr-core.js"></script>
 
     <script>
-        const actNames = [
-            "Act I: The Initiation (Quests 1 - 10)",
-            "Act II: Building The Network (Quests 11 - 20)",
-            "Act III: High Stakes Circuit (Quests 21 - 30)",
-            "Act IV: The Inner Circle (Quests 31 - 40)",
-            "Act V: Syndicate Supremacy (Quests 41 - 50)"
-        ];
-
         let currentFilter = 'all';
+        let currentEditingQuestNum = null;
+        let questCustomData = {};
 
-        const sampleQuestTitles = [
+        const defaultQuestTitles = [
             "The First Contact", "Baseline Telemetry", "Underground Circuit", "Midnight Sprint", "Fuel Line Smuggle",
             "Scouting The Strip", "Parts Runner", "Cornering Drill", "Rival Challenge", "The Act I Showdown",
             "Syndicate Wiretap", "The Ghost Pilot", "High Stakes Wager", "Garage Recon", "Nitro Calibration",
@@ -149,53 +182,138 @@
             "Crown Contender", "The Scorpions Gate", "Legends Never Fade", "Syndicate Boss Duel", "The Grid Supreme"
         ];
 
+        async function initQuestLogPage() {
+            await initGlobalAuth(updateQuestLogHUD);
+            await loadSavedQuestData();
+            render50Quests();
+        }
+
+        async function loadSavedQuestData() {
+            try {
+                const { data } = await window.db.from('site_content').select('*').like('section_id', 'quest:%');
+                if (data) {
+                    data.forEach(row => {
+                        const qNum = row.section_id.replace('quest:', '');
+                        try {
+                            questCustomData[qNum] = JSON.parse(row.content_value);
+                        } catch(e) {}
+                    });
+                }
+            } catch (e) {
+                console.warn("Custom quest data error", e);
+            }
+        }
+
         function render50Quests() {
             const grid = document.getElementById('questLogGrid');
             if (!grid) return;
             grid.innerHTML = '';
 
             for (let i = 1; i <= 50; i++) {
-                const questTitle = sampleQuestTitles[i - 1] || `Campaign Mission #${i}`;
+                const custom = questCustomData[i] || {};
+                const questTitle = custom.title || defaultQuestTitles[i - 1] || `Campaign Mission #${i}`;
+                const questDesc = custom.desc || "Connect to the Second Life terminal to synchronize quest data, dialogue logs, and telemetry checkpoints.";
+                const xpReward = custom.xp !== undefined ? custom.xp : (50 + (i * 10));
+                const coinReward = custom.coins !== undefined ? custom.coins : (25 + (i * 5));
+
                 const actIndex = Math.floor((i - 1) / 10);
                 const actLabel = `ACT ${actIndex + 1}`;
                 
                 let status = 'locked';
                 let statusBadge = '<span class="text-[9px] font-black uppercase text-gray-500 bg-gray-900 border border-gray-800 px-2 py-0.5 rounded">🔒 Locked</span>';
                 let cardBorder = 'border-brand-border/40 opacity-60';
-                let cursor = 'cursor-not-allowed';
 
                 if (i === 1) {
                     status = 'active';
                     statusBadge = '<span class="text-[9px] font-black uppercase text-brand-green bg-green-950/80 border border-brand-green px-2 py-0.5 rounded animate-pulse">● Active</span>';
                     cardBorder = 'border-brand-gold bg-[#161616] gold-border-glow';
-                    cursor = 'cursor-pointer hover:border-brand-gold';
                 }
 
                 if (currentFilter !== 'all' && currentFilter !== status) continue;
 
-                const xpReward = 50 + (i * 10);
-                const coinReward = 25 + (i * 5);
+                const editBtnHtml = window.isEditModeActive ? `
+                    <button onclick="openQuestEditModal(${i})" class="bg-brand-blue text-white text-[9px] font-black uppercase px-2 py-0.5 rounded shadow cursor-pointer hover:bg-blue-600">
+                        ✏️ Edit
+                    </button>
+                ` : '';
 
                 grid.innerHTML += `
-                    <div class="bg-brand-card border ${cardBorder} rounded-xl p-5 flex flex-col justify-between transition shadow-md ${cursor}">
+                    <div class="bg-brand-card border ${cardBorder} rounded-xl p-5 flex flex-col justify-between transition shadow-md relative group">
                         <div>
                             <div class="flex justify-between items-center mb-2">
                                 <span class="text-[9px] font-mono uppercase font-bold text-brand-gold">${actLabel} • QUEST #${i < 10 ? '0' + i : i}</span>
-                                ${statusBadge}
+                                <div class="flex items-center gap-2">
+                                    ${editBtnHtml}
+                                    ${statusBadge}
+                                </div>
                             </div>
-                            <h3 class="text-sm font-black uppercase text-white truncate">${questTitle}</h3>
-                            <p class="text-[11px] text-gray-400 mt-1 line-clamp-2 leading-relaxed">
-                                Connect to the Second Life terminal to synchronize quest data, dialogue logs, and telemetry checkpoints.
+                            <h3 class="text-sm font-black uppercase text-white truncate">${escapeHtml(questTitle)}</h3>
+                            <p class="text-[11px] text-gray-400 mt-1 line-clamp-3 leading-relaxed">
+                                ${escapeHtml(questDesc)}
                             </p>
                         </div>
                         <div class="mt-4 pt-3 border-t border-brand-border/60 flex justify-between items-center">
                             <span class="text-[9px] font-mono text-gray-400 font-bold">+${xpReward} XP • ${coinReward} COINS</span>
-                            <span class="text-[10px] font-black uppercase text-brand-gold hover:underline">Details →</span>
+                            <span class="text-[10px] font-black uppercase text-brand-gold">MISSION #${i}</span>
                         </div>
                     </div>
                 `;
             }
         }
+
+        window.openQuestEditModal = function(questNum) {
+            currentEditingQuestNum = questNum;
+            const custom = questCustomData[questNum] || {};
+            
+            document.getElementById('modalQuestHeader').innerText = `✏️ Edit Quest #${questNum < 10 ? '0' + questNum : questNum}`;
+            document.getElementById('edit_quest_title').value = custom.title || defaultQuestTitles[questNum - 1] || `Campaign Mission #${questNum}`;
+            document.getElementById('edit_quest_desc').value = custom.desc || "Connect to the Second Life terminal to synchronize quest data, dialogue logs, and telemetry checkpoints.";
+            document.getElementById('edit_quest_xp').value = custom.xp !== undefined ? custom.xp : (50 + (questNum * 10));
+            document.getElementById('edit_quest_coins').value = custom.coins !== undefined ? custom.coins : (25 + (questNum * 5));
+
+            const overlay = document.getElementById('questEditModalOverlay');
+            const modal = document.getElementById('questEditModal');
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                modal.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        };
+
+        window.closeQuestEditModal = function() {
+            const overlay = document.getElementById('questEditModalOverlay');
+            const modal = document.getElementById('questEditModal');
+            overlay.classList.add('opacity-0');
+            modal.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
+        };
+
+        window.saveQuestEdit = async function() {
+            if (!currentEditingQuestNum) return;
+
+            const updateData = {
+                title: document.getElementById('edit_quest_title').value.trim(),
+                desc: document.getElementById('edit_quest_desc').value.trim(),
+                xp: Number(document.getElementById('edit_quest_xp').value) || 0,
+                coins: Number(document.getElementById('edit_quest_coins').value) || 0
+            };
+
+            questCustomData[currentEditingQuestNum] = updateData;
+
+            await window.db.from('site_content').upsert([{
+                section_id: `quest:${currentEditingQuestNum}`,
+                content_value: JSON.stringify(updateData)
+            }]);
+
+            if (currentEditingQuestNum === 1) {
+                document.getElementById('hudQuestTitle').innerText = `Quest #01: ${updateData.title}`;
+                document.getElementById('hudQuestDesc').innerText = updateData.desc;
+                document.getElementById('hudQuestReward').innerText = `REWARDS: +${updateData.xp} XP • ${updateData.coins} COINS`;
+            }
+
+            render50Quests();
+            closeQuestEditModal();
+        };
 
         function filterQuests(filter) {
             currentFilter = filter;
@@ -212,17 +330,20 @@
             render50Quests();
         }
 
-        async function initQuestLogPage() {
-            await initGlobalAuth(updateQuestLogHUD);
+        // Hook edit mode toggles directly into re-rendering quest cards
+        const originalToggleEditMode = window.toggleEditMode;
+        window.toggleEditMode = function() {
+            if (typeof originalToggleEditMode === 'function') originalToggleEditMode();
             render50Quests();
-        }
+        };
 
         function updateQuestLogHUD() {
             if (window.currentUser && window.currentProfile) {
                 const driverName = window.currentProfile.sl_legacy_name || window.currentProfile.username || 'Pilot';
+                const custom = questCustomData[1] || {};
                 const hudDesc = document.getElementById('hudQuestDesc');
                 if (hudDesc) {
-                    hudDesc.innerText = `Pilot ${driverName}: Meet the Syndicate Contact at the Abandoned Track terminal in Second Life. Accept the encrypted datapad and complete your initial baseline telemetry check.`;
+                    hudDesc.innerText = `Pilot ${driverName}: ${custom.desc || 'Meet the Syndicate Contact at the Abandoned Track terminal in Second Life. Accept the encrypted datapad and complete your initial baseline telemetry check.'}`;
                 }
             }
         }
