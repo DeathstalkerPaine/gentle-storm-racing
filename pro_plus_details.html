@@ -32,12 +32,13 @@
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #c5a059; }
+        [data-cms-id] { opacity: 1; }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
     <!-- SUB-PAGE HEADER -->
-    <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
+    <header data-cms-id="pro_plus_details:header" class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl group">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
             
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
@@ -47,7 +48,8 @@
             </div>
 
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
-                <h1 class="text-xl sm:text-2xl lg:text-4xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                <span data-cms-field="label" class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Syndicate Overview</span>
+                <h1 data-cms-field="title" class="text-xl sm:text-2xl lg:text-4xl font-black uppercase tracking-wider text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
                     WHAT IS PRO PLUS?
                 </h1>
             </div>
@@ -77,33 +79,46 @@
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
 
         <!-- SPONSORS BANNER -->
-        <section>
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-center items-center text-center">
-                <h3 class="text-xl font-black uppercase tracking-wider text-brand-gold mb-1">Sponsors</h3>
-                <p class="text-xs text-gray-400">Official Pro Plus Partners & Title Sponsors</p>
+        <section data-cms-id="pro_plus_details:sponsors" class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-center items-center text-center shadow-lg group transition">
+            <span data-cms-field="label" class="text-[9px] font-black uppercase text-brand-gold tracking-[0.2em] block mb-1">Partnership</span>
+            <h3 data-cms-field="title" class="text-xl font-black uppercase tracking-wider text-brand-gold mb-1">Sponsors</h3>
+            <p data-cms-field="desc" class="text-xs text-gray-400">Official Pro Plus Partners & Title Sponsors</p>
+
+            <div id="detailsSponsorLogosContainer" class="mt-4 h-24 w-full bg-brand-bg border border-brand-border rounded-lg flex flex-row items-center justify-center p-2 gap-3 overflow-hidden">
+                <div id="detailsSponsorFallbackText" class="flex flex-wrap justify-center items-center gap-4 opacity-75 text-xs font-black text-gray-400 uppercase tracking-widest text-center">
+                    <span>[ SECOND LIFE MOTORS ]</span>
+                    <span>[ LINDEN FUEL CO. ]</span>
+                    <span>[ STORMTECH HUDS ]</span>
+                </div>
             </div>
         </section>
 
         <!-- HERO EXPLANATION SECTION -->
-        <section class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-2xl">
-            <div class="w-full aspect-video md:aspect-[3/1] bg-[#111] relative flex items-center justify-center border-b border-brand-border overflow-hidden group cursor-pointer">
-                <span class="text-gray-500 font-black uppercase tracking-widest text-sm z-10">[ Main Promotional Artwork / Video ]</span>
-                <div class="absolute inset-0 bg-gradient-to-t from-[#1e1e1e] to-transparent z-0"></div>
-                <div class="absolute z-10 w-16 h-16 bg-brand-red rounded-full flex items-center justify-center opacity-80 group-hover:opacity-100 group-hover:scale-110 transition shadow-[0_0_20px_rgba(255,42,42,0.6)]">
+        <section data-cms-id="pro_plus_details:hero" class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-2xl relative group transition">
+            <!-- Media / Artwork / Video Preview Block -->
+            <div class="w-full aspect-video md:aspect-[3/1] bg-[#111] relative flex items-center justify-center border-b border-brand-border overflow-hidden">
+                <img data-cms-field="image_url" src="" alt="Promotional Artwork" class="w-full h-full object-cover hidden absolute inset-0 z-0">
+                <span data-cms-field="media_placeholder" class="text-gray-500 font-black uppercase tracking-widest text-sm z-10">[ Main Promotional Artwork / Video ]</span>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#1e1e1e] via-transparent to-transparent z-10 pointer-events-none"></div>
+                
+                <!-- Play button overlay -->
+                <div class="absolute z-20 w-16 h-16 bg-brand-red rounded-full flex items-center justify-center opacity-80 group-hover:opacity-100 group-hover:scale-110 transition shadow-[0_0_20px_rgba(255,42,42,0.6)]">
                     <span class="text-white text-2xl ml-1">▶</span>
                 </div>
             </div>
             
-            <div class="p-8 md:p-12 max-w-4xl mx-auto text-center space-y-6">
-                <h2 class="text-3xl font-black uppercase text-white tracking-wide">The Next Evolution of Racing</h2>
-                <p class="text-sm text-gray-300 leading-relaxed">
-                    GSR Pro Plus is an immersive RPG racing ecosystem built directly into Second Life. It transforms standard racing into a deeply rewarding progression system. By subscribing to Pro Plus, drivers unlock access to our extensive multi-chapter Story Campaign, a 50-level Skill Tree, telemetry tuning upgrades, and a dynamic economy driven by Storm Coins and Reputation. 
+            <!-- Hero Text Block -->
+            <div class="p-8 md:p-12 max-w-4xl mx-auto text-center space-y-6 relative z-10">
+                <span data-cms-field="label" class="text-[10px] font-black uppercase text-brand-gold tracking-widest bg-brand-gold/10 border border-brand-gold/30 px-3 py-1 rounded">Pro Plus Division</span>
+                <h2 data-cms-field="title" class="text-2xl sm:text-3xl md:text-4xl font-black uppercase text-white tracking-wide">The Next Evolution of Racing</h2>
+                <p data-cms-field="desc" class="text-sm text-gray-300 leading-relaxed">
+                    GSR Pro Plus is an immersive RPG racing ecosystem built directly into Second Life. It transforms standard racing into a deeply rewarding progression system. By subscribing to Pro Plus, drivers unlock access to our extensive multi-chapter Story Campaign, a 50-level Skill Tree, telemetry tuning upgrades, and a dynamic economy driven by Storm Coins and Reputation.
                 </p>
-                <div class="pt-4 flex justify-center gap-4">
-                    <a href="story_campaign.html" class="bg-brand-gold hover:bg-yellow-500 text-black font-black uppercase text-xs px-6 py-3 rounded shadow transition">
+                <div class="pt-4 flex flex-wrap justify-center gap-4">
+                    <a href="story_campaign.html" data-cms-field="btn_primary" class="bg-brand-gold hover:bg-yellow-500 text-black font-black uppercase text-xs px-6 py-3 rounded shadow transition">
                         Start the Campaign
                     </a>
-                    <a href="store.html" class="bg-brand-bg border border-brand-gold hover:text-brand-gold text-white font-black uppercase text-xs px-6 py-3 rounded transition">
+                    <a href="store.html" data-cms-field="btn_secondary" class="bg-brand-bg border border-brand-gold hover:text-brand-gold text-white font-black uppercase text-xs px-6 py-3 rounded transition">
                         Subscribe Now
                     </a>
                 </div>
@@ -113,38 +128,41 @@
         <!-- 3-COLUMN DETAILS GRID -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
-            <!-- Future Features & Roadmap -->
-            <div class="bg-brand-bg border border-brand-border hover:border-brand-gold rounded-xl p-8 flex flex-col relative transition gold-border-glow shadow-lg">
-                <span class="text-3xl mb-4 block">🚀</span>
-                <h3 class="text-lg font-black text-white uppercase mb-3">The Future of Pro Plus</h3>
-                <p class="text-xs text-gray-400 leading-relaxed flex-grow">
+            <!-- Future Features & Roadmap (Gold) -->
+            <div data-cms-id="pro_plus_details:card_roadmap" class="bg-brand-bg border border-brand-border hover:border-brand-gold rounded-xl p-8 flex flex-col relative transition gold-border-glow shadow-lg group">
+                <span data-cms-field="icon" class="text-3xl mb-4 block">🚀</span>
+                <span data-cms-field="label" class="text-[9px] font-black uppercase tracking-widest text-brand-gold mb-1">Development</span>
+                <h3 data-cms-field="title" class="text-lg font-black text-white uppercase mb-3">The Future of Pro Plus</h3>
+                <p data-cms-field="desc" class="text-xs text-gray-400 leading-relaxed flex-grow">
                     What to expect from GSR moving forward. Active development includes expanding the Story Campaign with new chapters, adding advanced telemetry features, introducing dynamic weather impacts, and expanding the league infrastructure.
                 </p>
-                <a href="roadmap.html" class="mt-6 text-[11px] font-bold uppercase text-brand-gold hover:text-white transition inline-flex items-center">
+                <a href="roadmap.html" data-cms-field="link_text" class="mt-6 text-[11px] font-bold uppercase text-brand-gold hover:text-white transition inline-flex items-center">
                     Read the Dev Roadmap <span class="ml-1">→</span>
                 </a>
             </div>
 
-            <!-- Tutorials & Guides -->
-            <div class="bg-brand-bg border border-brand-border hover:border-brand-blue rounded-xl p-8 flex flex-col relative transition blue-border-glow shadow-lg">
-                <span class="text-3xl mb-4 block">📘</span>
-                <h3 class="text-lg font-black text-white uppercase mb-3">Tutorial & Guides</h3>
-                <p class="text-xs text-gray-400 leading-relaxed flex-grow">
+            <!-- Tutorials & Guides (Blue) -->
+            <div data-cms-id="pro_plus_details:card_tutorial" class="bg-brand-bg border border-brand-border hover:border-brand-blue rounded-xl p-8 flex flex-col relative transition blue-border-glow shadow-lg group">
+                <span data-cms-field="icon" class="text-3xl mb-4 block">📘</span>
+                <span data-cms-field="label" class="text-[9px] font-black uppercase tracking-widest text-brand-blue mb-1">Documentation</span>
+                <h3 data-cms-field="title" class="text-lg font-black text-white uppercase mb-3">Tutorial & Guides</h3>
+                <p data-cms-field="desc" class="text-xs text-gray-400 leading-relaxed flex-grow">
                     Where to start and how to advance. Master the intricacies of the GSR Economy, learn the fastest ways to farm XP, and understand how to allocate your Tuning Points and Pit Crew slots effectively.
                 </p>
-                <a href="tutorial.html" class="mt-6 text-[11px] font-bold uppercase text-brand-blue hover:text-white transition inline-flex items-center">
+                <a href="tutorial.html" data-cms-field="link_text" class="mt-6 text-[11px] font-bold uppercase text-brand-blue hover:text-white transition inline-flex items-center">
                     Open Tutorial Hub <span class="ml-1">→</span>
                 </a>
             </div>
 
-            <!-- Premium Perks -->
-            <div class="bg-brand-bg border border-brand-border hover:border-brand-red rounded-xl p-8 flex flex-col relative transition red-border-glow shadow-lg">
-                <span class="text-3xl mb-4 block">💎</span>
-                <h3 class="text-lg font-black text-white uppercase mb-3">Exclusive VIP Perks</h3>
-                <p class="text-xs text-gray-400 leading-relaxed flex-grow">
+            <!-- Premium Perks (Red) -->
+            <div data-cms-id="pro_plus_details:card_perks" class="bg-brand-bg border border-brand-border hover:border-brand-red rounded-xl p-8 flex flex-col relative transition red-border-glow shadow-lg group">
+                <span data-cms-field="icon" class="text-3xl mb-4 block">💎</span>
+                <span data-cms-field="label" class="text-[9px] font-black uppercase tracking-widest text-brand-red mb-1">VIP Access</span>
+                <h3 data-cms-field="title" class="text-lg font-black text-white uppercase mb-3">Exclusive VIP Perks</h3>
+                <p data-cms-field="desc" class="text-xs text-gray-400 leading-relaxed flex-grow">
                     Beyond the campaign, Pro Plus members receive exclusive discounts in the GSRacing Store, early access to new vehicle models, custom driver titles, and priority grid placement in official league events.
                 </p>
-                <a href="store.html" class="mt-6 text-[11px] font-bold uppercase text-brand-red hover:text-white transition inline-flex items-center">
+                <a href="store.html" data-cms-field="link_text" class="mt-6 text-[11px] font-bold uppercase text-brand-red hover:text-white transition inline-flex items-center">
                     Browse the Store <span class="ml-1">→</span>
                 </a>
             </div>
@@ -152,22 +170,22 @@
         </section>
 
         <!-- EXCLUSIVE PRO PLUS CHATS SECTION -->
-        <section class="mt-8">
-            <div class="bg-gradient-to-r from-[#2a0808] to-brand-bg border border-brand-red rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden red-border-glow">
+        <section data-cms-id="pro_plus_details:chats" class="mt-8">
+            <div class="bg-gradient-to-r from-[#2a0808] to-brand-bg border border-brand-red rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden red-border-glow group transition">
                 <div class="absolute -right-10 -bottom-10 text-9xl opacity-5 pointer-events-none text-brand-red">
                     🔒
                 </div>
 
                 <div class="relative z-10 flex-grow max-w-2xl">
-                    <span class="text-[10px] font-black uppercase text-brand-red tracking-widest bg-black/50 px-2 py-1 rounded inline-block mb-3 border border-brand-red/30">Subscribers Only</span>
-                    <h2 class="text-2xl font-black uppercase text-white mb-2">GSR Pro+ Chats</h2>
-                    <p class="text-xs text-gray-300 leading-relaxed">
+                    <span data-cms-field="label" class="text-[10px] font-black uppercase text-brand-red tracking-widest bg-black/50 px-2 py-1 rounded inline-block mb-3 border border-brand-red/30">Subscribers Only</span>
+                    <h2 data-cms-field="title" class="text-2xl font-black uppercase text-white mb-2">GSR Pro+ Chats</h2>
+                    <p data-cms-field="desc" class="text-xs text-gray-300 leading-relaxed">
                         Access to the most exclusive channels in the ecosystem. Only active Pro Plus subscribers can access this specialized social feed. Connect with elite drivers, coordinate team strategies, and get direct communication with GSR league officials.
                     </p>
                 </div>
                 
                 <div class="relative z-10 text-right md:min-w-[200px]">
-                    <a href="chats.html" class="inline-block bg-brand-red hover:bg-red-700 text-white text-xs font-black uppercase px-6 py-4 rounded shadow-[0_0_15px_rgba(255,42,42,0.4)] transition">
+                    <a href="chats.html" data-cms-field="link_text" class="inline-block bg-brand-red hover:bg-red-700 text-white text-xs font-black uppercase px-6 py-4 rounded shadow-[0_0_15px_rgba(255,42,42,0.4)] transition">
                         Enter Pro+ Chat
                     </a>
                 </div>
@@ -193,8 +211,61 @@
     <!-- CENTRAL SHARED ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="gsr-core.js"></script>
+
     <script>
-        window.onload = () => initGlobalAuth();
+        async function initDetailsPage() {
+            await initGlobalAuth();
+            await loadCMSContent();
+        }
+
+        async function loadCMSContent() {
+            try {
+                const { data, error } = await window.db.from('site_content').select('*').like('section_id', 'pro_plus_details:%');
+                if (!error && data) {
+                    data.forEach(row => {
+                        const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
+                        if (!container) return;
+                        try {
+                            const content = JSON.parse(row.content_value);
+
+                            if (row.section_id === 'pro_plus_details:sponsors') {
+                                const logos = [content.logo_1, content.logo_2, content.logo_3].filter(Boolean);
+                                const sponsorBox = document.getElementById('detailsSponsorLogosContainer');
+                                if (logos.length > 0 && sponsorBox) {
+                                    sponsorBox.innerHTML = '';
+                                    logos.forEach((url, i) => {
+                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 h-full w-full object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
+                                    });
+                                }
+                            }
+
+                            Object.keys(content).forEach(key => {
+                                if (key === 'link_url') {
+                                    if (container.tagName === 'A') container.setAttribute('href', content[key]);
+                                    else {
+                                        const aTag = container.querySelector('a');
+                                        if (aTag) aTag.setAttribute('href', content[key]);
+                                    }
+                                } else if (key === 'image_url') {
+                                    const img = container.querySelector(`[data-cms-field="image_url"]`);
+                                    const placeholder = container.querySelector(`[data-cms-field="media_placeholder"]`);
+                                    if (img && content[key]) {
+                                        img.src = content[key];
+                                        img.classList.remove('hidden');
+                                        if (placeholder) placeholder.classList.add('hidden');
+                                    }
+                                } else {
+                                    const el = container.querySelector(`[data-cms-field="${key}"]`);
+                                    if (el) el.innerText = content[key];
+                                }
+                            });
+                        } catch (e) {}
+                    });
+                }
+            } catch (e) { console.warn("CMS Content error", e); }
+        }
+
+        window.onload = initDetailsPage;
     </script>
 </body>
 </html>
