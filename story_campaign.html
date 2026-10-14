@@ -104,7 +104,7 @@
                 </p>
                 <div class="mt-6 pt-4 border-t border-brand-border flex justify-between items-center">
                     <span data-cms-field="meta" class="text-[10px] font-bold text-gray-400">50 Quests Available</span>
-                    <span data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold">View Quest Log →</span>
+                    <a href="quest_log.html" data-cms-field="link_text" class="text-xs font-bold uppercase text-brand-gold hover:underline">View Quest Log →</a>
                 </div>
             </div>
 
@@ -272,7 +272,7 @@
                 titleEl.innerText = `Active Pilot: ${displayName}`;
                 descEl.innerText = 'Connected to SL Telemetry. Chapter 1: Infiltration ready to launch.';
                 btnEl.innerText = 'Launch Quest Log →';
-                btnEl.href = '#chapter_1';
+                btnEl.href = 'quest_log.html';
             }
         }
 
