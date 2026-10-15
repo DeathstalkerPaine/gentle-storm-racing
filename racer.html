@@ -41,9 +41,7 @@
             <span class="bg-red-950/80 border border-brand-red text-brand-red text-[9px] font-black uppercase px-2.5 py-1 rounded">
                 PRO PLUS SUBSCRIBER <span class="bg-brand-red text-black rounded-full px-1.5 ml-1">S</span>
             </span>
-            <div id="userNav" class="flex items-center gap-2">
-                <a href="sign_in.html" class="bg-brand-bg border border-brand-border text-gray-300 hover:text-white font-black uppercase text-[9px] px-3 py-1.5 rounded transition">Sign In</a>
-            </div>
+            <div id="userNav" class="flex items-center gap-2"></div>
         </div>
 
         <!-- RACER HEADER: PHOTO, NAME & BADGES -->
@@ -160,7 +158,7 @@
                             <span class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></span> GSR COMMS
                         </span>
                         
-                        <select id="profileChatSelector" onchange="switchProfileChannel(this.value)" class="bg-brand-bg border border-brand-border text-brand-gold text-[9px] font-black uppercase px-2 py-1 rounded outline-none cursor-pointer">
+                        <select id="profileChatSelector" onchange="switchProfileChatChannel(this.value)" class="bg-brand-bg border border-brand-border text-brand-gold text-[9px] font-black uppercase px-2 py-1 rounded outline-none cursor-pointer">
                             <option value="global" selected>🌐 Global Feed</option>
                             <option value="following">👥 Following</option>
                             <option value="team">🛡️ Team Chat</option>
@@ -187,78 +185,45 @@
 
     </main>
 
-    <!-- SLIDE-OUT CHAT DRAWER OVERLAY & PANEL -->
-    <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
-
-    <div id="chatDrawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-brand-card border-l border-brand-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-        <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
-            <div>
-                <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
-                <p id="drawerChannelName" class="text-[10px] text-brand-gold uppercase">Channel: 🌐 Global Feed</p>
-            </div>
-            <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition cursor-pointer">✕</button>
-        </div>
-        <div id="drawerMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-[#111]">
-             <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching transmissions... ]</div>
-        </div>
-        <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
-            <input type="text" id="drawerInput" placeholder="Transmit reply..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-gold transition">
-            <button onclick="sendDrawerMessage()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
-        </div>
-    </div>
-
-    <!-- SUPABASE ENGINE -->
+    <!-- CENTRAL SHARED ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="gsr-core.js"></script>
+
     <script>
-        window.toggleDrawer = function(show) {
-            const drawer = document.getElementById('chatDrawer');
-            const overlay = document.getElementById('drawerOverlay');
-            if (!drawer || !overlay) return;
-
-            if (show) {
-                overlay.classList.remove('hidden');
-                void overlay.offsetWidth;
-                overlay.classList.remove('opacity-0');
-                drawer.classList.remove('translate-x-full');
-                const msgBox = document.getElementById('drawerMessages');
-                if (msgBox) msgBox.scrollTop = msgBox.scrollHeight;
-            } else {
-                overlay.classList.add('opacity-0');
-                drawer.classList.add('translate-x-full');
-                setTimeout(() => { overlay.classList.add('hidden'); }, 300);
-            }
-        };
-
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
-
         const urlParams = new URLSearchParams(window.location.search);
         const targetDriverName = urlParams.get('driver') ? decodeURIComponent(urlParams.get('driver')) : "DEATHSTALKER PAINE";
 
-        let currentUser = null;
-        let displayName = "";
-        let activeChannel = 'global';
         let isFollowing = false;
-
-        const channelNames = {
-            global: '🌐 Global Feed',
-            following: '👥 Following',
-            team: '🛡️ Team Chat',
-            pro_plus: '⭐ Pro Plus'
-        };
 
         async function initRacerPage() {
             document.getElementById('driverNameHeader').innerText = targetDriverName;
             document.title = `${targetDriverName} | Gentle Storm Racing`;
 
+            await initGlobalAuth(handleAuthRacerUpdates);
             await loadRacerData();
-            await checkAuthSession();
             loadProfileChatWidget();
+
+            window.db.channel('public:gsr_chats_racer')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
+                    if (payload.new.channel === window.currentChatChannel) loadProfileChatWidget();
+                })
+                .subscribe();
         }
 
+        async function handleAuthRacerUpdates() {
+            await checkFollowStatus();
+        }
+
+        window.onAuthChangeCallback = function(isLoggedIn) {
+            if (isLoggedIn) checkFollowStatus();
+            else {
+                isFollowing = false;
+                updateFollowBtnUI();
+            }
+        };
+
         async function loadRacerData() {
-            const { data: racer, error } = await db
+            const { data: racer } = await window.db
                 .from('racers')
                 .select('*')
                 .ilike('display_name', targetDriverName)
@@ -293,7 +258,6 @@
                 const points = Number(racer.rating_points || racer.points) || 0;
                 const dsq = Number(racer.dsqualifications || racer.dsq) || 0;
 
-                // Total starts calculation
                 const totalStarts = Number(racer.total_races || racer.starts || racer.races_entered) || (wins + losses);
                 const winRate = totalStarts > 0 ? Math.round((wins / totalStarts) * 100) : (racer.win_percentage || 0);
 
@@ -312,7 +276,7 @@
                 document.getElementById('statBestCourse').innerText = racer.best_race_time || '--:--.---';
 
                 if (racer.primary_team_id) {
-                    const { data: team } = await db.from('teams').select('name, leader_user_id').eq('id', racer.primary_team_id).maybeSingle();
+                    const { data: team } = await window.db.from('teams').select('name, leader_user_id').eq('id', racer.primary_team_id).maybeSingle();
                     if (team) {
                         const teamElement = document.getElementById('driverTeamName');
                         teamElement.innerText = team.name;
@@ -330,72 +294,13 @@
             }
         }
 
-        async function checkAuthSession() {
-            const { data: { session } } = await db.auth.getSession();
-            if (session && session.user) {
-                await handleAuthUser(session.user);
-            } else {
-                updateAuthNavUI();
-            }
-
-            db.auth.onAuthStateChange(async (event, session) => {
-                if (session && session.user) {
-                    await handleAuthUser(session.user);
-                } else {
-                    currentUser = null;
-                    displayName = "";
-                    isFollowing = false;
-                    updateAuthNavUI();
-                    updateFollowBtnUI();
-                }
-            });
-        }
-
-        async function handleAuthUser(user) {
-            currentUser = user;
-
-            const { data: profile } = await db
-                .from('gsr_profiles')
-                .select('sl_legacy_name')
-                .eq('id', currentUser.id)
-                .maybeSingle();
-
-            displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
-
-            updateAuthNavUI();
-            await checkFollowStatus();
-        }
-
-        function updateAuthNavUI() {
-            const userNav = document.getElementById('userNav');
-            if (!userNav) return;
-
-            if (currentUser) {
-                userNav.innerHTML = `
-                    <div class="text-right">
-                        <span class="block text-[10px] font-black text-white uppercase">${escapeHtml(displayName)}</span>
-                        <span class="text-[8px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> LOGGED IN
-                        </span>
-                    </div>
-                    <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-gray-300 hover:text-white text-[9px] uppercase font-black px-2.5 py-1 rounded transition ml-2 cursor-pointer">
-                        Sign Out
-                    </button>
-                `;
-            } else {
-                userNav.innerHTML = `
-                    <a href="sign_in.html" class="bg-brand-bg border border-brand-border text-gray-300 hover:text-white font-black uppercase text-[9px] px-3 py-1.5 rounded transition">Sign In</a>
-                `;
-            }
-        }
-
         async function checkFollowStatus() {
-            if (!currentUser) return;
+            if (!window.currentUser) return;
 
-            const { data: follow } = await db
+            const { data: follow } = await window.db
                 .from('gsr_follows')
                 .select('*')
-                .eq('user_id', currentUser.id)
+                .eq('user_id', window.currentUser.id)
                 .ilike('following_driver', targetDriverName)
                 .maybeSingle();
 
@@ -417,24 +322,24 @@
         }
 
         async function toggleFollowDriver() {
-            if (!currentUser) {
+            if (!window.currentUser) {
                 alert("Sign in required to follow drivers.");
                 return;
             }
 
             if (isFollowing) {
-                const { error } = await db
+                const { error } = await window.db
                     .from('gsr_follows')
                     .delete()
-                    .eq('user_id', currentUser.id)
+                    .eq('user_id', window.currentUser.id)
                     .ilike('following_driver', targetDriverName);
 
                 if (!error) isFollowing = false;
             } else {
-                const { error } = await db
+                const { error } = await window.db
                     .from('gsr_follows')
                     .insert([{
-                        user_id: currentUser.id,
+                        user_id: window.currentUser.id,
                         following_driver: targetDriverName
                     }]);
 
@@ -444,99 +349,35 @@
             updateFollowBtnUI();
         }
 
-        function switchProfileChannel(channel) {
-            activeChannel = channel;
-            const drawerTitle = document.getElementById('drawerChannelName');
-            if (drawerTitle) drawerTitle.innerText = `Channel: ${channelNames[channel] || channel}`;
+        function switchProfileChatChannel(channel) {
+            window.switchGlobalChannel(channel);
             loadProfileChatWidget();
         }
 
         async function loadProfileChatWidget() {
             const feed = document.getElementById('profileChatFeed');
-            const drawerFeed = document.getElementById('drawerMessages');
-
-            const { data, error } = await db
+            const { data, error } = await window.db
                 .from('gsr_chats')
                 .select('*')
-                .eq('channel', activeChannel)
+                .eq('channel', window.currentChatChannel)
                 .order('created_at', { ascending: false })
-                .limit(20);
+                .limit(5);
 
             if (error || !data || data.length === 0) {
-                const emptyMsg = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No active transmissions ]</div>`;
-                if (feed) feed.innerHTML = emptyMsg;
-                if (drawerFeed) drawerFeed.innerHTML = emptyMsg;
+                if (feed) feed.innerHTML = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No active transmissions ]</div>`;
                 return;
             }
 
-            const messages = data.reverse();
-
             if (feed) {
                 feed.innerHTML = '';
-                messages.slice(-5).forEach(msg => {
+                data.reverse().forEach(msg => {
                     feed.innerHTML += `<div class="text-[10px] leading-snug truncate"><span class="font-black text-brand-gold uppercase">[${escapeHtml(msg.display_name)}]:</span> <span class="text-gray-300">${escapeHtml(msg.message)}</span></div>`;
                 });
                 feed.scrollTop = feed.scrollHeight;
             }
-
-            if (drawerFeed) {
-                drawerFeed.innerHTML = '';
-                messages.forEach(msg => {
-                    const isMe = currentUser && msg.user_id === currentUser.id;
-                    const align = isMe ? 'items-end' : 'items-start';
-                    const bg = isMe ? 'bg-brand-gold/20 border-brand-gold text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200';
-
-                    drawerFeed.innerHTML += `
-                        <div class="flex flex-col ${align}">
-                            <span class="text-[9px] font-black uppercase text-gray-500 mb-0.5">${escapeHtml(msg.display_name)}</span>
-                            <div class="${bg} border px-3 py-2 rounded-lg text-xs max-w-[85%] break-words">
-                                ${escapeHtml(msg.message)}
-                            </div>
-                        </div>
-                    `;
-                });
-                drawerFeed.scrollTop = drawerFeed.scrollHeight;
-            }
         }
 
-        async function sendDrawerMessage() {
-            if (!currentUser) {
-                alert("Sign in required to transmit messages.");
-                return;
-            }
-
-            const input = document.getElementById('drawerInput');
-            const val = input.value.trim();
-            if (!val) return;
-
-            const { error } = await db.from('gsr_chats').insert([{
-                user_id: currentUser.id,
-                display_name: displayName,
-                message: val,
-                channel: activeChannel
-            }]);
-
-            if (error) {
-                alert("Transmission failed: " + error.message);
-            } else {
-                input.value = '';
-                loadProfileChatWidget();
-            }
-        }
-
-        async function executeSignOut() {
-            await db.auth.signOut();
-            window.location.reload();
-        }
-
-        function escapeHtml(str) {
-            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
-        }
-
-        document.getElementById('drawerInput')?.addEventListener('keypress', e => {
-            if (e.key === 'Enter') sendDrawerMessage();
-        });
-
+        window.loadChatWidget = loadProfileChatWidget;
         window.onload = initRacerPage;
     </script>
 </body>
