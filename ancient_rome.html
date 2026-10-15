@@ -11,14 +11,7 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            bg: '#121212',
-                            card: '#1e1e1e',
-                            border: '#333333',
-                            gold: '#c5a059',
-                            red: '#ff2a2a',
-                            blue: '#2a75ff'
-                        }
+                        brand: { bg: '#121212', card: '#1e1e1e', border: '#333333', gold: '#c5a059', red: '#ff2a2a', blue: '#2a75ff' }
                     }
                 }
             }
@@ -33,7 +26,7 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- HEADER (Uses h-logo.png) -->
+    <!-- HEADER -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
@@ -47,7 +40,9 @@
                     ANCIENT ROME
                 </h1>
             </div>
+            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10"></div>
         </div>
+        <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 px-4 z-10 w-full"></div>
     </header>
 
     <!-- SUB-NAVBAR -->
@@ -70,23 +65,20 @@
                 <span class="text-xs text-gray-500 font-bold uppercase tracking-widest">[ ANCIENT ROME HOTLAP VIDEO ]</span>
             </div>
 
-            <!-- TELEMETRY BAR -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 border-t border-brand-border text-center bg-black/40">
                 <div class="flex flex-col justify-center">
                     <span class="block text-[9px] uppercase font-bold text-gray-500 tracking-wider">Track Length</span>
                     <span class="text-sm font-black text-white mt-0.5">5.2 KM</span>
                 </div>
-
                 <div class="flex flex-col justify-center border-t sm:border-t-0 sm:border-l border-brand-border pt-2 sm:pt-0">
                     <span class="block text-[9px] uppercase font-bold text-brand-gold tracking-wider">Best Lap Record</span>
-                    <span class="text-sm font-black font-mono text-brand-blue mt-0.5">0:42.110</span>
-                    <span class="text-[10px] font-bold text-gray-300 uppercase mt-0.5">BlazeRunner</span>
+                    <span id="lap_time_rome" class="text-sm font-black font-mono text-brand-blue mt-0.5">--:--.---</span>
+                    <span id="lap_driver_rome" class="text-[10px] font-bold text-gray-300 uppercase mt-0.5 truncate px-2">Unclaimed</span>
                 </div>
-
                 <div class="flex flex-col justify-center border-t sm:border-t-0 sm:border-l border-brand-border pt-2 sm:pt-0">
                     <span class="block text-[9px] uppercase font-bold text-brand-gold tracking-wider">Track Record (Course)</span>
-                    <span class="text-sm font-black font-mono text-brand-gold mt-0.5">1:18.900</span>
-                    <span class="text-[10px] font-bold text-gray-300 uppercase mt-0.5">Vortex_SL</span>
+                    <span id="rec_time_rome" class="text-sm font-black font-mono text-brand-gold mt-0.5">--:--.---</span>
+                    <span id="rec_driver_rome" class="text-[10px] font-bold text-gray-300 uppercase mt-0.5 truncate px-2">Unclaimed</span>
                 </div>
             </div>
         </section>
@@ -125,16 +117,59 @@
     <!-- UNIVERSAL FOOTER -->
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
-            <div class="flex flex-wrap justify-center gap-6 text-xs uppercase font-bold tracking-wider text-gray-400">
-                <a href="faq.html" class="hover:text-brand-gold transition">FAQ</a>
-                <a href="site_rules.html" class="hover:text-brand-gold transition">Site Rules</a>
-                <a href="https://youtube.com" target="_blank" class="hover:text-brand-gold transition">YouTube</a>
-                <a href="https://facebook.com" target="_blank" class="hover:text-brand-gold transition">Facebook</a>
-                <a href="contact.html" class="hover:text-brand-gold transition">Contact Us</a>
-            </div>
             <p class="text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</p>
         </div>
     </footer>
 
+    <!-- CENTRAL SHARED ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="gsr-core.js"></script>
+
+    <script>
+        async function initTrackDetails() {
+            await initGlobalAuth();
+            await loadLiveTrackRecords('Ancient Rome', 'rome');
+        }
+
+        async function loadLiveTrackRecords(trackNameFilter, keyId) {
+            try {
+                const { data: results } = await window.db.from('v_results_enriched').select('*');
+                let rawResults = results;
+                
+                if (!results || results.length === 0) {
+                    const { data: rr } = await window.db.from('race_results').select('*');
+                    const { data: racers } = await window.db.from('racers').select('id, display_name');
+                    const { data: tracks } = await window.db.from('Tracks').select('id, name');
+                    if (rr && racers && tracks) {
+                        rawResults = rr.map(r => {
+                            const track = tracks.find(t => t.id === r.track_id);
+                            const racer = racers.find(p => p.id === r.racer_id);
+                            return { track_name: track?.name, display_name: racer?.display_name || 'Unknown', best_lap_time: r.best_lap_time, total_time: r.total_time || r.race_time };
+                        });
+                    }
+                }
+
+                if (!rawResults || rawResults.length === 0) return;
+
+                const trackData = rawResults.filter(r => r.track_name && r.track_name.toLowerCase().includes(trackNameFilter.toLowerCase()));
+                if (trackData.length > 0) {
+                    const validLaps = trackData.filter(r => r.best_lap_time && r.best_lap_time !== '--:--.---' && r.best_lap_time !== '00:00.000');
+                    if (validLaps.length > 0) {
+                        validLaps.sort((a,b) => String(a.best_lap_time).localeCompare(String(b.best_lap_time)));
+                        document.getElementById(`lap_time_${keyId}`).innerText = validLaps[0].best_lap_time;
+                        document.getElementById(`lap_driver_${keyId}`).innerText = validLaps[0].display_name || validLaps[0].racer_name || 'Unknown';
+                    }
+
+                    const validRaces = trackData.filter(r => (r.total_time || r.race_time) && (r.total_time || r.race_time) !== '--:--.---' && (r.total_time || r.race_time) !== '00:00.000');
+                    if (validRaces.length > 0) {
+                        validRaces.sort((a,b) => String(a.total_time || a.race_time).localeCompare(String(b.total_time || b.race_time)));
+                        document.getElementById(`rec_time_${keyId}`).innerText = validRaces[0].total_time || validRaces[0].race_time;
+                        document.getElementById(`rec_driver_${keyId}`).innerText = validRaces[0].display_name || validRaces[0].racer_name || 'Unknown';
+                    }
+                }
+            } catch (e) {}
+        }
+        window.onload = initTrackDetails;
+    </script>
 </body>
 </html>
