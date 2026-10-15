@@ -71,7 +71,54 @@
             <!-- Constrained max-width container for cards -->
             <div class="max-w-4xl mx-auto">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2" id="podiumGrid">
-                    <div class="col-span-full text-center text-xs text-gray-500 font-mono py-10">[ Syncing live podium data... ]</div>
+                    <!-- Default Slot 1 -->
+                    <div class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 flex flex-col justify-between opacity-50 relative">
+                        <div class="absolute -top-2.5 -right-2.5 bg-brand-gold text-black text-[8px] font-black px-2 py-0.5 rounded shadow border border-brand-bg tracking-wider z-10">#1 RANK</div>
+                        <div>
+                            <div class="flex justify-between items-center mb-2 mt-0.5">
+                                <span class="bg-[#1a1a1a] text-gray-500 text-[7px] font-black uppercase px-1.5 py-0.5 rounded border border-brand-border">ROOKIE</span>
+                                <span class="text-gray-600 font-mono font-black text-[10px]">#--</span>
+                            </div>
+                            <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2.5">
+                                <span class="text-[8px] text-gray-700 font-bold uppercase tracking-widest">OPEN SLOT</span>
+                            </div>
+                            <h3 class="text-xs font-black uppercase text-gray-500 tracking-wider">PENDING DRIVER</h3>
+                            <span class="text-[8px] text-gray-600 uppercase mt-0.5 block h-3">UNASSIGNED</span>
+                        </div>
+                        <button disabled class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-600 text-[8px] font-black uppercase py-2 rounded tracking-widest cursor-not-allowed">SLOT AVAILABLE</button>
+                    </div>
+                    <!-- Default Slot 2 -->
+                    <div class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 flex flex-col justify-between opacity-50 relative">
+                        <div class="absolute -top-2.5 -right-2.5 bg-gray-300 text-black text-[8px] font-black px-2 py-0.5 rounded shadow border border-brand-bg tracking-wider z-10">#2 RANK</div>
+                        <div>
+                            <div class="flex justify-between items-center mb-2 mt-0.5">
+                                <span class="bg-[#1a1a1a] text-gray-500 text-[7px] font-black uppercase px-1.5 py-0.5 rounded border border-brand-border">ROOKIE</span>
+                                <span class="text-gray-600 font-mono font-black text-[10px]">#--</span>
+                            </div>
+                            <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2.5">
+                                <span class="text-[8px] text-gray-700 font-bold uppercase tracking-widest">OPEN SLOT</span>
+                            </div>
+                            <h3 class="text-xs font-black uppercase text-gray-500 tracking-wider">PENDING DRIVER</h3>
+                            <span class="text-[8px] text-gray-600 uppercase mt-0.5 block h-3">UNASSIGNED</span>
+                        </div>
+                        <button disabled class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-600 text-[8px] font-black uppercase py-2 rounded tracking-widest cursor-not-allowed">SLOT AVAILABLE</button>
+                    </div>
+                    <!-- Default Slot 3 -->
+                    <div class="bg-[#0a0a0a] border border-brand-border rounded-xl p-3 flex flex-col justify-between opacity-50 relative">
+                        <div class="absolute -top-2.5 -right-2.5 bg-amber-700 text-white text-[8px] font-black px-2 py-0.5 rounded shadow border border-brand-bg tracking-wider z-10">#3 RANK</div>
+                        <div>
+                            <div class="flex justify-between items-center mb-2 mt-0.5">
+                                <span class="bg-[#1a1a1a] text-gray-500 text-[7px] font-black uppercase px-1.5 py-0.5 rounded border border-brand-border">ROOKIE</span>
+                                <span class="text-gray-600 font-mono font-black text-[10px]">#--</span>
+                            </div>
+                            <div class="aspect-square bg-[#111] rounded-lg border border-brand-border flex items-center justify-center mb-2.5">
+                                <span class="text-[8px] text-gray-700 font-bold uppercase tracking-widest">OPEN SLOT</span>
+                            </div>
+                            <h3 class="text-xs font-black uppercase text-gray-500 tracking-wider">PENDING DRIVER</h3>
+                            <span class="text-[8px] text-gray-600 uppercase mt-0.5 block h-3">UNASSIGNED</span>
+                        </div>
+                        <button disabled class="mt-3 block w-full text-center bg-[#111] border border-brand-border text-gray-600 text-[8px] font-black uppercase py-2 rounded tracking-widest cursor-not-allowed">SLOT AVAILABLE</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -81,27 +128,21 @@
             <!-- Top 5 Pro Plus Racers -->
             <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col relative group transition" data-cms-id="racers:top_pro">
                 <h2 data-cms-field="title" class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 Pro Plus</h2>
-                <div id="topProPlusBox" class="space-y-3 flex-grow">
-                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
-                </div>
+                <div id="topProPlusBox" class="space-y-3 flex-grow"></div>
                 <a href="leaderboards.html?category=racer&class=pro_plus" class="mt-4 text-[10px] uppercase font-bold text-brand-red text-center hover:underline">View Full Leaderboard →</a>
             </div>
 
             <!-- Top 5 All-Time Wins -->
             <div class="bg-brand-card border border-brand-blue rounded-xl p-6 shadow-xl flex flex-col blue-border-glow relative group transition" data-cms-id="racers:top_wins">
                 <h2 data-cms-field="title" class="text-sm font-black uppercase text-brand-blue border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Most Career Wins</h2>
-                <div id="topWinsBox" class="space-y-3 flex-grow">
-                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
-                </div>
+                <div id="topWinsBox" class="space-y-3 flex-grow"></div>
                 <a href="leaderboards.html?category=racer" class="mt-4 text-[10px] uppercase font-bold text-brand-blue text-center hover:underline">View Full Leaderboard →</a>
             </div>
 
             <!-- Top 5 Amateur Racers -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col relative group transition" data-cms-id="racers:top_amateur">
                 <h2 data-cms-field="title" class="text-sm font-black uppercase text-gray-300 border-b border-brand-border pb-3 mb-4 text-center tracking-wide">Top 5 Amateurs</h2>
-                <div id="topAmateurBox" class="space-y-3 flex-grow">
-                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Fetching telemetry... ]</div>
-                </div>
+                <div id="topAmateurBox" class="space-y-3 flex-grow"></div>
                 <a href="leaderboards.html?category=racer&class=amateur" class="mt-4 text-[10px] uppercase font-bold text-gray-400 text-center hover:underline">View Full Leaderboard →</a>
             </div>
         </section>
@@ -124,15 +165,11 @@
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl gold-border-glow relative group transition" data-cms-id="racers:weekly">
                 <h3 data-cms-field="title" class="text-sm font-black uppercase text-brand-gold text-center border-b border-brand-border pb-3 mb-4">Top 5 Racers of the Week</h3>
-                <div id="weeklyRacersBox" class="space-y-3 flex-grow">
-                    <span class="text-xs text-gray-500 font-mono block text-center py-4">[ Aggregating weekly telemetry... ]</span>
-                </div>
+                <div id="weeklyRacersBox" class="space-y-3 flex-grow"></div>
             </div>
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl relative group transition" data-cms-id="racers:monthly">
                 <h3 data-cms-field="title" class="text-sm font-black uppercase text-white text-center border-b border-brand-border pb-3 mb-4">Top 5 Racers of the Month</h3>
-                <div id="monthlyRacersBox" class="space-y-3 flex-grow">
-                    <span class="text-xs text-gray-500 font-mono block text-center py-4">[ Aggregating monthly telemetry... ]</span>
-                </div>
+                <div id="monthlyRacersBox" class="space-y-3 flex-grow"></div>
             </div>
         </section>
 
@@ -142,9 +179,9 @@
             <!-- Next Race Event (Live DB Sync) -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl relative group transition" data-cms-id="racers:next_event_ui">
                 <div>
-                    <span data-cms-field="badge" id="nextEventDateTag" class="text-[9px] font-black uppercase text-brand-red bg-red-950 px-2 py-0.5 rounded border border-brand-red/30 inline-block mb-2">Upcoming Race</span>
-                    <h4 id="nextEventTitle" class="text-base font-black uppercase text-white">Loading Next Event...</h4>
-                    <p id="nextEventDesc" class="text-xs text-gray-400 mt-2">Querying official calendar schedule...</p>
+                    <span data-cms-field="badge" id="nextEventDateTag" class="text-[9px] font-black uppercase text-brand-red bg-red-950 px-2 py-0.5 rounded border border-brand-red/30 inline-block mb-2">Schedule Notice</span>
+                    <h4 id="nextEventTitle" class="text-base font-black uppercase text-white">No Upcoming Races</h4>
+                    <p id="nextEventDesc" class="text-xs text-gray-400 mt-2">Check back soon or open the calendar to view the official season schedule.</p>
                 </div>
                 <a href="upcoming_events.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-red text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
                     View Full Calendar →
@@ -182,7 +219,7 @@
     <!-- UNIVERSAL FOOTER -->
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
 
-    <!-- SHARED CENTRAL ENGINE -->
+    <!-- CENTRAL SHARED ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="gsr-core.js"></script>
 
@@ -190,42 +227,70 @@
         let allRacers = [];
         let allTeams = [];
 
+        // Pre-populate empty 5-slot lists immediately so the screen is never blank
+        function populateDefaultSlots() {
+            ['topProPlusBox', 'topWinsBox', 'topAmateurBox', 'weeklyRacersBox', 'monthlyRacersBox'].forEach(boxId => {
+                const el = document.getElementById(boxId);
+                if (el && !el.hasChildNodes()) {
+                    let html = '';
+                    for (let i = 0; i < 5; i++) {
+                        html += `
+                            <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border/50 rounded opacity-40">
+                                <span class="text-gray-600 font-black italic w-4 text-center text-xs">${i + 1}.</span>
+                                <span class="text-gray-500 text-[11px] font-bold uppercase pl-2">Pending Driver</span>
+                                <span class="text-[10px] text-gray-600 font-mono">---</span>
+                            </div>
+                        `;
+                    }
+                    el.innerHTML = html;
+                }
+            });
+        }
+
+        populateDefaultSlots();
+
         async function initRacersPage() {
-            await initGlobalAuth();
-            await loadCMSContent();
-            await initRacersHub();
+            try {
+                await initGlobalAuth();
+            } catch(e) { console.warn("Auth init bypassed", e); }
+
+            try {
+                await loadCMSContent();
+            } catch(e) { console.warn("CMS content bypassed", e); }
+
+            try {
+                await initRacersHub();
+            } catch(e) { console.warn("Racers hub sync bypassed", e); }
         }
 
         async function loadCMSContent() {
-            try {
-                const { data, error } = await window.db.from('site_content').select('*').like('section_id', 'racers:%');
-                if (!error && data) {
-                    data.forEach(row => {
-                        const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
-                        try {
-                            const content = JSON.parse(row.content_value);
+            const { data } = await window.db.from('site_content').select('*').like('section_id', 'racers:%');
+            if (data) {
+                data.forEach(row => {
+                    const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
+                    try {
+                        const content = JSON.parse(row.content_value);
 
-                            if (row.section_id === 'racers:sponsors') {
-                                const logos = [content.logo_1, content.logo_2, content.logo_3].filter(Boolean);
-                                const sponsorBox = document.getElementById('racersSponsorLogosContainer');
-                                if (logos.length > 0 && sponsorBox) {
-                                    sponsorBox.innerHTML = '';
-                                    logos.forEach((url, i) => {
-                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 h-full w-auto object-contain filter drop-shadow hover:scale-105 transition duration-300 max-h-16">`;
-                                    });
-                                }
-                            }
-
-                            if (container) {
-                                Object.keys(content).forEach(key => {
-                                    const el = container.querySelector(`[data-cms-field="${key}"]`);
-                                    if (el) el.innerText = content[key];
+                        if (row.section_id === 'racers:sponsors') {
+                            const logos = [content.logo_1, content.logo_2, content.logo_3].filter(Boolean);
+                            const sponsorBox = document.getElementById('racersSponsorLogosContainer');
+                            if (logos.length > 0 && sponsorBox) {
+                                sponsorBox.innerHTML = '';
+                                logos.forEach(url => {
+                                    sponsorBox.innerHTML += `<img src="${url}" class="flex-1 min-w-0 h-full w-auto object-contain filter drop-shadow hover:scale-105 transition duration-300 max-h-16">`;
                                 });
                             }
-                        } catch (e) {}
-                    });
-                }
-            } catch (e) { console.warn("CMS Content error", e); }
+                        }
+
+                        if (container) {
+                            Object.keys(content).forEach(key => {
+                                const el = container.querySelector(`[data-cms-field="${key}"]`);
+                                if (el) el.innerText = content[key];
+                            });
+                        }
+                    } catch (e) {}
+                });
+            }
         }
 
         async function initRacersHub() {
@@ -252,4 +317,124 @@
             if (winsBox) renderTop5FixedList(winsBox, sortedByWins.slice(0, 5), 'Wins', 'text-brand-blue', 'wins');
 
             const weeklyBox = document.getElementById('weeklyRacersBox');
-            const monthlyBox = document.getElementById('monthlyRacersBox
+            const monthlyBox = document.getElementById('monthlyRacersBox');
+            if (weeklyBox) renderTop5FixedList(weeklyBox, sortedByPts.slice(0, 5), 'PTS', 'text-brand-gold');
+            if (monthlyBox) renderTop5FixedList(monthlyBox, sortedByPts.slice(0, 5), 'PTS', 'text-brand-gold');
+
+            const todayStr = new Date().toISOString().split('T')[0];
+            const { data: events } = await window.db.from('gsr_events').select('*').gte('event_date', todayStr).order('event_date', { ascending: true }).limit(1);
+
+            if (events && events.length > 0) {
+                const ev = events[0];
+                const dateEl = document.getElementById('nextEventDateTag');
+                const titleEl = document.getElementById('nextEventTitle');
+                const descEl = document.getElementById('nextEventDesc');
+                
+                if (dateEl) dateEl.innerText = `${ev.event_date} •${ev.event_time}`;
+                if (titleEl) titleEl.innerText = ev.title;
+                if (descEl) descEl.innerText = ev.description || ev.category;
+            }
+        }
+
+        function renderTop5FixedList(container, items, unitLabel, colorClass, statKey = 'rating_points') {
+            container.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const item = items[i];
+                if (item) {
+                    const stat = statKey === 'wins' ? (item.wins || 0) : (item.rating_points || 0);
+                    let teamName = 'Independent';
+                    if (item.primary_team_id) {
+                        const foundTeam = allTeams.find(t => t.id === item.primary_team_id);
+                        if (foundTeam) teamName = foundTeam.name;
+                    }
+                    container.innerHTML += `
+                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border ${i === 0 ? 'border-brand-gold' : 'border-brand-border'} rounded cursor-pointer hover:bg-[#111] transition" onclick="window.location='racers_profiles.html?driver=${encodeURIComponent(item.display_name)}'">
+                            <span class="${colorClass} font-black italic w-4 text-center text-xs">${i + 1}.</span>
+                            <div class="flex-grow pl-2 truncate">
+                                <span class="text-white text-[11px] font-bold uppercase truncate block leading-tight">${escapeHtml(item.display_name)}</span>
+                                <span class="text-[9px] text-gray-500 uppercase block truncate">${escapeHtml(teamName)}</span>
+                            </div>
+                            <span class="text-[10px] text-gray-400 font-mono whitespace-nowrap">${stat.toLocaleString()}${unitLabel}</span>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML += `
+                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border/50 rounded opacity-40">
+                            <span class="text-gray-600 font-black italic w-4 text-center text-xs">${i + 1}.</span>
+                            <span class="text-gray-500 text-[11px] font-bold uppercase pl-2">Pending Driver</span>
+                            <span class="text-[10px] text-gray-600 font-mono">---</span>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function updatePodiumDisplay() {
+            const selectedClass = document.getElementById('podiumClassSelect').value;
+            const grid = document.getElementById('podiumGrid');
+            if (!grid) return;
+
+            let filteredRacers = allRacers.filter(r => {
+                const rClass = (r.league_class || '').toLowerCase();
+                const pts = r.rating_points || 0;
+                
+                if (selectedClass === 'amateur') {
+                    return rClass === 'amateur' || (!rClass && pts < 500);
+                } else if (selectedClass === 'pro_plus') {
+                    return rClass === 'pro_plus' || (!rClass && pts >= 1500);
+                } else {
+                    return rClass === 'pro' || (!rClass && pts >= 500 && pts < 1500);
+                }
+            });
+
+            filteredRacers.sort((a, b) => (b.rating_points || 0) - (a.rating_points || 0));
+
+            grid.innerHTML = '';
+
+            const r1 = filteredRacers[0];
+            grid.innerHTML += r1 
+                ? createPodiumCard(r1, 1, 'bg-brand-gold', 'text-black', 'border-brand-gold', 'shadow-[0_0_15px_rgba(197,160,89,0.3)] transform lg:-translate-y-2') 
+                : createEmptyPodium(1, 'bg-brand-gold', 'text-black');
+
+            const r2 = filteredRacers[1];
+            grid.innerHTML += r2 
+                ? createPodiumCard(r2, 2, 'bg-gray-300', 'text-black', 'border-gray-500', 'opacity-90 hover:opacity-100 transition') 
+                : createEmptyPodium(2, 'bg-gray-300', 'text-black');
+
+            const r3 = filteredRacers[2];
+            grid.innerHTML += r3 
+                ? createPodiumCard(r3, 3, 'bg-amber-700', 'text-white', 'border-amber-800', 'opacity-80 hover:opacity-100 transition') 
+                : createEmptyPodium(3, 'bg-amber-700', 'text-white');
+        }
+
+        function createPodiumCard(racer, rank, badgeBg, badgeText, borderClass, extraClasses) {
+            const name = escapeHtml(racer.display_name);
+            const pts = (racer.rating_points || 0).toLocaleString();
+            const carNum = racer.racer_number || racer.car_number || '--';
+            
+            let teamName = 'INDEPENDENT';
+            if (racer.primary_team_id) {
+                const foundTeam = allTeams.find(t => t.id === racer.primary_team_id);
+                if (foundTeam) teamName = foundTeam.name;
+            }
+
+            const rawClass = (racer.league_class || 'pro').toLowerCase();
+            let classBadge = 'PRO LEAGUE';
+            let classBadgeBg = 'bg-brand-blue';
+
+            if (rawClass === 'pro_plus') {
+                classBadge = 'PRO PLUS';
+                classBadgeBg = 'bg-brand-red';
+            } else if (rawClass === 'amateur') {
+                classBadge = 'AMATEUR';
+                classBadgeBg = 'bg-gray-600';
+            }
+
+            const imageUrl = racer.avatar_url || racer.profile_image_url;
+            const imageHTML = imageUrl 
+                ? `<img src="${imageUrl}" alt="${name}" class="w-full h-full object-cover rounded-md">` 
+                : `<span class="text-[8px] text-gray-600 font-bold uppercase tracking-widest">PHOTO</span>`;
+
+            return `
+                <div class="bg-[#0a0a0a] border ${borderClass} rounded-xl p-3 flex flex-col justify-between group shadow-md relative${extraClasses || ''}">
+                    <div class="absolute -top-2.5 -right-2.5 ${badgeBg}${badgeText} text-[8px] font-black px-2 py-0.5
