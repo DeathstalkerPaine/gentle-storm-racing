@@ -54,7 +54,7 @@
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-12">
         
-        <!-- ROW 1: TOP 3 ALL TIME RACERS (Podium Selection & Live DB Sync) -->
+        <!-- ROW 1: TOP 3 ALL TIME RACERS (PODIUM) -->
         <section class="space-y-6">
             <div class="bg-brand-card border border-brand-border rounded-xl p-5 shadow-xl flex flex-col sm:flex-row justify-between items-center gap-4 relative group transition" data-cms-id="racers:podium_header">
                 <div>
@@ -68,15 +68,13 @@
                 </select>
             </div>
 
-            <!-- Constrained max-width container for cards -->
-            <div class="max-w-4xl mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2" id="podiumGrid">
-                    <div class="col-span-full text-center text-xs text-gray-500 font-mono py-10">[ Syncing live podium data... ]</div>
-                </div>
+            <!-- Full-width Podium Grid Matching Screenshot -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2" id="podiumGrid">
+                <div class="col-span-full text-center text-xs text-gray-500 font-mono py-10">[ Syncing live podium data... ]</div>
             </div>
         </section>
 
-        <!-- ROW 2: 3-COLUMN TOP 5 LISTS (5 Slots Fixed Display) -->
+        <!-- ROW 2: 3-COLUMN TOP 5 LISTS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Top 5 Pro Plus Racers -->
             <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col relative group transition" data-cms-id="racers:top_pro">
@@ -106,7 +104,7 @@
             </div>
         </section>
 
-        <!-- ROW 3: SPONSORS BANNER (CMS Editable) -->
+        <!-- ROW 3: SPONSORS BANNER -->
         <section data-cms-id="racers:sponsors" class="bg-brand-card border border-brand-border rounded-xl p-6 text-center shadow-xl transition group relative">
             <div>
                 <span data-cms-field="label" class="text-[10px] font-black uppercase text-gray-500 tracking-widest block">Driver Sponsors & Partners</span>
@@ -120,7 +118,7 @@
             </div>
         </section>
 
-        <!-- ROW 4: 2-COLUMN WEEK/MONTH FOCUS (5 Slots Fixed Display) -->
+        <!-- ROW 4: 2-COLUMN WEEK/MONTH FOCUS -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl gold-border-glow relative group transition" data-cms-id="racers:weekly">
                 <h3 data-cms-field="title" class="text-sm font-black uppercase text-brand-gold text-center border-b border-brand-border pb-3 mb-4">Top 5 Racers of the Week</h3>
@@ -139,7 +137,7 @@
         <!-- ROW 5: 3-COLUMN BOTTOM FEATURES -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
-            <!-- Next Race Event (Live DB Sync) -->
+            <!-- Next Race Event -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl relative group transition" data-cms-id="racers:next_event_ui">
                 <div>
                     <span data-cms-field="badge" id="nextEventDateTag" class="text-[9px] font-black uppercase text-brand-red bg-red-950 px-2 py-0.5 rounded border border-brand-red/30 inline-block mb-2">Upcoming Race</span>
@@ -151,11 +149,133 @@
                 </a>
             </div>
 
-            <!-- Racer Spotlight / Multimedia (CMS Editable) -->
+            <!-- Racer Spotlight -->
             <div data-cms-id="racers:spotlight" class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl transition group relative">
                 <div>
                     <span data-cms-field="badge" class="text-[9px] font-black uppercase text-brand-gold bg-amber-950 px-2 py-0.5 rounded border border-brand-gold/30 inline-block mb-2">Driver Spotlight</span>
                     <h4 data-cms-field="title" class="text-base font-black uppercase text-white">Grid Interviews</h4>
                     <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Catch up on the latest trackside interviews, telemetry breakdowns, and driver highlights from the Pro League.</p>
                 </div>
-                <a href="multimedia.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-
+                <a href="multimedia.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    Watch Media →
+                </a>
+            </div>
+
+            <!-- Free Agent Board -->
+            <div data-cms-id="racers:free_agents" class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col justify-between shadow-xl transition group relative">
+                <div>
+                    <span data-cms-field="badge" class="text-[9px] font-black uppercase text-brand-blue bg-blue-950 px-2 py-0.5 rounded border border-brand-blue/30 inline-block mb-2">Free Agents</span>
+                    <h4 data-cms-field="title" class="text-base font-black uppercase text-white">Looking for a Drive?</h4>
+                    <p data-cms-field="desc" class="text-xs text-gray-400 mt-2">Unsigned drivers can browse active syndicates looking to fill their rosters before the next championship round.</p>
+                </div>
+                <a href="teams.html" class="mt-6 text-[10px] bg-brand-bg border border-brand-border hover:border-brand-blue text-gray-300 hover:text-white text-center font-bold uppercase py-2.5 rounded transition">
+                    Browse Syndicate Rosters →
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
+
+    <!-- CENTRAL SHARED ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="gsr-core.js"></script>
+
+    <script>
+        let allRacers = [];
+        let allTeams = [];
+
+        async function initRacersPage() {
+            await initGlobalAuth();
+            await loadCMSContent();
+            await initRacersHub();
+        }
+
+        async function loadCMSContent() {
+            try {
+                const { data, error } = await window.db.from('site_content').select('*').like('section_id', 'racers:%');
+                if (!error && data) {
+                    data.forEach(row => {
+                        const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
+                        try {
+                            const content = JSON.parse(row.content_value);
+
+                            if (row.section_id === 'racers:sponsors') {
+                                const logos = [content.logo_1, content.logo_2, content.logo_3].filter(Boolean);
+                                const sponsorBox = document.getElementById('racersSponsorLogosContainer');
+                                if (logos.length > 0 && sponsorBox) {
+                                    sponsorBox.innerHTML = '';
+                                    logos.forEach((url, i) => {
+                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="flex-1 min-w-0 h-full w-auto object-contain filter drop-shadow hover:scale-105 transition duration-300 max-h-16">`;
+                                    });
+                                }
+                            }
+
+                            if (container) {
+                                Object.keys(content).forEach(key => {
+                                    const el = container.querySelector(`[data-cms-field="${key}"]`);
+                                    if (el) el.innerText = content[key];
+                                });
+                            }
+                        } catch (e) {}
+                    });
+                }
+            } catch (e) { console.warn("CMS Content error", e); }
+        }
+
+        async function initRacersHub() {
+            const { data: racers } = await window.db.from('racers').select('*');
+            const { data: teams } = await window.db.from('teams').select('id, name');
+            if (racers) allRacers = racers;
+            if (teams) allTeams = teams;
+
+            updatePodiumDisplay();
+
+            const sortedByPts = [...allRacers].sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
+            
+            let proPlusRacers = allRacers.filter(r => (r.league_class || '').toLowerCase() === 'pro_plus' || (!r.league_class && (r.rating_points || 0) >= 1500));
+            let amateurRacers = allRacers.filter(r => (r.league_class || '').toLowerCase() === 'amateur' || (!r.league_class && (r.rating_points || 0) < 500));
+
+            const proPlusBox = document.getElementById('topProPlusBox');
+            const amateurBox = document.getElementById('topAmateurBox');
+            const winsBox = document.getElementById('topWinsBox');
+
+            if (proPlusBox) renderTop5FixedList(proPlusBox, proPlusRacers.slice(0, 5), 'PTS', 'text-brand-red');
+            if (amateurBox) renderTop5FixedList(amateurBox, amateurRacers.slice(0, 5), 'PTS', 'text-gray-300');
+            
+            const sortedByWins = [...allRacers].sort((a,b) => (b.wins || 0) - (a.wins || 0));
+            if (winsBox) renderTop5FixedList(winsBox, sortedByWins.slice(0, 5), 'Wins', 'text-brand-blue', 'wins');
+
+            const weeklyBox = document.getElementById('weeklyRacersBox');
+            const monthlyBox = document.getElementById('monthlyRacersBox');
+            if (weeklyBox) renderTop5FixedList(weeklyBox, sortedByPts.slice(0, 5), 'PTS', 'text-brand-gold');
+            if (monthlyBox) renderTop5FixedList(monthlyBox, sortedByPts.slice(0, 5), 'PTS', 'text-brand-gold');
+
+            const todayStr = new Date().toISOString().split('T')[0];
+            const { data: events } = await window.db.from('gsr_events').select('*').gte('event_date', todayStr).order('event_date', { ascending: true }).limit(1);
+
+            const dateEl = document.getElementById('nextEventDateTag');
+            const titleEl = document.getElementById('nextEventTitle');
+            const descEl = document.getElementById('nextEventDesc');
+
+            if (events && events.length > 0) {
+                const ev = events[0];
+                if (dateEl) dateEl.innerText = `${ev.event_date} • ${ev.event_time}`;
+                if (titleEl) titleEl.innerText = ev.title;
+                if (descEl) descEl.innerText = ev.description || ev.category;
+            } else {
+                if (dateEl) dateEl.innerText = "Schedule Notice";
+                if (titleEl) titleEl.innerText = "No Upcoming Races";
+                if (descEl) descEl.innerText = "Check back soon or open the calendar to view the official season schedule.";
+            }
+        }
+
+        // --- EXACT 5-SLOT PILL ROWS MATCHING SCREENSHOT ---
+        function renderTop5FixedList(container, items, unitLabel, colorClass, statKey = 'rating_points') {
+            container.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const item = items[i];
+                if (
