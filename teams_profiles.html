@@ -16,18 +16,22 @@
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
+    <!-- HEADER -->
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-8 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
-                <a href="index.html"><img src="logo.png" alt="Logo" class="h-10 sm:h-14 w-auto object-contain"></a>
+                <a href="index.html"><img src="logo.png" alt="Logo" class="h-10 sm:h-14 w-auto object-contain hover:scale-105 transition-transform"></a>
             </div>
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <span class="block text-[9px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Syndicate Directory</span>
                 <h1 class="text-xl sm:text-3xl font-black uppercase tracking-wider text-white">TEAM PROFILES</h1>
             </div>
+            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2"></div>
         </div>
+        <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 px-4 z-10 w-full"></div>
     </header>
 
+    <!-- SUB-NAVBAR -->
     <nav class="bg-brand-bg border-b border-brand-border py-3">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider">
             <a href="index.html" class="text-gray-300 hover:text-brand-gold transition">GSR Main Menu</a>
@@ -65,7 +69,7 @@
             </div>
 
             <div id="alphabetBar" class="flex flex-wrap gap-1 pt-2 border-t border-brand-border justify-center">
-                <button onclick="setLetter('ALL')" class="alphabet-btn bg-brand-gold text-black font-black text-[10px] px-2.5 py-1 rounded transition">ALL</button>
+                <button onclick="setLetter('ALL')" class="alphabet-btn bg-brand-gold text-black font-black text-[10px] px-2.5 py-1 rounded transition cursor-pointer">ALL</button>
             </div>
         </section>
 
@@ -78,20 +82,20 @@
         &copy; 2026 Gentle Storm Racing. Built for Second Life.
     </footer>
 
+    <!-- CENTRAL SHARED ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+    <script src="gsr-core.js"></script>
 
+    <script>
         let allTeamsCache = [];
         let selectedLetter = 'ALL';
 
         async function loadTeamDirectory() {
+            await initGlobalAuth();
             buildAlphabetBar();
 
-            const { data: dbTeams } = await db.from('teams').select('*');
-            const { data: dbRacers } = await db.from('racers').select('*');
+            const { data: dbTeams } = await window.db.from('teams').select('*');
+            const { data: dbRacers } = await window.db.from('racers').select('*');
 
             const teamsList = dbTeams || [];
             const racersList = dbRacers || [];
@@ -114,7 +118,6 @@
                 const totalWins = members.reduce((sum, r) => sum + (r.wins || 0), 0);
                 const rosterCount = members.length;
 
-                // Read persistent is_recruiting column from DB directly
                 const isRecruiting = team.is_recruiting !== undefined && team.is_recruiting !== null 
                     ? team.is_recruiting 
                     : true;
@@ -139,7 +142,7 @@
             const bar = document.getElementById('alphabetBar');
             const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
             alphabet.forEach(letter => {
-                bar.innerHTML += `<button onclick="setLetter('${letter}')" class="alphabet-btn bg-brand-bg border border-brand-border text-gray-400 hover:text-white font-black text-[10px] px-2.5 py-1 rounded transition">${letter}</button>`;
+                bar.innerHTML += `<button onclick="setLetter('${letter}')" class="alphabet-btn bg-brand-bg border border-brand-border text-gray-400 hover:text-white font-black text-[10px] px-2.5 py-1 rounded transition cursor-pointer">${letter}</button>`;
             });
         }
 
@@ -147,9 +150,9 @@
             selectedLetter = letter;
             document.querySelectorAll('#alphabetBar button').forEach(btn => {
                 if(btn.innerText === letter) {
-                    btn.className = "alphabet-btn bg-brand-gold text-black font-black text-[10px] px-2.5 py-1 rounded transition";
+                    btn.className = "alphabet-btn bg-brand-gold text-black font-black text-[10px] px-2.5 py-1 rounded transition cursor-pointer";
                 } else {
-                    btn.className = "alphabet-btn bg-brand-bg border border-brand-border text-gray-400 hover:text-white font-black text-[10px] px-2.5 py-1 rounded transition";
+                    btn.className = "alphabet-btn bg-brand-bg border border-brand-border text-gray-400 hover:text-white font-black text-[10px] px-2.5 py-1 rounded transition cursor-pointer";
                 }
             });
             filterTeams();
@@ -245,10 +248,6 @@
                     `;
                 }
             });
-        }
-
-        function escapeHtml(str) {
-            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
         }
 
         window.onload = loadTeamDirectory;
