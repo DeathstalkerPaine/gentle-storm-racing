@@ -32,18 +32,15 @@
     <header class="bg-brand-card border-b border-brand-gold relative py-4 lg:py-10 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 relative flex flex-col lg:flex-row items-center justify-between gap-4">
             <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto z-10">
-                <a href="index.html"><img src="logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain"></a>
+                <a href="index.html"><img src="logo.png" alt="Logo" class="h-10 sm:h-16 lg:h-24 w-auto object-contain hover:scale-105 transition-transform"></a>
             </div>
             <div class="w-full lg:absolute lg:inset-x-0 text-center pointer-events-none lg:px-40 py-1">
                 <span class="block text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] text-brand-gold mb-1">Official Team Card</span>
                 <h1 id="pageTeamTitleHeader" class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-wider text-white">STORM RIDERS</h1>
             </div>
-
-            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2">
-                <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
-                <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
-            </div>
+            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2"></div>
         </div>
+        <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 px-4 z-10 w-full"></div>
     </header>
 
     <!-- SUB-NAVBAR -->
@@ -100,7 +97,7 @@
                             </p>
                         </div>
                         <div class="flex flex-col items-end gap-3 w-full md:w-auto">
-                            <button id="followBtn" class="w-full md:w-auto bg-brand-bg border border-brand-border hover:border-brand-blue hover:text-white text-gray-400 text-[10px] font-black uppercase px-6 py-2.5 rounded transition shadow" onclick="toggleFollow()">
+                            <button id="followBtn" class="w-full md:w-auto bg-brand-bg border border-brand-border hover:border-brand-blue hover:text-white text-gray-400 text-[10px] font-black uppercase px-6 py-2.5 rounded transition shadow cursor-pointer" onclick="toggleFollow()">
                                 Follow Syndicate +
                             </button>
                         </div>
@@ -157,7 +154,7 @@
                                 <span class="text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-1.5">
                                     <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> 💬 GSR Comms
                                 </span>
-                                <select id="teamChatSelector" onchange="switchTeamChannel(this.value)" class="bg-brand-card border border-brand-border text-brand-blue text-[9px] font-black uppercase px-2 py-1 rounded outline-none cursor-pointer">
+                                <select id="teamChatSelector" onchange="switchTeamProfileChannel(this.value)" class="bg-brand-card border border-brand-border text-brand-blue text-[9px] font-black uppercase px-2 py-1 rounded outline-none cursor-pointer">
                                     <option value="team" selected>🛡️ Team Chat</option>
                                     <option value="global">🌐 Global Feed</option>
                                     <option value="following">👥 Following</option>
@@ -194,30 +191,10 @@
         </div>
     </main>
 
-    <!-- SLIDE-OUT CHAT DRAWER OVERLAY & PANEL -->
-    <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
-
-    <div id="chatDrawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-brand-card border-l border-brand-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-        <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center flex-shrink-0">
-            <div>
-                <h2 class="text-sm font-black uppercase text-white tracking-wide">Live Transmissions</h2>
-                <p id="drawerChannelName" class="text-[10px] text-brand-blue uppercase">Channel: 🛡️ Team Chat</p>
-            </div>
-            <button onclick="toggleDrawer(false)" class="text-gray-500 hover:text-brand-red p-2 transition cursor-pointer">✕</button>
-        </div>
-        <div id="drawerMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-[#111]">
-             <div class="text-[10px] text-gray-500 text-center mt-12 uppercase font-bold tracking-widest">[ Fetching logs... ]</div>
-        </div>
-        <div class="bg-brand-bg border-t border-brand-border p-4 flex gap-2 flex-shrink-0">
-            <input type="text" id="drawerInput" placeholder="Type message..." class="flex-grow bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2.5 rounded outline-none focus:border-brand-blue transition">
-            <button onclick="sendDrawerMessage()" class="bg-brand-blue hover:bg-blue-600 text-white font-black uppercase text-[10px] px-4 py-2.5 rounded transition shadow shrink-0 cursor-pointer">Send</button>
-        </div>
-    </div>
-
     <!-- APPLICATION MODAL -->
     <div id="applicationModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
         <div class="bg-brand-card border border-brand-gold rounded-xl max-w-md w-full p-6 shadow-2xl relative">
-            <button onclick="closeModals()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg font-black uppercase">✕</button>
+            <button onclick="closeModals()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg font-black uppercase cursor-pointer">✕</button>
             <h2 class="text-lg font-black uppercase text-white border-b border-brand-border pb-3 mb-4">Submit Roster Application</h2>
             <p class="text-xs text-gray-300 mb-4 leading-relaxed">
                 By submitting this application, your racer telemetry card will be transmitted directly to the Team Leader for review.
@@ -236,28 +213,16 @@
         </div>
     </div>
 
-    <!-- SUPABASE ENGINE -->
+    <!-- UNIVERSAL FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">
+        &copy; 2026 Gentle Storm Racing. Built for Second Life.
+    </footer>
+
+    <!-- CENTRAL SHARED ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="gsr-core.js"></script>
+
     <script>
-        window.toggleDrawer = function(show) {
-            const drawer = document.getElementById('chatDrawer');
-            const overlay = document.getElementById('drawerOverlay');
-            if (!drawer || !overlay) return;
-
-            if (show) {
-                overlay.classList.remove('hidden');
-                void overlay.offsetWidth;
-                overlay.classList.remove('opacity-0');
-                drawer.classList.remove('translate-x-full');
-                const msgBox = document.getElementById('drawerMessages');
-                if (msgBox) msgBox.scrollTop = msgBox.scrollHeight;
-            } else {
-                overlay.classList.add('opacity-0');
-                drawer.classList.add('translate-x-full');
-                setTimeout(() => { overlay.classList.add('hidden'); }, 300);
-            }
-        };
-
         const urlParams = new URLSearchParams(window.location.search);
         const pageTeamName = urlParams.get('name') ? decodeURIComponent(urlParams.get('name')) : "Storm Riders";
         
@@ -266,31 +231,60 @@
         const cardTitleEl = document.getElementById('cardTeamTitle');
         if (cardTitleEl) cardTitleEl.innerText = pageTeamName;
 
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        let currentUser = null;
-        let displayName = "";
         let isVerifiedTeamMember = false;
         let isTeamLeader = false;
         let teamIsRecruiting = true; 
         let currentTeamId = null;
         let currentLeaderId = null;
-        let activeTeamChannel = 'team'; 
+        let isFollowing = false;
 
-        const channelNames = {
-            team: '🛡️ Team Chat',
-            global: '🌐 Global Feed',
-            following: '👥 Following',
-            pro_plus: '⭐ Pro Plus'
+        async function initTeamCardPage() {
+            window.currentChatChannel = 'team';
+            await initGlobalAuth(handleTeamAuthSync);
+            await renderTeamRoster();
+            loadTeamProfileChatWidget();
+
+            window.db.channel('public:gsr_chats_team_card')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
+                    if (payload.new.channel === window.currentChatChannel) loadTeamProfileChatWidget();
+                })
+                .subscribe();
+        }
+
+        async function handleTeamAuthSync() {
+            if (window.currentUser && window.currentProfile) {
+                const displayName = window.currentProfile.sl_legacy_name || window.currentUser.email.split('@')[0];
+
+                const { data: currentRacer } = await window.db
+                    .from('racers')
+                    .select('id, primary_team_id, team_id')
+                    .ilike('display_name', displayName)
+                    .maybeSingle();
+
+                if (currentTeamId) {
+                    const isMatchLeader = (currentLeaderId && currentRacer && currentLeaderId === currentRacer.id) || 
+                                          (displayName && displayName.toLowerCase().includes('deathstalker'));
+                    if (isMatchLeader) {
+                        isTeamLeader = true;
+                        isVerifiedTeamMember = true;
+                    } else if (currentRacer && (currentRacer.primary_team_id === currentTeamId || currentRacer.team_id === currentTeamId)) {
+                        isVerifiedTeamMember = true;
+                    }
+                }
+            }
+            renderBannerControls();
+            checkFollowStatus();
+        }
+
+        window.onAuthChangeCallback = function() {
+            handleTeamAuthSync();
         };
 
         async function renderTeamRoster() {
             const grid = document.getElementById('teamRosterGrid');
             const leaderDisplay = document.getElementById('teamLeaderDisplay');
 
-            const { data: teamData, error: teamError } = await db.from('teams').select('*').eq('name', pageTeamName).maybeSingle();
+            const { data: teamData, error: teamError } = await window.db.from('teams').select('*').eq('name', pageTeamName).maybeSingle();
             if (teamError || !teamData) {
                 if (grid) grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ Team not found ]</div>`;
                 return;
@@ -328,35 +322,27 @@
 
             teamIsRecruiting = teamData.is_recruiting !== undefined && teamData.is_recruiting !== null ? teamData.is_recruiting : true;
 
-            // Fetch racers using the same complete directory method as teams_profiles.html
-            const { data: dbRacers } = await db.from('racers').select('*');
+            const { data: dbRacers } = await window.db.from('racers').select('*');
             const allRacers = dbRacers || [];
 
-            // Match all racers assigned via primary_team_id, team_id, or team name
             let drivers = allRacers.filter(r => 
                 (currentTeamId && (r.primary_team_id === currentTeamId || r.team_id === currentTeamId)) ||
                 (r.team_name && r.team_name.toLowerCase() === pageTeamName.toLowerCase()) ||
                 (r.team && r.team.toLowerCase() === pageTeamName.toLowerCase())
             );
 
-            // Resolve leader name from leader_user_id or fallback
             let foundLeaderName = "UNASSIGNED";
             if (currentLeaderId) {
                 const leaderRacer = allRacers.find(r => r.id === currentLeaderId);
-                if (leaderRacer && leaderRacer.display_name) {
-                    foundLeaderName = leaderRacer.display_name;
-                }
+                if (leaderRacer && leaderRacer.display_name) foundLeaderName = leaderRacer.display_name;
             }
 
             if (foundLeaderName === "UNASSIGNED") {
                 const fallbackLeader = drivers.find(r => r.display_name && r.display_name.toLowerCase().includes('deathstalker')) 
                                      || allRacers.find(r => r.display_name && r.display_name.toLowerCase().includes('deathstalker'));
-                if (fallbackLeader && fallbackLeader.display_name) {
-                    foundLeaderName = fallbackLeader.display_name;
-                }
+                if (fallbackLeader && fallbackLeader.display_name) foundLeaderName = fallbackLeader.display_name;
             }
 
-            // Ensure the team leader's card is in the roster list
             if (foundLeaderName !== "UNASSIGNED") {
                 const leaderInDrivers = drivers.some(d => d.display_name && d.display_name.toLowerCase() === foundLeaderName.toLowerCase());
                 if (!leaderInDrivers) {
@@ -365,14 +351,12 @@
                 }
             }
 
-            // Render team leader display
             if (leaderDisplay) {
                 leaderDisplay.innerHTML = foundLeaderName !== "UNASSIGNED" 
                     ? `<a href="racer.html?driver=${encodeURIComponent(foundLeaderName)}" class="hover:text-brand-gold transition underline uppercase">${escapeHtml(foundLeaderName)}</a>`
                     : "UNASSIGNED";
             }
 
-            // Render active team roster
             if (grid) {
                 if (drivers.length === 0) {
                     grid.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 font-mono py-4">[ No drivers assigned to this team yet ]</div>`;
@@ -410,90 +394,6 @@
             }
         }
 
-        async function initTeamCardPage() {
-            await renderTeamRoster();
-            loadTeamChatWidget(); 
-
-            try {
-                const { data: { session } } = await db.auth.getSession();
-                if (session && session.user) {
-                    await handleAuthUser(session.user);
-                } else {
-                    updateHeaderAuthUI();
-                    renderBannerControls();
-                }
-            } catch (err) {
-                updateHeaderAuthUI();
-                renderBannerControls();
-            }
-
-            db.auth.onAuthStateChange(async (event, session) => {
-                if (session && session.user) {
-                    await handleAuthUser(session.user);
-                } else {
-                    currentUser = null;
-                    isVerifiedTeamMember = false;
-                    isTeamLeader = false;
-                    updateHeaderAuthUI();
-                    renderBannerControls();
-                }
-            });
-        }
-
-        async function handleAuthUser(user) {
-            currentUser = user;
-            
-            const { data: profile } = await db
-                .from('gsr_profiles')
-                .select('sl_legacy_name')
-                .eq('id', currentUser.id)
-                .maybeSingle();
-
-            displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
-
-            const { data: currentRacer } = await db
-                .from('racers')
-                .select('id, primary_team_id, team_id')
-                .ilike('display_name', displayName)
-                .maybeSingle();
-
-            if (currentTeamId) {
-                const isMatchLeader = (currentLeaderId && currentRacer && currentLeaderId === currentRacer.id) || 
-                                      (displayName && displayName.toLowerCase().includes('deathstalker'));
-                if (isMatchLeader) {
-                    isTeamLeader = true;
-                    isVerifiedTeamMember = true;
-                } else if (currentRacer && (currentRacer.primary_team_id === currentTeamId || currentRacer.team_id === currentTeamId)) {
-                    isVerifiedTeamMember = true;
-                }
-            }
-
-            updateHeaderAuthUI();
-            renderBannerControls();
-        }
-
-        function updateHeaderAuthUI() {
-            const userNav = document.getElementById('userNav');
-            if (!userNav) return;
-
-            if (currentUser) {
-                userNav.innerHTML = `
-                    <div class="text-right hidden sm:block">
-                        <span class="block text-xs font-black text-white uppercase">${escapeHtml(displayName)}</span>
-                        <span class="text-[9px] text-brand-green uppercase font-mono tracking-widest flex items-center justify-end gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span> Logged In
-                        </span>
-                    </div>
-                    <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition sm:ml-4 shadow cursor-pointer">Sign Out</button>
-                `;
-            } else {
-                userNav.innerHTML = `
-                    <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
-                    <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
-                `;
-            }
-        }
-
         function renderBannerControls() {
             const container = document.getElementById('bannerApplyContainer');
             const badge = document.getElementById('recruitmentBadge');
@@ -512,7 +412,6 @@
             }
 
             let html = '';
-
             if (teamIsRecruiting) {
                 if (isTeamLeader) {
                     html += `
@@ -523,7 +422,7 @@
                             📝 Apply for Roster
                         </button>
                     `;
-                } else if (currentUser && !isVerifiedTeamMember) {
+                } else if (window.currentUser && !isVerifiedTeamMember) {
                     html += `
                         <button onclick="openApplicationModal()" class="bg-green-600 hover:bg-green-500 text-black font-black uppercase text-[9px] px-3 py-1.5 rounded shadow transition flex items-center gap-1.5 cursor-pointer">
                             📝 Apply for Roster
@@ -531,44 +430,38 @@
                     `;
                 }
             }
-
             container.innerHTML = html;
         }
 
         async function toggleRecruitmentStatus() {
             if (!isTeamLeader || !currentTeamId) return;
-            
             teamIsRecruiting = !teamIsRecruiting;
-            
-            const { error } = await db.from('teams').update({ is_recruiting: teamIsRecruiting }).eq('id', currentTeamId);
-            
+            const { error } = await window.db.from('teams').update({ is_recruiting: teamIsRecruiting }).eq('id', currentTeamId);
             if (error) {
                 alert("SUPABASE ERROR: " + error.message);
                 teamIsRecruiting = !teamIsRecruiting;
             }
-            
             renderBannerControls();
         }
 
         function openApplicationModal() {
-            document.getElementById('applicantName').innerText = displayName;
+            const name = window.currentProfile?.sl_legacy_name || window.currentUser?.email.split('@')[0] || 'Applicant';
+            document.getElementById('applicantName').innerText = name;
             document.getElementById('applicationModal').classList.remove('hidden');
             document.getElementById('applicationModal').classList.add('flex');
         }
 
         async function submitApplication() {
-            if (!currentUser) return;
-            const { error } = await db.from('gsr_applications').insert([{
-                user_id: currentUser.id,
-                applicant_name: displayName,
+            if (!window.currentUser) return;
+            const name = window.currentProfile?.sl_legacy_name || window.currentUser.email.split('@')[0];
+            const { error } = await window.db.from('gsr_applications').insert([{
+                user_id: window.currentUser.id,
+                applicant_name: name,
                 team_name: pageTeamName
             }]);
 
-            if (error) {
-                alert("Application error: " + error.message);
-            } else {
-                alert("Your roster application has been successfully transmitted to the Team Leader!");
-            }
+            if (error) alert("Application error: " + error.message);
+            else alert("Your roster application has been successfully transmitted to the Team Leader!");
             closeModals();
         }
 
@@ -577,92 +470,56 @@
             document.getElementById('applicationModal').classList.remove('flex');
         }
 
-        function switchTeamChannel(channel) {
-            activeTeamChannel = channel;
-            const drawerTitle = document.getElementById('drawerChannelName');
-            if (drawerTitle) drawerTitle.innerText = `Channel: ${channelNames[channel] || channel}`;
-            loadTeamChatWidget();
+        async function checkFollowStatus() {
+            if (!window.currentUser) return;
+            const { data } = await window.db.from('gsr_follows').select('*').eq('user_id', window.currentUser.id).ilike('following_driver', pageTeamName).maybeSingle();
+            isFollowing = !!data;
+            const btn = document.getElementById('followBtn');
+            if (btn) {
+                btn.innerText = isFollowing ? "Following ✓" : "Follow Syndicate +";
+                btn.className = isFollowing ? "w-full md:w-auto bg-brand-blue text-white text-[10px] font-black uppercase px-6 py-2.5 rounded transition shadow cursor-pointer" : "w-full md:w-auto bg-brand-bg border border-brand-border hover:border-brand-blue hover:text-white text-gray-400 text-[10px] font-black uppercase px-6 py-2.5 rounded transition shadow cursor-pointer";
+            }
         }
 
-        async function loadTeamChatWidget() {
-            const feed = document.getElementById('teamChatFeed');
-            const drawerFeed = document.getElementById('drawerMessages');
+        async function toggleFollow() {
+            if (!window.currentUser) {
+                alert("Sign in required to follow syndicates.");
+                return;
+            }
+            if (isFollowing) {
+                await window.db.from('gsr_follows').delete().eq('user_id', window.currentUser.id).ilike('following_driver', pageTeamName);
+                isFollowing = false;
+            } else {
+                await window.db.from('gsr_follows').insert([{ user_id: window.currentUser.id, following_driver: pageTeamName }]);
+                isFollowing = true;
+            }
+            checkFollowStatus();
+        }
 
-            const { data, error } = await db.from('gsr_chats').select('*').eq('channel', activeTeamChannel).order('created_at', { ascending: false }).limit(20);
+        function switchTeamProfileChannel(channel) {
+            window.switchGlobalChannel(channel);
+            loadTeamProfileChatWidget();
+        }
+
+        async function loadTeamProfileChatWidget() {
+            const feed = document.getElementById('teamChatFeed');
+            const { data, error } = await window.db.from('gsr_chats').select('*').eq('channel', window.currentChatChannel).order('created_at', { ascending: false }).limit(5);
             
             if (error || !data || data.length === 0) {
-                const emptyMsg = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No active transmissions ]</div>`;
-                if (feed) feed.innerHTML = emptyMsg;
-                if (drawerFeed) drawerFeed.innerHTML = emptyMsg;
+                if (feed) feed.innerHTML = `<div class="text-[10px] text-gray-500 text-center block my-auto">[ No active transmissions ]</div>`;
                 return;
             }
             
-            const messages = data.reverse();
-
             if (feed) {
                 feed.innerHTML = '';
-                messages.slice(-5).forEach(msg => {
+                data.reverse().forEach(msg => {
                     feed.innerHTML += `<div class="text-[10px] leading-snug truncate"><span class="font-black text-brand-blue uppercase">[${escapeHtml(msg.display_name)}]:</span> <span class="text-gray-300">${escapeHtml(msg.message)}</span></div>`;
                 });
                 feed.scrollTop = feed.scrollHeight;
             }
-
-            if (drawerFeed) {
-                drawerFeed.innerHTML = '';
-                messages.forEach(msg => {
-                    const isMe = currentUser && msg.user_id === currentUser.id;
-                    const align = isMe ? 'items-end' : 'items-start';
-                    const bg = isMe ? 'bg-brand-blue/20 border-brand-blue text-white' : 'bg-[#1f1f1f] border-brand-border text-gray-200';
-
-                    drawerFeed.innerHTML += `
-                        <div class="flex flex-col ${align}">
-                            <span class="text-[9px] font-black uppercase text-gray-500 mb-0.5">${escapeHtml(msg.display_name)}</span>
-                            <div class="${bg} border px-3 py-2 rounded-lg text-xs max-w-[85%] break-words">
-                                ${escapeHtml(msg.message)}
-                            </div>
-                        </div>
-                    `;
-                });
-                drawerFeed.scrollTop = drawerFeed.scrollHeight;
-            }
         }
 
-        async function sendDrawerMessage() {
-            if (!currentUser) {
-                alert("Sign in required to transmit messages.");
-                return;
-            }
-
-            const input = document.getElementById('drawerInput');
-            const val = input.value.trim();
-            if (!val) return;
-
-            const { error } = await db.from('gsr_chats').insert([{
-                user_id: currentUser.id,
-                display_name: displayName,
-                message: val,
-                channel: activeTeamChannel
-            }]);
-
-            if (error) {
-                alert("Transmission failed: " + error.message);
-            } else {
-                input.value = '';
-                loadTeamChatWidget();
-            }
-        }
-
-        async function executeSignOut() {
-            await db.auth.signOut();
-            window.location.reload(); 
-        }
-
-        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
-
-        document.getElementById('drawerInput')?.addEventListener('keypress', e => {
-            if (e.key === 'Enter') sendDrawerMessage();
-        });
-
+        window.loadChatWidget = loadTeamProfileChatWidget;
         window.onload = initTeamCardPage;
     </script>
 </body>
