@@ -38,8 +38,10 @@
                 <select id="issueSelect" onchange="loadSelectedIssue(this.value)" class="bg-brand-bg border border-brand-gold text-white font-black uppercase text-[10px] px-3 py-2 rounded outline-none cursor-pointer max-w-[170px] truncate">
                     <option value="">Loading Archive...</option>
                 </select>
+                <div id="userNav" class="flex items-center gap-2"></div>
             </div>
         </div>
+        <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 px-4 z-10 w-full"></div>
     </header>
 
     <!-- SUB-NAVBAR -->
@@ -143,7 +145,6 @@
                         </div>
                     </div>
 
-                    <!-- Delete Issue Button -->
                     <div class="pt-4 border-t border-brand-border">
                         <button onclick="deleteCurrentIssue()" class="w-full bg-red-950/60 hover:bg-red-900 text-brand-red border border-red-500/40 text-[10px] font-black uppercase py-2 rounded transition cursor-pointer">
                             🗑️ Delete Current Issue
@@ -164,18 +165,13 @@
         </div>
     </div>
 
-    <!-- SUPABASE & ENGINE SCRIPT -->
+    <!-- CENTRAL SHARED ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+    <script src="gsr-core.js"></script>
 
-        let currentUser = null;
-        let isAdmin = false;
+    <script>
         let allIssues = [];
         let activeIssueData = null;
-        
         let currentViewportIndex = 0;
         let isMobile = window.innerWidth < 768;
 
@@ -191,27 +187,27 @@
         });
 
         async function initMagazine() {
-            try {
-                const { data: { session } } = await db.auth.getSession();
-                if (session) {
-                    currentUser = session.user;
-                    const { data: profile } = await db.from('gsr_profiles').select('is_admin').eq('id', currentUser.id).maybeSingle();
-                    isAdmin = profile?.is_admin || false;
-
-                    if (isAdmin) {
-                        const controls = document.getElementById('headerControls');
-                        if (!document.getElementById('publisherSuiteBtn')) {
-                            controls.innerHTML += `<button id="publisherSuiteBtn" onclick="openEditor()" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow ml-2 cursor-pointer">✏️ Publisher Suite</button>`;
-                        }
-                    }
-                }
-            } catch (e) {}
-
+            try { 
+                await initGlobalAuth(handleAdminMagazineSync); 
+            } catch(e) {}
             await fetchArchive();
         }
 
+        function handleAdminMagazineSync() {
+            if (window.currentProfile?.is_admin) {
+                const controls = document.getElementById('headerControls');
+                if (!document.getElementById('publisherSuiteBtn')) {
+                    controls.innerHTML += `<button id="publisherSuiteBtn" onclick="openEditor()" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow ml-2 cursor-pointer">✏️ Publisher Suite</button>`;
+                }
+            }
+        }
+
+        window.onAuthChangeCallback = function() {
+            handleAdminMagazineSync();
+        };
+
         async function fetchArchive() {
-            const { data, error } = await db.from('gsr_magazines').select('*').order('created_at', { ascending: false });
+            const { data, error } = await window.db.from('gsr_magazines').select('*').order('created_at', { ascending: false });
             if (!error && data) {
                 allIssues = data;
                 populateDropdown();
@@ -224,6 +220,7 @@
             const select = document.getElementById('issueSelect');
             select.innerHTML = '';
             
+            const isAdmin = window.currentProfile?.is_admin || false;
             const visibleIssues = allIssues.filter(iss => iss.status === 'published' || isAdmin);
 
             if (visibleIssues.length === 0) {
@@ -255,7 +252,6 @@
             renderPages();
         }
 
-        // --- VIEWER RENDER ENGINE ---
         function renderPages() {
             if (!activeIssueData || !activeIssueData.pages || activeIssueData.pages.length === 0) {
                 document.getElementById('pageOne').innerHTML = `<div class="text-center text-gray-500 font-mono text-xs">This issue has no pages.</div>`;
@@ -360,9 +356,8 @@
             next.disabled = currentViewportIndex + step >= total;
         }
 
-        // --- EDITOR ENGINE (CMS) ---
         function openEditor() {
-            if (!isAdmin) return;
+            if (!window.currentProfile?.is_admin) return;
             
             const selectedId = document.getElementById('issueSelect').value;
             const existing = allIssues.find(i => i.id === selectedId);
@@ -374,6 +369,7 @@
             }
 
             document.getElementById('edit_issueId').value = editingIssueData.id;
+            document.getElementById('edit_issueId').setAttribute('data-original-id', editingIssueData.id);
             document.getElementById('edit_issueTitle').value = editingIssueData.title;
             document.getElementById('edit_status').value = editingIssueData.status;
 
@@ -408,11 +404,7 @@
         }
 
         window.addNewPage = function() {
-            editingIssueData.pages.push({
-                template: 'normal',
-                image: '',
-                videoUrl: ''
-            });
+            editingIssueData.pages.push({ template: 'normal', image: '', videoUrl: '' });
             editingPageIndex = editingIssueData.pages.length - 1;
             renderEditorSidebar();
             renderPageEditorForm();
@@ -494,9 +486,9 @@
             const file = inputEl.files[0];
             const fileName = `magazine_page_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
             
-            const { error } = await db.storage.from('admin-assets').upload(fileName, file);
+            const { error } = await window.db.storage.from('admin-assets').upload(fileName, file);
             if (!error) {
-                const { data } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                const { data } = window.db.storage.from('admin-assets').getPublicUrl(fileName);
                 updatePageData('image', data.publicUrl);
                 renderPageEditorForm();
             } else {
@@ -515,12 +507,11 @@
                 alert("Issue ID and Title are required."); return;
             }
 
-            // If ID was changed, delete the old ID row first so we don't leave a ghost record
             if (originalId && originalId !== newId) {
-                await db.from('gsr_magazines').delete().eq('id', originalId);
+                await window.db.from('gsr_magazines').delete().eq('id', originalId);
             }
 
-            const { error } = await db.from('gsr_magazines').upsert({
+            const { error } = await window.db.from('gsr_magazines').upsert({
                 id: newId,
                 title: editingIssueData.title,
                 status: editingIssueData.status,
@@ -542,7 +533,7 @@
             if (!idToDelete) return;
 
             if (confirm(`Are you sure you want to delete issue "${idToDelete}"? This cannot be undone.`)) {
-                const { error } = await db.from('gsr_magazines').delete().eq('id', idToDelete);
+                const { error } = await window.db.from('gsr_magazines').delete().eq('id', idToDelete);
                 if (!error) {
                     closeCMSModal();
                     await fetchArchive();
@@ -552,14 +543,6 @@
             }
         }
 
-        // Hook openEditor to store original ID for ID-renaming checks
-        const originalOpenEditor = window.openEditor;
-        window.openEditor = function() {
-            originalOpenEditor();
-            const idInput = document.getElementById('edit_issueId');
-            if (idInput) idInput.setAttribute('data-original-id', idInput.value);
-        }
-
         window.closeCMSModal = function() {
             const overlay = document.getElementById('cmsModalOverlay');
             const modal = document.getElementById('cmsModal');
@@ -567,8 +550,6 @@
             modal.classList.add('scale-95', 'opacity-0');
             setTimeout(() => { overlay.classList.add('hidden'); }, 300);
         }
-
-        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
 
         window.onload = initMagazine;
     </script>
