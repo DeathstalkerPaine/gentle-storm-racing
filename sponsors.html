@@ -35,10 +35,9 @@
             </div>
 
             <!-- Dynamic Auth & Edit Mode Container -->
-            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2">
-                <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 text-[10px] font-black uppercase px-3 py-1.5 rounded transition">Sign In</a>
-            </div>
+            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex items-center gap-2"></div>
         </div>
+        <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 px-4 z-10 w-full"></div>
     </header>
 
     <!-- SUB-NAVBAR -->
@@ -87,10 +86,10 @@
 
                 <!-- Category Buttons -->
                 <div id="filterButtons" class="flex flex-wrap gap-2 text-[10px] font-black uppercase">
-                    <button onclick="filterSponsors('all', this)" class="filter-btn bg-brand-gold text-black px-3 py-1.5 rounded transition shadow font-black">All Partners</button>
-                    <button onclick="filterSponsors('league', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition">Leagues</button>
-                    <button onclick="filterSponsors('track_billboard', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition">Tracks & Billboards</button>
-                    <button onclick="filterSponsors('website', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition">Website & Pages</button>
+                    <button onclick="filterSponsors('all', this)" class="filter-btn bg-brand-gold text-black px-3 py-1.5 rounded transition shadow font-black cursor-pointer">All Partners</button>
+                    <button onclick="filterSponsors('league', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition cursor-pointer">Leagues</button>
+                    <button onclick="filterSponsors('track_billboard', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition cursor-pointer">Tracks & Billboards</button>
+                    <button onclick="filterSponsors('website', this)" class="filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition cursor-pointer">Website & Pages</button>
                 </div>
             </div>
 
@@ -133,19 +132,14 @@
         </div>
     </div>
 
-    <!-- SUPABASE ENGINE & SPONSORS SCRIPT -->
+    <!-- CENTRAL SHARED ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+    <script src="gsr-core.js"></script>
 
-        let currentUser = null;
-        let isAdmin = false;
+    <script>
         let isEditModeActive = false;
         let currentEditingId = null;
 
-        // Default local sponsors database with Image URL and Hide/Unhide toggle (`isHidden`)
         let sponsorsDatabase = [
             {
                 id: 1,
@@ -225,47 +219,45 @@
 
         async function initSponsorsPage() {
             try {
-                const { data: { session } } = await db.auth.getSession();
-                if (session) {
-                    currentUser = session.user;
-                    const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, is_admin').eq('id', currentUser.id).maybeSingle();
-                    isAdmin = profile?.is_admin || false;
-                    const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
+                await initGlobalAuth(handleAdminSponsorsSync);
+            } catch (e) { console.warn("Auth check bypassed", e); }
 
-                    const userNav = document.getElementById('userNav');
-                    if (userNav) {
-                        let adminBtn = isAdmin ? `<button onclick="toggleEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
-                        userNav.innerHTML = `
-                            <div class="flex items-center gap-3">
-                                <div class="text-right hidden sm:block">
-                                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
-                                    <span class="text-[9px] text-brand-gold uppercase font-mono tracking-widest">Logged In</span>
-                                </div>
-                                <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition cursor-pointer">Sign Out</button>
-                                ${adminBtn}
-                            </div>
-                        `;
-                    }
-                }
-
-                // Load custom saved database from Supabase site_content if available
-                const { data: remoteData } = await db.from('site_content').select('content_value').eq('section_id', 'sponsors:database').maybeSingle();
+            try {
+                const { data: remoteData } = await window.db.from('site_content').select('content_value').eq('section_id', 'sponsors:database').maybeSingle();
                 if (remoteData && remoteData.content_value) {
                     sponsorsDatabase = JSON.parse(remoteData.content_value);
                 }
-            } catch (e) { console.warn("Auth or DB sync notice:", e); }
+            } catch (e) { console.warn("Sponsors DB load notice:", e); }
 
             renderSponsors();
         }
 
+        function handleAdminSponsorsSync() {
+            if (window.currentProfile?.is_admin) {
+                const userNav = document.getElementById('userNav');
+                if (userNav && !document.getElementById('editModeBtn')) {
+                    const adminBtn = document.createElement('button');
+                    adminBtn.id = 'editModeBtn';
+                    adminBtn.className = 'bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow-lg cursor-pointer ml-2';
+                    adminBtn.innerText = '✏️ Edit Mode';
+                    adminBtn.onclick = toggleEditMode;
+                    userNav.appendChild(adminBtn);
+                }
+            }
+        }
+
+        window.onAuthChangeCallback = function() {
+            handleAdminSponsorsSync();
+        };
+
         function renderSponsors() {
             const premierGridEl = document.getElementById('premierGrid');
             const sponsorsGridEl = document.getElementById('sponsorsGrid');
+            if (!premierGridEl || !sponsorsGridEl) return;
 
             premierGridEl.innerHTML = '';
             sponsorsGridEl.innerHTML = '';
 
-            // 1. Render Premier League Team Backers (Excluding hidden ones unless edit mode is active)
             const premierSponsors = sponsorsDatabase.filter(s => s.isPremier && (!s.isHidden || isEditModeActive));
             
             if (premierSponsors.length === 0) {
@@ -278,7 +270,6 @@
                 
                 let editBtnHTML = isEditModeActive ? `<button onclick="openCMSModal(${s.id})" class="absolute top-2 right-2 bg-brand-blue text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow-lg z-30 cursor-pointer">✏️ Edit Block</button>` : '';
                 let hiddenBadge = s.isHidden ? `<span class="bg-red-950 text-brand-red px-2 py-0.5 rounded border border-brand-red/30 text-[9px] font-black uppercase mr-1">HIDDEN</span>` : '';
-
                 let imageHTML = s.logoUrl ? `<div class="mb-3 h-16 w-full flex items-center justify-center bg-black/40 rounded border border-brand-border overflow-hidden"><img src="${s.logoUrl}" alt="${s.name}" class="h-full w-auto object-contain p-1"></div>` : '';
 
                 card.innerHTML = `
@@ -300,9 +291,8 @@
                 premierGridEl.appendChild(card);
             });
 
-            // 2. Render Main Directory based on filter
             const filtered = sponsorsDatabase.filter(s => {
-                if (s.isPremier) return false; // Premier shown above
+                if (s.isPremier) return false;
                 if (!s.isHidden || isEditModeActive) {
                     if (activeCategory === 'all') return true;
                     return s.category === activeCategory;
@@ -346,13 +336,13 @@
         function filterSponsors(category, btnElement) {
             activeCategory = category;
             document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.className = "filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition";
+                btn.className = "filter-btn bg-brand-card border border-brand-border hover:border-brand-gold text-gray-300 px-3 py-1.5 rounded transition cursor-pointer";
             });
-            btnElement.className = "filter-btn bg-brand-gold text-black px-3 py-1.5 rounded transition shadow font-black";
+            btnElement.className = "filter-btn bg-brand-gold text-black px-3 py-1.5 rounded transition shadow font-black cursor-pointer";
             renderSponsors();
         }
 
-        window.toggleEditMode = function() {
+        function toggleEditMode() {
             isEditModeActive = !isEditModeActive;
             const btn = document.getElementById('editModeBtn');
             if (btn) {
@@ -363,7 +353,7 @@
             renderSponsors();
         }
 
-        window.openCMSModal = function(id) {
+        function openCMSModal(id) {
             currentEditingId = id;
             const s = sponsorsDatabase.find(item => item.id === id);
             if (!s) return;
@@ -419,7 +409,7 @@
             setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
         }
 
-        window.closeCMSModal = function() {
+        function closeCMSModal() {
             const overlay = document.getElementById('cmsModalOverlay');
             const modal = document.getElementById('cmsModal');
             overlay.classList.add('opacity-0');
@@ -427,7 +417,7 @@
             setTimeout(() => { overlay.classList.add('hidden'); }, 300);
         }
 
-        window.saveCMSModal = async function() {
+        async function saveCMSModal() {
             const s = sponsorsDatabase.find(item => item.id === currentEditingId);
             if (!s) return;
 
@@ -445,27 +435,19 @@
             if (fileInput && fileInput.files.length > 0) {
                 const file = fileInput.files[0];
                 const fileName = `sponsor_logo_${s.id}_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
-                const { error: uploadError } = await db.storage.from('admin-assets').upload(fileName, file);
+                const { error: uploadError } = await window.db.storage.from('admin-assets').upload(fileName, file);
                 if (!uploadError) {
-                    const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                    const { data: publicUrlData } = window.db.storage.from('admin-assets').getPublicUrl(fileName);
                     logoUrl = publicUrlData.publicUrl;
                 }
             }
             if (logoUrl) s.logoUrl = logoUrl;
 
-            // Save to Supabase site_content so changes persist
-            await db.from('site_content').upsert([{ section_id: 'sponsors:database', content_value: JSON.stringify(sponsorsDatabase) }]);
+            await window.db.from('site_content').upsert([{ section_id: 'sponsors:database', content_value: JSON.stringify(sponsorsDatabase) }]);
 
             renderSponsors();
             closeCMSModal();
         }
-
-        async function executeSignOut() {
-            await db.auth.signOut();
-            window.location.reload();
-        }
-
-        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
 
         window.onload = initSponsorsPage;
     </script>
