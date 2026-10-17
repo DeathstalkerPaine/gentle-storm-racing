@@ -39,12 +39,14 @@
                     <option value="oct_2026" selected>October 2026</option>
                     <option value="sep_2026">September 2026</option>
                 </select>
+                <div id="userNav" class="flex items-center gap-2"></div>
                 <a href="multimedia.html" class="bg-brand-bg border border-brand-border hover:border-brand-blue text-white font-bold uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap">
                     Hub →
                 </a>
             </div>
 
         </div>
+        <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 px-4 z-10 w-full"></div>
     </header>
 
     <!-- SUB-NAVBAR -->
@@ -102,7 +104,7 @@
     <!-- FULLSCREEN LIGHTBOX MODAL -->
     <div id="lightboxOverlay" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[120] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4" onclick="closeLightbox()">
         <div class="relative max-w-5xl max-h-[90vh] flex flex-col items-center" onclick="event.stopPropagation()">
-            <button onclick="closeLightbox()" class="absolute -top-10 right-0 text-white hover:text-brand-red text-xs font-black uppercase px-2 py-1">✕ Close</button>
+            <button onclick="closeLightbox()" class="absolute -top-10 right-0 text-white hover:text-brand-red text-xs font-black uppercase px-2 py-1 cursor-pointer">✕ Close</button>
             <img id="lightboxImg" src="" class="max-h-[80vh] w-auto rounded-lg border border-brand-border shadow-2xl object-contain">
             <div class="mt-3 text-center">
                 <span id="lightboxCategory" class="text-[9px] font-black uppercase text-brand-blue tracking-widest block"></span>
@@ -178,43 +180,39 @@
         </div>
     </div>
 
-    <!-- SUPABASE ENGINE -->
+    <!-- CENTRAL SHARED ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="gsr-core.js"></script>
+
     <script>
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        let currentUser = null;
-        let isAdmin = false;
         let isEditModeActive = false;
-
         let allPhotos = [];
         let activeCategory = 'all';
         let activeMonth = 'all';
 
         async function initPhotosPage() {
-            try {
-                const { data: { session } } = await db.auth.getSession();
-                if (session) {
-                    currentUser = session.user;
-                    const { data: profile } = await db.from('gsr_profiles').select('is_admin').eq('id', currentUser.id).maybeSingle();
-                    isAdmin = profile?.is_admin || false;
-
-                    if (isAdmin) {
-                        const controls = document.getElementById('headerControls');
-                        if (!document.getElementById('editModeBtn')) {
-                            controls.innerHTML += `<button id="editModeBtn" onclick="toggleEditMode()" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow ml-2 cursor-pointer">✏️ Edit Mode</button>`;
-                        }
-                    }
-                }
+            try { 
+                await initGlobalAuth(handleAdminPhotosSync); 
             } catch (e) {}
 
             await fetchPhotos();
         }
 
+        function handleAdminPhotosSync() {
+            if (window.currentProfile?.is_admin) {
+                const controls = document.getElementById('headerControls');
+                if (!document.getElementById('editModeBtn')) {
+                    controls.innerHTML += `<button id="editModeBtn" onclick="toggleEditMode()" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow ml-2 cursor-pointer">✏️ Edit Mode</button>`;
+                }
+            }
+        }
+
+        window.onAuthChangeCallback = function() {
+            handleAdminPhotosSync();
+        };
+
         async function fetchPhotos() {
-            const { data, error } = await db.from('gsr_photos').select('*').order('created_at', { ascending: false });
+            const { data, error } = await window.db.from('gsr_photos').select('*').order('created_at', { ascending: false });
             if (!error && data) {
                 allPhotos = data;
             } else {
@@ -281,7 +279,6 @@
             renderGallery();
         }
 
-        // --- FULLSCREEN LIGHTBOX ---
         window.openLightbox = function(id) {
             const photo = allPhotos.find(p => p.id === id);
             if (!photo) return;
@@ -302,13 +299,14 @@
             setTimeout(() => { overlay.classList.add('hidden'); }, 300);
         }
 
-        // --- EDIT MODE & CMS ---
         window.toggleEditMode = function() {
             isEditModeActive = !isEditModeActive;
             const btn = document.getElementById('editModeBtn');
-            btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
-            btn.classList.toggle('bg-brand-blue', !isEditModeActive);
-            btn.classList.toggle('bg-brand-red', isEditModeActive);
+            if (btn) {
+                btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
+                btn.classList.toggle('bg-brand-blue', !isEditModeActive);
+                btn.classList.toggle('bg-brand-red', isEditModeActive);
+            }
 
             document.getElementById('addPhotoBtn').classList.toggle('hidden', !isEditModeActive);
             renderGallery();
@@ -356,9 +354,9 @@
             const file = inputEl.files[0];
             const fileName = `gallery_photo_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
 
-            const { error } = await db.storage.from('admin-assets').upload(fileName, file);
+            const { error } = await window.db.storage.from('admin-assets').upload(fileName, file);
             if (!error) {
-                const { data } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                const { data } = window.db.storage.from('admin-assets').getPublicUrl(fileName);
                 document.getElementById('edit_imgUrl').value = data.publicUrl;
             } else {
                 alert("Photo upload failed.");
@@ -379,7 +377,7 @@
                 return;
             }
 
-            const { error } = await db.from('gsr_photos').upsert({
+            const { error } = await window.db.from('gsr_photos').upsert({
                 id,
                 title,
                 category,
@@ -402,7 +400,7 @@
             if (!id) return;
 
             if (confirm("Permanently delete this photo from the gallery?")) {
-                const { error } = await db.from('gsr_photos').delete().eq('id', id);
+                const { error } = await window.db.from('gsr_photos').delete().eq('id', id);
                 if (!error) {
                     await fetchPhotos();
                     closeCMSModal();
@@ -419,8 +417,6 @@
             modal.classList.add('scale-95', 'opacity-0');
             setTimeout(() => { overlay.classList.add('hidden'); }, 300);
         }
-
-        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
 
         window.onload = initPhotosPage;
     </script>
