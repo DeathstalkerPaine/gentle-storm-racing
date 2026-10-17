@@ -39,11 +39,13 @@
                     <option value="oct_2026" selected>October 2026</option>
                     <option value="sep_2026">September 2026</option>
                 </select>
+                <div id="userNav" class="flex items-center gap-2"></div>
                 <a href="multimedia.html" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white font-bold uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap">
                     Hub →
                 </a>
             </div>
         </div>
+        <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 px-4 z-10 w-full"></div>
     </header>
 
     <!-- SUB-NAVBAR -->
@@ -123,7 +125,7 @@
         <div id="playerModalBox" class="bg-brand-card border border-brand-red shadow-[0_0_40px_rgba(255,42,42,0.3)] rounded-xl w-full max-w-4xl transform scale-95 opacity-0 transition-all duration-300 overflow-hidden flex flex-col">
             <div class="bg-brand-bg border-b border-brand-border p-3 flex justify-between items-center">
                 <span id="modalVideoTitle" class="text-xs font-black uppercase text-white truncate max-w-lg">Broadcast Viewer</span>
-                <button onclick="closePlayerModal()" class="text-gray-400 hover:text-brand-red p-1 text-sm font-bold">✖ Close</button>
+                <button onclick="closePlayerModal()" class="text-gray-400 hover:text-brand-red p-1 text-sm font-bold cursor-pointer">✖ Close</button>
             </div>
             <div class="aspect-video bg-black w-full" id="modalVideoContainer"></div>
         </div>
@@ -209,44 +211,40 @@
         </div>
     </div>
 
-    <!-- SUPABASE ENGINE -->
+    <!-- CENTRAL SHARED ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="gsr-core.js"></script>
+
     <script>
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        let currentUser = null;
-        let isAdmin = false;
         let isEditModeActive = false;
-
         let allVideos = [];
         let featuredVideo = null;
         let activeCategory = 'all';
         let activeMonth = 'all';
 
         async function initVideosPage() {
-            try {
-                const { data: { session } } = await db.auth.getSession();
-                if (session) {
-                    currentUser = session.user;
-                    const { data: profile } = await db.from('gsr_profiles').select('is_admin').eq('id', currentUser.id).maybeSingle();
-                    isAdmin = profile?.is_admin || false;
-
-                    if (isAdmin) {
-                        const controls = document.getElementById('headerControls');
-                        if (!document.getElementById('editModeBtn')) {
-                            controls.innerHTML += `<button id="editModeBtn" onclick="toggleEditMode()" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow ml-2 cursor-pointer">✏️ Edit Mode</button>`;
-                        }
-                    }
-                }
+            try { 
+                await initGlobalAuth(handleAdminVideosSync); 
             } catch (e) {}
 
             await fetchVideos();
         }
 
+        function handleAdminVideosSync() {
+            if (window.currentProfile?.is_admin) {
+                const controls = document.getElementById('headerControls');
+                if (!document.getElementById('editModeBtn')) {
+                    controls.innerHTML += `<button id="editModeBtn" onclick="toggleEditMode()" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white font-black uppercase text-[10px] px-3 py-2 rounded transition whitespace-nowrap shadow ml-2 cursor-pointer">✏️ Edit Mode</button>`;
+                }
+            }
+        }
+
+        window.onAuthChangeCallback = function() {
+            handleAdminVideosSync();
+        };
+
         async function fetchVideos() {
-            const { data, error } = await db.from('gsr_videos').select('*').order('created_at', { ascending: false });
+            const { data, error } = await window.db.from('gsr_videos').select('*').order('created_at', { ascending: false });
             if (!error && data) {
                 allVideos = data;
             } else {
@@ -257,7 +255,6 @@
         }
 
         function renderFeatured() {
-            // Find explicitly featured or take latest
             featuredVideo = allVideos.find(v => v.is_featured) || allVideos[0] || null;
 
             const editTriggerCont = document.getElementById('featuredEditTriggerContainer');
@@ -387,7 +384,6 @@
             return url;
         }
 
-        // --- THEATER MODAL VIEWER ---
         window.openPlayerModal = function(title, url) {
             const embed = convertToEmbed(url);
             if (!embed) {
@@ -412,13 +408,14 @@
             setTimeout(() => { overlay.classList.add('hidden'); }, 300);
         }
 
-        // --- EDIT MODE & CMS ---
         window.toggleEditMode = function() {
             isEditModeActive = !isEditModeActive;
             const btn = document.getElementById('editModeBtn');
-            btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
-            btn.classList.toggle('bg-brand-blue', !isEditModeActive);
-            btn.classList.toggle('bg-brand-red', isEditModeActive);
+            if (btn) {
+                btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
+                btn.classList.toggle('bg-brand-blue', !isEditModeActive);
+                btn.classList.toggle('bg-brand-red', isEditModeActive);
+            }
 
             document.getElementById('addVideoBtn').classList.toggle('hidden', !isEditModeActive);
             renderFeatured();
@@ -473,9 +470,9 @@
             const file = inputEl.files[0];
             const fileName = `video_thumb_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
 
-            const { error } = await db.storage.from('admin-assets').upload(fileName, file);
+            const { error } = await window.db.storage.from('admin-assets').upload(fileName, file);
             if (!error) {
-                const { data } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                const { data } = window.db.storage.from('admin-assets').getPublicUrl(fileName);
                 document.getElementById('edit_thumb').value = data.publicUrl;
             } else {
                 alert("Thumbnail upload failed.");
@@ -499,12 +496,11 @@
                 return;
             }
 
-            // If this video is marked as featured, remove featured status from previous featured video
             if (is_featured) {
-                await db.from('gsr_videos').update({ is_featured: false }).eq('is_featured', true);
+                await window.db.from('gsr_videos').update({ is_featured: false }).eq('is_featured', true);
             }
 
-            const { error } = await db.from('gsr_videos').upsert({
+            const { error } = await window.db.from('gsr_videos').upsert({
                 id,
                 title,
                 category,
@@ -530,7 +526,7 @@
             if (!id) return;
 
             if (confirm("Permanently delete this video archive entry?")) {
-                const { error } = await db.from('gsr_videos').delete().eq('id', id);
+                const { error } = await window.db.from('gsr_videos').delete().eq('id', id);
                 if (!error) {
                     await fetchVideos();
                     closeCMSModal();
@@ -547,8 +543,6 @@
             modal.classList.add('scale-95', 'opacity-0');
             setTimeout(() => { overlay.classList.add('hidden'); }, 300);
         }
-
-        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
 
         window.onload = initVideosPage;
     </script>
