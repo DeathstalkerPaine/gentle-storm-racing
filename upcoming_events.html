@@ -41,9 +41,7 @@
                 </select>
 
                 <!-- Dynamic Auth & Admin Mode Buttons -->
-                <div id="userNav" class="flex items-center gap-2">
-                    <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 font-black uppercase text-[9px] px-3 py-2 rounded transition">Sign In</a>
-                </div>
+                <div id="userNav" class="flex items-center gap-2"></div>
             </div>
         </div>
         <!-- Mobile Auth Container -->
@@ -202,42 +200,41 @@
         &copy; 2026 Gentle Storm Racing. Built for Second Life.
     </footer>
 
-    <!-- SUPABASE CALENDAR ENGINE & ADMIN EDITING -->
+    <!-- CENTRAL SHARED ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+    <script src="gsr-core.js"></script>
 
+    <script>
         let eventsDatabase = {};
         let rawEventsList = [];
         let currentYearMonth = "2026-10";
-        let currentUser = null;
         let isEditModeActive = false;
 
         async function initCalendarPage() {
             try {
-                const { data: { session } } = await db.auth.getSession();
-                const userNav = document.getElementById('userNav');
-
-                if (session) {
-                    currentUser = session.user;
-                    const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, is_admin').eq('id', currentUser.id).maybeSingle();
-                    const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
-
-                    if (userNav) {
-                        let adminBtnHTML = profile?.is_admin ? `<button onclick="toggleAdminEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-[9px] uppercase font-black px-3 py-2 rounded transition shadow-lg cursor-pointer">✏️ Admin Edit</button>` : '';
-                        userNav.innerHTML = `
-                            <span class="text-xs font-black text-white uppercase hidden sm:inline">${displayName}</span>
-                            <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] uppercase font-black px-3 py-2 rounded transition shadow cursor-pointer">Sign Out</button>
-                            ${adminBtnHTML}
-                        `;
-                    }
-                }
+                await initGlobalAuth(handleAdminCalendarSync);
             } catch (e) { console.warn("Auth check bypassed", e); }
 
             await fetchEventsAndCalendar();
         }
+
+        function handleAdminCalendarSync() {
+            if (window.currentProfile?.is_admin) {
+                const userNav = document.getElementById('userNav');
+                if (userNav && !document.getElementById('editModeBtn')) {
+                    const adminBtn = document.createElement('button');
+                    adminBtn.id = 'editModeBtn';
+                    adminBtn.className = 'bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-[9px] uppercase font-black px-3 py-2 rounded transition shadow-lg cursor-pointer ml-2';
+                    adminBtn.innerText = '✏️ Admin Edit';
+                    adminBtn.onclick = toggleAdminEditMode;
+                    userNav.appendChild(adminBtn);
+                }
+            }
+        }
+
+        window.onAuthChangeCallback = function() {
+            handleAdminCalendarSync();
+        };
 
         function toggleAdminEditMode() {
             isEditModeActive = !isEditModeActive;
@@ -251,7 +248,7 @@
         }
 
         async function fetchEventsAndCalendar() {
-            const { data, error } = await db.from('gsr_events').select('*');
+            const { data } = await window.db.from('gsr_events').select('*');
             
             eventsDatabase = {};
             rawEventsList = data || [];
@@ -417,7 +414,6 @@
             modal.classList.remove('flex');
         }
 
-        // --- ADMIN EDITOR MODAL CONTROLS ---
         function openEventEditorModalForDate(dateKey) {
             document.getElementById('editorModalTitle').innerText = `➕ Add Event on ${dateKey}`;
             document.getElementById('edit_event_id').value = "";
@@ -474,14 +470,13 @@
             
             let media_url = document.getElementById('edit_media_url_input').value || document.getElementById('edit_media_url_existing').value;
 
-            // Handle file upload if present
             const fileInput = document.getElementById('edit_media_file');
             if (fileInput && fileInput.files.length > 0) {
                 const file = fileInput.files[0];
                 const fileName = `event_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
-                const { error: uploadErr } = await db.storage.from('admin-assets').upload(fileName, file);
+                const { error: uploadErr } = await window.db.storage.from('admin-assets').upload(fileName, file);
                 if (!uploadErr) {
-                    const { data: pubData } = db.storage.from('admin-assets').getPublicUrl(fileName);
+                    const { data: pubData } = window.db.storage.from('admin-assets').getPublicUrl(fileName);
                     media_url = pubData.publicUrl;
                 }
             }
@@ -498,7 +493,7 @@
 
             if (id) payload.id = id;
 
-            const { error } = await db.from('gsr_events').upsert([payload]);
+            const { error } = await window.db.from('gsr_events').upsert([payload]);
 
             btn.innerText = "Save to Database";
             btn.disabled = false;
@@ -514,7 +509,7 @@
         async function deleteEventFromDatabase(id) {
             if (!id) return;
             if (confirm("Are you sure you want to delete this event from the live schedule?")) {
-                const { error } = await db.from('gsr_events').delete().eq('id', id);
+                const { error } = await window.db.from('gsr_events').delete().eq('id', id);
                 if (error) {
                     alert("Error deleting event: " + error.message);
                 } else {
@@ -522,15 +517,6 @@
                     await fetchEventsAndCalendar();
                 }
             }
-        }
-
-        async function executeSignOut() {
-            await db.auth.signOut();
-            window.location.reload(); 
-        }
-
-        function escapeHtml(str) {
-            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
         }
 
         window.onload = initCalendarPage;
