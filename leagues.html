@@ -65,7 +65,9 @@
             <a href="racetracks.html" class="text-gray-300 hover:text-brand-gold transition">Racetracks</a>
             <a href="racers.html" class="text-gray-300 hover:text-brand-gold transition">Racers Hub</a>
             <a href="teams.html" class="text-gray-300 hover:text-brand-gold transition">Teams Hub</a>
-            <a href="leagues.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">Leagues</a>
+            <a href="leagues.html" class="text-brand-gold transition underline decoration-2 underline-offset-4">Leagues Hub</a>
+            <a href="pro_league.html" class="text-brand-red hover:text-red-400 transition font-black">Pro League</a>
+            <a href="amateur_league.html" class="text-brand-gold hover:text-yellow-400 transition font-black">Amateur League</a>
             <a href="leaderboards.html" class="text-gray-300 hover:text-brand-gold transition">Leaderboards</a>
             <a href="upcoming_events.html" class="text-gray-300 hover:text-brand-gold transition">Upcoming Events</a>
             <a href="multimedia.html" class="text-gray-300 hover:text-brand-gold transition">Multi Media</a>
@@ -79,38 +81,69 @@
         <!-- ROW 1: PRO LEAGUE GRID -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Top 5 Pro Racers -->
-            <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col relative group transition" data-cms-id="leagues:pro_racers">
-                <h2 data-cms-field="title" class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center">Top 5 Pro League Racers</h2>
-                <div id="proRacersBox" class="space-y-3 flex-grow">
-                    <script>
-                        for(let i=0; i<5; i++) {
-                            document.write(`<div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border/50 rounded opacity-40"><span class="text-gray-600 font-black italic text-lg w-4 text-center">${i+1}</span><div class="flex-grow min-w-0"><p class="text-gray-500 text-[11px] font-bold uppercase">Pending Driver</p><p class="text-[9px] text-gray-600 uppercase">UNASSIGNED</p></div><span class="text-[10px] font-mono text-gray-600">---</span></div>`);
-                        }
-                    </script>
+            <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col justify-between relative group transition" data-cms-id="leagues:pro_racers">
+                <div>
+                    <a href="pro_league.html" class="block group-hover:text-red-400 transition">
+                        <h2 data-cms-field="title" class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center cursor-pointer flex items-center justify-center gap-1.5">
+                            Top 5 Pro League Racers ↗
+                        </h2>
+                    </a>
+                    <div id="proRacersBox" class="space-y-3 flex-grow">
+                        <script>
+                            for(let i=0; i<5; i++) {
+                                document.write(`<div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border/50 rounded opacity-40"><span class="text-gray-600 font-black italic text-lg w-4 text-center">${i+1}</span><div class="flex-grow min-w-0"><p class="text-gray-500 text-[11px] font-bold uppercase">Pending Driver</p><p class="text-[9px] text-gray-600 uppercase">UNASSIGNED</p></div><span class="text-[10px] font-mono text-gray-600">---</span></div>`);
+                            }
+                        </script>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border text-center">
+                    <a href="pro_league.html" class="text-[10px] font-bold uppercase text-brand-red hover:underline">
+                        Open Pro League Page →
+                    </a>
                 </div>
             </div>
 
             <!-- Top 5 Pro Teams -->
-            <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col relative group transition" data-cms-id="leagues:pro_teams">
-                <h2 data-cms-field="title" class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center">Top 5 Pro League Teams</h2>
-                <div id="proTeamsBox" class="space-y-3 flex-grow">
-                    <script>
-                        for(let i=0; i<5; i++) {
-                            document.write(`<div class="flex justify-between items-center bg-brand-bg px-3 py-2.5 border border-brand-border/50 rounded opacity-40"><div class="flex items-center gap-2 min-w-0"><span class="text-gray-600 font-black italic text-sm w-4">${i+1}.</span><span class="text-gray-500 text-xs font-bold uppercase">Pending Team</span></div><span class="text-[10px] font-mono text-gray-600">---</span></div>`);
-                        }
-                    </script>
+            <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col justify-between relative group transition" data-cms-id="leagues:pro_teams">
+                <div>
+                    <a href="pro_league.html" class="block group-hover:text-red-400 transition">
+                        <h2 data-cms-field="title" class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center cursor-pointer flex items-center justify-center gap-1.5">
+                            Top 5 Pro League Teams ↗
+                        </h2>
+                    </a>
+                    <div id="proTeamsBox" class="space-y-3 flex-grow">
+                        <script>
+                            for(let i=0; i<5; i++) {
+                                document.write(`<div class="flex justify-between items-center bg-brand-bg px-3 py-2.5 border border-brand-border/50 rounded opacity-40"><div class="flex items-center gap-2 min-w-0"><span class="text-gray-600 font-black italic text-sm w-4">${i+1}.</span><span class="text-gray-500 text-xs font-bold uppercase">Pending Team</span></div><span class="text-[10px] font-mono text-gray-600">---</span></div>`);
+                            }
+                        </script>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border text-center">
+                    <a href="pro_league.html" class="text-[10px] font-bold uppercase text-brand-red hover:underline">
+                        Open Pro Standings Table →
+                    </a>
                 </div>
             </div>
 
             <!-- Pro Team of the Week -->
             <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col gold-border-glow relative group transition" data-cms-id="leagues:pro_week">
-                <h2 data-cms-field="title" class="text-sm font-black uppercase text-brand-gold border-b border-brand-border pb-3 mb-4 text-center">Pro League Team of the Week</h2>
-                <div class="flex-grow flex flex-col items-center justify-center bg-brand-bg border border-brand-border rounded-xl p-4 text-center space-y-3">
+                <a href="pro_league.html" class="block group-hover:text-brand-gold transition">
+                    <h2 data-cms-field="title" class="text-sm font-black uppercase text-brand-gold border-b border-brand-border pb-3 mb-4 text-center cursor-pointer">
+                        Pro League Team of the Week ↗
+                    </h2>
+                </a>
+                <div class="flex-grow flex flex-col items-center justify-center bg-brand-bg border border-brand-border rounded-xl p-4 text-center space-y-3 cursor-pointer" onclick="window.location='pro_league.html'">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-br from-red-900 to-black border-2 border-brand-red flex items-center justify-center shadow-lg">
                         <span id="proWeekInitials" class="text-white font-black text-xl">--</span>
                     </div>
                     <h3 id="proWeekName" class="text-lg font-black uppercase text-white">Pending</h3>
                     <p id="proWeekPts" class="text-[10px] text-brand-gold font-mono font-bold uppercase tracking-wider">-- PTS</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border text-center">
+                    <a href="pro_league.html" class="text-[10px] font-bold uppercase text-brand-gold hover:underline">
+                        View Team Telemetry →
+                    </a>
                 </div>
             </div>
         </section>
@@ -128,38 +161,69 @@
         <!-- ROW 3: AMATEUR LEAGUE GRID -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Top 5 Amateur Racers -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col relative group transition" data-cms-id="leagues:amateur_racers">
-                <h2 data-cms-field="title" class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Top 5 Amateur League Racers</h2>
-                <div id="amateurRacersBox" class="space-y-3 flex-grow">
-                    <script>
-                        for(let i=0; i<5; i++) {
-                            document.write(`<div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border/50 rounded opacity-40"><span class="text-gray-600 font-black italic text-lg w-4 text-center">${i+1}</span><div class="flex-grow min-w-0"><p class="text-gray-500 text-[11px] font-bold uppercase">Pending Driver</p><p class="text-[9px] text-gray-600 uppercase">UNASSIGNED</p></div><span class="text-[10px] font-mono text-gray-600">---</span></div>`);
-                        }
-                    </script>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col justify-between relative group transition" data-cms-id="leagues:amateur_racers">
+                <div>
+                    <a href="amateur_league.html" class="block group-hover:text-yellow-400 transition">
+                        <h2 data-cms-field="title" class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center cursor-pointer flex items-center justify-center gap-1.5">
+                            Top 5 Amateur League Racers ↗
+                        </h2>
+                    </a>
+                    <div id="amateurRacersBox" class="space-y-3 flex-grow">
+                        <script>
+                            for(let i=0; i<5; i++) {
+                                document.write(`<div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border/50 rounded opacity-40"><span class="text-gray-600 font-black italic text-lg w-4 text-center">${i+1}</span><div class="flex-grow min-w-0"><p class="text-gray-500 text-[11px] font-bold uppercase">Pending Driver</p><p class="text-[9px] text-gray-600 uppercase">UNASSIGNED</p></div><span class="text-[10px] font-mono text-gray-600">---</span></div>`);
+                            }
+                        </script>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border text-center">
+                    <a href="amateur_league.html" class="text-[10px] font-bold uppercase text-brand-gold hover:underline">
+                        Open Amateur League Page →
+                    </a>
                 </div>
             </div>
 
             <!-- Top 5 Amateur Teams -->
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col relative group transition" data-cms-id="leagues:amateur_teams">
-                <h2 data-cms-field="title" class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Top 5 Amateur League Teams</h2>
-                <div id="amateurTeamsBox" class="space-y-3 flex-grow">
-                    <script>
-                        for(let i=0; i<5; i++) {
-                            document.write(`<div class="flex justify-between items-center bg-brand-bg px-3 py-2.5 border border-brand-border/50 rounded opacity-40"><div class="flex items-center gap-2 min-w-0"><span class="text-gray-600 font-black italic text-sm w-4">${i+1}.</span><span class="text-gray-500 text-xs font-bold uppercase">Pending Team</span></div><span class="text-[10px] font-mono text-gray-600">---</span></div>`);
-                        }
-                    </script>
+            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col justify-between relative group transition" data-cms-id="leagues:amateur_teams">
+                <div>
+                    <a href="amateur_league.html" class="block group-hover:text-yellow-400 transition">
+                        <h2 data-cms-field="title" class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center cursor-pointer flex items-center justify-center gap-1.5">
+                            Top 5 Amateur League Teams ↗
+                        </h2>
+                    </a>
+                    <div id="amateurTeamsBox" class="space-y-3 flex-grow">
+                        <script>
+                            for(let i=0; i<5; i++) {
+                                document.write(`<div class="flex justify-between items-center bg-brand-bg px-3 py-2.5 border border-brand-border/50 rounded opacity-40"><div class="flex items-center gap-2 min-w-0"><span class="text-gray-600 font-black italic text-sm w-4">${i+1}.</span><span class="text-gray-500 text-xs font-bold uppercase">Pending Team</span></div><span class="text-[10px] font-mono text-gray-600">---</span></div>`);
+                            }
+                        </script>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border text-center">
+                    <a href="amateur_league.html" class="text-[10px] font-bold uppercase text-brand-gold hover:underline">
+                        Open Amateur Standings Table →
+                    </a>
                 </div>
             </div>
 
             <!-- Amateur Team of the Week -->
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col relative group transition" data-cms-id="leagues:amateur_week">
-                <h2 data-cms-field="title" class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Amateur League Team of the Week</h2>
-                <div class="flex-grow flex flex-col items-center justify-center bg-brand-bg border border-brand-border rounded-xl p-4 text-center space-y-3">
+                <a href="amateur_league.html" class="block group-hover:text-brand-gold transition">
+                    <h2 data-cms-field="title" class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center cursor-pointer">
+                        Amateur League Team of the Week ↗
+                    </h2>
+                </a>
+                <div class="flex-grow flex flex-col items-center justify-center bg-brand-bg border border-brand-border rounded-xl p-4 text-center space-y-3 cursor-pointer" onclick="window.location='amateur_league.html'">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-br from-gray-700 to-black border-2 border-gray-500 flex items-center justify-center shadow-lg">
                         <span id="amateurWeekInitials" class="text-white font-black text-xl">--</span>
                     </div>
                     <h3 id="amateurWeekName" class="text-lg font-black uppercase text-white">Pending</h3>
                     <p id="amateurWeekPts" class="text-[10px] text-gray-400 font-mono font-bold uppercase tracking-wider">-- PTS</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-brand-border text-center">
+                    <a href="amateur_league.html" class="text-[10px] font-bold uppercase text-gray-300 hover:underline">
+                        View Team Telemetry →
+                    </a>
                 </div>
             </div>
         </section>
@@ -188,13 +252,13 @@
                 <span data-cms-field="badge" class="text-[9px] font-black uppercase text-brand-red bg-red-950 px-2 py-0.5 rounded border border-brand-red/30 inline-block mb-3 self-start">Magazine Feature</span>
                 <h2 data-cms-field="title" class="text-sm font-black uppercase text-white mb-2 leading-tight">Pro League Team Highlight of the Month</h2>
                 <p data-cms-field="desc" class="text-[10px] text-gray-400 flex-grow">An exclusive breakdown of Pro strategies and dominant vehicle setups.</p>
-                <a href="multimedia.html" class="mt-4 text-[10px] uppercase font-bold text-brand-red hover:underline">Read Article →</a>
+                <a href="pro_league.html" class="mt-4 text-[10px] uppercase font-bold text-brand-red hover:underline">Explore Pro League →</a>
             </div>
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col shadow-xl relative group transition" data-cms-id="leagues:amateur_highlight">
                 <span data-cms-field="badge" class="text-[9px] font-black uppercase text-gray-300 bg-gray-800 px-2 py-0.5 rounded border border-gray-600 inline-block mb-3 self-start">Magazine Feature</span>
                 <h2 data-cms-field="title" class="text-sm font-black uppercase text-white mb-2 leading-tight">Amateur League Team Highlight of the Month</h2>
                 <p data-cms-field="desc" class="text-[10px] text-gray-400 flex-grow">Following the rising stars breaking out of the Amateur circuit.</p>
-                <a href="multimedia.html" class="mt-4 text-[10px] uppercase font-bold text-gray-300 hover:underline">Read Article →</a>
+                <a href="amateur_league.html" class="mt-4 text-[10px] uppercase font-bold text-gray-300 hover:underline">Explore Amateur League →</a>
             </div>
         </section>
 
@@ -255,7 +319,6 @@
                 allRacersCache = racers || [];
                 allTeamsCache = teams || [];
 
-                // Calculate Team Points by joining driver points
                 const teamPointsMap = {};
                 allTeamsCache.forEach(t => {
                     if (t && t.name) {
@@ -289,7 +352,7 @@
                     .map(t => ({ name: t.name, pts: Number(teamPointsMap[t.name] || t.points || 0) }))
                     .sort((a,b) => b.pts - a.pts);
 
-                // Sort Racers by points, strictly filtered by category
+                // Filter racers by division
                 const proRacers = allRacersCache
                     .filter(r => (r.league_class || r.class || 'pro').toLowerCase().includes('pro'))
                     .sort((a,b) => Number(b.rating_points || 0) - Number(a.rating_points || 0));
@@ -300,16 +363,16 @@
 
                 // Render Top 5 Boxes
                 const proRacersBox = document.getElementById('proRacersBox');
-                if (proRacersBox) renderTop5RacerSlots(proRacersBox, proRacers.slice(0, 5), 'text-brand-gold');
+                if (proRacersBox) renderTop5RacerSlots(proRacersBox, proRacers.slice(0, 5), 'text-brand-gold', 'pro');
 
                 const proTeamsBox = document.getElementById('proTeamsBox');
-                if (proTeamsBox) renderTop5TeamSlots(proTeamsBox, proTeams.slice(0, 5), 'text-brand-gold');
+                if (proTeamsBox) renderTop5TeamSlots(proTeamsBox, proTeams.slice(0, 5), 'text-brand-gold', 'pro');
 
                 const amateurRacersBox = document.getElementById('amateurRacersBox');
-                if (amateurRacersBox) renderTop5RacerSlots(amateurRacersBox, amateurRacers.slice(0, 5), 'text-gray-300');
+                if (amateurRacersBox) renderTop5RacerSlots(amateurRacersBox, amateurRacers.slice(0, 5), 'text-gray-300', 'amateur');
 
                 const amateurTeamsBox = document.getElementById('amateurTeamsBox');
-                if (amateurTeamsBox) renderTop5TeamSlots(amateurTeamsBox, amateurTeams.slice(0, 5), 'text-gray-300');
+                if (amateurTeamsBox) renderTop5TeamSlots(amateurTeamsBox, amateurTeams.slice(0, 5), 'text-gray-300', 'amateur');
 
                 // Teams of the Week
                 if (proTeams.length > 0) {
@@ -349,7 +412,7 @@
             }
         }
 
-        function renderTop5RacerSlots(container, items, highlightColorClass) {
+        function renderTop5RacerSlots(container, items, highlightColorClass, leagueType) {
             container.innerHTML = '';
             for (let i = 0; i < 5; i++) {
                 const r = items[i];
@@ -374,8 +437,9 @@
                             <span class="text-[10px] font-mono text-brand-gold font-bold shrink-0">${pts.toLocaleString()} PTS</span>
                         </div>`;
                 } else {
+                    const fallbackLink = leagueType === 'pro' ? 'pro_league.html' : 'amateur_league.html';
                     container.innerHTML += `
-                        <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border/50 rounded opacity-40">
+                        <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border/50 rounded opacity-40 cursor-pointer hover:opacity-60 transition" onclick="window.location='${fallbackLink}'">
                             <span class="text-gray-600 font-black italic text-lg w-4 text-center">${i + 1}</span>
                             <div class="flex-grow min-w-0">
                                 <p class="text-gray-500 text-[11px] font-bold uppercase">Pending Driver</p>
@@ -387,7 +451,7 @@
             }
         }
 
-        function renderTop5TeamSlots(container, items, highlightColorClass) {
+        function renderTop5TeamSlots(container, items, highlightColorClass, leagueType) {
             container.innerHTML = '';
             for (let i = 0; i < 5; i++) {
                 const t = items[i];
@@ -402,8 +466,9 @@
                             <span class="text-[10px] font-mono text-brand-gold font-bold shrink-0">${pts.toLocaleString()} PTS</span>
                         </div>`;
                 } else {
+                    const fallbackLink = leagueType === 'pro' ? 'pro_league.html' : 'amateur_league.html';
                     container.innerHTML += `
-                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2.5 border border-brand-border/50 rounded opacity-40">
+                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2.5 border border-brand-border/50 rounded opacity-40 cursor-pointer hover:opacity-60 transition" onclick="window.location='${fallbackLink}'">
                             <div class="flex items-center gap-2 min-w-0">
                                 <span class="text-gray-600 font-black italic text-sm w-4">${i + 1}.</span>
                                 <span class="text-gray-500 text-xs font-bold uppercase">Pending Team</span>
