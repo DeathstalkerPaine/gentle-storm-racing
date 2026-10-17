@@ -13,6 +13,7 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        [data-cms-id] { opacity: 1; }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
@@ -53,8 +54,8 @@
     <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 space-y-10">
 
         <!-- SECTION 1: TEAM PRO LEAGUE STANDINGS -->
-        <section class="bg-brand-card border border-brand-red rounded-xl p-8 shadow-xl red-border-glow">
-            <h2 class="text-2xl font-black uppercase text-white tracking-widest text-center border-b border-brand-border pb-4 mb-6">Team Pro League Standings</h2>
+        <section data-cms-id="pro:standings" class="bg-brand-card border border-brand-red rounded-xl p-8 shadow-xl red-border-glow relative group transition">
+            <h2 data-cms-field="title" class="text-2xl font-black uppercase text-white tracking-widest text-center border-b border-brand-border pb-4 mb-6">Team Pro League Standings</h2>
             <div class="bg-brand-bg border border-brand-border rounded-xl overflow-hidden">
                 <table class="w-full text-left text-sm">
                     <thead>
@@ -75,18 +76,18 @@
         </section>
 
         <!-- SECTION 2: UPCOMING LEAGUE EVENTS -->
-        <section class="bg-gradient-to-r from-red-950 via-brand-card to-brand-card border border-brand-red/50 rounded-xl p-8 text-center shadow-xl">
-            <h2 id="upcomingEventTitle" class="text-2xl font-black uppercase text-white tracking-widest mb-2">Upcoming League Events</h2>
-            <p id="upcomingEventDesc" class="text-brand-red text-xs font-bold uppercase tracking-widest">Querying official calendar schedule...</p>
+        <section data-cms-id="pro:events_banner" class="bg-gradient-to-r from-red-950 via-brand-card to-brand-card border border-brand-red/50 rounded-xl p-8 text-center shadow-xl relative group transition">
+            <h2 id="upcomingEventTitle" data-cms-field="title" class="text-2xl font-black uppercase text-white tracking-widest mb-2">Upcoming League Events</h2>
+            <p id="upcomingEventDesc" data-cms-field="desc" class="text-brand-red text-xs font-bold uppercase tracking-widest">Querying official calendar schedule...</p>
         </section>
 
         <!-- SECTION 3: SPONSORS -->
-        <section class="bg-brand-card border border-brand-border rounded-xl p-8 text-center shadow-xl">
-            <h2 class="text-2xl font-black uppercase text-white tracking-widest mb-4">Sponsors</h2>
-            <div class="flex flex-wrap justify-center items-center gap-12 opacity-60">
-                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Second Life Motors ]</span>
-                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ Linden Fuel Co. ]</span>
-                <span class="text-sm font-black text-gray-400 uppercase tracking-widest">[ StormTech HUDs ]</span>
+        <section data-cms-id="pro:sponsors" class="bg-brand-card border border-brand-border rounded-xl p-8 text-center shadow-xl relative group transition">
+            <h2 data-cms-field="title" class="text-2xl font-black uppercase text-white tracking-widest mb-4">Sponsors</h2>
+            <div id="proSponsorsContainer" class="flex flex-wrap justify-center items-center gap-12 opacity-60">
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest font-mono">[ Second Life Motors ]</span>
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest font-mono">[ Linden Fuel Co. ]</span>
+                <span class="text-sm font-black text-gray-400 uppercase tracking-widest font-mono">[ StormTech HUDs ]</span>
             </div>
         </section>
 
@@ -121,21 +122,21 @@
 
         <!-- SECTION 5: 3-COLUMN BOTTOM GRID -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
-                <h3 class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center">Top 5 Team Racers</h3>
+            <div data-cms-id="pro:top_racers" class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col relative group transition">
+                <h3 data-cms-field="title" class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center">Top 5 Team Racers</h3>
                 <div id="topTeamRacersBox" class="space-y-3 flex-grow">
                     <div class="text-xs text-gray-500 text-center font-mono py-4">[ Querying telemetry... ]</div>
                 </div>
             </div>
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
-                <h3 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Recent Pro Results</h3>
-                <div class="flex-grow flex items-center justify-center bg-brand-bg border border-brand-border rounded-xl text-gray-500 text-[10px] font-bold uppercase text-center p-4">
+            <div data-cms-id="pro:results" class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col relative group transition">
+                <h3 data-cms-field="title" class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Recent Pro Results</h3>
+                <div data-cms-field="content" class="flex-grow flex items-center justify-center bg-brand-bg border border-brand-border rounded-xl text-gray-500 text-[10px] font-bold uppercase text-center p-4">
                     Latest Podium Finishes
                 </div>
             </div>
-            <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col">
-                <h3 class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Pro Regulations</h3>
-                <div class="flex-grow flex items-center justify-center bg-brand-bg border border-brand-border rounded-xl text-gray-500 text-[10px] font-bold uppercase text-center p-4">
+            <div data-cms-id="pro:regulations" class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col relative group transition">
+                <h3 data-cms-field="title" class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Pro Regulations</h3>
+                <div data-cms-field="content" class="flex-grow flex items-center justify-center bg-brand-bg border border-brand-border rounded-xl text-gray-500 text-[10px] font-bold uppercase text-center p-4">
                     Class Vehicle Limits
                 </div>
             </div>
@@ -154,9 +155,50 @@
         async function initProPage() {
             window.currentChatChannel = 'global';
             await initGlobalAuth();
+            await loadCMSContent();
             loadSectionChatWidget();
-            
-            // Fetch Teams and Racers
+            await loadProTelemetry();
+
+            window.db.channel('public:gsr_chats_pro')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
+                    if (payload.new.channel === window.currentChatChannel) loadSectionChatWidget();
+                })
+                .subscribe();
+        }
+
+        async function loadCMSContent() {
+            try {
+                const { data } = await window.db.from('site_content').select('*').like('section_id', 'pro:%');
+                if (data) {
+                    data.forEach(row => {
+                        const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
+                        try {
+                            const content = JSON.parse(row.content_value);
+
+                            if (row.section_id === 'pro:sponsors') {
+                                const logos = [content.logo_1, content.logo_2, content.logo_3].filter(Boolean);
+                                const sponsorBox = document.getElementById('proSponsorsContainer');
+                                if (logos.length > 0 && sponsorBox) {
+                                    sponsorBox.innerHTML = '';
+                                    logos.forEach(url => {
+                                        sponsorBox.innerHTML += `<img src="${url}" class="h-10 w-auto object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
+                                    });
+                                }
+                            }
+
+                            if (container) {
+                                Object.keys(content).forEach(key => {
+                                    const el = container.querySelector(`[data-cms-field="${key}"]`);
+                                    if (el) el.innerText = content[key];
+                                });
+                            }
+                        } catch (e) {}
+                    });
+                }
+            } catch(e) {}
+        }
+
+        async function loadProTelemetry() {
             const { data: racers } = await window.db.from('racers').select('*');
             const { data: teams } = await window.db.from('teams').select('*');
             
@@ -183,7 +225,7 @@
                 }
             }
 
-            // Populate Top Racers (filtered by pro class)
+            // Populate Top Racers (filtered strictly by pro class)
             const topRacersBox = document.getElementById('topTeamRacersBox');
             if (topRacersBox) {
                 topRacersBox.innerHTML = '';
@@ -207,12 +249,6 @@
                 document.getElementById('upcomingEventTitle').innerText = events[0].title;
                 document.getElementById('upcomingEventDesc').innerText = `${events[0].event_date} • ${events[0].event_time} | ${events[0].description || events[0].category}`;
             }
-
-            window.db.channel('public:gsr_chats_pro')
-                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
-                    if (payload.new.channel === window.currentChatChannel) loadSectionChatWidget();
-                })
-                .subscribe();
         }
 
         function switchSectionChannel(channel) {
