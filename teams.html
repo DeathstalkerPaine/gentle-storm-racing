@@ -161,26 +161,7 @@
             </div>
         </section>
 
-        <!-- ROW 3: GSR CHATS: TEAM COMMS WIDGET -->
-        <section class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl space-y-4">
-            <div class="flex justify-between items-center border-b border-brand-border pb-3">
-                <div class="flex items-center gap-2">
-                    <span class="text-sm">💬</span>
-                    <h3 class="text-sm sm:text-base font-black uppercase text-white tracking-wider">
-                        GSR CHATS: TEAM COMMS
-                    </h3>
-                </div>
-                <a href="chats.html" class="text-[10px] font-bold uppercase text-brand-gold hover:underline">
-                    OPEN FULL CHAT →
-                </a>
-            </div>
-
-            <div id="teamsChatFeed" class="bg-[#0a0a0a] border border-brand-border rounded-lg p-4 space-y-2.5 h-36 overflow-y-auto flex flex-col justify-end font-mono text-xs">
-                <div class="text-[10px] text-gray-500 text-center">[ Connecting to team comms... ]</div>
-            </div>
-        </section>
-
-        <!-- ROW 4: 2-COLUMN WEEKLY / MONTHLY TOP 5 (5 SLOTS FIXED DISPLAY) -->
+        <!-- ROW 3: 2-COLUMN WEEKLY / MONTHLY TOP 5 (5 SLOTS FIXED DISPLAY) -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             <!-- TOP 5 TEAMS OF THE WEEK -->
@@ -213,7 +194,7 @@
 
         </section>
 
-        <!-- ROW 5: 3-COLUMN FEATURE CARDS -->
+        <!-- ROW 4: 3-COLUMN FEATURE CARDS -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             <!-- CARD 1: SCHEDULE NOTICE -->
@@ -354,13 +335,6 @@
                 if (titleEl) titleEl.innerText = ev.title;
                 if (descEl) descEl.innerText = ev.description || ev.category;
             }
-
-            await loadTeamsChat();
-            window.db.channel('public:gsr_chats_teams_hub')
-                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gsr_chats' }, payload => {
-                    if (payload.new.channel === 'team') loadTeamsChat();
-                })
-                .subscribe();
         }
 
         function renderTop5FixedTeams(container, items, unitLabel = 'PTS') {
@@ -427,26 +401,6 @@
                         </div>
                     `;
                 }
-            }
-        }
-
-        async function loadTeamsChat() {
-            const feed = document.getElementById('teamsChatFeed');
-            const { data } = await window.db.from('gsr_chats').select('*').eq('channel', 'team').order('created_at', { ascending: false }).limit(10);
-            
-            if (data && data.length > 0 && feed) {
-                feed.innerHTML = '';
-                data.reverse().forEach(msg => {
-                    feed.innerHTML += `
-                        <div class="text-[10px] leading-relaxed truncate font-mono">
-                            <span class="font-bold text-blue-400">[${escapeHtml(msg.display_name)}]:</span> 
-                            <span class="text-gray-300">${escapeHtml(msg.message)}</span>
-                        </div>
-                    `;
-                });
-                feed.scrollTop = feed.scrollHeight;
-            } else if (feed) {
-                feed.innerHTML = `<div class="text-[10px] text-gray-500 text-center font-mono py-4">[ Team channel open for messages ]</div>`;
             }
         }
 
