@@ -120,28 +120,6 @@
             </div>
         </section>
 
-        <!-- SECTION 5: 3-COLUMN BOTTOM GRID -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div data-cms-id="pro:top_racers" class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col relative group transition">
-                <h3 data-cms-field="title" class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center">Top 5 Team Racers</h3>
-                <div id="topTeamRacersBox" class="space-y-3 flex-grow">
-                    <div class="text-xs text-gray-500 text-center font-mono py-4">[ Querying telemetry... ]</div>
-                </div>
-            </div>
-            <div data-cms-id="pro:results" class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col relative group transition">
-                <h3 data-cms-field="title" class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Recent Pro Results</h3>
-                <div data-cms-field="content" class="flex-grow flex items-center justify-center bg-brand-bg border border-brand-border rounded-xl text-gray-500 text-[10px] font-bold uppercase text-center p-4">
-                    Latest Podium Finishes
-                </div>
-            </div>
-            <div data-cms-id="pro:regulations" class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col relative group transition">
-                <h3 data-cms-field="title" class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Pro Regulations</h3>
-                <div data-cms-field="content" class="flex-grow flex items-center justify-center bg-brand-bg border border-brand-border rounded-xl text-gray-500 text-[10px] font-bold uppercase text-center p-4">
-                    Class Vehicle Limits
-                </div>
-            </div>
-        </section>
-
     </main>
 
     <!-- UNIVERSAL FOOTER -->
@@ -221,23 +199,6 @@
                     const ptsClass = i === 0 ? 'text-brand-gold' : 'text-white';
                     if (t) {
                         tableBody.innerHTML += `<tr class="hover:bg-white/5 transition cursor-pointer" onclick="window.location='team.html?name=${encodeURIComponent(t.name)}'"><td class="py-4 px-6 font-black italic ${rankClass} text-lg">${i + 1}</td><td class="py-4 px-6 font-bold ${nameClass} uppercase">${escapeHtml(t.name)}</td><td class="py-4 px-6 text-right font-black ${ptsClass}">${t.pts.toLocaleString()}</td></tr>`;
-                    }
-                }
-            }
-
-            // Populate Top Racers (filtered strictly by pro class)
-            const topRacersBox = document.getElementById('topTeamRacersBox');
-            if (topRacersBox) {
-                topRacersBox.innerHTML = '';
-                const sortedRacers = (racers || [])
-                    .filter(r => (r.league_class || r.class || 'pro').toLowerCase().includes('pro'))
-                    .sort((a,b) => (b.rating_points || 0) - (a.rating_points || 0));
-
-                const list = sortedRacers.length > 0 ? sortedRacers : (racers || []);
-                for(let i=0; i<3; i++) {
-                    const r = list[i];
-                    if (r) {
-                        topRacersBox.innerHTML += `<div class="flex justify-between items-center bg-brand-bg px-3 py-2 border ${i===0?'border-brand-gold':'border-brand-border'} rounded cursor-pointer hover:bg-black/50 transition" onclick="window.location='racer.html?driver=${encodeURIComponent(r.display_name)}'"><span class="${i===0?'text-brand-gold':(i===1?'text-gray-400':'text-gray-500')} font-black italic">${i + 1}.</span><span class="text-white text-[10px] font-bold uppercase">${escapeHtml(r.display_name)}</span></div>`;
                     }
                 }
             }
