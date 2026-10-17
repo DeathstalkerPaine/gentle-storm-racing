@@ -31,7 +31,9 @@
                     LEADERBOARDS HUB
                 </h1>
             </div>                 
+            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto flex items-center z-10"></div>
         </div>
+        <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 px-4 z-10 w-full"></div>
     </header>
 
     <nav class="bg-brand-bg border-b border-brand-border py-3">
@@ -147,26 +149,26 @@
     <!-- UNIVERSAL FOOTER -->
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
 
-    <!-- SUPABASE ENGINE -->
+    <!-- CENTRAL SHARED ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+    <script src="gsr-core.js"></script>
 
+    <script>
         async function loadLeaderboardsHub() {
-            const { data: racers } = await db.from('racers').select('*');
-            const { data: teams } = await db.from('teams').select('*');
+            try { await initGlobalAuth(); } catch(e) {}
+
+            const { data: racers } = await window.db.from('racers').select('*');
+            const { data: teams } = await window.db.from('teams').select('*');
 
             if (!racers) return;
 
             // 1. Core Points Leaderboards
-            const proPlus = [...racers].sort((a,b) => (b.pts_pro_plus || 0) - (a.pts_pro_plus || 0));
-            const proLeague = [...racers].sort((a,b) => (b.pts_pro_league || 0) - (a.pts_pro_league || 0));
-            const amLeague = [...racers].sort((a,b) => (b.pts_amateur_league || 0) - (a.pts_amateur_league || 0));
+            const proPlus = [...racers].sort((a,b) => Number(b.pts_pro_plus || b.rating_points || 0) - Number(a.pts_pro_plus || a.rating_points || 0));
+            const proLeague = [...racers].sort((a,b) => Number(b.pts_pro_league || b.rating_points || 0) - Number(a.pts_pro_league || a.rating_points || 0));
+            const amLeague = [...racers].sort((a,b) => Number(b.pts_amateur_league || b.rating_points || 0) - Number(a.pts_amateur_league || a.rating_points || 0));
             
-            const proCasual = [...racers].sort((a,b) => (b.pts_pro || 0) - (a.pts_pro || 0));
-            const amCasual = [...racers].sort((a,b) => (b.pts_amateur || 0) - (a.pts_amateur || 0));
+            const proCasual = [...racers].sort((a,b) => Number(b.pts_pro || b.rating_points || 0) - Number(a.pts_pro || a.rating_points || 0));
+            const amCasual = [...racers].sort((a,b) => Number(b.pts_amateur || b.rating_points || 0) - Number(a.pts_amateur || a.rating_points || 0));
 
             renderMainBox('proPlusList', proPlus.slice(0, 5), 'pts_pro_plus');
             renderMainBox('proLeagueList', proLeague.slice(0, 5), 'pts_pro_league');
@@ -176,11 +178,11 @@
 
             // 2. Pro League Teams
             if (teams) {
-                const proTeams = [...teams].sort((a,b) => (b.pts_pro_league || 0) - (a.pts_pro_league || 0));
+                const proTeams = [...teams].sort((a,b) => Number(b.pts_pro_league || b.points || 0) - Number(a.pts_pro_league || a.points || 0));
                 renderMainBox('proTeamsList', proTeams.slice(0, 5), 'pts_pro_league', true);
             }
 
-            // 3. Stat Leaders (Top 5 Fixed Slots)
+            // 3. Stat Leaders
             const winPctRacers = [...racers].map(r => {
                 const total = (r.wins || 0) + (r.losses || 0) + (r.dnf || 0);
                 const pct = total > 0 ? ((r.wins || 0) / total) * 100 : 0;
@@ -196,22 +198,47 @@
             renderTop5StatBox('poleList', poleRacers.slice(0, 5), r => (r.pole_positions || 0) + ' Poles');
             renderTop5StatBox('podiumList', podiumRacers.slice(0, 5), r => (r.podiums || 0) + ' Podiums');
 
-            // 4. Track Records
-            const bestLapRacer = racers.filter(r => r.best_lap_time && r.best_lap_time !== '--:--.---').sort((a,b) => a.best_lap_time.localeCompare(b.best_lap_time))[0];
-            if (bestLapRacer) {
-                document.getElementById('vegasRecord').innerHTML = `<span class="block text-[10px] font-black text-white uppercase">${escapeHtml(bestLapRacer.display_name)}</span><span class="text-[11px] font-mono text-brand-gold">${bestLapRacer.best_lap_time}</span>`;
-            }
+            // 4. Track Records Sync
+            try {
+                const { data: results } = await window.db.from('v_results_enriched').select('*');
+                let rawResults = results;
+                if (!results || results.length === 0) {
+                    const { data: rr } = await window.db.from('race_results').select('*');
+                    const { data: allRacers } = await window.db.from('racers').select('id, display_name');
+                    const { data: allTracks } = await window.db.from('Tracks').select('id, name');
+                    if (rr && allRacers && allTracks) {
+                        rawResults = rr.map(r => {
+                            const track = allTracks.find(t => t.id === r.track_id);
+                            const racer = allRacers.find(p => p.id === r.racer_id);
+                            return { track_name: track?.name, display_name: racer?.display_name || 'Unknown', best_lap_time: r.best_lap_time };
+                        });
+                    }
+                }
+
+                if (rawResults && rawResults.length > 0) {
+                    const tracksMap = { vegas: 'Las Vegas Strip', rome: 'Ancient Rome', city: 'Abandoned City', future: 'Back to Future' };
+                    Object.entries(tracksMap).forEach(([id, name]) => {
+                        const trackLaps = rawResults.filter(r => r.track_name && r.track_name.toLowerCase().includes(name.toLowerCase()) && r.best_lap_time && r.best_lap_time !== '--:--.---');
+                        if (trackLaps.length > 0) {
+                            trackLaps.sort((a,b) => String(a.best_lap_time).localeCompare(String(b.best_lap_time)));
+                            const el = document.getElementById(`${id}Record`);
+                            if (el) el.innerHTML = `<span class="block text-[10px] font-black text-white uppercase">${escapeHtml(trackLaps[0].display_name)}</span><span class="text-[11px] font-mono text-brand-gold">${trackLaps[0].best_lap_time}</span>`;
+                        }
+                    });
+                }
+            } catch(e) {}
         }
 
         function renderMainBox(elementId, items, key, isTeam = false) {
             const container = document.getElementById(elementId);
+            if (!container) return;
             container.innerHTML = '';
             for (let i = 0; i < 5; i++) {
                 const item = items[i];
                 if (item) {
                     const name = item.display_name || item.name;
-                    const pts = (item[key] || 0).toLocaleString();
-                    const url = isTeam ? `teams_profiles.html?name=${encodeURIComponent(name)}` : `racers_profiles.html?driver=${encodeURIComponent(name)}`;
+                    const pts = Number(item[key] || item.rating_points || item.points || 0).toLocaleString();
+                    const url = isTeam ? `teams_profiles.html?name=${encodeURIComponent(name)}` : `racer.html?driver=${encodeURIComponent(name)}`;
                     
                     const isFirst = i === 0;
                     const borderClass = isFirst ? 'border-brand-gold' : 'border-brand-border';
@@ -238,6 +265,7 @@
 
         function renderTop5StatBox(elementId, items, formatStatFn) {
             const container = document.getElementById(elementId);
+            if (!container) return;
             container.innerHTML = '';
             for (let i = 0; i < 5; i++) {
                 const item = items[i];
@@ -248,7 +276,7 @@
                     const textClass = isFirst ? 'text-white font-black' : 'text-gray-300 font-bold';
 
                     container.innerHTML += `
-                        <div onclick="window.location='racers_profiles.html?driver=${encodeURIComponent(item.display_name)}'" class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded cursor-pointer hover:bg-[#111] transition">
+                        <div onclick="window.location='racer.html?driver=${encodeURIComponent(item.display_name)}'" class="flex justify-between items-center bg-brand-bg px-3 py-2 border border-brand-border rounded cursor-pointer hover:bg-[#111] transition">
                             <span class="${numClass} font-black italic w-4 text-xs">${i + 1}</span>
                             <span class="${textClass} text-[10px] uppercase truncate flex-grow pl-1">${escapeHtml(item.display_name)}</span>
                             <span class="text-[10px] font-mono text-brand-gold font-bold">${statVal}</span>
@@ -265,7 +293,6 @@
             }
         }
 
-        function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
         window.onload = loadLeaderboardsHub;
     </script>
 </body>
