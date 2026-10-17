@@ -51,10 +51,7 @@
             </div>
 
             <!-- Dynamic Auth Buttons Container -->
-            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex flex-col sm:flex-row items-end sm:items-center gap-2">
-                <a href="sign_in.html" class="bg-brand-bg border border-brand-border hover:border-brand-gold text-gray-300 hover:text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition">Sign In</a>
-                <a href="sign_up.html" class="bg-brand-red hover:bg-red-700 text-white font-black uppercase text-[9px] sm:text-xs px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg">Sign Up</a>
-            </div>
+            <div id="userNav" class="absolute right-3 top-3 lg:relative lg:right-auto lg:top-auto z-10 flex flex-col sm:flex-row items-end sm:items-center gap-2"></div>
         </div>
         <!-- Mobile Auth Container -->
         <div id="userNavMobile" class="flex sm:hidden flex-col items-center justify-center gap-2 mt-3 px-4 z-10 w-full"></div>
@@ -85,7 +82,11 @@
             <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col relative group transition" data-cms-id="leagues:pro_racers">
                 <h2 data-cms-field="title" class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center">Top 5 Pro League Racers</h2>
                 <div id="proRacersBox" class="space-y-3 flex-grow">
-                    <div class="text-center text-xs text-gray-500 py-10 font-mono">[ Querying Database... ]</div>
+                    <script>
+                        for(let i=0; i<5; i++) {
+                            document.write(`<div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border/50 rounded opacity-40"><span class="text-gray-600 font-black italic text-lg w-4 text-center">${i+1}</span><div class="flex-grow min-w-0"><p class="text-gray-500 text-[11px] font-bold uppercase">Pending Driver</p><p class="text-[9px] text-gray-600 uppercase">UNASSIGNED</p></div><span class="text-[10px] font-mono text-gray-600">---</span></div>`);
+                        }
+                    </script>
                 </div>
             </div>
 
@@ -93,7 +94,11 @@
             <div class="bg-brand-card border border-brand-red rounded-xl p-6 shadow-xl flex flex-col relative group transition" data-cms-id="leagues:pro_teams">
                 <h2 data-cms-field="title" class="text-sm font-black uppercase text-brand-red border-b border-brand-border pb-3 mb-4 text-center">Top 5 Pro League Teams</h2>
                 <div id="proTeamsBox" class="space-y-3 flex-grow">
-                    <div class="text-center text-xs text-gray-500 py-10 font-mono">[ Querying Database... ]</div>
+                    <script>
+                        for(let i=0; i<5; i++) {
+                            document.write(`<div class="flex justify-between items-center bg-brand-bg px-3 py-2.5 border border-brand-border/50 rounded opacity-40"><div class="flex items-center gap-2 min-w-0"><span class="text-gray-600 font-black italic text-sm w-4">${i+1}.</span><span class="text-gray-500 text-xs font-bold uppercase">Pending Team</span></div><span class="text-[10px] font-mono text-gray-600">---</span></div>`);
+                        }
+                    </script>
                 </div>
             </div>
 
@@ -126,7 +131,11 @@
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col relative group transition" data-cms-id="leagues:amateur_racers">
                 <h2 data-cms-field="title" class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Top 5 Amateur League Racers</h2>
                 <div id="amateurRacersBox" class="space-y-3 flex-grow">
-                    <div class="text-center text-xs text-gray-500 py-10 font-mono">[ Querying Database... ]</div>
+                    <script>
+                        for(let i=0; i<5; i++) {
+                            document.write(`<div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border border-brand-border/50 rounded opacity-40"><span class="text-gray-600 font-black italic text-lg w-4 text-center">${i+1}</span><div class="flex-grow min-w-0"><p class="text-gray-500 text-[11px] font-bold uppercase">Pending Driver</p><p class="text-[9px] text-gray-600 uppercase">UNASSIGNED</p></div><span class="text-[10px] font-mono text-gray-600">---</span></div>`);
+                        }
+                    </script>
                 </div>
             </div>
 
@@ -134,7 +143,11 @@
             <div class="bg-brand-card border border-brand-border rounded-xl p-6 shadow-xl flex flex-col relative group transition" data-cms-id="leagues:amateur_teams">
                 <h2 data-cms-field="title" class="text-sm font-black uppercase text-white border-b border-brand-border pb-3 mb-4 text-center">Top 5 Amateur League Teams</h2>
                 <div id="amateurTeamsBox" class="space-y-3 flex-grow">
-                    <div class="text-center text-xs text-gray-500 py-10 font-mono">[ Querying Database... ]</div>
+                    <script>
+                        for(let i=0; i<5; i++) {
+                            document.write(`<div class="flex justify-between items-center bg-brand-bg px-3 py-2.5 border border-brand-border/50 rounded opacity-40"><div class="flex items-center gap-2 min-w-0"><span class="text-gray-600 font-black italic text-sm w-4">${i+1}.</span><span class="text-gray-500 text-xs font-bold uppercase">Pending Team</span></div><span class="text-[10px] font-mono text-gray-600">---</span></div>`);
+                        }
+                    </script>
                 </div>
             </div>
 
@@ -169,7 +182,7 @@
             </a>
         </section>
 
-        <!-- ROW 5: HIGHLIGHTS & CHATS GRID -->
+        <!-- ROW 5: HIGHLIGHTS GRID -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-brand-card border border-brand-red/50 rounded-xl p-6 flex flex-col shadow-xl relative group transition" data-cms-id="leagues:pro_highlight">
                 <span data-cms-field="badge" class="text-[9px] font-black uppercase text-brand-red bg-red-950 px-2 py-0.5 rounded border border-brand-red/30 inline-block mb-3 self-start">Magazine Feature</span>
@@ -190,274 +203,59 @@
     <!-- UNIVERSAL FOOTER -->
     <footer class="bg-brand-card border-t border-brand-border py-8 mt-12 text-center text-xs text-gray-500">&copy; 2026 Gentle Storm Racing. Built for Second Life.</footer>
 
-    <!-- INLINE CMS EDIT MODAL -->
-    <div id="cmsModalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
-        <div id="cmsModal" class="bg-brand-card border border-brand-gold shadow-[0_0_30px_rgba(197,160,89,0.15)] rounded-xl w-full max-w-md transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
-            <div class="bg-brand-bg border-b border-brand-border p-4 flex justify-between items-center rounded-t-xl shrink-0">
-                <h2 class="text-sm font-black uppercase text-brand-gold tracking-wide flex items-center gap-2">
-                    <span>✏️ Edit Content Block</span>
-                </h2>
-                <button onclick="closeCMSModal()" class="text-gray-500 hover:text-brand-red p-1 transition cursor-pointer">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            
-            <div id="cmsModalFields" class="p-6 space-y-4 overflow-y-auto grow"></div>
-            
-            <div class="bg-brand-bg border-t border-brand-border p-4 flex justify-end gap-3 rounded-b-xl shrink-0">
-                <button onclick="closeCMSModal()" class="text-xs font-bold uppercase text-gray-400 hover:text-white px-4 py-2 transition cursor-pointer">Cancel</button>
-                <button onclick="saveCMSModal()" class="bg-brand-gold hover:bg-yellow-600 text-black font-black uppercase text-xs px-6 py-2 rounded transition shadow cursor-pointer">Save to Live</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- SUPABASE ENGINE & DYNAMIC DATA SYNC -->
+    <!-- CENTRAL SHARED ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="gsr-core.js"></script>
+
     <script>
-        const supabaseUrl = 'https://xwrfreokngnknftgzglg.supabase.co';
-        const supabaseKey = 'sb_publishable_n7pgqjIuIeRORwzVZppaMA_3sowuxXw';
-        const db = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        let currentUser = null;
-        let currentProfile = null;
-        let isEditModeActive = false;
-        let currentEditId = null;
-
         let allRacersCache = [];
         let allTeamsCache = [];
 
         async function initLeaguesHubPage() {
-            try {
-                const { data: { session } } = await db.auth.getSession();
-                const userNav = document.getElementById('userNav');
-                const userNavMobile = document.getElementById('userNavMobile');
-
-                if (session) {
-                    currentUser = session.user;
-                    const { data: profile } = await db.from('gsr_profiles').select('sl_legacy_name, is_admin').eq('id', currentUser.id).maybeSingle();
-                    currentProfile = profile;
-                    const displayName = profile?.sl_legacy_name || currentUser.email.split('@')[0];
-
-                    if (userNav) {
-                        let adminBtnHTML = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtn" class="bg-brand-blue border border-brand-border hover:bg-blue-600 text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
-                        userNav.innerHTML = `
-                            <div class="flex items-center gap-3">
-                                <div class="text-right hidden sm:block">
-                                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
-                                    <span class="text-[9px] text-brand-gold uppercase font-mono tracking-widest flex items-center justify-end gap-1">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse"></span> Pro Member
-                                    </span>
-                                </div>
-                                <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[9px] sm:text-xs uppercase font-black px-3 py-1.5 lg:px-4 lg:py-2 rounded transition shadow cursor-pointer">Sign Out</button>
-                                ${adminBtnHTML}
-                            </div>
-                        `;
-                    }
-
-                    if (userNavMobile) {
-                        let adminBtnMobile = profile?.is_admin ? `<button onclick="toggleEditMode()" id="editModeBtnMobile" class="bg-brand-blue border border-brand-border text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow-lg cursor-pointer">✏️ Edit Mode</button>` : '';
-                        userNavMobile.innerHTML = `
-                            <div class="flex flex-col items-center gap-2 w-full mt-2">
-                                <div class="text-center">
-                                    <span class="block text-xs font-black text-white uppercase">${displayName}</span>
-                                    <span class="text-[9px] text-brand-gold uppercase font-mono tracking-widest flex items-center justify-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse"></span> Logged In</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <button onclick="executeSignOut()" class="bg-brand-bg border border-brand-border hover:border-brand-red text-white text-[10px] uppercase font-black px-3 py-1.5 rounded transition shadow cursor-pointer">Sign Out</button>
-                                    ${adminBtnMobile}
-                                </div>
-                            </div>
-                        `;
-                    }
-                }
-            } catch (e) { console.warn("Auth check bypassed", e); }
-
-            await loadCMSContent();
-            await fetchLeaguesData();
+            try { await initGlobalAuth(); } catch(e) {}
+            try { await loadCMSContent(); } catch(e) {}
+            try { await fetchLeaguesData(); } catch(e) {}
         }
 
-        // --- CMS CONTENT ENGINE ---
         async function loadCMSContent() {
-            try {
-                const { data, error } = await db.from('site_content').select('*').like('section_id', 'leagues:%');
-                if (!error && data) {
-                    data.forEach(row => {
-                        const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
-                        try {
-                            const content = JSON.parse(row.content_value);
+            const { data } = await window.db.from('site_content').select('*').like('section_id', 'leagues:%');
+            if (data) {
+                data.forEach(row => {
+                    const container = document.querySelector(`[data-cms-id="${row.section_id}"]`);
+                    try {
+                        const content = JSON.parse(row.content_value);
 
-                            if (row.section_id === 'leagues:sponsors') {
-                                const logos = [];
-                                if (content.logo_1) logos.push(content.logo_1);
-                                if (content.logo_2) logos.push(content.logo_2);
-                                if (content.logo_3) logos.push(content.logo_3);
-
-                                const sponsorBox = document.getElementById('leaguesSponsorLogosContainer');
-                                if (logos.length > 0 && sponsorBox) {
-                                    sponsorBox.innerHTML = '';
-                                    logos.forEach((url, i) => {
-                                        sponsorBox.innerHTML += `<img src="${url}" alt="Sponsor Logo ${i+1}" class="h-20 sm:h-24 md:h-28 max-h-28 w-auto object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
-                                    });
-                                }
-                            }
-
-                            if (container) {
-                                Object.keys(content).forEach(key => {
-                                    const el = container.querySelector(`[data-cms-field="${key}"]`);
-                                    if (el) el.innerText = content[key];
+                        if (row.section_id === 'leagues:sponsors') {
+                            const logos = [content.logo_1, content.logo_2, content.logo_3].filter(Boolean);
+                            const sponsorBox = document.getElementById('leaguesSponsorLogosContainer');
+                            if (logos.length > 0 && sponsorBox) {
+                                sponsorBox.innerHTML = '';
+                                logos.forEach(url => {
+                                    sponsorBox.innerHTML += `<img src="${url}" class="h-20 sm:h-24 md:h-28 max-h-28 w-auto object-contain filter drop-shadow hover:scale-105 transition duration-300">`;
                                 });
                             }
-                        } catch (e) {}
-                    });
-                }
-            } catch (e) { console.warn("CMS Content error", e); }
-        }
+                        }
 
-        window.toggleEditMode = function() {
-            isEditModeActive = !isEditModeActive;
-            const btns = document.querySelectorAll('#editModeBtn, #editModeBtnMobile');
-            btns.forEach(btn => {
-                btn.innerHTML = isEditModeActive ? '❌ Disable Edit Mode' : '✏️ Edit Mode';
-                btn.classList.toggle('bg-brand-blue', !isEditModeActive);
-                btn.classList.toggle('bg-brand-red', isEditModeActive);
-            });
-
-            document.querySelectorAll('[data-cms-id]').forEach(block => {
-                if (isEditModeActive) {
-                    block.classList.add('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative', 'rounded-xl');
-                    if (!block.querySelector('.cms-trigger-btn')) {
-                        const editBtn = document.createElement('button');
-                        editBtn.className = 'cms-trigger-btn absolute top-1 right-1 bg-brand-blue text-white text-[9px] font-black uppercase px-2 py-1 rounded shadow-lg z-30 cursor-pointer';
-                        editBtn.innerHTML = '✏️ Edit Block';
-                        editBtn.onclick = (e) => openCMSModal(block.getAttribute('data-cms-id'), e);
-                        block.appendChild(editBtn);
-                    }
-                } else {
-                    block.classList.remove('ring-2', 'ring-brand-blue', 'ring-offset-4', 'ring-offset-brand-bg', 'relative', 'rounded-xl');
-                    const btn = block.querySelector('.cms-trigger-btn');
-                    if (btn) btn.remove();
-                }
-            });
-        }
-
-        window.openCMSModal = async function(cmsId, event) {
-            event.preventDefault();
-            event.stopPropagation();
-            currentEditId = cmsId;
-            const container = document.querySelector(`[data-cms-id="${cmsId}"]`);
-            
-            const formContainer = document.getElementById('cmsModalFields');
-            formContainer.innerHTML = '';
-
-            let existingData = {};
-            try {
-                const { data } = await db.from('site_content').select('content_value').eq('section_id', cmsId).maybeSingle();
-                if (data && data.content_value) existingData = JSON.parse(data.content_value);
-            } catch(e) {}
-
-            if (container) {
-                let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
-                fields.forEach(f => {
-                    const fieldName = f.getAttribute('data-cms-field');
-                    formContainer.innerHTML += `<div class="space-y-1"><label class="text-[10px] font-black uppercase text-gray-400">${fieldName.replace('_', ' ')}</label><textarea id="cms_input_${fieldName}" rows="2" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs px-3 py-2 rounded">${escapeHtml(f.innerText)}</textarea></div>`;
+                        if (container) {
+                            Object.keys(content).forEach(key => {
+                                const el = container.querySelector(`[data-cms-field="${key}"]`);
+                                if (el) el.innerText = content[key];
+                            });
+                        }
+                    } catch (e) {}
                 });
             }
-
-            if (cmsId === 'leagues:sponsors') {
-                formContainer.innerHTML += `
-                    <div class="space-y-3 pt-3 border-t border-brand-border">
-                        <label class="text-[10px] font-black uppercase text-brand-gold tracking-wider block">Sponsor Logos (Up to 3 Horizontal Logos)</label>
-                        
-                        <div class="space-y-1">
-                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 1</span>
-                            <input type="file" id="cms_sponsor_file_1" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
-                            <input type="hidden" id="cms_sponsor_url_1" value="${existingData.logo_1 || ''}">
-                            ${existingData.logo_1 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_1"> Remove Logo 1</label>` : ''}
-                        </div>
-
-                        <div class="space-y-1">
-                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 2</span>
-                            <input type="file" id="cms_sponsor_file_2" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
-                            <input type="hidden" id="cms_sponsor_url_2" value="${existingData.logo_2 || ''}">
-                            ${existingData.logo_2 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_2"> Remove Logo 2</label>` : ''}
-                        </div>
-
-                        <div class="space-y-1">
-                            <span class="text-[9px] font-bold text-gray-400 uppercase">Sponsor Logo 3</span>
-                            <input type="file" id="cms_sponsor_file_3" accept="image/*" class="w-full bg-[#0a0a0a] border border-brand-border text-white text-xs p-1.5 rounded">
-                            <input type="hidden" id="cms_sponsor_url_3" value="${existingData.logo_3 || ''}">
-                            ${existingData.logo_3 ? `<label class="flex items-center gap-2 text-[10px] text-brand-red mt-1"><input type="checkbox" id="cms_clear_sponsor_3"> Remove Logo 3</label>` : ''}
-                        </div>
-                    </div>`;
-            }
-
-            const overlay = document.getElementById('cmsModalOverlay');
-            const modal = document.getElementById('cmsModal');
-            overlay.classList.remove('hidden');
-            setTimeout(() => { overlay.classList.remove('opacity-0'); modal.classList.remove('scale-95', 'opacity-0'); }, 10);
         }
 
-        window.closeCMSModal = function() {
-            const overlay = document.getElementById('cmsModalOverlay');
-            const modal = document.getElementById('cmsModal');
-            overlay.classList.add('opacity-0');
-            modal.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
-        }
-
-        window.saveCMSModal = async function() {
-            const container = document.querySelector(`[data-cms-id="${currentEditId}"]`);
-            let fields = Array.from(container.querySelectorAll('[data-cms-field]'));
-
-            let updateData = {};
-            try {
-                const { data } = await db.from('site_content').select('content_value').eq('section_id', currentEditId).maybeSingle();
-                if (data && data.content_value) updateData = JSON.parse(data.content_value);
-            } catch(e) {}
-
-            if (currentEditId === 'leagues:sponsors') {
-                for (let i = 1; i <= 3; i++) {
-                    const clearCheckbox = document.getElementById(`cms_clear_sponsor_${i}`);
-                    const fileInput = document.getElementById(`cms_sponsor_file_${i}`);
-                    const urlInput = document.getElementById(`cms_sponsor_url_${i}`);
-                    let logoUrl = urlInput ? urlInput.value : '';
-
-                    if (clearCheckbox && clearCheckbox.checked) {
-                        logoUrl = '';
-                    } else if (fileInput && fileInput.files.length > 0) {
-                        const file = fileInput.files[0];
-                        const fileName = `leagues_sponsor_${i}_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
-                        const { error: uploadError } = await db.storage.from('admin-assets').upload(fileName, file);
-                        if (!uploadError) {
-                            const { data: publicUrlData } = db.storage.from('admin-assets').getPublicUrl(fileName);
-                            logoUrl = publicUrlData.publicUrl;
-                        }
-                    }
-                    if (logoUrl) updateData[`logo_${i}`] = logoUrl;
-                }
-            }
-
-            fields.forEach(f => {
-                const fieldName = f.getAttribute('data-cms-field');
-                const inputEl = document.getElementById(`cms_input_${fieldName}`);
-                if (inputEl) { updateData[fieldName] = inputEl.value; f.innerText = inputEl.value; }
-            });
-            
-            await db.from('site_content').upsert([{ section_id: currentEditId, content_value: JSON.stringify(updateData) }]);
-            await loadCMSContent();
-            closeCMSModal();
-        }
-
-        // --- LIVE LEAGUES DATA ENGINE ---
         async function fetchLeaguesData() {
             try {
-                const { data: racers } = await db.from('racers').select('*');
-                const { data: teams } = await db.from('teams').select('*');
+                const { data: racers } = await window.db.from('racers').select('*');
+                const { data: teams } = await window.db.from('teams').select('*');
                 
                 allRacersCache = racers || [];
                 allTeamsCache = teams || [];
 
-                // 1. Calculate Team Rankings
+                // Calculate Team Points by joining driver points
                 const teamPointsMap = {};
                 allTeamsCache.forEach(t => {
                     if (t && t.name) {
@@ -480,65 +278,58 @@
                     }
                 });
 
-                const teamRankings = Object.keys(teamPointsMap)
-                    .map(name => ({ name, pts: Number(teamPointsMap[name] || 0) }))
+                // Filter teams by division
+                const proTeams = allTeamsCache
+                    .filter(t => (t.league_class || t.class || 'pro').toLowerCase().includes('pro'))
+                    .map(t => ({ name: t.name, pts: Number(teamPointsMap[t.name] || t.points || 0) }))
                     .sort((a,b) => b.pts - a.pts);
 
-                // Sort Racers by points
-                const sortedAllRacers = [...allRacersCache].sort((a,b) => Number(b.rating_points || 0) - Number(a.rating_points || 0));
+                const amateurTeams = allTeamsCache
+                    .filter(t => (t.league_class || t.class || '').toLowerCase().includes('amateur'))
+                    .map(t => ({ name: t.name, pts: Number(teamPointsMap[t.name] || t.points || 0) }))
+                    .sort((a,b) => b.pts - a.pts);
 
-                // Pro Racers (Top points or tagged pro)
-                const proRacers = sortedAllRacers.filter(r => {
-                    const raw = (r.league_class || r.league || '').toLowerCase();
-                    return raw.includes('pro') || Number(r.rating_points || 0) >= 500;
-                });
+                // Sort Racers by points, strictly filtered by category
+                const proRacers = allRacersCache
+                    .filter(r => (r.league_class || r.class || 'pro').toLowerCase().includes('pro'))
+                    .sort((a,b) => Number(b.rating_points || 0) - Number(a.rating_points || 0));
 
-                // Amateur Racers
-                const amateurRacers = sortedAllRacers.filter(r => {
-                    const raw = (r.league_class || r.league || '').toLowerCase();
-                    return raw.includes('amateur') || Number(r.rating_points || 0) < 500;
-                });
-
-                const displayProRacers = proRacers.length > 0 ? proRacers : sortedAllRacers;
-                const displayAmateurRacers = amateurRacers.length > 0 ? amateurRacers : [...sortedAllRacers].reverse();
+                const amateurRacers = allRacersCache
+                    .filter(r => (r.league_class || r.class || '').toLowerCase().includes('amateur'))
+                    .sort((a,b) => Number(b.rating_points || 0) - Number(a.rating_points || 0));
 
                 // Render Top 5 Boxes
                 const proRacersBox = document.getElementById('proRacersBox');
-                if (proRacersBox) renderTop5RacerSlots(proRacersBox, displayProRacers.slice(0, 5), 'text-brand-gold');
+                if (proRacersBox) renderTop5RacerSlots(proRacersBox, proRacers.slice(0, 5), 'text-brand-gold');
 
                 const proTeamsBox = document.getElementById('proTeamsBox');
-                if (proTeamsBox) renderTop5TeamSlots(proTeamsBox, teamRankings.slice(0, 5), 'text-brand-gold');
+                if (proTeamsBox) renderTop5TeamSlots(proTeamsBox, proTeams.slice(0, 5), 'text-brand-gold');
 
                 const amateurRacersBox = document.getElementById('amateurRacersBox');
-                if (amateurRacersBox) renderTop5RacerSlots(amateurRacersBox, displayAmateurRacers.slice(0, 5), 'text-gray-300');
+                if (amateurRacersBox) renderTop5RacerSlots(amateurRacersBox, amateurRacers.slice(0, 5), 'text-gray-300');
 
                 const amateurTeamsBox = document.getElementById('amateurTeamsBox');
-                const amateurTeamsList = [...teamRankings].reverse();
-                if (amateurTeamsBox) renderTop5TeamSlots(amateurTeamsBox, amateurTeamsList.slice(0, 5), 'text-gray-300');
+                if (amateurTeamsBox) renderTop5TeamSlots(amateurTeamsBox, amateurTeams.slice(0, 5), 'text-gray-300');
 
-                // Teams of the week
-                if (teamRankings.length > 0) {
-                    const topProTeam = teamRankings[0];
-                    const proNameEl = document.getElementById('proWeekName');
-                    const proInitEl = document.getElementById('proWeekInitials');
-                    const proPtsEl = document.getElementById('proWeekPts');
-                    if (proNameEl) proNameEl.innerText = topProTeam.name || 'Pending';
-                    if (proInitEl) proInitEl.innerText = topProTeam.name ? topProTeam.name.substring(0, 2).toUpperCase() : '--';
-                    if (proPtsEl) proPtsEl.innerText = `${Number(topProTeam.pts || 0).toLocaleString()} PTS`;
-
-                    const topAmateurTeam = amateurTeamsList[0] || teamRankings[teamRankings.length - 1];
-                    const amNameEl = document.getElementById('amateurWeekName');
-                    const amInitEl = document.getElementById('amateurWeekInitials');
-                    const amPtsEl = document.getElementById('amateurWeekPts');
-                    if (amNameEl) amNameEl.innerText = topAmateurTeam.name || 'Pending';
-                    if (amInitEl) amInitEl.innerText = topAmateurTeam.name ? topAmateurTeam.name.substring(0, 2).toUpperCase() : '--';
-                    if (amPtsEl) amPtsEl.innerText = `${Number(topAmateurTeam.pts || 0).toLocaleString()} PTS`;
+                // Teams of the Week
+                if (proTeams.length > 0) {
+                    const topPro = proTeams[0];
+                    document.getElementById('proWeekName').innerText = topPro.name;
+                    document.getElementById('proWeekInitials').innerText = topPro.name.substring(0, 2).toUpperCase();
+                    document.getElementById('proWeekPts').innerText = `${topPro.pts.toLocaleString()} PTS`;
                 }
 
-                // 6. UPCOMING EVENTS BANNER SYNC
+                if (amateurTeams.length > 0) {
+                    const topAm = amateurTeams[0];
+                    document.getElementById('amateurWeekName').innerText = topAm.name;
+                    document.getElementById('amateurWeekInitials').innerText = topAm.name.substring(0, 2).toUpperCase();
+                    document.getElementById('amateurWeekPts').innerText = `${topAm.pts.toLocaleString()} PTS`;
+                }
+
+                // Upcoming Events Banner
                 const todayStr = new Date().toISOString().split('T')[0];
-                const { data: events } = await db.from('gsr_events').select('*').gte('event_date', todayStr).order('event_date', { ascending: true }).limit(1);
-                
+                const { data: events } = await window.db.from('gsr_events').select('*').gte('event_date', todayStr).order('event_date', { ascending: true }).limit(1);
+
                 const dateEl = document.getElementById('nextEventDateTag');
                 const titleEl = document.getElementById('upcomingEventTitle');
                 const descEl = document.getElementById('upcomingEventDesc');
@@ -558,7 +349,6 @@
             }
         }
 
-        // --- HELPER RENDERERS FOR FIXED 5 SLOTS ---
         function renderTop5RacerSlots(container, items, highlightColorClass) {
             container.innerHTML = '';
             for (let i = 0; i < 5; i++) {
@@ -575,7 +365,7 @@
                     const pts = Number(r.rating_points || 0);
 
                     container.innerHTML += `
-                        <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border ${i === 0 ? 'border-brand-gold' : 'border-brand-border'} rounded cursor-pointer hover:border-brand-gold transition" onclick="window.location='racers_profiles.html?driver=${encodeURIComponent(r.display_name)}'">
+                        <div class="flex items-center gap-3 bg-brand-bg px-3 py-2 border ${i === 0 ? 'border-brand-gold' : 'border-brand-border'} rounded cursor-pointer hover:border-brand-gold transition" onclick="window.location='racer.html?driver=${encodeURIComponent(r.display_name)}'">
                             <span class="${i === 0 ? highlightColorClass : 'text-gray-400'} font-black italic text-lg w-4 text-center">${i + 1}</span>
                             <div class="flex-grow min-w-0">
                                 <p class="text-white text-[11px] font-black uppercase leading-tight truncate">${escapeHtml(r.display_name)}</p>
@@ -604,7 +394,7 @@
                 if (t) {
                     const pts = Number(t.pts || 0);
                     container.innerHTML += `
-                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2.5 border ${i === 0 ? 'border-brand-gold' : 'border-brand-border'} rounded cursor-pointer hover:border-brand-gold transition" onclick="window.location='teams_profiles.html?name=${encodeURIComponent(t.name)}'">
+                        <div class="flex justify-between items-center bg-brand-bg px-3 py-2.5 border ${i === 0 ? 'border-brand-gold' : 'border-brand-border'} rounded cursor-pointer hover:border-brand-gold transition" onclick="window.location='team.html?name=${encodeURIComponent(t.name)}'">
                             <div class="flex items-center gap-2 min-w-0">
                                 <span class="${i === 0 ? highlightColorClass : 'text-gray-400'} font-black italic text-sm w-4">${i + 1}.</span>
                                 <span class="text-white text-xs font-bold uppercase truncate">${escapeHtml(t.name)}</span>
@@ -623,13 +413,6 @@
                 }
             }
         }
-
-        async function executeSignOut() {
-            await db.auth.signOut();
-            window.location.reload(); 
-        }
-
-        function escapeHtml(str) { return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
 
         window.onload = initLeaguesHubPage;
     </script>
